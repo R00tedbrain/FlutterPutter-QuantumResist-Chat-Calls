@@ -65,11 +65,9 @@ class SessionManagementService extends ChangeNotifier {
   Future<void> setAuthToken(String token) async {
     _authToken = token;
     await _storage.write(key: _keyAuthToken, value: token);
-    print('🔐 [SESSIONS] Token de autenticación establecido');
 
     // ✅ NUEVO: Iniciar heartbeat solo cuando se establece el token
     if (_initialized) {
-      print('📱 [SESSIONS] 🚀 Iniciando heartbeat después de establecer token');
       _startSessionHeartbeat();
     }
   }
@@ -77,14 +75,8 @@ class SessionManagementService extends ChangeNotifier {
   /// ✅ NUEVO: Actualizar sessionId desde el servidor (al hacer login)
   Future<void> updateSessionIdFromServer(String serverSessionId) async {
     if (serverSessionId.isNotEmpty && serverSessionId != _currentSessionId) {
-      print(
-          '🔄 [SESSIONS] Actualizando sessionId desde servidor: $serverSessionId');
-      print('🔄 [SESSIONS] SessionId anterior: $_currentSessionId');
-
       _currentSessionId = serverSessionId;
       await _storage.write(key: _keyCurrentSessionId, value: serverSessionId);
-
-      print('✅ [SESSIONS] SessionId actualizado correctamente');
 
       // Detener heartbeat anterior si existía
       stopHeartbeat();
@@ -101,8 +93,6 @@ class SessionManagementService extends ChangeNotifier {
     if (_initialized) return;
 
     try {
-      // print('📱 [SESSIONS] Inicializando servicio de sesiones...');
-
       // ✅ SIMPLIFICADO: Solo cargar lo esencial
       _authToken = await _storage.read(key: _keyAuthToken);
       _currentSessionId = await _storage.read(key: _keyCurrentSessionId);
@@ -124,13 +114,9 @@ class SessionManagementService extends ChangeNotifier {
       // Se iniciará cuando sea necesario
 
       _initialized = true;
-      // print('📱 [SESSIONS] ✅ Servicio inicializado (modo rápido)');
-      print('📱 [SESSIONS] - Sesión actual: $_currentSessionId');
-      print('📱 [SESSIONS] - Token disponible: ${_authToken != null}');
 
       notifyListeners();
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error inicializando: $e');
       _initialized =
           true; // Marcar como inicializado aunque falle para evitar loops
     }
@@ -139,13 +125,10 @@ class SessionManagementService extends ChangeNotifier {
   /// Obtener sesiones activas del servidor
   Future<List<ActiveSession>> fetchActiveSessions() async {
     if (_authToken == null) {
-      print('📱 [SESSIONS] ❌ No hay token de autenticación');
       return _activeSessions; // Devolver caché local
     }
 
     try {
-      print('📱 [SESSIONS] 🌐 Obteniendo sesiones activas del servidor...');
-
       final response = await ApiService.sessionsRequest(
         'GET',
         '/active',
@@ -165,20 +148,12 @@ class SessionManagementService extends ChangeNotifier {
         // Guardar en caché
         await _saveCachedSessions();
 
-        print(
-            '📱 [SESSIONS] ✅ ${_activeSessions.length} sesiones obtenidas del servidor');
-        print(
-            '📱 [SESSIONS] 🔍 Sesión actual identificada: ${_getCurrentSessionFromList()?.sessionId ?? "NO ENCONTRADA"}');
-
         notifyListeners();
         return _activeSessions;
       } else {
         throw Exception('Respuesta inválida del servidor');
       }
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error obteniendo sesiones del servidor: $e');
-      print(
-          '📱 [SESSIONS] 📦 Usando sesiones en caché (${_activeSessions.length})');
       if (onError != null) {
         onError!('Error obteniendo sesiones: $e');
       }
@@ -189,8 +164,6 @@ class SessionManagementService extends ChangeNotifier {
   /// Verificar si hay conflicto de sesión al hacer login
   Future<bool> checkSessionConflict({String? userId}) async {
     try {
-      print('📱 [SESSIONS] Verificando conflicto de sesión...');
-
       // Obtener sesiones actuales del servidor
       await fetchActiveSessions();
 
@@ -203,8 +176,6 @@ class SessionManagementService extends ChangeNotifier {
             .toList();
 
         if (otherSessions.isNotEmpty) {
-          print(
-              '📱 [SESSIONS] ⚠️ Conflicto detectado: ${otherSessions.length} sesiones activas');
           if (onSessionConflict != null) {
             onSessionConflict!();
           }
@@ -212,10 +183,8 @@ class SessionManagementService extends ChangeNotifier {
         }
       }
 
-      print('📱 [SESSIONS] ✅ Sin conflictos de sesión');
       return false;
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error verificando conflicto: $e');
       return false;
     }
   }
@@ -223,7 +192,6 @@ class SessionManagementService extends ChangeNotifier {
   /// ✅ ELIMINADO: QR linking ya no necesario con 1 sesión por usuario
   @Deprecated('QR linking eliminado - solo 1 sesión por usuario permitida')
   Future<QRLinkingData?> generateQRForLinking({String? fromUserId}) async {
-    print('⚠️ [SESSIONS] QR linking deshabilitado - solo 1 sesión por usuario');
     if (onError != null) {
       onError!(
           'Funcionalidad no disponible: solo se permite 1 sesión por usuario');
@@ -234,7 +202,6 @@ class SessionManagementService extends ChangeNotifier {
   /// ✅ ELIMINADO: QR linking ya no necesario con 1 sesión por usuario
   @Deprecated('QR linking eliminado - solo 1 sesión por usuario permitida')
   Future<bool> linkSessionWithQR(String qrData) async {
-    print('⚠️ [SESSIONS] QR linking deshabilitado - solo 1 sesión por usuario');
     if (onError != null) {
       onError!(
           'Funcionalidad no disponible: solo se permite 1 sesión por usuario');
@@ -245,13 +212,10 @@ class SessionManagementService extends ChangeNotifier {
   /// ✅ MEJORADO: Cerrar sesión específica (primero servidor, luego local)
   Future<bool> terminateSession(String sessionId) async {
     if (_authToken == null) {
-      print('📱 [SESSIONS] ❌ No hay token de autenticación para cerrar sesión');
       return false;
     }
 
     try {
-      print('📱 [SESSIONS] 🌐 Cerrando sesión en servidor: $sessionId');
-
       // ✅ MEJORADO: Intentar cerrar en servidor primero con timeout
       try {
         final response = await ApiService.sessionsRequest(
@@ -262,11 +226,11 @@ class SessionManagementService extends ChangeNotifier {
         ).timeout(const Duration(seconds: 5));
 
         if (response['success'] == true || response['message'] != null) {
-          print('📱 [SESSIONS] ✅ Sesión cerrada en servidor: $sessionId');
+          // Sesión cerrada en servidor
         }
       } catch (serverError) {
-        print('📱 [SESSIONS] ⚠️ Error cerrando en servidor: $serverError');
-        print('📱 [SESSIONS] 🔄 Continuando con cierre local...');
+        // Error cerrando en servidor
+        // Continuando con cierre local...
       }
 
       // ✅ SIEMPRE cerrar localmente también
@@ -278,12 +242,8 @@ class SessionManagementService extends ChangeNotifier {
         _activeSessions
             .removeWhere((session) => session.sessionId == sessionId);
 
-        print('📱 [SESSIONS] ✅ Sesión cerrada localmente: $sessionId');
-
         // Si es la sesión actual, detener heartbeat
         if (sessionId == _currentSessionId) {
-          print(
-              '📱 [SESSIONS] ⚠️ Cerrando sesión actual - deteniendo heartbeat');
           stopHeartbeat();
         }
 
@@ -298,14 +258,11 @@ class SessionManagementService extends ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        print('📱 [SESSIONS] ⚠️ Sesión no encontrada localmente: $sessionId');
-
         // ✅ NUEVO: Refrescar desde servidor por si acaso
         await refreshActiveSessions();
         return false;
       }
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error cerrando sesión: $e');
       return false;
     }
   }
@@ -313,15 +270,10 @@ class SessionManagementService extends ChangeNotifier {
   /// ✅ ACTUALIZADO: Cerrar todas las sesiones excepto la actual (llamada real al servidor)
   Future<bool> terminateAllOtherSessions() async {
     if (_authToken == null) {
-      print(
-          '📱 [SESSIONS] ❌ No hay token de autenticación para cerrar sesiones');
       return false;
     }
 
     try {
-      print(
-          '📱 [SESSIONS] 🌐 Cerrando todas las otras sesiones en servidor...');
-
       final response = await ApiService.sessionsRequest(
         'DELETE',
         '/others/all',
@@ -330,8 +282,7 @@ class SessionManagementService extends ChangeNotifier {
       );
 
       if (response['success'] == true) {
-        final terminatedCount = response['terminatedCount'] ?? 0;
-        print('📱 [SESSIONS] ✅ $terminatedCount sesiones cerradas en servidor');
+        // final terminatedCount = response['terminatedCount'] ?? 0;
 
         // Actualizar sesiones locales
         await fetchActiveSessions();
@@ -342,7 +293,6 @@ class SessionManagementService extends ChangeNotifier {
         throw Exception(response['message'] ?? 'Error desconocido');
       }
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error cerrando sesiones en servidor: $e');
       if (onError != null) {
         onError!('Error cerrando sesiones: $e');
       }
@@ -358,7 +308,6 @@ class SessionManagementService extends ChangeNotifier {
     }
 
     if (_currentSessionId == null) {
-      print('📱 [SESSIONS] ⚠️ No hay sesión actual - saltando heartbeat');
       return false; // Silencioso si no hay sesión actual
     }
 
@@ -375,23 +324,16 @@ class SessionManagementService extends ChangeNotifier {
       if (response['message'] != null &&
           (response['message'].toString().contains('actualizado') ||
               response['message'].toString().contains('Heartbeat'))) {
-        print('📱 [SESSIONS] 💓 Heartbeat enviado exitosamente');
         return true;
       } else if (response['success'] == true) {
-        print('📱 [SESSIONS] 💓 Heartbeat enviado exitosamente');
         return true;
       } else {
-        print('📱 [SESSIONS] ⚠️ Heartbeat rechazado: ${response['message']}');
         return false;
       }
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error enviando heartbeat: $e');
-
       // ✅ NUEVO: Si el error es 404 (sesión no encontrada), detener heartbeat automáticamente
       if (e.toString().contains('404') ||
           e.toString().contains('Sesión no encontrada')) {
-        print(
-            '📱 [SESSIONS] 🛑 Sesión no encontrada en servidor - deteniendo heartbeat automáticamente');
         stopHeartbeat();
         _currentSessionId = null;
         _authToken = null;
@@ -413,22 +355,17 @@ class SessionManagementService extends ChangeNotifier {
       if (timeoutMinutes != null) _sessionTimeoutMinutes = timeoutMinutes;
 
       await _saveSettings();
-      print('📱 [SESSIONS] ✅ Configuraciones actualizadas');
       notifyListeners();
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error actualizando configuraciones: $e');
+      // Error actualizando configuraciones
     }
   }
 
   /// ✅ ACTUALIZADO: Obtener sesiones activas del servidor (reemplaza refreshActiveSessions)
   Future<void> refreshActiveSessions() async {
     try {
-      print('📱 [SESSIONS] 🔄 Refrescando sesiones activas...');
-
       // Verificar autenticación primero
       if (_authToken == null) {
-        print(
-            '📱 [SESSIONS] ⚠️ No hay token de autenticación - usando caché local');
         // No lanzar excepción, solo usar caché local
         notifyListeners();
         return;
@@ -437,12 +374,9 @@ class SessionManagementService extends ChangeNotifier {
       // Intentar obtener del servidor
       await fetchActiveSessions();
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error refrescando sesiones: $e');
-
       // En lugar de lanzar la excepción, manejarla apropiadamente
       if (e.toString().contains('404') ||
           e.toString().contains('Sesión no encontrada')) {
-        print('📱 [SESSIONS] 🛑 Sesión no encontrada - limpiando estado');
         // Limpiar sesión actual
         _currentSessionId = null;
         _authToken = null;
@@ -459,12 +393,9 @@ class SessionManagementService extends ChangeNotifier {
         throw Exception('Sesión no encontrada - necesita autenticación');
       } else if (e.toString().contains('401') ||
           e.toString().contains('No autorizado')) {
-        print('📱 [SESSIONS] 🔒 Error de autenticación');
         throw Exception('No autorizado - necesita autenticación');
       } else {
         // Para otros errores, usar caché local silenciosamente
-        print(
-            '📱 [SESSIONS] 📦 Error de red - usando sesiones en caché (${_activeSessions.length})');
         notifyListeners();
         // No relanzar errores de red para evitar crashes
       }
@@ -473,15 +404,12 @@ class SessionManagementService extends ChangeNotifier {
 
   /// ✅ NUEVO: Detener heartbeat
   void stopHeartbeat() {
-    print('📱 [SESSIONS] 💔 Deteniendo heartbeat...');
     _sessionHeartbeatTimer?.cancel();
     _sessionHeartbeatTimer = null;
   }
 
   /// ✅ NUEVO: Logout completo - limpiar todo el servicio
   Future<void> logout() async {
-    print('📱 [SESSIONS] 🚪 Cerrando sesión del servicio...');
-
     // Detener heartbeat inmediatamente
     stopHeartbeat();
 
@@ -502,15 +430,13 @@ class SessionManagementService extends ChangeNotifier {
       await _storage.delete(key: _keyAuthToken);
       await _storage.delete(key: _keyCurrentSessionId);
       await _storage.delete(key: _keyActiveSessions);
-      print('📱 [SESSIONS] ✅ Almacenamiento local limpiado');
     } catch (e) {
-      print('📱 [SESSIONS] ⚠️ Error limpiando almacenamiento: $e');
+      // Error limpiando almacenamiento
     }
 
     // Resetear estado
     _initialized = false;
 
-    print('📱 [SESSIONS] ✅ Logout completo - servicio limpiado');
     notifyListeners();
   }
 
@@ -563,7 +489,6 @@ class SessionManagementService extends ChangeNotifier {
         );
       }
     } catch (e) {
-      print('📱 [SESSIONS] ⚠️ Error detectando dispositivo: $e');
       return DeviceInfo(type: 'unknown');
     }
   }
@@ -590,17 +515,15 @@ class SessionManagementService extends ChangeNotifier {
         Timer.periodic(const Duration(minutes: 5), (timer) async {
       // ✅ NUEVO: Verificar si aún debe enviar heartbeats
       if (_authToken == null || _currentSessionId == null) {
-        print(
-            '📱 [SESSIONS] 🛑 No hay token o sesión - deteniendo heartbeat automáticamente');
         stopHeartbeat();
         return;
       }
 
       final success = await sendHeartbeat();
       if (success) {
-        print('📱 [SESSIONS] ✅ Heartbeat exitoso - sesión activa');
+        // Heartbeat exitoso - sesión activa
       } else {
-        print('📱 [SESSIONS] ❌ Heartbeat falló - posible sesión expirada');
+        // Heartbeat falló - posible sesión expirada
       }
     });
   }
@@ -615,7 +538,7 @@ class SessionManagementService extends ChangeNotifier {
         _sessionTimeoutMinutes = settings['timeoutMinutes'] ?? 30;
       }
     } catch (e) {
-      print('📱 [SESSIONS] ⚠️ Error cargando configuraciones: $e');
+      // Error cargando configuraciones
     }
   }
 
@@ -629,7 +552,7 @@ class SessionManagementService extends ChangeNotifier {
       await _storage.write(
           key: _keySessionSettings, value: jsonEncode(settings));
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error guardando configuraciones: $e');
+      // Error guardando configuraciones
     }
   }
 
@@ -642,7 +565,7 @@ class SessionManagementService extends ChangeNotifier {
             sessionsList.map((json) => ActiveSession.fromJson(json)).toList();
       }
     } catch (e) {
-      print('📱 [SESSIONS] ⚠️ Error cargando sesiones en caché: $e');
+      // Error cargando sesiones en caché
     }
   }
 
@@ -652,7 +575,7 @@ class SessionManagementService extends ChangeNotifier {
           jsonEncode(_activeSessions.map((s) => s.toJson()).toList());
       await _storage.write(key: _keyActiveSessions, value: sessionsJson);
     } catch (e) {
-      print('📱 [SESSIONS] ❌ Error guardando sesiones en caché: $e');
+      // Error guardando sesiones en caché
     }
   }
 
@@ -718,8 +641,6 @@ class SessionManagementService extends ChangeNotifier {
             .firstOrNull;
 
         if (currentSession != null) {
-          print(
-              '📱 [SESSIONS] ✅ Sesión actual identificada por token: ${tokenSessionId.substring(0, 8)}...');
           return;
         }
       }
@@ -728,14 +649,11 @@ class SessionManagementService extends ChangeNotifier {
       if (_activeSessions.isNotEmpty) {
         final firstActiveSession = _activeSessions.first;
         _currentSessionId = firstActiveSession.sessionId;
-        print(
-            '📱 [SESSIONS] 🔄 Usando primera sesión como actual: ${_currentSessionId?.substring(0, 8)}...');
 
         // Guardar para próxima vez
         _storage.write(key: _keyCurrentSessionId, value: _currentSessionId);
       }
     } catch (e) {
-      print('📱 [SESSIONS] ⚠️ Error en identificación simple: $e');
       // En caso de error, no hacer nada - usar sesión existente
     }
   }
@@ -762,14 +680,9 @@ class SessionManagementService extends ChangeNotifier {
       final jsonPayload = json.decode(decoded) as Map<String, dynamic>;
 
       final sessionId = jsonPayload['sessionId'] as String?;
-      if (sessionId != null) {
-        print(
-            '📱 [SESSIONS] ✅ SessionId extraído del JWT: ${sessionId.substring(0, 8)}...');
-      }
 
       return sessionId;
     } catch (e) {
-      print('📱 [SESSIONS] ⚠️ Error extrayendo sessionId del token: $e');
       // No es crítico - usar fallback
       return null;
     }

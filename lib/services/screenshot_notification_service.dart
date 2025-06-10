@@ -32,8 +32,6 @@ class ScreenshotNotificationService {
     required String nickname,
   }) async {
     try {
-      print('📸 [SCREENSHOT-NOTIFICATION] Inicializando servicio...');
-
       _chatService = chatService;
       _currentUserId = userId;
       _currentNickname = nickname;
@@ -41,12 +39,7 @@ class ScreenshotNotificationService {
       // Inicializar servicio de detección
       _screenshotService = ScreenshotService();
       await _screenshotService!.initialize();
-
-      print('📸 [SCREENSHOT-NOTIFICATION] ✅ Servicio inicializado');
-      print(
-          '📸 [SCREENSHOT-NOTIFICATION] Usuario: $_currentNickname ($_currentUserId)');
     } catch (e) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ❌ Error inicializando: $e');
       rethrow;
     }
   }
@@ -54,18 +47,14 @@ class ScreenshotNotificationService {
   /// Iniciar la detección de capturas
   Future<bool> startDetection() async {
     if (_isActive) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ⚠️ Detección ya está activa');
       return true;
     }
 
     if (_screenshotService == null || _chatService == null) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ❌ Servicios no inicializados');
       return false;
     }
 
     try {
-      print('📸 [SCREENSHOT-NOTIFICATION] 🔄 Iniciando detección...');
-
       // Configurar callback para cuando se detecte una captura
       ScreenshotService.onScreenshotDetected = _onScreenshotDetected;
 
@@ -74,14 +63,11 @@ class ScreenshotNotificationService {
 
       if (success) {
         _isActive = true;
-        print('📸 [SCREENSHOT-NOTIFICATION] ✅ Detección ACTIVADA');
         return true;
       } else {
-        print('📸 [SCREENSHOT-NOTIFICATION] ❌ Error activando detección');
         return false;
       }
     } catch (e) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ❌ Error iniciando detección: $e');
       return false;
     }
   }
@@ -89,13 +75,10 @@ class ScreenshotNotificationService {
   /// Detener la detección de capturas
   Future<void> stopDetection() async {
     if (!_isActive) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ⚠️ Detección ya está detenida');
       return;
     }
 
     try {
-      print('📸 [SCREENSHOT-NOTIFICATION] 🔄 Deteniendo detección...');
-
       // Limpiar callback
       ScreenshotService.onScreenshotDetected = null;
 
@@ -105,22 +88,14 @@ class ScreenshotNotificationService {
       }
 
       _isActive = false;
-      print('📸 [SCREENSHOT-NOTIFICATION] ✅ Detección DETENIDA');
     } catch (e) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ❌ Error deteniendo detección: $e');
+      // Error deteniendo detección
     }
   }
 
   /// Callback que se ejecuta cuando se detecta una captura de pantalla
   void _onScreenshotDetected(Map<String, dynamic> data) {
-    print('📸 [SCREENSHOT-NOTIFICATION] === CAPTURA DETECTADA ===');
-    print('📸 [SCREENSHOT-NOTIFICATION] Datos: $data');
-    print('📸 [SCREENSHOT-NOTIFICATION] Usuario actual: $_currentNickname');
-    print('📸 [SCREENSHOT-NOTIFICATION] Chat activo: ${_chatService != null}');
-
     if (_chatService == null || _currentNickname == null) {
-      print(
-          '📸 [SCREENSHOT-NOTIFICATION] ❌ Servicios no disponibles para enviar notificación');
       return;
     }
 
@@ -131,27 +106,18 @@ class ScreenshotNotificationService {
   /// Enviar mensaje de notificación al chat cuando se detecta una captura
   Future<void> _sendScreenshotNotificationMessage() async {
     try {
-      print('📸 [SCREENSHOT-NOTIFICATION] 📤 Enviando notificación al chat...');
-
       // Crear mensaje de notificación (similar a autodestrucción)
       final notificationMessage = 'SCREENSHOT_NOTIFICATION:$_currentNickname';
 
-      print('📸 [SCREENSHOT-NOTIFICATION] Mensaje: $notificationMessage');
-
       // Enviar usando el servicio de chat
       await _chatService!.sendMessage(notificationMessage);
-
-      print(
-          '📸 [SCREENSHOT-NOTIFICATION] ✅ Notificación enviada correctamente');
     } catch (e) {
-      print('📸 [SCREENSHOT-NOTIFICATION] ❌ Error enviando notificación: $e');
+      // Error enviando notificación
     }
   }
 
   /// Limpiar recursos
   void dispose() {
-    print('📸 [SCREENSHOT-NOTIFICATION] 🗑️ Limpiando servicio...');
-
     stopDetection();
 
     _screenshotService?.dispose();
@@ -159,7 +125,5 @@ class ScreenshotNotificationService {
     _chatService = null;
     _currentUserId = null;
     _currentNickname = null;
-
-    print('📸 [SCREENSHOT-NOTIFICATION] ✅ Servicio limpiado');
   }
 }

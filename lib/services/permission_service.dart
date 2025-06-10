@@ -15,15 +15,12 @@ class PermissionService {
   Future<Map<String, bool>> requestMediaPermissions({bool video = true}) async {
     // Evitar solicitar permisos múltiples veces
     if (_permissionsRequested) {
-      print('📝 Permisos ya solicitados previamente');
       return {'audio': true, 'video': video};
     }
 
     final result = {'audio': false, 'video': false};
 
     try {
-      print('🔄 Solicitando permisos de medios (video: $video)');
-
       // Primero intenta obtener audio+video
       if (video) {
         try {
@@ -38,12 +35,7 @@ class PermissionService {
 
           // Liberar recursos
           stream.getTracks().forEach((track) => track.stop());
-
-          print(
-              '✅ Permisos obtenidos: audio=${result['audio']}, video=${result['video']}');
         } catch (e) {
-          print('⚠️ No se pudo obtener audio+video: $e');
-
           // Si falla, intentar solo audio
           try {
             final audioStream = await navigator.mediaDevices.getUserMedia({
@@ -55,10 +47,7 @@ class PermissionService {
 
             // Liberar recursos
             audioStream.getTracks().forEach((track) => track.stop());
-
-            print('✅ Solo se obtuvo permiso de audio');
           } catch (audioError) {
-            print('❌ No se pudo obtener ni siquiera audio: $audioError');
             result['audio'] = false;
           }
         }
@@ -74,15 +63,12 @@ class PermissionService {
 
           // Liberar recursos
           audioStream.getTracks().forEach((track) => track.stop());
-
-          print('✅ Permiso de audio obtenido correctamente');
         } catch (e) {
-          print('❌ No se pudo obtener permiso de audio: $e');
           result['audio'] = false;
         }
       }
     } catch (e) {
-      print('❌ Error al solicitar permisos de medios: $e');
+      // Error al solicitar permisos de medios
     }
 
     _permissionsRequested = true;
@@ -112,25 +98,18 @@ class PermissionService {
         })();
         """;
 
-        print('📝 Verificando permisos en navegador web (API experimental)');
-
         // Usar función nativa para ejecutar JS
         // Nota: Esta es una función hipotética, en Flutter real necesitarías
         // usar un plugin como js o js_interop
 
         // Como no podemos ejecutar JS directamente, devolvemos un resultado por defecto
-        print(
-            '⚠️ No se pueden verificar permisos sin solicitarlos en todos los navegadores');
         return {'audio': false, 'video': false};
       } catch (e) {
-        print('⚠️ Error al verificar permisos: $e');
         return result;
       }
     } else {
       // En plataformas nativas, usar alguna biblioteca de permisos
       // pero como estamos enfocados en web, dejamos esto como un stub
-      print(
-          '📝 Verificación de permisos no implementada para plataforma nativa');
       return result;
     }
   }

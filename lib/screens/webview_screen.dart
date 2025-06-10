@@ -69,10 +69,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           ),
         )
         ..loadRequest(Uri.parse(widget.url));
-
-      print('🌐 [WEBVIEW] Cargando URL en WebView: ${widget.url}');
     } catch (e) {
-      print('❌ [WEBVIEW] Error inicializando WebView: $e');
       _showError('Error inicializando WebView');
     }
   }
@@ -84,7 +81,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
       final Uri uri = Uri.parse(widget.url);
       if (await canLaunchUrl(uri)) {
-        print('🌐 [WEB] Abriendo URL en nueva pestaña: ${widget.url}');
         await launchUrl(uri, mode: LaunchMode.externalApplication);
 
         if (mounted) {
@@ -94,7 +90,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
         _showError('No se puede abrir la URL');
       }
     } catch (e) {
-      print('❌ [WEB] Error abriendo URL: $e');
       _showError('Error al abrir la página web');
     }
   }

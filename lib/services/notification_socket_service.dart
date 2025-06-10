@@ -32,8 +32,6 @@ class NotificationSocketService {
     _userId = userId;
     _token = token;
 
-    print('🔔 Inicializando NotificationSocketService para usuario: $userId');
-
     await _connect();
   }
 
@@ -42,8 +40,6 @@ class NotificationSocketService {
       if (_notificationSocket != null) {
         await _disconnect();
       }
-
-      print('🔔 Conectando socket de notificaciones...');
 
       _notificationSocket = IO.io(
         'http://192.142.10.106:3003', // Tu servidor de notificaciones
@@ -58,14 +54,12 @@ class NotificationSocketService {
 
       _setupNotificationListeners();
     } catch (e) {
-      print('❌ Error conectando socket de notificaciones: $e');
       _scheduleReconnect();
     }
   }
 
   void _setupNotificationListeners() {
     _notificationSocket?.onConnect((_) {
-      print('✅ Socket de notificaciones conectado');
       _isConnected = true;
       _reconnectAttempts = 0;
 
@@ -77,20 +71,17 @@ class NotificationSocketService {
     });
 
     _notificationSocket?.onDisconnect((_) {
-      print('❌ Socket de notificaciones desconectado');
       _isConnected = false;
       _stopHeartbeat();
       _scheduleReconnect();
     });
 
     _notificationSocket?.onConnectError((error) {
-      print('❌ Error de conexión socket notificaciones: $error');
       _scheduleReconnect();
     });
 
     // Listener para llamadas entrantes
     _notificationSocket?.on('incoming-call-notification', (data) {
-      print('🔔 Notificación de llamada entrante: $data');
       if (onIncomingCall != null && data is Map<String, dynamic>) {
         onIncomingCall!(data);
       }
@@ -98,7 +89,6 @@ class NotificationSocketService {
 
     // Listener para mensajes
     _notificationSocket?.on('message-notification', (data) {
-      print('🔔 Notificación de mensaje: $data');
       if (onMessage != null && data is Map<String, dynamic>) {
         onMessage!(data);
       }
@@ -106,7 +96,6 @@ class NotificationSocketService {
 
     // Listener para notificaciones genéricas
     _notificationSocket?.on('generic-notification', (data) {
-      print('🔔 Notificación genérica: $data');
       if (onGenericNotification != null && data is Map<String, dynamic>) {
         onGenericNotification!(data);
       }
@@ -114,7 +103,7 @@ class NotificationSocketService {
 
     // Heartbeat response
     _notificationSocket?.on('pong', (_) {
-      print('💓 Heartbeat recibido del servidor de notificaciones');
+      // Heartbeat recibido del servidor de notificaciones
     });
   }
 
@@ -126,7 +115,6 @@ class NotificationSocketService {
         'platform': defaultTargetPlatform.name,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       });
-      print('📝 Registrado para notificaciones: $_userId');
     }
   }
 
@@ -135,7 +123,6 @@ class NotificationSocketService {
     _heartbeatTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
       if (_isConnected) {
         _notificationSocket?.emit('ping');
-        print('💓 Enviando heartbeat a servidor de notificaciones');
       }
     });
   }
@@ -147,7 +134,6 @@ class NotificationSocketService {
 
   void _scheduleReconnect() {
     if (_reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
-      print('❌ Máximo de intentos de reconexión alcanzado para notificaciones');
       return;
     }
 
@@ -156,8 +142,6 @@ class NotificationSocketService {
 
     _reconnectTimer = Timer(delay, () {
       _reconnectAttempts++;
-      print(
-          '🔄 Reintentando conexión de notificaciones (intento $_reconnectAttempts)');
       _connect();
     });
   }
@@ -206,7 +190,6 @@ class NotificationSocketService {
     }
 
     _isConnected = false;
-    print('🔔 Socket de notificaciones desconectado y limpiado');
   }
 
   Future<void> dispose() async {

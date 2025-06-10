@@ -16,8 +16,6 @@ class LocalNotificationService {
   Function(String?)? onNotificationTapped;
 
   Future<void> initialize() async {
-    print('🔔 Inicializando LocalNotificationService');
-
     // Configuración para Android
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -42,7 +40,6 @@ class LocalNotificationService {
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        print('🔔 Notificación tocada: ${response.payload}');
         if (onNotificationTapped != null) {
           onNotificationTapped!(response.payload);
         }
@@ -57,15 +54,13 @@ class LocalNotificationService {
   }
 
   Future<void> _requestIOSPermissions() async {
-    print('🔔 [iOS] Solicitando permisos de notificación...');
-
     final IOSFlutterLocalNotificationsPlugin? iosPlugin =
         _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>();
 
     if (iosPlugin != null) {
       // Solicitar permisos
-      final bool? result = await iosPlugin.requestPermissions(
+      await iosPlugin.requestPermissions(
         alert: true,
         badge: true,
         sound: true,
@@ -73,19 +68,15 @@ class LocalNotificationService {
             true, // NUEVO: Permisos críticos para notificaciones importantes
       );
 
-      print('🔔 [iOS] Resultado de permisos: $result');
-
       // NUEVO: Configurar categorías de notificación para iOS
       await _configureIOSNotificationCategories(iosPlugin);
     } else {
-      print('🔔 [iOS] ❌ No se pudo obtener el plugin de iOS');
+      // No se pudo obtener el plugin de iOS
     }
   }
 
   Future<void> _configureIOSNotificationCategories(
       IOSFlutterLocalNotificationsPlugin iosPlugin) async {
-    print('🔔 [iOS] Configurando categorías de notificación...');
-
     // Categoría para invitaciones de chat
     final DarwinNotificationCategory chatInvitationCategory =
         DarwinNotificationCategory(
@@ -145,13 +136,9 @@ class LocalNotificationService {
         ],
       ),
     );
-
-    print('🔔 [iOS] ✅ Categorías de notificación configuradas');
   }
 
   Future<void> _checkNotificationPermissions() async {
-    print('🔔 [PERMISSIONS] Verificando permisos de notificación...');
-
     final IOSFlutterLocalNotificationsPlugin? iosPlugin =
         _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>();
@@ -159,24 +146,16 @@ class LocalNotificationService {
     if (iosPlugin != null) {
       try {
         // Verificar permisos actuales
-        final bool? hasPermissions = await iosPlugin.requestPermissions(
+        await iosPlugin.requestPermissions(
           alert: true,
           badge: true,
           sound: true,
         );
-
-        print('🔔 [PERMISSIONS] Permisos iOS: $hasPermissions');
-
-        if (hasPermissions == false) {
-          print('🔔 [PERMISSIONS] ❌ No hay permisos de notificación en iOS');
-        } else {
-          print('🔔 [PERMISSIONS] ✅ Permisos de notificación concedidos');
-        }
       } catch (e) {
-        print('🔔 [PERMISSIONS] ❌ Error verificando permisos: $e');
+        // Error verificando permisos
       }
     } else {
-      print('🔔 [PERMISSIONS] ℹ️ No es iOS o plugin no disponible');
+      // No es iOS o plugin no disponible
     }
   }
 
@@ -235,8 +214,6 @@ class LocalNotificationService {
     required String callerAvatar,
     String? token,
   }) async {
-    print('🔔 Mostrando notificación de llamada entrante de: $callerName');
-
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'incoming_calls',
@@ -308,11 +285,6 @@ class LocalNotificationService {
     required String message,
     String? senderAvatar,
   }) async {
-    print('🔔 [NOTIFICATION] === INICIANDO NOTIFICACIÓN DE INVITACIÓN ===');
-    print('🔔 [NOTIFICATION] InvitationId: $invitationId');
-    print('🔔 [NOTIFICATION] SenderName: $senderName');
-    print('🔔 [NOTIFICATION] Message: $message');
-
     // Verificar si hay permisos primero
     await _checkNotificationPermissions();
 
@@ -375,12 +347,6 @@ class LocalNotificationService {
     });
 
     try {
-      print(
-          '🔔 [NOTIFICATION] 📱 Mostrando notificación con ID: ${invitationId.hashCode}');
-      print('🔔 [NOTIFICATION] 📱 Título: "Invitación de chat"');
-      print('🔔 [NOTIFICATION] 📱 Cuerpo: "$senderName $message"');
-      print('🔔 [NOTIFICATION] 📱 Payload: $payload');
-
       await _flutterLocalNotificationsPlugin.show(
         invitationId.hashCode, // ID único basado en invitationId
         'Invitación de chat',
@@ -388,12 +354,7 @@ class LocalNotificationService {
         platformChannelSpecifics,
         payload: payload,
       );
-
-      print('🔔 [NOTIFICATION] ✅ Notificación enviada correctamente');
-      print('🔔 [NOTIFICATION] === NOTIFICACIÓN COMPLETADA ===');
     } catch (e) {
-      print('🔔 [NOTIFICATION] ❌ Error mostrando notificación: $e');
-      print('🔔 [NOTIFICATION] ❌ Stack trace: ${StackTrace.current}');
       rethrow;
     }
   }
@@ -405,13 +366,6 @@ class LocalNotificationService {
     required String messageText,
     String? senderAvatar,
   }) async {
-    print(
-        '🔔 [MESSAGE-NOTIFICATION] === INICIANDO NOTIFICACIÓN DE MENSAJE ===');
-    print('🔔 [MESSAGE-NOTIFICATION] MessageId: $messageId');
-    print('🔔 [MESSAGE-NOTIFICATION] SenderName: $senderName');
-    print(
-        '🔔 [MESSAGE-NOTIFICATION] MessageText: Tienes un mensaje'); // Sin contenido por seguridad
-
     // Verificar si hay permisos primero
     await _checkNotificationPermissions();
 
@@ -458,12 +412,6 @@ class LocalNotificationService {
     });
 
     try {
-      print(
-          '🔔 [MESSAGE-NOTIFICATION] 📱 Mostrando notificación con ID: ${messageId.hashCode}');
-      print('🔔 [MESSAGE-NOTIFICATION] 📱 Título: "Mensaje de $senderName"');
-      print('🔔 [MESSAGE-NOTIFICATION] 📱 Cuerpo: "Tienes un mensaje"');
-      print('🔔 [MESSAGE-NOTIFICATION] 📱 Payload: $payload');
-
       await _flutterLocalNotificationsPlugin.show(
         messageId.hashCode, // ID único basado en messageId
         'Mensaje de $senderName',
@@ -471,12 +419,7 @@ class LocalNotificationService {
         platformChannelSpecifics,
         payload: payload,
       );
-
-      print('🔔 [MESSAGE-NOTIFICATION] ✅ Notificación enviada correctamente');
-      print('🔔 [MESSAGE-NOTIFICATION] === NOTIFICACIÓN COMPLETADA ===');
     } catch (e) {
-      print('🔔 [MESSAGE-NOTIFICATION] ❌ Error mostrando notificación: $e');
-      print('🔔 [MESSAGE-NOTIFICATION] ❌ Stack trace: ${StackTrace.current}');
       rethrow;
     }
   }
@@ -488,8 +431,6 @@ class LocalNotificationService {
     required String body,
     Map<String, dynamic>? data,
   }) async {
-    print('🔔 Mostrando notificación general: $title');
-
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'general',

@@ -25,35 +25,24 @@ class ScreenshotService {
   void _setupScreenshotDetectionListener() {
     _channel.setMethodCallHandler((call) async {
       if (call.method == 'onScreenshotDetected') {
-        print('📸 [SCREENSHOT] ¡Captura detectada desde código nativo!');
-
         final data = Map<String, dynamic>.from(call.arguments);
-        print('📸 [SCREENSHOT] Datos: $data');
-
         // Llamar callback si está configurado
         if (onScreenshotDetected != null) {
           onScreenshotDetected!(data);
         }
       }
     });
-
-    print('👁️ [SCREENSHOT] Listener de detección configurado');
   }
 
   /// Inicializar el servicio
   Future<void> initialize() async {
     try {
-      print('🔒 [SCREENSHOT] Inicializando servicio de seguridad...');
-
       // En web, no hay capturas de pantalla del sistema, solo avisar
       if (kIsWeb) {
-        print('🌐 [SCREENSHOT] Web detectado - funcionalidad limitada');
         return;
       }
-
-      print('✅ [SCREENSHOT] Servicio inicializado correctamente');
     } catch (e) {
-      print('❌ [SCREENSHOT] Error inicializando servicio: $e');
+      // Error inicializando servicio
     }
   }
 
@@ -61,28 +50,21 @@ class ScreenshotService {
   Future<bool> startScreenshotDetection() async {
     try {
       if (kIsWeb) {
-        print('🌐 [SCREENSHOT] Web: Detección no disponible');
         return false;
       }
 
       if (_isDetectionActive) {
-        print('👁️ [SCREENSHOT] Detección ya está activa');
         return true;
       }
-
-      print('👁️ [SCREENSHOT] Iniciando detección de capturas...');
 
       final result = await _channel.invokeMethod('startScreenshotDetection');
       if (result == true) {
         _isDetectionActive = true;
-        print('✅ [SCREENSHOT] ¡Detección de capturas INICIADA!');
         return true;
       } else {
-        print('❌ [SCREENSHOT] Error iniciando detección: $result');
         return false;
       }
     } catch (e) {
-      print('❌ [SCREENSHOT] Error iniciando detección: $e');
       return false;
     }
   }
@@ -91,28 +73,21 @@ class ScreenshotService {
   Future<bool> stopScreenshotDetection() async {
     try {
       if (kIsWeb) {
-        print('🌐 [SCREENSHOT] Web: Detección no disponible');
         return false;
       }
 
       if (!_isDetectionActive) {
-        print('👁️ [SCREENSHOT] Detección ya está inactiva');
         return true;
       }
-
-      print('👁️ [SCREENSHOT] Deteniendo detección de capturas...');
 
       final result = await _channel.invokeMethod('stopScreenshotDetection');
       if (result == true) {
         _isDetectionActive = false;
-        print('✅ [SCREENSHOT] ¡Detección de capturas DETENIDA!');
         return true;
       } else {
-        print('❌ [SCREENSHOT] Error deteniendo detección: $result');
         return false;
       }
     } catch (e) {
-      print('❌ [SCREENSHOT] Error deteniendo detección: $e');
       return false;
     }
   }
@@ -121,25 +96,18 @@ class ScreenshotService {
   Future<bool> blockScreenshots() async {
     try {
       if (kIsWeb) {
-        print('🌐 [SCREENSHOT] Web: Bloqueo limitado - solo visual');
         _isBlocked = true;
         return true;
       }
-
-      print('🔒 [SCREENSHOT] Bloqueando capturas de pantalla...');
 
       final result = await _channel.invokeMethod('blockScreenshots');
       if (result == true) {
         _isBlocked = true;
-        print('✅ [SCREENSHOT] ¡Capturas BLOQUEADAS exitosamente!');
-        print('🔒 [SCREENSHOT] Ahora las capturas mostrarán pantalla negra');
         return true;
       } else {
-        print('❌ [SCREENSHOT] Error: resultado inesperado: $result');
         return false;
       }
     } catch (e) {
-      print('❌ [SCREENSHOT] Error bloqueando capturas: $e');
       return false;
     }
   }
@@ -148,24 +116,18 @@ class ScreenshotService {
   Future<bool> enableScreenshots() async {
     try {
       if (kIsWeb) {
-        print('🌐 [SCREENSHOT] Web: Habilitando capturas');
         _isBlocked = false;
         return true;
       }
-
-      print('🔓 [SCREENSHOT] Habilitando capturas de pantalla...');
 
       final result = await _channel.invokeMethod('enableScreenshots');
       if (result == true) {
         _isBlocked = false;
-        print('✅ [SCREENSHOT] ¡Capturas HABILITADAS exitosamente!');
         return true;
       } else {
-        print('❌ [SCREENSHOT] Error: resultado inesperado: $result');
         return false;
       }
     } catch (e) {
-      print('❌ [SCREENSHOT] Error habilitando capturas: $e');
       return false;
     }
   }
@@ -197,13 +159,11 @@ class ScreenshotService {
   /// NUEVO: Configurar callback para capturas detectadas
   void setOnScreenshotDetected(Function(Map<String, dynamic>) callback) {
     onScreenshotDetected = callback;
-    print('📸 [SCREENSHOT] Callback de detección configurado');
   }
 
   /// NUEVO: Remover callback
   void removeOnScreenshotDetected() {
     onScreenshotDetected = null;
-    print('📸 [SCREENSHOT] Callback de detección removido');
   }
 
   /// NUEVO: Información del estado del servicio
@@ -218,8 +178,6 @@ class ScreenshotService {
 
   /// Limpiar recursos
   void dispose() {
-    print('🗑️ [SCREENSHOT] Limpiando servicio...');
-
     // Detener detección si está activa
     if (_isDetectionActive) {
       stopScreenshotDetection();
@@ -227,7 +185,5 @@ class ScreenshotService {
 
     // Remover callback
     removeOnScreenshotDetected();
-
-    print('🗑️ [SCREENSHOT] Servicio limpiado');
   }
 }

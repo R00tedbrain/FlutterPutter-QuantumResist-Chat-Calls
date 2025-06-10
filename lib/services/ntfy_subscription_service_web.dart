@@ -20,7 +20,6 @@ class NtfySubscriptionWeb implements NtfySubscriptionPlatform {
   }) async {
     _serverUrl = serverUrl;
     _onNotificationReceived = onNotificationReceived;
-    print('✅ [NTFY-WEB] Implementación web inicializada');
   }
 
   @override
@@ -36,43 +35,27 @@ class NtfySubscriptionWeb implements NtfySubscriptionPlatform {
   Future<void> _subscribeToTopic(String topicType, String topicName) async {
     try {
       final url = '$_serverUrl/$topicName/json';
-      print('🔔📡 [NTFY-WEB] Suscribiéndose a: $url');
 
       final eventSource = html.EventSource(url);
       _eventSources[topicType] = eventSource;
 
       // Configurar listeners
-      eventSource.onOpen.listen((event) {
-        print('✅ [NTFY-WEB] Conectado a topic $topicType: $topicName');
-      });
+      eventSource.onOpen.listen((event) {});
 
       eventSource.onMessage.listen((html.MessageEvent event) {
-        print('🔔📡 [NTFY-WEB] === NOTIFICACIÓN RECIBIDA ===');
-        print('🔔📡 [NTFY-WEB] Topic: $topicType');
-        print('🔔📡 [NTFY-WEB] Datos raw: ${event.data}');
-
         try {
           final data = jsonDecode(event.data as String);
           _onNotificationReceived?.call(topicType, data);
-        } catch (e) {
-          print('❌ [NTFY-WEB] Error parseando notificación: $e');
-        }
+        } catch (e) {}
       });
 
       eventSource.onError.listen((event) {
-        print('❌ [NTFY-WEB] Error en topic $topicType: $event');
-
         // Reintentar suscripción tras 5 segundos
         Timer(const Duration(seconds: 5), () {
-          print('🔄 [NTFY-WEB] Reintentando suscripción a $topicType');
           _subscribeToTopic(topicType, topicName);
         });
       });
-
-      print('✅ [NTFY-WEB] EventSource configurado para $topicType');
-    } catch (e) {
-      print('❌ [NTFY-WEB] Error configurando EventSource para $topicType: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -83,10 +66,7 @@ class NtfySubscriptionWeb implements NtfySubscriptionPlatform {
 
       try {
         eventSource.close();
-        print('✅ [NTFY-WEB] EventSource cerrado para $topicType');
-      } catch (e) {
-        print('❌ [NTFY-WEB] Error cerrando EventSource para $topicType: $e');
-      }
+      } catch (e) {}
     }
 
     _eventSources.clear();
@@ -112,7 +92,6 @@ class NtfySubscriptionWeb implements NtfySubscriptionPlatform {
     unsubscribeFromAllTopics();
     _serverUrl = null;
     _onNotificationReceived = null;
-    print('✅ [NTFY-WEB] Implementación web limpiada');
   }
 }
 

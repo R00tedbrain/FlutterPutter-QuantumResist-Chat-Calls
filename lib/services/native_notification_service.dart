@@ -33,15 +33,11 @@ class NativeNotificationService {
   /// Inicializar el servicio de notificaciones nativas
   Future<void> initialize() async {
     if (_isInitialized) {
-      print('📲 [NATIVE-NOTIF] Ya está inicializado');
       return;
     }
 
     try {
-      print('📲 [NATIVE-NOTIF] === INICIALIZANDO NOTIFICACIONES NATIVAS ===');
-
       if (kIsWeb) {
-        print('📲 [NATIVE-NOTIF] Web: Notificaciones nativas no disponibles');
         return;
       }
 
@@ -76,8 +72,6 @@ class NativeNotificationService {
       );
 
       if (result != null && result) {
-        print('✅ [NATIVE-NOTIF] Plugin inicializado correctamente');
-
         // Crear canales de notificación
         await _createNotificationChannels();
 
@@ -85,13 +79,8 @@ class NativeNotificationService {
         await _requestPermissions();
 
         _isInitialized = true;
-        print('✅ [NATIVE-NOTIF] Servicio de notificaciones nativas listo');
-      } else {
-        print('❌ [NATIVE-NOTIF] Error inicializando plugin');
-      }
-    } catch (e) {
-      print('❌ [NATIVE-NOTIF] Error inicializando: $e');
-    }
+      } else {}
+    } catch (e) {}
   }
 
   /// Crear canales de notificación (Android)
@@ -141,7 +130,6 @@ class NativeNotificationService {
         await androidPlugin.createNotificationChannel(chatChannel);
         await androidPlugin.createNotificationChannel(invitationChannel);
         await androidPlugin.createNotificationChannel(callChannel);
-        print('✅ [NATIVE-NOTIF] Canales de Android creados');
       }
     }
   }
@@ -162,8 +150,6 @@ class NativeNotificationService {
             );
 
         _permissionsGranted = result ?? false;
-        print(
-            '📲 [NATIVE-NOTIF] Permisos iOS: ${_permissionsGranted ? 'Concedidos' : 'Denegados'}');
       } else if (Platform.isAndroid) {
         final androidPlugin = _notifications!
             .resolvePlatformSpecificImplementation<
@@ -172,12 +158,9 @@ class NativeNotificationService {
         if (androidPlugin != null) {
           final result = await androidPlugin.requestNotificationsPermission();
           _permissionsGranted = result ?? false;
-          print(
-              '📲 [NATIVE-NOTIF] Permisos Android: ${_permissionsGranted ? 'Concedidos' : 'Denegados'}');
         }
       }
     } catch (e) {
-      print('❌ [NATIVE-NOTIF] Error solicitando permisos: $e');
       _permissionsGranted = false;
     }
   }
@@ -237,11 +220,7 @@ class NativeNotificationService {
         details,
         payload: 'invitation:$invitationId:$fromUserId',
       );
-
-      print('✅ [NATIVE-NOTIF] Notificación de invitación mostrada');
-    } catch (e) {
-      print('❌ [NATIVE-NOTIF] Error mostrando invitación: $e');
-    }
+    } catch (e) {}
   }
 
   /// Mostrar notificación de mensaje de chat
@@ -300,11 +279,7 @@ class NativeNotificationService {
         details,
         payload: 'message:$messageId:$roomId:$fromUserId',
       );
-
-      print('✅ [NATIVE-NOTIF] Notificación de mensaje mostrada');
-    } catch (e) {
-      print('❌ [NATIVE-NOTIF] Error mostrando mensaje: $e');
-    }
+    } catch (e) {}
   }
 
   /// Mostrar notificación de llamada VoIP
@@ -366,27 +341,20 @@ class NativeNotificationService {
         details,
         payload: 'call:$callId:$fromUserId',
       );
-
-      print('✅ [NATIVE-NOTIF] Notificación de llamada mostrada');
-    } catch (e) {
-      print('❌ [NATIVE-NOTIF] Error mostrando llamada: $e');
-    }
+    } catch (e) {}
   }
 
   /// Verificar si se pueden mostrar notificaciones
   bool _canShowNotifications() {
     if (kIsWeb) {
-      print('❌ [NATIVE-NOTIF] Web: Notificaciones nativas no soportadas');
       return false;
     }
 
     if (!_isInitialized) {
-      print('❌ [NATIVE-NOTIF] Servicio no inicializado');
       return false;
     }
 
     if (!_permissionsGranted) {
-      print('❌ [NATIVE-NOTIF] Permisos no concedidos');
       return false;
     }
 
@@ -395,15 +363,12 @@ class NativeNotificationService {
 
   /// Manejar tap en notificación (foreground)
   static void _onNotificationTapped(NotificationResponse response) {
-    print('📲 [NATIVE-NOTIF] Notificación tocada: ${response.payload}');
     _handleNotificationAction(response.payload);
   }
 
   /// Manejar tap en notificación (background)
   @pragma('vm:entry-point')
   static void _onBackgroundNotificationTapped(NotificationResponse response) {
-    print(
-        '📲 [NATIVE-NOTIF] Notificación background tocada: ${response.payload}');
     _handleNotificationAction(response.payload);
   }
 
@@ -418,35 +383,27 @@ class NativeNotificationService {
       final type = parts[0];
       final id = parts[1];
 
-      print('📲 [NATIVE-NOTIF] Procesando acción: $type - ID: $id');
-
       switch (type) {
         case 'invitation':
           // Navegar a pantalla de invitaciones
-          print('📲 [NATIVE-NOTIF] Abriendo invitación: $id');
           break;
         case 'message':
           // Navegar a chat
           if (parts.length >= 3) {
             final roomId = parts[2];
-            print('📲 [NATIVE-NOTIF] Abriendo chat: $roomId');
           }
           break;
         case 'call':
           // Manejar llamada
-          print('📲 [NATIVE-NOTIF] Procesando llamada: $id');
           break;
       }
-    } catch (e) {
-      print('❌ [NATIVE-NOTIF] Error procesando acción: $e');
-    }
+    } catch (e) {}
   }
 
   /// Cancelar notificación específica
   Future<void> cancelNotification(int id) async {
     if (_notifications != null) {
       await _notifications!.cancel(id);
-      print('📲 [NATIVE-NOTIF] Notificación cancelada: $id');
     }
   }
 
@@ -454,7 +411,6 @@ class NativeNotificationService {
   Future<void> cancelAllNotifications() async {
     if (_notifications != null) {
       await _notifications!.cancelAll();
-      print('📲 [NATIVE-NOTIF] Todas las notificaciones canceladas');
     }
   }
 
@@ -473,6 +429,5 @@ class NativeNotificationService {
     _isInitialized = false;
     _permissionsGranted = false;
     _notifications = null;
-    print('📲 [NATIVE-NOTIF] Servicio limpiado');
   }
 }

@@ -39,7 +39,6 @@ class _VerificationWidgetState extends State<VerificationWidget> {
   @override
   void initState() {
     super.initState();
-    print('🔑 [VERIFICATION] Inicializando widget de verificación');
   }
 
   @override
@@ -59,8 +58,6 @@ class _VerificationWidgetState extends State<VerificationWidget> {
 
   void _setupChatListener() {
     if (widget.chatService != null) {
-      print('🔑 [VERIFICATION] Chat service disponible para sincronización');
-
       // CORREGIDO: No sobrescribir el callback principal, sino agregar un listener adicional
       // Esto evita conflictos cuando hay múltiples widgets de verificación
 
@@ -77,15 +74,8 @@ class _VerificationWidgetState extends State<VerificationWidget> {
         // NUEVO: Solo procesar mensajes de verificación aquí
         if (message.content.startsWith('VERIFICATION_CODES:')) {
           final codes = message.content.substring('VERIFICATION_CODES:'.length);
-          print('🔑 [VERIFICATION] 📥 Mensaje de códigos recibido: $codes');
-          print(
-              '🔑 [VERIFICATION] 📥 Código actual del partner: ${_verificationService.partnerCode}');
-
           // Establecer el código del partner
           _verificationService.setPartnerCode(codes);
-
-          print(
-              '🔑 [VERIFICATION] 📥 Códigos del partner establecidos: $codes');
 
           // Mostrar notificación después del build
           if (mounted) {
@@ -110,11 +100,10 @@ class _VerificationWidgetState extends State<VerificationWidget> {
 
       // NUEVO: También enviar códigos cuando se establece la conexión
       if (_alphanumericCode != null) {
-        print('🔑 [VERIFICATION] Enviando códigos existentes al partner');
         _sendCodesToPartner();
       }
     } else {
-      print('🔑 [VERIFICATION] ❌ No hay código del partner para verificar');
+      // No hay código del partner para verificar
     }
   }
 
@@ -129,11 +118,6 @@ class _VerificationWidgetState extends State<VerificationWidget> {
       _emojiCode = codes['emoji'];
       _isVerified = _verificationService.isVerified;
     });
-
-    print('🔑 [VERIFICATION] Códigos generados para sala ${widget.roomId}');
-    print('🔑 [VERIFICATION] Alfanumérico: $_alphanumericCode');
-    print('🔑 [VERIFICATION] Numérico: $_numericCode');
-    print('🔑 [VERIFICATION] Emoji: $_emojiCode');
 
     // NUEVO: Configurar listener solo una vez
     _setupChatListener();
@@ -153,8 +137,6 @@ class _VerificationWidgetState extends State<VerificationWidget> {
 
       try {
         widget.chatService!.sendMessage(codesMessage);
-        print(
-            '🔑 [VERIFICATION] 📤 Códigos enviados al partner: ${_alphanumericCode!}');
 
         // CORREGIDO: Mostrar confirmación de envío después del build
         if (mounted) {
@@ -171,27 +153,21 @@ class _VerificationWidgetState extends State<VerificationWidget> {
           });
         }
       } catch (e) {
-        print('🔑 [VERIFICATION] ❌ Error enviando códigos: $e');
-
         // Reintentar después de un delay
         Future.delayed(const Duration(seconds: 2), () {
           if (mounted &&
               widget.chatService != null &&
               _alphanumericCode != null) {
-            print('🔑 [VERIFICATION] 🔄 Reintentando envío de códigos...');
             try {
               widget.chatService!.sendMessage(codesMessage);
-              print('🔑 [VERIFICATION] ✅ Códigos enviados en reintento');
             } catch (e2) {
-              print('🔑 [VERIFICATION] ❌ Error en reintento: $e2');
+              // Error en reintento
             }
           }
         });
       }
     } else {
-      print('🔑 [VERIFICATION] ❌ No se pueden enviar códigos - faltan datos');
-      print('🔑 [VERIFICATION] - Chat service: ${widget.chatService != null}');
-      print('🔑 [VERIFICATION] - Alfanumérico: ${_alphanumericCode != null}');
+      // No se pueden enviar códigos - faltan datos
     }
   }
 

@@ -23,16 +23,11 @@ class EphemeralChatNotificationIntegration {
     required String token,
   }) async {
     if (_isInitialized) {
-      print('🔔💬 [EPHEMERAL-NTFY] Ya está inicializado');
       return;
     }
 
     try {
       _currentUserId = userId;
-
-      print('🔔💬 [EPHEMERAL-NTFY] === INICIALIZANDO INTEGRACIÓN ===');
-      print('🔔💬 [EPHEMERAL-NTFY] Usuario: $userId');
-      print('🔔💬 [EPHEMERAL-NTFY] Plataforma: ${Platform.operatingSystem}');
 
       // Inicializar el servicio híbrido
       await HybridNotificationService.instance.initialize(
@@ -41,11 +36,7 @@ class EphemeralChatNotificationIntegration {
       );
 
       _isInitialized = true;
-      print('✅ [EPHEMERAL-NTFY] Integración inicializada correctamente');
-      print(
-          '✅ [EPHEMERAL-NTFY] Chat efímero ahora usará ntfy para notificaciones');
     } catch (e) {
-      print('❌ [EPHEMERAL-NTFY] Error inicializando: $e');
       rethrow;
     }
   }
@@ -59,27 +50,17 @@ class EphemeralChatNotificationIntegration {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [EPHEMERAL-NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔💬 [EPHEMERAL-NTFY] === INVITACIÓN DE CHAT ===');
-      print('🔔💬 [EPHEMERAL-NTFY] Target: $targetUserId');
-      print('🔔💬 [EPHEMERAL-NTFY] Inviter: $inviterName');
-      print('🔔💬 [EPHEMERAL-NTFY] InvitationId: $invitationId');
-
       await HybridNotificationService.instance.sendChatInvitationNotification(
         targetUserId: targetUserId,
         inviterName: inviterName,
         invitationId: invitationId,
         additionalData: additionalData,
       );
-
-      print('✅ [EPHEMERAL-NTFY] Notificación de invitación enviada');
-    } catch (e) {
-      print('❌ [EPHEMERAL-NTFY] Error enviando invitación: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación de mensaje en chat efímero
@@ -92,18 +73,10 @@ class EphemeralChatNotificationIntegration {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [EPHEMERAL-NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔💬 [EPHEMERAL-NTFY] === MENSAJE DE CHAT ===');
-      print('🔔💬 [EPHEMERAL-NTFY] Target: $targetUserId');
-      print('🔔💬 [EPHEMERAL-NTFY] Sender: $senderName');
-      print('🔔💬 [EPHEMERAL-NTFY] Room: $roomId');
-      print(
-          '🔔💬 [EPHEMERAL-NTFY] Mensaje: ${messageText.length > 50 ? "${messageText.substring(0, 50)}..." : messageText}');
-
       await HybridNotificationService.instance.sendMessageNotification(
         targetUserId: targetUserId,
         senderName: senderName,
@@ -115,11 +88,7 @@ class EphemeralChatNotificationIntegration {
           ...?additionalData,
         },
       );
-
-      print('✅ [EPHEMERAL-NTFY] Notificación de mensaje enviada');
-    } catch (e) {
-      print('❌ [EPHEMERAL-NTFY] Error enviando mensaje: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación de sala creada
@@ -131,16 +100,10 @@ class EphemeralChatNotificationIntegration {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [EPHEMERAL-NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔💬 [EPHEMERAL-NTFY] === SALA CREADA ===');
-      print('🔔💬 [EPHEMERAL-NTFY] Target: $targetUserId');
-      print('🔔💬 [EPHEMERAL-NTFY] Partner: $partnerName');
-      print('🔔💬 [EPHEMERAL-NTFY] Room: $roomId');
-
       await HybridNotificationService.instance.sendCustomNotification(
         targetUserId: targetUserId,
         title: 'Chat conectado',
@@ -154,35 +117,22 @@ class EphemeralChatNotificationIntegration {
           ...?additionalData,
         },
       );
-
-      print('✅ [EPHEMERAL-NTFY] Notificación de sala creada enviada');
-    } catch (e) {
-      print('❌ [EPHEMERAL-NTFY] Error enviando sala creada: $e');
-    }
+    } catch (e) {}
   }
 
   /// NUEVO: Mostrar notificación del sistema para invitaciones
   Future<void> _showSystemNotificationForInvitation(
       ChatInvitation invitation) async {
     try {
-      print('🔔💬 [EPHEMERAL-NTFY] === INICIANDO NOTIFICACIÓN DEL SISTEMA ===');
-      print('🔔💬 [EPHEMERAL-NTFY] InvitationId: ${invitation.id}');
-      print('🔔💬 [EPHEMERAL-NTFY] FromUserId: ${invitation.fromUserId}');
-
       // PRIMERO: Verificar si LocalNotificationService está inicializado
       try {
         // Forzar inicialización si no está hecha
         await LocalNotificationService.instance.initialize();
-        print('🔔💬 [EPHEMERAL-NTFY] ✅ LocalNotificationService inicializado');
       } catch (initError) {
-        print(
-            '🔔💬 [EPHEMERAL-NTFY] ❌ Error inicializando LocalNotificationService: $initError');
         return;
       }
 
       // SEGUNDO: Mostrar notificación con logs detallados
-      print(
-          '🔔💬 [EPHEMERAL-NTFY] 📱 Llamando a showChatInvitationNotification...');
 
       await LocalNotificationService.instance.showChatInvitationNotification(
         invitationId: invitation.id,
@@ -190,26 +140,13 @@ class EphemeralChatNotificationIntegration {
         message: 'Te ha enviado una invitación de chat efímero',
       );
 
-      print(
-          '✅ [EPHEMERAL-NTFY] 🎉 Notificación del sistema enviada para: ${invitation.id}');
-
       // TERCERO: Verificar estado después de mostrar
-      print('🔔💬 [EPHEMERAL-NTFY] === NOTIFICACIÓN COMPLETADA ===');
-    } catch (e) {
-      print(
-          '❌ [EPHEMERAL-NTFY] Error crítico mostrando notificación del sistema: $e');
-      print('❌ [EPHEMERAL-NTFY] Stack trace: ${StackTrace.current}');
-    }
+    } catch (e) {}
   }
 
   /// NUEVO: Mostrar notificación del sistema para mensajes
   Future<void> _showSystemNotificationForMessage(dynamic message) async {
     try {
-      print(
-          '🔔💬 [EPHEMERAL-NTFY] === INICIANDO NOTIFICACIÓN DE MENSAJE DEL SISTEMA ===');
-      print('🔔💬 [EPHEMERAL-NTFY] MessageId: ${message.id}');
-      print('🔔💬 [EPHEMERAL-NTFY] SenderId: ${message.senderId}');
-
       // FILTRAR: No mostrar notificaciones para mensajes del sistema o especiales
       if (message.senderId == 'system' ||
           message.senderId == 'me' ||
@@ -218,8 +155,6 @@ class EphemeralChatNotificationIntegration {
           message.content.startsWith('AUTOCONFIG_DESTRUCTION:') ||
           message.content.startsWith('DESTRUCTION_COUNTDOWN:') ||
           message.content.startsWith('SCREENSHOT_NOTIFICATION:')) {
-        print(
-            '🔔💬 [EPHEMERAL-NTFY] ⚠️ Mensaje filtrado - no se muestra notificación');
         return;
       }
 
@@ -227,15 +162,11 @@ class EphemeralChatNotificationIntegration {
       try {
         // Forzar inicialización si no está hecha
         await LocalNotificationService.instance.initialize();
-        print('🔔💬 [EPHEMERAL-NTFY] ✅ LocalNotificationService inicializado');
       } catch (initError) {
-        print(
-            '🔔💬 [EPHEMERAL-NTFY] ❌ Error inicializando LocalNotificationService: $initError');
         return;
       }
 
       // SEGUNDO: Mostrar notificación con logs detallados
-      print('🔔💬 [EPHEMERAL-NTFY] 📱 Llamando a showMessageNotification...');
 
       await LocalNotificationService.instance.showMessageNotification(
         messageId: message.id,
@@ -244,29 +175,16 @@ class EphemeralChatNotificationIntegration {
             'Tienes un mensaje', // Sin mostrar contenido por privacidad
       );
 
-      print(
-          '✅ [EPHEMERAL-NTFY] 🎉 Notificación de mensaje del sistema enviada para: ${message.id}');
-
       // TERCERO: Verificar estado después de mostrar
-      print('🔔💬 [EPHEMERAL-NTFY] === NOTIFICACIÓN DE MENSAJE COMPLETADA ===');
-    } catch (e) {
-      print(
-          '❌ [EPHEMERAL-NTFY] Error crítico mostrando notificación de mensaje del sistema: $e');
-      print('❌ [EPHEMERAL-NTFY] Stack trace: ${StackTrace.current}');
-    }
+    } catch (e) {}
   }
 
   /// Configurar callbacks del servicio de chat existente
   /// COMPLEMENTA el sistema existente sin alterarlo
   void setupEphemeralChatServiceCallbacks(EphemeralChatService chatService) {
     if (!_isInitialized) {
-      print(
-          '❌ [EPHEMERAL-NTFY] No se pueden configurar callbacks - no inicializado');
       return;
     }
-
-    print('🔔💬 [EPHEMERAL-NTFY] === CONFIGURANDO CALLBACKS ===');
-    print('🔔💬 [EPHEMERAL-NTFY] Configurando callbacks para chat efímero...');
 
     // Guardar callbacks originales para no perderlos
     final originalOnInvitationReceived = chatService.onInvitationReceived;
@@ -275,9 +193,6 @@ class EphemeralChatNotificationIntegration {
 
     // AMPLIAR (no reemplazar) callback de invitaciones recibidas
     chatService.onInvitationReceived = (invitation) {
-      print(
-          '🔔💬 [EPHEMERAL-NTFY] Invitación recibida detectada: ${invitation.id}');
-
       // MANTENER: Ejecutar callback original primero
       if (originalOnInvitationReceived != null) {
         originalOnInvitationReceived(invitation);
@@ -289,8 +204,6 @@ class EphemeralChatNotificationIntegration {
 
     // AMPLIAR callback de mensajes recibidos
     chatService.onMessageReceived = (message) {
-      print('🔔💬 [EPHEMERAL-NTFY] Mensaje recibido detectado: ${message.id}');
-
       // MANTENER: Ejecutar callback original primero
       if (originalOnMessageReceived != null) {
         originalOnMessageReceived(message);
@@ -302,21 +215,14 @@ class EphemeralChatNotificationIntegration {
 
     // AMPLIAR callback de sala creada
     chatService.onRoomCreated = (room) {
-      print('🔔💬 [EPHEMERAL-NTFY] Sala creada detectada: ${room.id}');
-
       // MANTENER: Ejecutar callback original primero
       if (originalOnRoomCreated != null) {
         originalOnRoomCreated(room);
       }
 
       // AÑADIR: Log para futura implementación
-      print(
-          '🔔💬 [EPHEMERAL-NTFY] Sala creada procesada por callback original');
       // Nota: Las notificaciones de sala creada se envían desde el servidor
     };
-
-    print('✅ [EPHEMERAL-NTFY] Callbacks configurados correctamente');
-    print('✅ [EPHEMERAL-NTFY] Sistema híbrido listo (original + ntfy)');
   }
 
   /// Obtener URLs de suscripción para el cliente
@@ -329,10 +235,7 @@ class EphemeralChatNotificationIntegration {
     final topics =
         HybridNotificationService.instance.getNtfySubscriptionTopics(userId);
 
-    print('🔔💬 [EPHEMERAL-NTFY] === URLs DE SUSCRIPCIÓN ===');
-    topics.forEach((type, url) {
-      print('🔔💬 [EPHEMERAL-NTFY] $type: $url');
-    });
+    topics.forEach((type, url) {});
 
     return topics;
   }
@@ -346,12 +249,6 @@ class EphemeralChatNotificationIntegration {
   }) async {
     // Este método es para documentación del servidor
     // El servidor debe implementar llamadas HTTP directas a ntfy
-    print('🔔💬 [EPHEMERAL-NTFY] [SERVER] Enviar notificación:');
-    print('🔔💬 [EPHEMERAL-NTFY] [SERVER] Tipo: $notificationType');
-    print('🔔💬 [EPHEMERAL-NTFY] [SERVER] Target: $targetUserId');
-    print('🔔💬 [EPHEMERAL-NTFY] [SERVER] Data: $data');
-    print(
-        '🔔💬 [EPHEMERAL-NTFY] [SERVER] URL: https://clubprivado.ws/ntfy/user_${notificationType}_$targetUserId');
   }
 
   /// Obtener información del servicio
@@ -375,7 +272,5 @@ class EphemeralChatNotificationIntegration {
     _isInitialized = false;
     _currentUserId = null;
     _instance = null;
-
-    print('🔔💬 [EPHEMERAL-NTFY] Integración limpiada');
   }
 }

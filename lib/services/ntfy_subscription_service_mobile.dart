@@ -40,8 +40,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
     _disposed = false;
     _consecutiveErrors = 0;
     _currentInterval = _basePollingInterval;
-    print(
-        '✅ [NTFY-MOBILE] Implementación móvil inicializada (polling optimizado)');
   }
 
   @override
@@ -57,11 +55,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
 
     // Iniciar polling secuencial optimizado
     _startOptimizedPolling();
-
-    print(
-        '✅ [NTFY-MOBILE] Polling secuencial iniciado para ${topics.length} topics');
-    print(
-        '🔔📡 [NTFY-MOBILE] Intervalo base: ${_basePollingInterval.inSeconds}s');
   }
 
   /// Iniciar polling secuencial optimizado
@@ -69,9 +62,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
     _pollingTimer?.cancel();
 
     if (_disposed || _topicsToCheck.isEmpty) return;
-
-    print(
-        '🔔📡 [NTFY-MOBILE] Iniciando polling con intervalo: ${_currentInterval.inSeconds}s');
 
     _pollingTimer = Timer.periodic(_currentInterval, (timer) {
       if (_disposed) {
@@ -129,18 +119,13 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
         // Reset error counter en éxito
         _onPollingSuccess();
       } else if (response.statusCode == 429) {
-        print(
-            '⚠️ [NTFY-MOBILE] Rate limit detectado (429) - aplicando backoff');
         _onRateLimitError();
       } else {
-        print(
-            '❌ [NTFY-MOBILE] Error polling $topicType: ${response.statusCode}');
         _onPollingError();
       }
 
       client.close();
     } catch (e) {
-      print('❌ [NTFY-MOBILE] Error haciendo polling a $topicType: $e');
       _onPollingError();
     }
   }
@@ -150,8 +135,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
     if (_consecutiveErrors > 0) {
       _consecutiveErrors = 0;
       _currentInterval = _basePollingInterval;
-      print(
-          '✅ [NTFY-MOBILE] Polling restaurado - intervalo: ${_currentInterval.inSeconds}s');
       _restartPollingWithNewInterval();
     }
   }
@@ -165,8 +148,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
         min(300, 30 * pow(2, _consecutiveErrors - 1)); // Max 5 minutos
     _currentInterval = Duration(seconds: backoffSeconds.toInt());
 
-    print(
-        '🔄 [NTFY-MOBILE] Rate limit backoff - nuevo intervalo: ${_currentInterval.inSeconds}s');
     _restartPollingWithNewInterval();
   }
 
@@ -179,8 +160,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
         min(120, 15 + (_consecutiveErrors * 10)); // Max 2 minutos
     _currentInterval = Duration(seconds: backoffSeconds);
 
-    print(
-        '🔄 [NTFY-MOBILE] Error backoff - nuevo intervalo: ${_currentInterval.inSeconds}s');
     _restartPollingWithNewInterval();
   }
 
@@ -209,20 +188,15 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
 
           // Solo procesar mensajes nuevos
           if (messageId.isNotEmpty && messageId != _lastMessageIds[topicType]) {
-            print('🔔📡 [NTFY-MOBILE] === NUEVA NOTIFICACIÓN ===');
-            print('🔔📡 [NTFY-MOBILE] Topic: $topicType');
-            print('🔔📡 [NTFY-MOBILE] ID: $messageId');
-            print('🔔📡 [NTFY-MOBILE] Título: ${data['title']}');
-
             _lastMessageIds[topicType] = messageId;
             _onNotificationReceived?.call(topicType, data);
           }
         } catch (e) {
-          print('❌ [NTFY-MOBILE] Error parseando línea JSON: $e');
+          // Error parseando línea JSON
         }
       }
     } catch (e) {
-      print('❌ [NTFY-MOBILE] Error procesando respuesta de polling: $e');
+      // Error procesando respuesta de polling
     }
   }
 
@@ -235,8 +209,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
     _currentTopicIndex = 0;
     _consecutiveErrors = 0;
     _currentInterval = _basePollingInterval;
-
-    print('✅ [NTFY-MOBILE] Polling optimizado detenido');
   }
 
   @override
@@ -267,7 +239,6 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
     unsubscribeFromAllTopics();
     _serverUrl = null;
     _onNotificationReceived = null;
-    print('✅ [NTFY-MOBILE] Implementación móvil optimizada limpiada');
   }
 }
 

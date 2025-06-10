@@ -7,16 +7,12 @@ class NotificationIntegrationExample {
   /// Inicializar el sistema de notificaciones en main.dart
   static Future<void> initializeInMainApp(String userId, String token,
       GlobalKey<NavigatorState> navigatorKey) async {
-    print('🔔 Inicializando sistema de notificaciones WebSocket...');
-
     try {
       // Inicializar el gestor de notificaciones
       await NotificationManager.instance
           .initialize(userId, token, navigatorKey);
-
-      print('✅ Sistema de notificaciones inicializado correctamente');
     } catch (e) {
-      print('❌ Error inicializando notificaciones: $e');
+      // Error inicializando notificaciones
     }
   }
 
@@ -128,15 +124,12 @@ class _ExampleHomeScreenState extends State<ExampleHomeScreen>
 
     switch (state) {
       case AppLifecycleState.resumed:
-        print('📱 App en foreground');
         NotificationIntegrationExample.updateUserStatus('online');
         break;
       case AppLifecycleState.paused:
-        print('📱 App en background');
         NotificationIntegrationExample.updateUserStatus('away');
         break;
       case AppLifecycleState.detached:
-        print('📱 App cerrada');
         NotificationIntegrationExample.updateUserStatus('offline');
         NotificationIntegrationExample.dispose();
         break;

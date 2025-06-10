@@ -62,11 +62,6 @@ class VerificationService {
 
     _myVerificationCode = alphanumeric;
 
-    print('🔑 [VERIFICATION] Códigos generados para sala $roomId');
-    print('🔑 [VERIFICATION] Alfanumérico: $alphanumeric');
-    print('🔑 [VERIFICATION] Numérico: $numeric');
-    print('🔑 [VERIFICATION] Emoji: $emoji');
-
     return {
       'alphanumeric': alphanumeric,
       'numeric': numeric,
@@ -89,7 +84,6 @@ class VerificationService {
   /// Verificar código proporcionado por el partner
   bool verifyPartnerCode(String providedCode) {
     if (_partnerVerificationCode == null) {
-      print('🔑 [VERIFICATION] ❌ No hay código del partner para verificar');
       return false;
     }
 
@@ -99,12 +93,7 @@ class VerificationService {
     _isVerified = normalizedProvided == normalizedPartner;
 
     if (_isVerified) {
-      print('🔑 [VERIFICATION] ✅ Código verificado correctamente');
-    } else {
-      print('🔑 [VERIFICATION] ❌ Código incorrecto');
-      print('🔑 [VERIFICATION] Esperado: $normalizedPartner');
-      print('🔑 [VERIFICATION] Recibido: $normalizedProvided');
-    }
+    } else {}
 
     return _isVerified;
   }
@@ -112,12 +101,10 @@ class VerificationService {
   /// Establecer código del partner (cuando se recibe)
   void setPartnerCode(String code) {
     _partnerVerificationCode = code.trim();
-    print('🔑 [VERIFICATION] 📥 Código del partner recibido: $code');
   }
 
   /// Regenerar códigos (útil si se quiere cambiar)
   Map<String, String> regenerateCodes(String roomId, String userId) {
-    print('🔑 [VERIFICATION] 🔄 Regenerando códigos...');
     _myVerificationCode = null;
     _partnerVerificationCode = null;
     _isVerified = false;
@@ -127,7 +114,6 @@ class VerificationService {
 
   /// Limpiar estado al salir de la sala
   void clearVerification() {
-    print('🔑 [VERIFICATION] 🧹 Limpiando estado de verificación');
     _myVerificationCode = null;
     _partnerVerificationCode = null;
     _isVerified = false;

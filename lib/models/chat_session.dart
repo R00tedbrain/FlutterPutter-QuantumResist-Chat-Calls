@@ -138,15 +138,7 @@ class ChatSession {
     justReset = true;
     lastActivity = DateTime.now();
 
-    print('📱 [CHAT-SESSION] ✅ Sesión reiniciada para reuso: $sessionId');
-    print('📱 [CHAT-SESSION] - Estado: $connectionStatus');
-    print('📱 [CHAT-SESSION] - Mensajes: ${messages.length}');
-    print('📱 [CHAT-SESSION] - JustReset: $justReset');
-    print(
-        '📱 [CHAT-SESSION] - Disponible para conexión: $isAvailableForNewConnection');
-
     // NUEVO: El servicio debe mantenerse conectado para reutilización
-    print('📱 [CHAT-SESSION] - Servicio conectado: ${chatService.isConnected}');
   }
 
   /// NUEVO: Verificar si la sesión está disponible para nueva conexión

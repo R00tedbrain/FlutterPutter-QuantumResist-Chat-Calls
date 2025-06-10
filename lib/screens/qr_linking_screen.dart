@@ -56,16 +56,9 @@ class _QRLinkingScreenState extends State<QRLinkingScreen>
     setState(() => _isGenerating = true);
 
     try {
-      print('🔍 [QR-DEBUG] Solicitando nuevo QR al servidor...');
       final qrData = await _sessionService.generateQRForLinking();
 
       if (qrData != null) {
-        print('🔍 [QR-DEBUG] QR recibido del servidor:');
-        print('🔍 [QR-DEBUG] - Token: ${qrData.linkingToken}');
-        print('🔍 [QR-DEBUG] - QR Data: ${qrData.qrCodeData}');
-        print('🔍 [QR-DEBUG] - Expira: ${qrData.expiresAt}');
-        print('🔍 [QR-DEBUG] - Segundos restantes: ${qrData.secondsRemaining}');
-
         setState(() {
           _qrData = qrData;
           _secondsRemaining = qrData.secondsRemaining;
@@ -80,7 +73,6 @@ class _QRLinkingScreenState extends State<QRLinkingScreen>
         throw Exception('Error generando QR');
       }
     } catch (e) {
-      print('🔍 [QR-DEBUG] ERROR generando QR: $e');
       setState(() => _isGenerating = false);
       _showError('Error generando QR: $e');
     }
@@ -113,7 +105,6 @@ class _QRLinkingScreenState extends State<QRLinkingScreen>
     _refreshTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
       if (mounted && _qrData != null && !_qrData!.isExpired) {
         // En implementación real, verificar con servidor si hay nuevas sesiones
-        print('📱 [QR] Verificando nuevas sesiones vinculadas...');
       } else {
         timer.cancel();
       }

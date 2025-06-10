@@ -515,7 +515,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
         _screenshotLoading = false;
       });
     } catch (e) {
-      print('❌ Error inicializando servicio de capturas: $e');
       setState(() => _screenshotLoading = false);
     }
   }
@@ -696,7 +695,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
         _autoDestructionLoading = false;
       });
     } catch (e) {
-      print('❌ Error inicializando servicio de auto-destrucción: $e');
       setState(() => _autoDestructionLoading = false);
     }
   }
@@ -709,7 +707,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
       await _sessionService.initialize();
       setState(() => _sessionLoading = false);
     } catch (e) {
-      print('❌ Error inicializando servicio de sesiones: $e');
       setState(() => _sessionLoading = false);
     }
   }
@@ -1054,14 +1051,14 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
                       try {
                         await _sessionService.refreshActiveSessions();
                       } catch (e) {
-                        print('❌ Error refrescando sesiones: $e');
+                        // Error refrescando sesiones
                       }
                       if (mounted) {
                         setState(() => _sessionLoading = false);
                       }
                     }
                   } catch (e) {
-                    print('❌ Error navegando a sesiones activas: $e');
+                    // Error navegando a sesiones activas
                   }
                 },
                 icon: const Icon(Icons.devices),
@@ -1100,7 +1097,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
             _sessionService.activeSessions.where((s) => s.isActive).length;
         allowMultiple = _sessionService.allowMultipleSessions;
       } catch (e) {
-        print('⚠️ Error obteniendo estado de sesiones (no crítico): $e');
         // Usar valores por defecto seguros
         hasActiveSessions = false;
         activeCount = 0;
@@ -1152,7 +1148,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
         ),
       );
     } catch (e) {
-      print('❌ Error construyendo estado de sesiones: $e');
       // Widget de fallback
       return Container(
         padding: const EdgeInsets.all(12),
@@ -1185,7 +1180,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
       try {
         allowMultiple = _sessionService.allowMultipleSessions;
       } catch (e) {
-        print('⚠️ Error obteniendo configuración de múltiples sesiones: $e');
         allowMultiple = false; // Valor por defecto seguro
       }
 
@@ -1202,7 +1196,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
           try {
             _sessionService.updateSessionSettings(allowMultiple: value);
           } catch (e) {
-            print('❌ Error actualizando configuración de sesiones: $e');
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -1220,7 +1213,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
         contentPadding: EdgeInsets.zero,
       );
     } catch (e) {
-      print('❌ Error construyendo toggle de múltiples sesiones: $e');
       // Widget de fallback
       return const ListTile(
         leading: Icon(Icons.smartphone, color: Colors.grey),
@@ -1378,8 +1370,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
 
   Future<void> _openUrl(String url) async {
     try {
-      print('🌐 [SETTINGS] Abriendo URL: $url');
-
       // Determinar el título basado en la URL
       String title = 'FlutterPutter';
       if (url.contains('Support')) {
@@ -1392,7 +1382,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
 
       if (kIsWeb) {
         // En Web: Abrir directamente en nueva pestaña
-        print('🌐 [SETTINGS] Abriendo en Web - nueva pestaña');
         final Uri uri = Uri.parse(url);
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -1401,7 +1390,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
         }
       } else {
         // En iOS/Android: Usar WebView integrado
-        print('🌐 [SETTINGS] Abriendo en móvil - WebView');
         if (!mounted) return;
 
         await Navigator.of(context).push(
@@ -1414,7 +1402,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
         );
       }
     } catch (e) {
-      print('❌ [SETTINGS] Error abriendo URL: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -1512,9 +1499,6 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
       // Espacio final
       const SizedBox(height: 32),
     ];
-
-    print('📱 [BUILD] Total de widgets: ${allWidgets.length}');
-    print('📱 [BUILD] Incluyendo sección de ayuda sin condicionales');
 
     return Scaffold(
       appBar: AppBar(

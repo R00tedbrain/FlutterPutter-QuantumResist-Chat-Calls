@@ -38,18 +38,12 @@ class NtfySubscriptionService {
     String? serverUrl,
   }) async {
     if (_isInitialized) {
-      print('🔔📡 [NTFY-SUB] Ya está inicializado');
       return;
     }
 
     try {
       _userId = userId;
       _serverUrl = serverUrl ?? _ntfyServerUrl;
-
-      print('🔔📡 [NTFY-SUB] === INICIALIZANDO SUSCRIPCIONES NTFY ===');
-      print('🔔📡 [NTFY-SUB] Usuario: $_userId');
-      print('🔔📡 [NTFY-SUB] Servidor: $_serverUrl');
-      print('🔔📡 [NTFY-SUB] Plataforma: ${kIsWeb ? 'Web' : 'Mobile'}');
 
       // Inicializar servicio de notificaciones nativas
       await NativeNotificationService.instance.initialize();
@@ -65,10 +59,7 @@ class NtfySubscriptionService {
 
       // Suscribirse automáticamente a todos los topics
       await subscribeToAllTopics();
-
-      print('✅ [NTFY-SUB] Servicio de suscripción inicializado correctamente');
     } catch (e) {
-      print('❌ [NTFY-SUB] Error inicializando: $e');
       rethrow;
     }
   }
@@ -76,18 +67,14 @@ class NtfySubscriptionService {
   /// Suscribirse a todos los topics del usuario
   Future<void> subscribeToAllTopics() async {
     if (!_isInitialized || _userId == null) {
-      print('❌ [NTFY-SUB] Servicio no inicializado');
       return;
     }
 
     if (_isSubscribed) {
-      print('🔔📡 [NTFY-SUB] Ya está suscrito, cerrando suscripciones previas');
       await unsubscribeFromAllTopics();
     }
 
     try {
-      print('🔔📡 [NTFY-SUB] === SUSCRIBIÉNDOSE A TOPICS ===');
-
       // Topics a los que suscribirse
       final topics = {
         'messages': 'user_messages_$_userId',
@@ -100,30 +87,20 @@ class NtfySubscriptionService {
       await _platform.subscribeToTopics(topics);
 
       _isSubscribed = true;
-      print('✅ [NTFY-SUB] Suscrito a ${topics.length} topics correctamente');
     } catch (e) {
-      print('❌ [NTFY-SUB] Error suscribiéndose: $e');
       rethrow;
     }
   }
 
   /// Manejar notificación recibida
   void _handleNotification(String topicType, Map<String, dynamic> data) {
-    print('🔔📡 [NTFY-SUB] === PROCESANDO NOTIFICACIÓN ===');
-    print('🔔📡 [NTFY-SUB] Tipo de topic: $topicType');
-    print('🔔📡 [NTFY-SUB] Título: ${data['title']}');
-    print('🔔📡 [NTFY-SUB] Mensaje: ${data['message']}');
-    print('🔔📡 [NTFY-SUB] ID: ${data['id']}');
-    print('🔔📡 [NTFY-SUB] Tiempo: ${data['time']}');
-
     // Extraer datos personalizados
     Map<String, dynamic>? customData;
     if (data['extras'] != null && data['extras']['X-Data'] != null) {
       try {
         customData = jsonDecode(data['extras']['X-Data']);
-        print('🔔📡 [NTFY-SUB] Datos personalizados: $customData');
       } catch (e) {
-        print('❌ [NTFY-SUB] Error parseando datos personalizados: $e');
+        // Error parseando datos personalizados
       }
     }
 
@@ -145,23 +122,20 @@ class NtfySubscriptionService {
     // Llamar callback específico según el tipo
     switch (topicType) {
       case 'messages':
-        print('📩 [NTFY-SUB] Ejecutando callback de mensaje');
         onMessageNotification?.call(notification);
         break;
       case 'calls':
-        print('📞 [NTFY-SUB] Ejecutando callback de llamada');
         onCallNotification?.call(notification);
         break;
       case 'invitations':
-        print('📩 [NTFY-SUB] Ejecutando callback de invitación');
         onInvitationNotification?.call(notification);
         break;
       case 'custom':
-        print('🔧 [NTFY-SUB] Ejecutando callback personalizado');
         onCustomNotification?.call(notification);
         break;
       default:
-        print('❓ [NTFY-SUB] Tipo de topic desconocido: $topicType');
+        // Tipo de topic desconocido
+        break;
     }
   }
 
@@ -173,8 +147,6 @@ class NtfySubscriptionService {
 
       switch (topicType) {
         case 'invitations':
-          print('📲 [NTFY-SUB] Mostrando notificación nativa de invitación');
-
           // Extraer datos de la invitación
           String fromUserId = 'Usuario desconocido';
           String invitationId = data['id']?.toString() ?? 'inv_unknown';
@@ -195,8 +167,6 @@ class NtfySubscriptionService {
           break;
 
         case 'messages':
-          print('📲 [NTFY-SUB] Mostrando notificación nativa de mensaje');
-
           // Extraer datos del mensaje
           String fromUserId = 'Usuario desconocido';
           String messageId = data['id']?.toString() ?? 'msg_unknown';
@@ -222,8 +192,6 @@ class NtfySubscriptionService {
           break;
 
         case 'calls':
-          print('📲 [NTFY-SUB] Mostrando notificación nativa de llamada');
-
           // Extraer datos de la llamada
           String fromUserId =
               data['title']?.toString() ?? 'Usuario desconocido';
@@ -237,46 +205,38 @@ class NtfySubscriptionService {
           break;
 
         default:
-          print(
-              '📲 [NTFY-SUB] Tipo de notificación no soportada para nativa: $topicType');
+          // print(
+          //     '📲 [NTFY-SUB] Tipo de notificación no soportada para nativa: $topicType');
           break;
       }
     } catch (e) {
-      print('❌ [NTFY-SUB] Error mostrando notificación nativa: $e');
+      // Error mostrando notificación nativa
     }
   }
 
   /// Desuscribirse de todos los topics
   Future<void> unsubscribeFromAllTopics() async {
-    print('🔔📡 [NTFY-SUB] Cerrando todas las suscripciones...');
-
     if (_isInitialized) {
       await _platform.unsubscribeFromAllTopics();
     }
-
     _isSubscribed = false;
-    print('✅ [NTFY-SUB] Todas las suscripciones cerradas');
   }
 
   /// Configurar callbacks
   void setMessageCallback(Function(Map<String, dynamic>) callback) {
     onMessageNotification = callback;
-    print('✅ [NTFY-SUB] Callback de mensajes configurado');
   }
 
   void setCallCallback(Function(Map<String, dynamic>) callback) {
     onCallNotification = callback;
-    print('✅ [NTFY-SUB] Callback de llamadas configurado');
   }
 
   void setInvitationCallback(Function(Map<String, dynamic>) callback) {
     onInvitationNotification = callback;
-    print('✅ [NTFY-SUB] Callback de invitaciones configurado');
   }
 
   void setCustomCallback(Function(Map<String, dynamic>) callback) {
     onCustomNotification = callback;
-    print('✅ [NTFY-SUB] Callback personalizado configurado');
   }
 
   /// Obtener estado del servicio
@@ -314,8 +274,6 @@ class NtfySubscriptionService {
 
   /// Limpiar recursos
   void dispose() {
-    print('🔔📡 [NTFY-SUB] Limpiando servicio...');
-
     if (_isInitialized) {
       _platform.dispose();
     }
@@ -331,7 +289,6 @@ class NtfySubscriptionService {
     onCustomNotification = null;
 
     _instance = null;
-    print('✅ [NTFY-SUB] Servicio limpiado completamente');
   }
 }
 

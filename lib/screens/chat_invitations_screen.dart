@@ -90,54 +90,31 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
   void _setupCallbacks() {
     // NUEVO: Preservar callback original ANTES de sobrescribir
     _originalOnInvitationReceived = _chatService.onInvitationReceived;
-    print(
-        '🔐 [INVITATIONS] 💾 Preservando callback original: ${_originalOnInvitationReceived != null ? "EXISTS" : "NULL"}');
 
     _chatService.onInvitationReceived = (invitation) {
-      print(
-          '🔐 [INVITATIONS] 📥 Callback combinado ejecutado para: ${invitation.id}');
-
       // PRIMERO: Ejecutar callback original (MainScreen) si existe
       if (_originalOnInvitationReceived != null) {
-        print(
-            '🔐 [INVITATIONS] 🔄 Ejecutando callback original (MainScreen)...');
         try {
           _originalOnInvitationReceived!(invitation);
-          print('🔐 [INVITATIONS] ✅ Callback original ejecutado exitosamente');
-        } catch (e) {
-          print('🔐 [INVITATIONS] ❌ Error en callback original: $e');
-        }
-      } else {
-        print('🔐 [INVITATIONS] ⚠️ No hay callback original para ejecutar');
-      }
+        } catch (e) {}
+      } else {}
 
       // SEGUNDO: Ejecutar lógica propia de ChatInvitationsScreen
       if (mounted) {
-        print(
-            '🔐 [INVITATIONS] 📥 Procesando invitación en screen: ${invitation.id}');
-
         // NUEVO: Verificar si la invitación ya fue rechazada o ya existe
         if (InvitationTrackingService.instance.isRejected(invitation.id)) {
-          print(
-              '🔐 [INVITATIONS] ⚠️ Ignorando invitación ya rechazada: ${invitation.id}');
           return;
         }
 
         // Verificar si ya existe en la lista
         final exists = _invitations.any((inv) => inv.id == invitation.id);
         if (exists) {
-          print(
-              '🔐 [INVITATIONS] ⚠️ Invitación ya existe en la lista: ${invitation.id}');
           return;
         }
 
-        print(
-            '🔐 [INVITATIONS] ➕ Añadiendo invitación a la UI: ${invitation.id}');
         setState(() {
           _invitations.add(invitation);
         });
-        print(
-            '🔐 [INVITATIONS] ✅ Nueva invitación añadida: ${invitation.id} (Total: ${_invitations.length})');
       }
     };
 
@@ -154,16 +131,11 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     try {
-      print('🔐 [INVITATIONS] Aceptando invitación: ${invitation.id}');
-      print('🔐 [INVITATIONS] NAVEGANDO A MÚLTIPLES SALAS para unificar UI');
-
       // CRÍTICO: Remover la invitación de la lista ANTES de navegar
       if (mounted) {
         setState(() {
           _invitations.remove(invitation);
         });
-        print(
-            '🔐 [INVITATIONS] ✅ Invitación removida de la lista: ${invitation.id}');
       }
 
       // CORREGIDO: SIEMPRE navegar a múltiples salas para unificar la UI
@@ -176,10 +148,7 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
           ),
         ),
       );
-
-      print('🔐 [INVITATIONS] ✅ Navegación completada');
     } catch (e) {
-      print('🔐 [INVITATIONS] ❌ Error aceptando invitación: $e');
       if (mounted) {
         setState(() {
           _error = l10n.errorAcceptingInvitation(e.toString());
@@ -189,20 +158,10 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
   }
 
   void _rejectInvitation(ChatInvitation invitation) async {
-    print(
-        '🔐 [INVITATIONS] 🔍 Intentando rechazar invitación: ${invitation.id}');
-    print(
-        '🔐 [INVITATIONS] 🔍 Lista actual: ${_invitations.map((inv) => inv.id).toList()}');
-
     // NUEVO: Verificar si ya fue rechazada para evitar bucle infinito
     if (InvitationTrackingService.instance.isRejected(invitation.id)) {
-      print(
-          '🔐 [INVITATIONS] ⚠️ Invitación ya rechazada previamente: ${invitation.id}');
-
       // CRÍTICO: Si está rechazada pero sigue en la lista, eliminarla
       if (_invitations.any((inv) => inv.id == invitation.id)) {
-        print(
-            '🔐 [INVITATIONS] 🧹 Eliminando invitación rechazada de la lista: ${invitation.id}');
         setState(() {
           _invitations.removeWhere((inv) => inv.id == invitation.id);
         });
@@ -211,42 +170,30 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
         if (widget.pendingInvitations != null) {
           widget.pendingInvitations!
               .removeWhere((inv) => inv.id == invitation.id);
-          print(
-              '🔐 [INVITATIONS] 🧹 Invitación rechazada eliminada también de MainScreen: ${invitation.id}');
         }
       }
       return;
     }
 
     try {
-      print('🔐 [INVITATIONS] 🚫 Rechazando invitación: ${invitation.id}');
-
       // NUEVO: Marcar como rechazada ANTES de enviar al servidor
       InvitationTrackingService.instance.markAsRejected(invitation.id);
-      print(
-          '🔐 [INVITATIONS] 📝 Invitación marcada como rechazada: ${invitation.id}');
 
       // Eliminar de la UI inmediatamente para prevenir doble rechazo
       if (mounted) {
         setState(() {
           _invitations.remove(invitation);
         });
-        print(
-            '🔐 [INVITATIONS] 🗑️ Invitación removida de UI: ${invitation.id}');
       }
 
       // CRÍTICO: También eliminar de la lista del MainScreen (si existe)
       if (widget.pendingInvitations != null && mounted) {
         widget.pendingInvitations!
             .removeWhere((inv) => inv.id == invitation.id);
-        print(
-            '🔐 [INVITATIONS] 🗑️ Invitación removida también de MainScreen: ${invitation.id}');
       }
 
       // Enviar rechazo al servidor
       await _chatService.rejectInvitation(invitation.id);
-      print(
-          '🔐 [INVITATIONS] 📡 Rechazo enviado al servidor: ${invitation.id}');
 
       if (mounted) {
         final l10n = AppLocalizations.of(context)!;
@@ -258,24 +205,15 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
           ),
         );
       }
-
-      print(
-          '🔐 [INVITATIONS] ✅ Invitación rechazada completamente: ${invitation.id}');
     } catch (e) {
-      print('🔐 [INVITATIONS] ❌ Error rechazando invitación: $e');
-
       // Si hay error, remover del tracking para permitir reintento
       InvitationTrackingService.instance.unmarkAsRejected(invitation.id);
-      print(
-          '🔐 [INVITATIONS] 🔄 Invitación removida del tracking por error: ${invitation.id}');
 
       // Volver a añadir a la lista si había error
       if (mounted && !_invitations.any((inv) => inv.id == invitation.id)) {
         setState(() {
           _invitations.add(invitation);
         });
-        print(
-            '🔐 [INVITATIONS] ↩️ Invitación re-añadida por error: ${invitation.id}');
       }
 
       if (mounted) {
@@ -306,21 +244,12 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
         _invitations.where((inv) => inv.isExpired).toList();
 
     if (expiredInvitations.isNotEmpty) {
-      print(
-          '🔐 [INVITATIONS] 🧹 Limpiando ${expiredInvitations.length} invitaciones expiradas');
-
       // NUEVO: Log de invitaciones que se van a eliminar
-      for (final expiredInv in expiredInvitations) {
-        print(
-            '🔐 [INVITATIONS] 🗑️ Eliminando localmente: ${expiredInv.id} (expirada)');
-      }
+      for (final expiredInv in expiredInvitations) {}
 
       setState(() {
         _invitations.removeWhere((inv) => inv.isExpired);
       });
-
-      print(
-          '🔐 [INVITATIONS] ✅ ${expiredInvitations.length} invitaciones eliminadas completamente');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -341,21 +270,12 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
         _invitations.where((inv) => inv.isExpired).toList();
 
     if (expiredInvitations.isNotEmpty) {
-      print(
-          '🔐 [INVITATIONS] 🧹 Limpieza manual de ${expiredInvitations.length} invitaciones');
-
       // NUEVO: Log detallado de limpieza manual
-      for (final expiredInv in expiredInvitations) {
-        print(
-            '🔐 [INVITATIONS] 🗑️ Eliminando manualmente: ${expiredInv.id} (expirada)');
-      }
+      for (final expiredInv in expiredInvitations) {}
 
       setState(() {
         _invitations.removeWhere((inv) => inv.isExpired);
       });
-
-      print(
-          '🔐 [INVITATIONS] ✅ Limpieza manual completada - ${expiredInvitations.length} eliminadas');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -381,13 +301,10 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
     _cleanupTimer?.cancel();
 
     // CRÍTICO: Restaurar callback original antes de limpiar
-    print('🔐 [INVITATIONS] 🔄 Restaurando callback original en dispose...');
     if (_originalOnInvitationReceived != null) {
       _chatService.onInvitationReceived = _originalOnInvitationReceived;
-      print('🔐 [INVITATIONS] ✅ Callback original restaurado (MainScreen)');
     } else {
       _chatService.onInvitationReceived = null;
-      print('🔐 [INVITATIONS] ⚠️ No había callback original - limpiando');
     }
 
     _chatService.onError = null;
@@ -433,9 +350,6 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () async {
-              print(
-                  '🔐 [INVITATIONS] 🔄 Actualizando invitaciones manualmente...');
-
               setState(() {
                 _isLoading = true;
                 _error = null;
@@ -452,9 +366,6 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
                   _isLoading = false;
                 });
 
-                print(
-                    '🔐 [INVITATIONS] ✅ Invitaciones actualizadas: ${_invitations.length} activas, $removedCount expiradas eliminadas');
-
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(removedCount > 0
@@ -467,7 +378,6 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
                   ),
                 );
               } catch (e) {
-                print('🔐 [INVITATIONS] ❌ Error actualizando: $e');
                 setState(() {
                   _error = l10n.errorUpdatingInvitations(e.toString());
                   _isLoading = false;

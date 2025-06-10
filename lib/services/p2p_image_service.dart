@@ -43,8 +43,6 @@ class P2PImageService {
     required String userId,
   }) async {
     try {
-      print('🖼️ [P2P_IMAGE] Inicializando servicio de imágenes P2P...');
-
       _peerConnection = peerConnection;
 
       // Inicializar cifrado ChaCha20-Poly1305
@@ -54,14 +52,8 @@ class P2PImageService {
       await _setupDataChannel(userId);
 
       _isInitialized = true;
-      print('🖼️ [P2P_IMAGE] ✅ Servicio inicializado correctamente');
-      print('🖼️ [P2P_IMAGE] 🔐 Cifrado extremo a extremo ACTIVO');
-      print(
-          '🖼️ [P2P_IMAGE] 📡 Data channel configurado para transferencias directas');
-
       return true;
     } catch (e) {
-      print('🖼️ [P2P_IMAGE] ❌ Error inicializando: $e');
       onError?.call('Error inicializando servicio de imágenes: $e');
       return false;
     }
@@ -70,8 +62,6 @@ class P2PImageService {
   /// Configurar cifrado usando el mismo sistema de videollamadas
   Future<void> _initializeEncryption(String roomId) async {
     try {
-      print('🖼️ [P2P_IMAGE] 🔐 Inicializando cifrado ChaCha20-Poly1305...');
-
       _encryptionService = EncryptionService();
       await _encryptionService!.initialize();
 
@@ -87,13 +77,7 @@ class P2PImageService {
           .deriveSessionKeyFromShared(masterKey, 'p2p-images-$roomId');
 
       await _encryptionService!.setSessionKey(imageKey);
-
-      print(
-          '🖼️ [P2P_IMAGE] ✅ Cifrado inicializado - Clave derivada para imágenes');
-      print(
-          '🖼️ [P2P_IMAGE] 🔐 MÁXIMA SEGURIDAD: 1024 bits → 256 bits específica para imágenes');
     } catch (e) {
-      print('🖼️ [P2P_IMAGE] ❌ Error inicializando cifrado: $e');
       rethrow;
     }
   }
@@ -101,8 +85,6 @@ class P2PImageService {
   /// Configurar WebRTC Data Channel para transferencias directas
   Future<void> _setupDataChannel(String userId) async {
     try {
-      print('🖼️ [P2P_IMAGE] 📡 Configurando WebRTC Data Channel...');
-
       // Crear data channel confiable y ordenado para imágenes
       _dataChannel = await _peerConnection!.createDataChannel(
           'p2p-images',
@@ -113,32 +95,26 @@ class P2PImageService {
       // Configurar event handlers usando el patrón correcto
       _dataChannel!.stateChangeStream.listen((state) {
         if (state == RTCDataChannelState.RTCDataChannelOpen) {
-          print(
-              '🖼️ [P2P_IMAGE] ✅ Data channel abierto - Listo para transferencias P2P');
+          // Data channel abierto - Listo para transferencias P2P
         } else if (state == RTCDataChannelState.RTCDataChannelClosed) {
-          print('🖼️ [P2P_IMAGE] ⚠️ Data channel cerrado');
+          // Data channel cerrado
         }
       });
 
       _dataChannel!.messageStream.listen((RTCDataChannelMessage message) {
         _handleIncomingData(message.binary, message.text);
       }, onError: (error) {
-        print('🖼️ [P2P_IMAGE] ❌ Error en data channel: $error');
         onError?.call('Error en comunicación P2P: $error');
       });
 
       // También escuchar data channels entrantes
       _peerConnection!.onDataChannel = (RTCDataChannel channel) {
         if (channel.label == 'p2p-images') {
-          print('🖼️ [P2P_IMAGE] 📥 Data channel entrante recibido');
           _dataChannel = channel;
           _setupDataChannelHandlers();
         }
       };
-
-      print('🖼️ [P2P_IMAGE] ✅ Data channel configurado correctamente');
     } catch (e) {
-      print('🖼️ [P2P_IMAGE] ❌ Error configurando data channel: $e');
       rethrow;
     }
   }
@@ -148,7 +124,6 @@ class P2PImageService {
     _dataChannel!.messageStream.listen((RTCDataChannelMessage message) {
       _handleIncomingData(message.binary, message.text);
     }, onError: (error) {
-      print('🖼️ [P2P_IMAGE] ❌ Error en data channel entrante: $error');
       onError?.call('Error en comunicación P2P: $error');
     });
   }
@@ -163,34 +138,24 @@ class P2PImageService {
     int? quality,
   }) async {
     if (!_isInitialized || _dataChannel == null || _encryptionService == null) {
-      print('🖼️ [P2P_IMAGE] ❌ Servicio no inicializado');
       onError?.call('Servicio de imágenes no inicializado');
       return false;
     }
 
     if (_dataChannel!.state != RTCDataChannelState.RTCDataChannelOpen) {
-      print('🖼️ [P2P_IMAGE] ❌ Data channel no está abierto');
       onError?.call('Conexión P2P no disponible');
       return false;
     }
 
     try {
-      print('🖼️ [P2P_IMAGE] 📤 Iniciando envío de imagen P2P...');
-
       // Optimizar imagen si es necesario (simplificado sin image package)
       Uint8List processedImage = imageData;
       if (maxWidth != null || maxHeight != null || quality != null) {
-        print(
-            '🖼️ [P2P_IMAGE] ⚠️ Optimización de imagen no disponible - usando imagen original');
+        // Optimización de imagen no disponible - usando imagen original
       }
-
-      print(
-          '🖼️ [P2P_IMAGE] 📊 Imagen a procesar: ${processedImage.length} bytes');
 
       // Cifrar imagen completa
       final encryptedImage = await _encryptionService!.encrypt(processedImage);
-      print(
-          '🖼️ [P2P_IMAGE] 🔐 Imagen cifrada: ${encryptedImage.length} bytes');
 
       // Generar ID único para la transferencia
       final transferId = _generateTransferId();
@@ -216,10 +181,8 @@ class P2PImageService {
       await _sendControlMessage(
           'transfer-complete', {'transferId': transferId});
 
-      print('🖼️ [P2P_IMAGE] ✅ Imagen enviada correctamente vía P2P');
       return true;
     } catch (e) {
-      print('🖼️ [P2P_IMAGE] ❌ Error enviando imagen: $e');
       onError?.call('Error enviando imagen: $e');
       return false;
     }
@@ -264,7 +227,7 @@ class P2PImageService {
         _handleControlMessage(message);
       }
     } catch (e) {
-      print('🖼️ [P2P_IMAGE] ❌ Error procesando datos entrantes: $e');
+      // Error procesando datos entrantes
     }
   }
 
@@ -283,7 +246,8 @@ class P2PImageService {
         await _handleTransferComplete(message);
         break;
       default:
-        print('🖼️ [P2P_IMAGE] ⚠️ Tipo de mensaje desconocido: $type');
+        // Tipo de mensaje desconocido
+        break;
     }
   }
 
@@ -294,10 +258,6 @@ class P2PImageService {
     final totalChunks = message['totalChunks'] as int;
     final senderId = message['senderId'] as String;
     final metadata = message['metadata'] as Map<String, dynamic>?;
-
-    print('🖼️ [P2P_IMAGE] 📥 Iniciando recepción de imagen P2P');
-    print(
-        '🖼️ [P2P_IMAGE] 📊 Tamaño total: $totalSize bytes, Chunks: $totalChunks');
 
     _incomingTransfers[transferId] = _ImageTransfer(
       transferId: transferId,
@@ -316,7 +276,6 @@ class P2PImageService {
 
     final transfer = _incomingTransfers[transferId];
     if (transfer == null) {
-      print('🖼️ [P2P_IMAGE] ⚠️ Transferencia desconocida: $transferId');
       return;
     }
 
@@ -326,9 +285,6 @@ class P2PImageService {
     // Actualizar progreso
     final progress = transfer.receivedChunks.length / transfer.totalChunks;
     onTransferProgress?.call(transferId, progress);
-
-    print(
-        '🖼️ [P2P_IMAGE] 📦 Chunk ${chunkIndex + 1}/${transfer.totalChunks} recibido');
   }
 
   /// Manejar finalización de transferencia
@@ -337,8 +293,6 @@ class P2PImageService {
 
     final transfer = _incomingTransfers[transferId];
     if (transfer == null) {
-      print(
-          '🖼️ [P2P_IMAGE] ⚠️ Transferencia desconocida en complete: $transferId');
       return;
     }
 
@@ -349,9 +303,6 @@ class P2PImageService {
       // Descifrar imagen
       final decryptedImage = await _encryptionService!.decrypt(encryptedImage);
 
-      print('🖼️ [P2P_IMAGE] ✅ Imagen recibida y descifrada correctamente');
-      print('🖼️ [P2P_IMAGE] 📊 Tamaño final: ${decryptedImage.length} bytes');
-
       // Notificar imagen recibida
       onImageReceived?.call(
           decryptedImage, transfer.senderId, transfer.metadata ?? {});
@@ -359,7 +310,6 @@ class P2PImageService {
       // Limpiar transferencia
       _incomingTransfers.remove(transferId);
     } catch (e) {
-      print('🖼️ [P2P_IMAGE] ❌ Error procesando imagen recibida: $e');
       onError?.call('Error procesando imagen recibida: $e');
     }
   }
@@ -391,8 +341,6 @@ class P2PImageService {
 
   /// Limpiar recursos
   void dispose() {
-    print('🖼️ [P2P_IMAGE] 🧹 Limpiando recursos...');
-
     _dataChannel?.close();
     _dataChannel = null;
 
@@ -403,8 +351,6 @@ class P2PImageService {
     _outgoingTransfers.clear();
 
     _isInitialized = false;
-
-    print('🖼️ [P2P_IMAGE] ✅ Recursos limpiados');
   }
 
   /// Verificar si el servicio está listo

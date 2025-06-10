@@ -103,12 +103,9 @@ class _EphemeralChatScreenMultimediaState
   @override
   void initState() {
     super.initState();
-    print('🎯 [MULTIMEDIA-CHAT] Inicializando chat multimedia COMPLETO');
 
     // NUEVO: Si viene de multi-room, cargar mensajes existentes del servicio
     if (widget.isFromMultiRoom && widget.ephemeralChatService != null) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] 📥 Cargando mensajes existentes del ChatSession...');
       _loadExistingMessagesFromSession();
     }
 
@@ -138,8 +135,6 @@ class _EphemeralChatScreenMultimediaState
         // CORREGIDO: Solo limpiar mensajes si la sesión fue destruida completamente
         // NO borrar mensajes solo porque currentRoom es null o justReset es true
         if (session.justReset) {
-          print(
-              '🔐 [MULTIMEDIA-CHAT] ⚠️ Sesión recién reseteada - Limpiando mensajes obsoletos');
           setState(() {
             _messages = []; // Solo limpiar si fue un reset real
           });
@@ -152,31 +147,19 @@ class _EphemeralChatScreenMultimediaState
           _messages = List<EphemeralMessage>.from(session.messages);
         });
 
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Cargados ${_messages.length} mensajes de sesión');
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Sala activa: ${session.currentRoom?.id ?? "ninguna"}');
-
         // Imprimir mensajes para debug solo si hay mensajes
         if (_messages.isNotEmpty) {
           for (int i = 0; i < _messages.length; i++) {
-            print(
-                '🔐 [MULTIMEDIA-CHAT] - Mensaje $i: "${_messages[i].content}" (${_messages[i].senderId})');
+            // Mensaje $i: "${_messages[i].content}" (${_messages[i].senderId})
           }
         }
 
         // También cargar estado de la sala si existe
         if (session.currentRoom != null) {
           _currentRoom = session.currentRoom;
-          print(
-              '🔐 [MULTIMEDIA-CHAT] ✅ Estado de sala cargado: ${_currentRoom!.id}');
         }
       } catch (e) {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ⚠️ No se pudieron cargar mensajes existentes: $e');
         // En caso de error, mantener mensajes existentes si los hay
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Manteniendo ${_messages.length} mensajes existentes');
       }
     }
   }
@@ -214,30 +197,21 @@ class _EphemeralChatScreenMultimediaState
 
     if (widget.ephemeralChatService != null) {
       isFromMulti = true;
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Contexto detectado: MÚLTIPLES SALAS (servicio existente)');
     }
 
     if (widget.isFromMultiRoom) {
       isFromMulti = true;
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Contexto detectado: MÚLTIPLES SALAS (flag explícito)');
     }
 
     if (widget.invitationId != null) {
       isFromMulti = true;
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Contexto detectado: MÚLTIPLES SALAS (invitación recibida)');
     }
 
     _isFromMultiRoomDetected = isFromMulti;
 
     if (!isFromMulti) {
-      print('🔐 [MULTIMEDIA-CHAT] ✅ Contexto detectado: CHAT INDIVIDUAL');
+      // Contexto detectado: CHAT INDIVIDUAL
     }
-
-    print(
-        '🔐 [MULTIMEDIA-CHAT] isFromMultiRoom final: ${_isFromMultiRoomContext()}');
   }
 
   bool _isFromMultiRoomContext() {
@@ -247,28 +221,18 @@ class _EphemeralChatScreenMultimediaState
   // NUEVO: Inicializar grabación de audio real
   Future<void> _initializeAudio() async {
     try {
-      print('🎵 [MULTIMEDIA-CHAT] === INICIALIZANDO AUDIO ===');
-      print(
-          '🎵 [MULTIMEDIA-CHAT] Plataforma detectada: ${kIsWeb ? "WEB" : "MÓVIL/iOS"}');
-
       _audioRecorder = FlutterSoundRecorder();
       _audioPlayer = FlutterSoundPlayer(); // NUEVO: Inicializar reproductor
-      print('🎵 [MULTIMEDIA-CHAT] ✅ FlutterSoundRecorder y Player creados');
 
       // En web, flutter_sound tiene limitaciones, usar implementación simplificada
       if (kIsWeb) {
-        print(
-            '🌐 [MULTIMEDIA-CHAT] Detectado Flutter Web - inicializando audio web');
         try {
           await _audioRecorder!.openRecorder();
           await _audioPlayer!.openPlayer(); // NUEVO: Abrir reproductor
           _isAudioInitialized = true;
           _isPlayerInitialized =
               true; // NUEVO: Marcar reproductor como iniciado
-          print(
-              '🎵 [MULTIMEDIA-CHAT] ✅ Grabador y reproductor de audio web inicializados');
         } catch (e) {
-          print('⚠️ [MULTIMEDIA-CHAT] Audio web no disponible: $e');
           _isAudioInitialized = false;
           _isPlayerInitialized = false;
         }
@@ -276,33 +240,21 @@ class _EphemeralChatScreenMultimediaState
       }
 
       // Para iOS/móvil, proceso más robusto
-      print('📱 [MULTIMEDIA-CHAT] Inicializando para iOS/móvil...');
 
       // PASO 1: Verificar y solicitar permisos de micrófono
-      print('🔐 [MULTIMEDIA-CHAT] Verificando permisos de micrófono...');
 
       final currentPermission = await Permission.microphone.status;
-      print(
-          '🔐 [MULTIMEDIA-CHAT] Estado actual de permisos: $currentPermission');
 
       PermissionStatus microphonePermission;
 
       if (currentPermission.isDenied || currentPermission.isPermanentlyDenied) {
-        print('🔐 [MULTIMEDIA-CHAT] Solicitando permisos de micrófono...');
         microphonePermission = await Permission.microphone.request();
-        print(
-            '🔐 [MULTIMEDIA-CHAT] Resultado de solicitud: $microphonePermission');
       } else {
         microphonePermission = currentPermission;
       }
 
       if (microphonePermission != PermissionStatus.granted) {
-        print(
-            '❌ [MULTIMEDIA-CHAT] Permisos de micrófono denegados: $microphonePermission');
-
         if (microphonePermission.isPermanentlyDenied) {
-          print(
-              '❌ [MULTIMEDIA-CHAT] Permisos permanentemente denegados - abrir configuración');
           _showMicrophonePermissionDialog();
         }
 
@@ -311,10 +263,7 @@ class _EphemeralChatScreenMultimediaState
         return;
       }
 
-      print('✅ [MULTIMEDIA-CHAT] Permisos de micrófono otorgados');
-
       // PASO 2: Abrir sesión de grabación con reintentos
-      print('🎵 [MULTIMEDIA-CHAT] Abriendo sesión de grabación...');
 
       int attempts = 0;
       const maxAttempts = 3;
@@ -322,33 +271,24 @@ class _EphemeralChatScreenMultimediaState
 
       while (!opened && attempts < maxAttempts) {
         attempts++;
-        print(
-            '🎵 [MULTIMEDIA-CHAT] Intento $attempts/$maxAttempts de abrir grabador...');
 
         try {
           await _audioRecorder!.openRecorder();
           opened = true;
-          print('🎵 [MULTIMEDIA-CHAT] ✅ Grabador abierto en intento $attempts');
         } catch (e) {
-          print('❌ [MULTIMEDIA-CHAT] Error en intento $attempts: $e');
           if (attempts < maxAttempts) {
-            print(
-                '🎵 [MULTIMEDIA-CHAT] Esperando 1 segundo antes del siguiente intento...');
             await Future.delayed(const Duration(seconds: 1));
           }
         }
       }
 
       if (!opened) {
-        print(
-            '❌ [MULTIMEDIA-CHAT] Falló abrir grabador después de $maxAttempts intentos');
         _isAudioInitialized = false;
         _isPlayerInitialized = false;
         return;
       }
 
       // PASO 3: Abrir reproductor de audio
-      print('🎵 [MULTIMEDIA-CHAT] Abriendo reproductor de audio...');
       try {
         await _audioPlayer!.openPlayer();
 
@@ -356,30 +296,16 @@ class _EphemeralChatScreenMultimediaState
         if (!kIsWeb) {
           await _audioPlayer!
               .setSubscriptionDuration(const Duration(milliseconds: 100));
-          print(
-              '🎵 [MULTIMEDIA-CHAT] ✅ Audio configurado para altavoz principal (como WhatsApp)');
         }
 
         _isPlayerInitialized = true;
-        print('🎵 [MULTIMEDIA-CHAT] ✅ Reproductor de audio inicializado');
       } catch (e) {
-        print('❌ [MULTIMEDIA-CHAT] Error abriendo reproductor: $e');
         _isPlayerInitialized = false;
       }
 
       // PASO 4: Verificar estado final
       _isAudioInitialized = true;
-      print(
-          '🎵 [MULTIMEDIA-CHAT] ✅ Grabador de audio móvil/iOS inicializado correctamente');
-      print(
-          '🎵 [MULTIMEDIA-CHAT] Estado final: _isAudioInitialized = $_isAudioInitialized');
-      print(
-          '🎵 [MULTIMEDIA-CHAT] Estado final: _isPlayerInitialized = $_isPlayerInitialized');
     } catch (e) {
-      print(
-          '❌ [MULTIMEDIA-CHAT] Error crítico inicializando grabador de audio: $e');
-      print('❌ [MULTIMEDIA-CHAT] Stack trace: ${StackTrace.current}');
-
       if (mounted) {
         setState(() {
           _isAudioInitialized = false;
@@ -430,12 +356,8 @@ class _EphemeralChatScreenMultimediaState
     // IMPORTANTE: Marcar si el servicio es compartido o propio
     _isSharedChatService = widget.ephemeralChatService != null;
 
-    print(
-        '🔐 [MULTIMEDIA-CHAT] Servicio de chat: ${_isSharedChatService ? "COMPARTIDO" : "NUEVO"}');
-
     // CRÍTICO: Configurar callbacks SIEMPRE y PRIMERO
     _setupCallbacks();
-    print('🔐 [MULTIMEDIA-CHAT] ✅ Callbacks configurados INMEDIATAMENTE');
 
     // Inicializar servicios de cifrado y capturas
     _initializeEncryption();
@@ -448,16 +370,10 @@ class _EphemeralChatScreenMultimediaState
     } else {
       // Servicio compartido - verificar si hay parámetros para procesar
       if (widget.invitationId != null) {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] Aceptando invitación con servicio compartido');
         _acceptInvitationWithExistingService();
       } else if (widget.targetUserId != null) {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] Creando invitación con servicio compartido');
         _createInvitationWithExistingService();
       } else {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Usando servicio compartido - sala ya activa');
         _loadExistingRoomState();
         setState(() {
           _isConnecting = false;
@@ -471,18 +387,14 @@ class _EphemeralChatScreenMultimediaState
     bool needsReconfiguration = false;
 
     if (_chatService.onMessageReceived == null) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ⚠️ onMessageReceived perdido - reconfigurando');
       needsReconfiguration = true;
     }
 
     if (_chatService.onRoomCreated == null) {
-      print('🔐 [MULTIMEDIA-CHAT] ⚠️ onRoomCreated perdido - reconfigurando');
       needsReconfiguration = true;
     }
 
     if (needsReconfiguration) {
-      print('🔐 [MULTIMEDIA-CHAT] 🔧 RECONFIGURANDO CALLBACKS PERDIDOS');
       _setupCallbacks();
     }
   }
@@ -491,48 +403,29 @@ class _EphemeralChatScreenMultimediaState
   void _startCallbackMonitoring() {
     // Solo en iOS donde es necesario
     if (!kIsWeb && Platform.isIOS) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] 📱 Iniciando monitoreo de callbacks para iOS');
       _callbackCheckTimer =
           Timer.periodic(const Duration(seconds: 30), (timer) {
         if (mounted) {
-          print('🔐 [MULTIMEDIA-CHAT] 🔍 Verificando callbacks (iOS timer)');
           _ensureCallbacksAreSet();
         } else {
           timer.cancel();
         }
       });
     } else {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Plataforma ${kIsWeb ? "Web" : "Android"} - sin monitoreo de callbacks');
+      // Plataforma Web o Android - sin monitoreo de callbacks
     }
   }
 
   // NUEVO: Configurar TODOS los callbacks (igual que versión original)
   void _setupCallbacks() {
-    print('🔐 [MULTIMEDIA-CHAT] === CONFIGURANDO CALLBACKS ===');
-    print('🔐 [MULTIMEDIA-CHAT] Sala actual antes de callbacks: $_currentRoom');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] RoomId del servicio: ${_chatService.currentRoomId}');
-
     // CRÍTICO: Configurar callbacks principales SIEMPRE
     _chatService.onRoomCreated = (data) => _onRoomCreated(data);
     _chatService.onMessageReceived = (message) => _onMessageReceived(message);
     _chatService.onRoomDestroyed = _onRoomDestroyed;
     _chatService.onError = _onError;
 
-    print('🔐 [MULTIMEDIA-CHAT] ✅ Callbacks principales configurados:');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - onRoomCreated: ${_chatService.onRoomCreated != null}');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - onMessageReceived: ${_chatService.onMessageReceived != null}');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - onRoomDestroyed: ${_chatService.onRoomDestroyed != null}');
-    print('🔐 [MULTIMEDIA-CHAT] - onError: ${_chatService.onError != null}');
-
     // Si ya hay una sala activa pero no tenemos _currentRoom, crearla
     if (_chatService.currentRoomId != null && _currentRoom == null) {
-      print('🔐 [MULTIMEDIA-CHAT] 🔧 Creando _currentRoom para sala existente');
       final now = DateTime.now();
 
       final fakeParticipants = List.generate(
@@ -546,21 +439,16 @@ class _EphemeralChatScreenMultimediaState
         lastActivity: now,
       );
       _isConnecting = false;
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ _currentRoom creada con ${_chatService.participantCount} participantes');
 
       if (mounted) {
         setState(() {
           // _currentRoom y _isConnecting ya están establecidos arriba
         });
-        print('🔐 [MULTIMEDIA-CHAT] ✅ Estado actualizado para mostrar teclado');
       }
     }
 
     // NUEVO: Configurar callbacks de destrucción manual (FALTABAN!)
     _chatService.onDestructionCountdownStarted = () {
-      print('🔐 [MULTIMEDIA-CHAT] ⏰ Contador de destrucción iniciado');
-
       // Solo crear mensaje si NO existe ningún mensaje de destrucción
       final hasDestructionMessage =
           _messages.any((msg) => msg.isDestructionCountdown);
@@ -577,16 +465,12 @@ class _EphemeralChatScreenMultimediaState
           _showDestructionCountdown = true;
           _messages.add(destructionMessage);
         });
-
-        print('🔐 [MULTIMEDIA-CHAT] ✅ Mensaje de destrucción creado único');
       } else {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ⚠️ Mensaje de destrucción NO creado - ya existe: $hasDestructionMessage');
+        // Mensaje de destrucción NO creado - ya existe
       }
     };
 
     _chatService.onDestructionCountdownCancelled = () {
-      print('🔐 [MULTIMEDIA-CHAT] ✅ Contador de destrucción cancelado');
       if (mounted) {
         setState(() {
           _showDestructionCountdown = false;
@@ -598,13 +482,9 @@ class _EphemeralChatScreenMultimediaState
     };
 
     _chatService.onDestructionCountdownUpdate = (countdown) {
-      print('🔐 [MULTIMEDIA-CHAT] ⏰ Actualizando contador: $countdown');
-
       if (mounted) {
         // Si no hay mensaje de destrucción, crearlo (para el usuario que no lo inició)
         if (_currentDestructionMessage == null && _currentRoom != null) {
-          print(
-              '🔐 [MULTIMEDIA-CHAT] 🆕 Creando mensaje de destrucción para usuario receptor');
           final destructionMessage = EphemeralMessage.destructionCountdown(
             roomId: _currentRoom!.id,
             senderId: 'system',
@@ -637,9 +517,6 @@ class _EphemeralChatScreenMultimediaState
 
         // Si el contador llega a 0, limpiar estado local
         if (countdown <= 0) {
-          print(
-              '🔐 [MULTIMEDIA-CHAT] 💥 Contador terminado - la navegación se manejará en onRoomDestroyed');
-
           setState(() {
             _showDestructionCountdown = false;
             _currentDestructionMessage = null;
@@ -647,8 +524,6 @@ class _EphemeralChatScreenMultimediaState
         }
       }
     };
-
-    print('🔐 [MULTIMEDIA-CHAT] ✅ Todos los callbacks configurados');
   }
 
   // NUEVO: Métodos para servicio compartido (copiados de original)
@@ -691,9 +566,6 @@ class _EphemeralChatScreenMultimediaState
   // NUEVO: Cargar estado de sala existente (copiado de original)
   void _loadExistingRoomState() {
     if (_chatService.currentRoomId != null) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] 🏠 Cargando estado de sala existente: ${_chatService.currentRoomId}');
-
       final now = DateTime.now();
       _currentRoom = EphemeralRoom(
         id: _chatService.currentRoomId!,
@@ -704,13 +576,8 @@ class _EphemeralChatScreenMultimediaState
         lastActivity: now,
       );
 
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Estado de sala cargado con ${_chatService.participantCount} participantes');
-
       // NUEVO: Iniciar timer de destrucción para sala existente
       _startDestructionTimer();
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ⏰ Timer de destrucción iniciado para sala existente');
     }
   }
 
@@ -738,10 +605,7 @@ class _EphemeralChatScreenMultimediaState
   Future<void> _initializeEncryption() async {
     try {
       await _encryptionService.initialize();
-      print(
-          '🔐 [MULTIMEDIA-CHAT] EncryptionService inicializado correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error inicializando EncryptionService: $e');
       setState(() {
         _error = 'Error inicializando cifrado: $e';
       });
@@ -751,18 +615,14 @@ class _EphemeralChatScreenMultimediaState
   Future<void> _initializeScreenshotSecurity() async {
     try {
       await _screenshotService.initialize();
-      print(
-          '🔒 [MULTIMEDIA-CHAT] ScreenshotService inicializado correctamente');
 
       // AUTOMÁTICO: Bloquear capturas al entrar al chat multimedia
       await _screenshotService.blockScreenshots();
-      print(
-          '🔒 [MULTIMEDIA-CHAT] ✅ Capturas de pantalla BLOQUEADAS automáticamente');
 
       // NUEVO: Inicializar servicio de notificaciones de capturas
       await _initializeScreenshotNotification();
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error inicializando ScreenshotService: $e');
+      // Error inicializando ScreenshotService
     }
   }
 
@@ -781,12 +641,8 @@ class _EphemeralChatScreenMultimediaState
 
       // Iniciar detección automáticamente
       await notificationService.startDetection();
-
-      print(
-          '🔔 [MULTIMEDIA-CHAT] ScreenshotNotificationService inicializado correctamente');
     } catch (e) {
-      print(
-          '❌ [MULTIMEDIA-CHAT] Error inicializando ScreenshotNotificationService: $e');
+      // Error inicializando ScreenshotNotificationService
     }
   }
 
@@ -816,17 +672,12 @@ class _EphemeralChatScreenMultimediaState
 
   // 🔐 Callbacks del servicio de chat
   Future<void> _onRoomCreated(dynamic data) async {
-    print(
-        '🏠 [MULTIMEDIA-CHAT] Callback _onRoomCreated llamado con: ${data.runtimeType}');
-
     EphemeralRoom? room;
     Map<String, dynamic>? roomData;
 
     // Manejar diferentes tipos de data
     if (data is EphemeralRoom) {
       room = data;
-      print(
-          '🏠 [MULTIMEDIA-CHAT] Recibido EphemeralRoom directamente: ${room.id}');
 
       // IMPORTANTE: Solo intentar configurar cifrado si no está ya configurado
       // y si es la primera vez que recibimos la sala (no un update de polling)
@@ -836,10 +687,7 @@ class _EphemeralChatScreenMultimediaState
     } else if (data is Map<String, dynamic>) {
       roomData = data;
       room = EphemeralRoom.fromJson(roomData);
-      print(
-          '🏠 [MULTIMEDIA-CHAT] Recibido Map, creando EphemeralRoom: ${room.id}');
     } else {
-      print('❌ [MULTIMEDIA-CHAT] Tipo de data inesperado: ${data.runtimeType}');
       return;
     }
 
@@ -859,10 +707,7 @@ class _EphemeralChatScreenMultimediaState
 
       if (encryptionKeyBase64 != null && encryptionKeyBase64.isNotEmpty) {
         try {
-          print('🔐 [MULTIMEDIA-CHAT] Procesando clave de cifrado...');
           final masterKeyBytes = base64Decode(encryptionKeyBase64);
-          print(
-              '🔐 [MULTIMEDIA-CHAT] Clave maestra recibida: ${masterKeyBytes.length} bytes');
 
           if (masterKeyBytes.length == 128) {
             // Derivar clave de sesión ChaCha20 (32 bytes) desde la clave maestra (128 bytes)
@@ -874,77 +719,49 @@ class _EphemeralChatScreenMultimediaState
 
             await _encryptionService.setSessionKey(sessionKey);
             _encryptionConfigured = true; // Marcar como configurado
-            print(
-                '🔐 [MULTIMEDIA-CHAT] ✅ Clave de sesión derivada y establecida (${sessionKey.length} bytes)');
-            print(
-                '🔐 [MULTIMEDIA-CHAT] ✅ MÁXIMA SEGURIDAD: 1024 bits → 256 bits usando HKDF');
           } else if (masterKeyBytes.length == 32) {
             // Clave ya es de 32 bytes, usar directamente
             await _encryptionService
                 .setSessionKey(Uint8List.fromList(masterKeyBytes));
             _encryptionConfigured = true; // Marcar como configurado
-            print(
-                '🔐 [MULTIMEDIA-CHAT] ✅ Clave de 32 bytes establecida directamente');
           } else {
             throw Exception(
                 'Tamaño de clave inválido: ${masterKeyBytes.length} bytes (esperado: 32 o 128)');
           }
-
-          print('🔐 [MULTIMEDIA-CHAT] ✅ Cifrado configurado correctamente');
         } catch (e) {
-          print('❌ [MULTIMEDIA-CHAT] Error configurando clave de cifrado: $e');
           setState(() {
             _error = 'Error configurando cifrado: $e';
           });
         }
       }
     } else if (_encryptionConfigured) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Cifrado ya configurado, omitiendo reconfiguración');
+      // Cifrado ya configurado, omitiendo reconfiguración
     } else {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ℹ️ Update de polling recibido, no hay clave para configurar');
+      // Update de polling recibido, no hay clave para configurar
     }
   }
 
   // 📨 Callback para mensajes recibidos
   void _onMessageReceived(EphemeralMessage message) {
-    print('🔐 [MULTIMEDIA-CHAT] ¡¡¡CALLBACK onMessageReceived EJECUTADO!!!');
-    print('🔐 [MULTIMEDIA-CHAT] Mensaje: ${message.content}');
-    print('🔐 [MULTIMEDIA-CHAT] Tipo: ${message.type}');
-    print('🔐 [MULTIMEDIA-CHAT] SenderId: ${message.senderId}');
-    print('🔐 [MULTIMEDIA-CHAT] RoomId: ${message.roomId}');
-    print('🔐 [MULTIMEDIA-CHAT] Mounted: $mounted');
-    print('🔐 [MULTIMEDIA-CHAT] Lista actual de mensajes: ${_messages.length}');
-
     // NUEVO: Verificar que los callbacks siguen configurados (para iOS)
     _ensureCallbacksAreSet();
 
     // CORREGIDO: Verificar que el mensaje es para la sala correcta
     if (_currentRoom != null && message.roomId != _currentRoom!.id) {
-      print('🔐 [MULTIMEDIA-CHAT] ⚠️ Mensaje para sala diferente - ignorando');
-      print(
-          '🔐 [MULTIMEDIA-CHAT] Esperado: ${_currentRoom!.id}, Recibido: ${message.roomId}');
       return;
     }
 
     // Filtrar mensajes de verificación para que no aparezcan en el chat
     if (message.content.startsWith('VERIFICATION_CODES:')) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] Mensaje de verificación filtrado, no se muestra en chat');
       return; // No agregar a la lista de mensajes
     }
 
     // Procesar eventos de limpieza enviados desde el servidor
     if (message.content.startsWith('CLEANUP_MESSAGES:')) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] 🧹 Evento de limpieza recibido desde servidor');
       try {
         final parts = message.content.split(':');
         if (parts.length >= 2) {
           final destructionMinutes = int.parse(parts[1]);
-          print(
-              '🔐 [MULTIMEDIA-CHAT] Limpiando mensajes con $destructionMinutes minutos de antigüedad');
 
           // Filtrar mensajes que deben ser eliminados
           final cutoffTime =
@@ -960,20 +777,16 @@ class _EphemeralChatScreenMultimediaState
               _messages.clear();
               _messages.addAll(messagesToKeep);
             });
-            print(
-                '🔐 [MULTIMEDIA-CHAT] ✅ Mensajes limpiados: ${_messages.length} restantes');
           }
         }
       } catch (e) {
-        print('🔐 [MULTIMEDIA-CHAT] ❌ Error procesando limpieza: $e');
+        // Error procesando limpieza
       }
       return; // No mostrar el mensaje de limpieza en el chat
     }
 
     // Procesar mensajes de configuración de autodestrucción
     if (message.content.startsWith('AUTOCONFIG_DESTRUCTION:')) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ⚙️ Mensaje de configuración de autodestrucción recibido');
       try {
         final parts = message.content.split(':');
         if (parts.length >= 3) {
@@ -1010,20 +823,15 @@ class _EphemeralChatScreenMultimediaState
           setState(() {
             _messages.add(displayMessage);
           });
-
-          print(
-              '🔐 [MULTIMEDIA-CHAT] ✅ Mensaje de configuración mostrado: $timeText');
         }
       } catch (e) {
-        print('🔐 [MULTIMEDIA-CHAT] ❌ Error procesando configuración: $e');
+        // Error procesando configuración
       }
       return; // No procesar más este mensaje
     }
 
     // NUEVO: Procesar notificaciones de capturas de pantalla
     if (message.content.startsWith('SCREENSHOT_NOTIFICATION:')) {
-      print(
-          '📸 [MULTIMEDIA-CHAT] ⚠️ Notificación de captura de pantalla recibida');
       try {
         final parts = message.content.split(':');
         if (parts.length >= 2) {
@@ -1044,23 +852,18 @@ class _EphemeralChatScreenMultimediaState
             _messages.add(screenshotMessage);
           });
 
-          print(
-              '📸 [MULTIMEDIA-CHAT] ✅ Notificación de captura mostrada: $screenshotUser');
-
           // NUEVO: Mostrar snackbar adicional
           _showSnackBar(
               AppLocalizations.of(context)!.screenshotAlert(screenshotUser));
         }
       } catch (e) {
-        print(
-            '📸 [MULTIMEDIA-CHAT] ❌ Error procesando notificación de captura: $e');
+        // Error procesando notificación de captura
       }
       return; // No procesar más este mensaje
     }
 
     // NUEVO: Detectar y procesar mensajes de imagen
     if (message.content.startsWith('IMAGE_DATA:')) {
-      print('📷 [MULTIMEDIA-CHAT] Mensaje de imagen detectado');
       try {
         final imageBase64 =
             message.content.substring(11); // Remover "IMAGE_DATA:"
@@ -1085,19 +888,15 @@ class _EphemeralChatScreenMultimediaState
             _messages.add(imageMessage);
           });
           _syncMessageWithSession(imageMessage);
-          print(
-              '📷 [MULTIMEDIA-CHAT] ✅ Imagen procesada y agregada - total: ${_messages.length}');
         }
         return; // No procesar como mensaje de texto normal
       } catch (e) {
-        print('❌ [MULTIMEDIA-CHAT] Error procesando imagen: $e');
         // Si falla, procesar como mensaje de texto normal
       }
     }
 
     // NUEVO: Detectar y procesar mensajes de audio real
     if (message.content.startsWith('AUDIO_DATA:')) {
-      print('🎵 [MULTIMEDIA-CHAT] Mensaje de audio REAL detectado');
       try {
         final audioBase64 =
             message.content.substring(11); // Remover "AUDIO_DATA:"
@@ -1129,22 +928,18 @@ class _EphemeralChatScreenMultimediaState
             _messages.add(audioMessage);
           });
           _syncMessageWithSession(audioMessage);
-          print(
-              '🎵 [MULTIMEDIA-CHAT] ✅ Audio real procesado y agregado - total: ${_messages.length}');
 
           // NUEVO: Autoreproducir audio recibido
           _autoPlayReceivedAudio(audioMessage);
         }
         return; // No procesar como mensaje de texto normal
       } catch (e) {
-        print('❌ [MULTIMEDIA-CHAT] Error procesando audio: $e');
         // Si falla, procesar como mensaje de texto normal
       }
     }
 
     // Manejar mensajes de destrucción
     if (message.isDestructionCountdown) {
-      print('🔐 [MULTIMEDIA-CHAT] 💥 Mensaje de destrucción recibido');
       if (mounted) {
         setState(() {
           // Agregar mensaje de destrucción al chat
@@ -1152,20 +947,11 @@ class _EphemeralChatScreenMultimediaState
           _showDestructionCountdown = true;
           _currentDestructionMessage = message;
         });
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Mensaje de destrucción agregado - total: ${_messages.length}');
       }
       return;
     }
 
     // Log detallado antes de agregar mensaje normal
-    print('🔐 [MULTIMEDIA-CHAT] 📝 Agregando mensaje normal al chat...');
-    print('🔐 [MULTIMEDIA-CHAT] - Contenido: "${message.content}"');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - Es de verificación: ${message.content.startsWith('VERIFICATION_CODES:')}');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - Es de destrucción: ${message.isDestructionCountdown}');
-
     if (mounted) {
       setState(() {
         _messages.add(message);
@@ -1174,27 +960,20 @@ class _EphemeralChatScreenMultimediaState
       // Sincronizar mensaje recibido con ChatSession para persistencia
       _syncMessageWithSession(message);
 
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Mensaje agregado a la lista - total: ${_messages.length}');
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ✅ Estado actualizado - UI debería refrescarse');
-
       // Forzar rebuild del widget para asegurar que se muestre
       Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
           setState(() {
             // Forzar rebuild
           });
-          print('🔐 [MULTIMEDIA-CHAT] ✅ Rebuild forzado para mostrar mensaje');
         }
       });
     } else {
-      print('🔐 [MULTIMEDIA-CHAT] ❌ Widget no montado - mensaje no agregado');
+      // Widget no montado - mensaje no agregado
     }
   }
 
   void _onRoomDestroyed() {
-    print('💥 [MULTIMEDIA-CHAT] Sala destruida');
     setState(() {
       _currentRoom = null;
       _messages.clear();
@@ -1202,7 +981,6 @@ class _EphemeralChatScreenMultimediaState
   }
 
   void _onError(String error) {
-    print('❌ [MULTIMEDIA-CHAT] Error: $error');
     setState(() {
       _error = error;
     });
@@ -1215,13 +993,6 @@ class _EphemeralChatScreenMultimediaState
 
     // NUEVO: Verificar que los callbacks siguen configurados antes de enviar
     _ensureCallbacksAreSet();
-
-    print('🔐 [MULTIMEDIA-CHAT] 📤 Enviando mensaje: "$text"');
-    print('🔐 [MULTIMEDIA-CHAT] - Sala actual: ${_currentRoom?.id}');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - Destrucción en: ${_selectedDestructionMinutes ?? "sin límite"} minutos');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] - Mensajes antes de enviar: ${_messages.length}');
 
     try {
       // USAR EXACTAMENTE EL MISMO MÉTODO QUE LA PANTALLA ORIGINAL
@@ -1243,12 +1014,6 @@ class _EphemeralChatScreenMultimediaState
             : null,
       );
 
-      print('🔐 [MULTIMEDIA-CHAT] 📝 Creando mensaje propio...');
-      print('🔐 [MULTIMEDIA-CHAT] - ID: ${myMessage.id}');
-      print('🔐 [MULTIMEDIA-CHAT] - Contenido: "${myMessage.content}"');
-      print('🔐 [MULTIMEDIA-CHAT] - SenderId: ${myMessage.senderId}');
-      print('🔐 [MULTIMEDIA-CHAT] - Destrucción: ${myMessage.destructionTime}');
-
       if (mounted) {
         setState(() {
           _messages.add(myMessage);
@@ -1256,17 +1021,10 @@ class _EphemeralChatScreenMultimediaState
 
         // Sincronizar con ChatSession del manager para persistencia
         _syncMessageWithSession(myMessage);
-
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Mensaje propio agregado - total: ${_messages.length}');
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Estado actualizado - UI debería mostrar el mensaje');
       } else {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ❌ Widget no montado - mensaje propio no agregado');
+        // Widget no montado - mensaje propio no agregado
       }
     } catch (e) {
-      print('🔐 [MULTIMEDIA-CHAT] ❌ Error enviando mensaje: $e');
       if (mounted) {
         setState(() {
           _error = 'Error enviando mensaje: $e';
@@ -1290,22 +1048,15 @@ class _EphemeralChatScreenMultimediaState
 
         // Agregar mensaje al ChatSession
         session.addMessage(message);
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ✅ Mensaje sincronizado con ChatSession: ${session.sessionId}');
 
         // CRÍTICO: También disparar manualmente el callback del ChatManager para notificaciones
         if (chatManager.onMessageReceived != null) {
-          print(
-              '🔐 [MULTIMEDIA-CHAT] 🔔 Disparando callback de ChatManager para notificaciones...');
           chatManager.onMessageReceived!(session.sessionId, message);
-          print('🔐 [MULTIMEDIA-CHAT] ✅ Callback de ChatManager ejecutado');
         } else {
-          print(
-              '🔐 [MULTIMEDIA-CHAT] ⚠️ Callback de ChatManager es null - sin notificaciones');
+          // Callback de ChatManager es null - sin notificaciones
         }
       } catch (e) {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ⚠️ Error sincronizando mensaje con sesión: $e');
+        // Error sincronizando mensaje con sesión
       }
     }
   }
@@ -1324,8 +1075,6 @@ class _EphemeralChatScreenMultimediaState
 
       // Leer imagen
       final imageBytes = await image.readAsBytes();
-      print(
-          '📷 [MULTIMEDIA-CHAT] Imagen seleccionada: ${imageBytes.length} bytes');
 
       // Verificar tamaño máximo (500KB)
       if (imageBytes.length > 500000) {
@@ -1336,9 +1085,6 @@ class _EphemeralChatScreenMultimediaState
       // Convertir a base64 para envío como texto (igual que la pantalla original)
       final imageBase64 = base64Encode(imageBytes);
       final messageContent = 'IMAGE_DATA:$imageBase64';
-
-      print(
-          '📷 [MULTIMEDIA-CHAT] Enviando imagen como mensaje de texto cifrado...');
 
       // USAR EL MISMO MÉTODO QUE FUNCIONA PARA TEXTO
       await _chatService.sendMessage(messageContent,
@@ -1368,9 +1114,7 @@ class _EphemeralChatScreenMultimediaState
       _syncMessageWithSession(message);
 
       _scrollToBottom();
-      print('📷 [MULTIMEDIA-CHAT] ✅ Imagen enviada correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error enviando imagen: $e');
       _showError(AppLocalizations.of(context)!.errorSendingImage(e.toString()));
     }
   }
@@ -1383,9 +1127,6 @@ class _EphemeralChatScreenMultimediaState
       // Simular mensaje de audio simple
       final audioContent =
           '🎵 Nota de audio simulada (${DateTime.now().second}s)';
-
-      print(
-          '🎵 [MULTIMEDIA-CHAT] Enviando audio simulado como mensaje de texto...');
 
       // USAR EL MISMO MÉTODO QUE FUNCIONA PARA TEXTO
       await _chatService.sendMessage(audioContent,
@@ -1415,26 +1156,14 @@ class _EphemeralChatScreenMultimediaState
       _syncMessageWithSession(message);
 
       _scrollToBottom();
-      print('🎵 [MULTIMEDIA-CHAT] ✅ Audio simulado enviado correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error enviando audio simulado: $e');
       _showError(AppLocalizations.of(context)!.errorSendingAudio(e.toString()));
     }
   }
 
   // NUEVO: Grabación de audio REAL
   Future<void> _toggleAudioRecording() async {
-    print('🎵 [MULTIMEDIA-CHAT] === TOGGLE AUDIO RECORDING ===');
-    print('🎵 [MULTIMEDIA-CHAT] Estado actual:');
-    print('🎵 [MULTIMEDIA-CHAT] - _isAudioInitialized: $_isAudioInitialized');
-    print(
-        '🎵 [MULTIMEDIA-CHAT] - _audioRecorder != null: ${_audioRecorder != null}');
-    print('🎵 [MULTIMEDIA-CHAT] - _isRecording: $_isRecording');
-
     if (!_isAudioInitialized || _audioRecorder == null) {
-      print(
-          '❌ [MULTIMEDIA-CHAT] Grabador no inicializado - intentando reinicializar...');
-
       // Mostrar feedback al usuario
       _showError(AppLocalizations.of(context)!.initializingAudioRecorder);
 
@@ -1443,51 +1172,34 @@ class _EphemeralChatScreenMultimediaState
 
       // Verificar si ahora está inicializado
       if (!_isAudioInitialized || _audioRecorder == null) {
-        print('❌ [MULTIMEDIA-CHAT] Reinicialización falló');
         _showError(AppLocalizations.of(context)!.audioRecorderNotAvailable);
         return;
       }
-
-      print('✅ [MULTIMEDIA-CHAT] Reinicialización exitosa');
     }
 
     if (_isRecording) {
-      print('🎵 [MULTIMEDIA-CHAT] Deteniendo grabación...');
       await _stopAudioRecording();
     } else {
-      print('🎵 [MULTIMEDIA-CHAT] Iniciando grabación...');
       await _startAudioRecording();
     }
   }
 
   Future<void> _startAudioRecording() async {
     try {
-      print('🎵 [MULTIMEDIA-CHAT] === INICIANDO GRABACIÓN ===');
-
       if (_currentRoom == null) {
-        print('❌ [MULTIMEDIA-CHAT] No hay sala actual');
         return;
       }
 
-      print('🎵 [MULTIMEDIA-CHAT] Sala actual: ${_currentRoom!.id}');
-      print('🎵 [MULTIMEDIA-CHAT] Plataforma: ${kIsWeb ? "WEB" : "MÓVIL/iOS"}');
-
       // Para web, usar grabación en memoria sin path_provider
       if (kIsWeb) {
-        print('🌐 [MULTIMEDIA-CHAT] Iniciando grabación de audio web');
         await _audioRecorder!.startRecorder(
           codec: Codec.opusWebM, // Codec mejor soportado en web
         );
       } else {
         // Para móvil/iOS, usar archivo temporal con codec apropiado
-        print('📱 [MULTIMEDIA-CHAT] Iniciando grabación para iOS/móvil');
-
         final tempDir = await getTemporaryDirectory();
         _currentAudioPath =
             '${tempDir.path}/audio_${DateTime.now().millisecondsSinceEpoch}.aac';
-
-        print('🎵 [MULTIMEDIA-CHAT] Archivo temporal: $_currentAudioPath');
-        print('🎵 [MULTIMEDIA-CHAT] Codec: aacADTS (optimizado para iOS)');
 
         // NUEVO: Verificar estado del grabador antes de iniciar
         if (!_audioRecorder!.isRecording) {
@@ -1498,7 +1210,7 @@ class _EphemeralChatScreenMultimediaState
             sampleRate: 16000, // NUEVO: Sample rate estándar
           );
         } else {
-          print('⚠️ [MULTIMEDIA-CHAT] Grabador ya está grabando');
+          // Grabador ya está grabando
         }
       }
 
@@ -1508,12 +1220,7 @@ class _EphemeralChatScreenMultimediaState
 
       // Iniciar animación de pulsación
       _audioButtonController.repeat(reverse: true);
-
-      print('🎵 [MULTIMEDIA-CHAT] ✅ Grabación de audio iniciada correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error iniciando grabación: $e');
-      print('❌ [MULTIMEDIA-CHAT] Stack trace: ${StackTrace.current}');
-
       // Resetear estado en caso de error
       setState(() {
         _isRecording = false;
@@ -1541,8 +1248,6 @@ class _EphemeralChatScreenMultimediaState
       _audioButtonController.stop();
       _audioButtonController.reset();
 
-      print('🎵 [MULTIMEDIA-CHAT] ✅ Grabación detenida');
-
       if (kIsWeb) {
         // En web, flutter_sound devuelve los datos directamente
         if (recordedPath != null) {
@@ -1559,7 +1264,6 @@ class _EphemeralChatScreenMultimediaState
         }
       }
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error deteniendo grabación: $e');
       _showError(
           AppLocalizations.of(context)!.errorStoppingRecording(e.toString()));
       setState(() {
@@ -1575,12 +1279,8 @@ class _EphemeralChatScreenMultimediaState
     try {
       if (_currentRoom == null) return;
 
-      print('🌐 [MULTIMEDIA-CHAT] Procesando audio web...');
-
       // En web, crear un audio simulado ya que flutter_sound web tiene limitaciones
       const audioContent = '🎵 Nota de audio web (grabada)';
-
-      print('🎵 [MULTIMEDIA-CHAT] Enviando audio web como mensaje cifrado...');
 
       // Enviar usando el mismo método que funciona para texto
       await _chatService.sendMessage(audioContent,
@@ -1610,9 +1310,7 @@ class _EphemeralChatScreenMultimediaState
       _syncMessageWithSession(message);
 
       _scrollToBottom();
-      print('🌐 [MULTIMEDIA-CHAT] ✅ Audio web enviado correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error enviando audio web: $e');
       _showError(AppLocalizations.of(context)!.errorSendingAudio(e.toString()));
     }
   }
@@ -1626,8 +1324,6 @@ class _EphemeralChatScreenMultimediaState
       final audioFile = File(audioPath);
       final audioBytes = await audioFile.readAsBytes();
 
-      print('🎵 [MULTIMEDIA-CHAT] Audio grabado: ${audioBytes.length} bytes');
-
       // Verificar tamaño máximo (1MB)
       if (audioBytes.length > 1000000) {
         _showError(AppLocalizations.of(context)!.audioTooLong);
@@ -1637,8 +1333,6 @@ class _EphemeralChatScreenMultimediaState
       // Convertir a base64 para envío
       final audioBase64 = base64Encode(audioBytes);
       final messageContent = 'AUDIO_DATA:$audioBase64';
-
-      print('🎵 [MULTIMEDIA-CHAT] Enviando audio como mensaje cifrado...');
 
       // Enviar usando el mismo método que funciona para texto
       await _chatService.sendMessage(messageContent,
@@ -1672,13 +1366,11 @@ class _EphemeralChatScreenMultimediaState
       try {
         await audioFile.delete();
       } catch (e) {
-        print('⚠️ [MULTIMEDIA-CHAT] No se pudo eliminar archivo temporal: $e');
+        // No se pudo eliminar archivo temporal
       }
 
       _scrollToBottom();
-      print('🎵 [MULTIMEDIA-CHAT] ✅ Audio enviado correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error enviando audio: $e');
       _showError(AppLocalizations.of(context)!.errorSendingAudio(e.toString()));
     }
   }
@@ -1741,7 +1433,6 @@ class _EphemeralChatScreenMultimediaState
 
     // Enviar comando al servidor
     _chatService.startDestructionCountdown();
-    print('💥 [MULTIMEDIA-CHAT] ✅ Iniciando destrucción de sala');
   }
 
   // NUEVO: Cancelar contador de destrucción
@@ -1755,48 +1446,33 @@ class _EphemeralChatScreenMultimediaState
       _currentDestructionMessage = null;
       _messages.removeWhere((msg) => msg.isDestructionCountdown);
     });
-
-    print('💥 [MULTIMEDIA-CHAT] ✅ Destrucción de sala cancelada');
   }
 
   // NUEVO: Navegar después de destrucción
   void _navigateAfterDestruction() {
-    print('🔐 [MULTIMEDIA-CHAT] 🔄 Navegando después de la destrucción');
-    print(
-        '🔐 [MULTIMEDIA-CHAT] Contexto: ${_isFromMultiRoomContext() ? "MÚLTIPLES SALAS" : "CHAT INDIVIDUAL"}');
-
     if (!mounted) {
-      print('🔐 [MULTIMEDIA-CHAT] ❌ Widget no montado - cancelando navegación');
       return;
     }
 
     try {
       if (_currentRoom != null) {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] 🧹 Limpiando sala actual: ${_currentRoom!.id}');
         _chatService.leaveRoom();
       }
     } catch (e) {
-      print('🔐 [MULTIMEDIA-CHAT] ⚠️ Error limpiando sala: $e');
+      // Error limpiando sala
     }
 
     try {
       if (_isFromMultiRoomContext()) {
-        print('🔐 [MULTIMEDIA-CHAT] ↩️ Volviendo a chats múltiples');
         Navigator.of(context).pushReplacementNamed('/multi-room-chat');
       } else {
-        print('🔐 [MULTIMEDIA-CHAT] ↩️ Volviendo al home');
         Navigator.of(context).pushReplacementNamed('/home');
       }
-      print('🔐 [MULTIMEDIA-CHAT] ✅ Navegación completada exitosamente');
     } catch (e) {
-      print('🔐 [MULTIMEDIA-CHAT] ❌ Error en navegación: $e');
       try {
         Navigator.of(context).pushReplacementNamed('/home');
-        print('🔐 [MULTIMEDIA-CHAT] ✅ Navegación de respaldo al home exitosa');
       } catch (e2) {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] ❌ Error crítico en navegación de respaldo: $e2');
+        // Error crítico en navegación de respaldo
       }
     }
   }
@@ -1904,7 +1580,6 @@ class _EphemeralChatScreenMultimediaState
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  print('🔐 [MULTIMEDIA-CHAT] 🔄 Volviendo a chats múltiples');
                   Navigator.of(context).pop();
                 },
                 tooltip: AppLocalizations.of(context)!.backToMultipleChats,
@@ -1912,7 +1587,6 @@ class _EphemeralChatScreenMultimediaState
             : IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  print('🔐 [MULTIMEDIA-CHAT] 🔄 Volviendo a chat individual');
                   Navigator.of(context).pop();
                 },
                 tooltip: AppLocalizations.of(context)!.backToChat,
@@ -1959,9 +1633,9 @@ class _EphemeralChatScreenMultimediaState
             IconButton(
               icon: const Icon(Icons.info_outline),
               onPressed: () {
-                final captureStatus = _screenshotService.isBlocked
-                    ? 'BLOQUEADAS 🔒'
-                    : 'PERMITIDAS ⚠️';
+                // final captureStatus = _screenshotService.isBlocked
+                //     ? 'BLOQUEADAS 🔒'
+                //     : 'PERMITIDAS ⚠️';
 
                 showDialog(
                   context: context,
@@ -2513,32 +2187,26 @@ class _EphemeralChatScreenMultimediaState
 
   @override
   void dispose() {
-    print('🔐 [MULTIMEDIA-CHAT] 🗑️ Iniciando dispose...');
-
     // PRIMERO: Desbloquear capturas automáticamente al salir
     _screenshotService.enableScreenshots().then((_) {
-      print(
-          '🔓 [MULTIMEDIA-CHAT] ✅ Capturas de pantalla desbloqueadas al salir');
+      // Capturas de pantalla desbloqueadas al salir
     }).catchError((error) {
-      print('⚠️ [MULTIMEDIA-CHAT] Error desbloqueando capturas: $error');
+      // Error desbloqueando capturas
     });
 
     // SEGUNDO: Limpiar timer de monitoreo de callbacks
     if (_callbackCheckTimer != null) {
-      print(
-          '🔐 [MULTIMEDIA-CHAT] ⏰ Cancelando timer de monitoreo de callbacks');
       _callbackCheckTimer!.cancel();
       _callbackCheckTimer = null;
     }
 
     // TERCERO: Detener grabación si está activa
     if (_isRecording && _audioRecorder != null) {
-      print('🔐 [MULTIMEDIA-CHAT] ⏹️ Deteniendo grabación activa...');
       try {
         _audioRecorder!.stopRecorder();
         _isRecording = false;
       } catch (e) {
-        print('⚠️ [MULTIMEDIA-CHAT] Error deteniendo grabación: $e');
+        // Error deteniendo grabación
       }
     }
 
@@ -2548,37 +2216,34 @@ class _EphemeralChatScreenMultimediaState
       _scrollController.dispose();
       _sendButtonController.dispose();
       _audioButtonController.dispose();
-      print('🔐 [MULTIMEDIA-CHAT] ✅ Controladores UI limpiados');
     } catch (e) {
-      print('⚠️ [MULTIMEDIA-CHAT] Error limpiando controladores: $e');
+      // Error limpiando controladores
     }
 
     // QUINTO: Cerrar grabador de audio de forma segura
     if (_audioRecorder != null) {
-      print('🔐 [MULTIMEDIA-CHAT] 🎵 Cerrando grabador de audio...');
       try {
         _audioRecorder!.closeRecorder().then((_) {
-          print('🔐 [MULTIMEDIA-CHAT] ✅ Grabador cerrado correctamente');
+          // Grabador cerrado correctamente
         }).catchError((error) {
-          print('⚠️ [MULTIMEDIA-CHAT] Error cerrando grabador: $error');
+          // Error cerrando grabador
         });
       } catch (e) {
-        print('⚠️ [MULTIMEDIA-CHAT] Error en dispose del grabador: $e');
+        // Error en dispose del grabador
       }
     }
 
     // NUEVO: Cerrar reproductor de audio de forma segura
     if (_audioPlayer != null) {
-      print('🔐 [MULTIMEDIA-CHAT] 🎵 Cerrando reproductor de audio...');
       try {
         _stopAudioPlayback(); // Detener cualquier reproducción activa
         _audioPlayer!.closePlayer().then((_) {
-          print('🔐 [MULTIMEDIA-CHAT] ✅ Reproductor cerrado correctamente');
+          // Reproductor cerrado correctamente
         }).catchError((error) {
-          print('⚠️ [MULTIMEDIA-CHAT] Error cerrando reproductor: $error');
+          // Error cerrando reproductor
         });
       } catch (e) {
-        print('⚠️ [MULTIMEDIA-CHAT] Error en dispose del reproductor: $e');
+        // Error en dispose del reproductor
       }
     }
 
@@ -2586,11 +2251,8 @@ class _EphemeralChatScreenMultimediaState
     try {
       // IMPORTANTE: Solo cerrar el servicio de chat si NO es compartido
       if (!_isSharedChatService) {
-        print('🔐 [MULTIMEDIA-CHAT] 📝 Cerrando servicio de chat PROPIO');
         _chatService.dispose();
       } else {
-        print(
-            '🔐 [MULTIMEDIA-CHAT] 🔄 Preservando servicio de chat COMPARTIDO');
         // Solo limpiar callbacks pero no cerrar el servicio
         _chatService.onRoomCreated = null;
         _chatService.onMessageReceived = null;
@@ -2604,26 +2266,21 @@ class _EphemeralChatScreenMultimediaState
 
       // NUEVO: Limpiar servicio de notificaciones de capturas
       ScreenshotNotificationService.instance.dispose();
-
-      print('🔐 [MULTIMEDIA-CHAT] ✅ Servicios limpiados correctamente');
     } catch (e) {
-      print('⚠️ [MULTIMEDIA-CHAT] Error limpiando servicios: $e');
+      // Error limpiando servicios
     }
 
-    print('🔐 [MULTIMEDIA-CHAT] ✅ Dispose completado');
     super.dispose();
   }
 
   // NUEVO: Reproducir mensaje de audio
   Future<void> _playAudioMessage(EphemeralMessage message) async {
     if (!_isPlayerInitialized || _audioPlayer == null) {
-      print('❌ [MULTIMEDIA-CHAT] Reproductor no inicializado');
       _showError(AppLocalizations.of(context)!.audioPlayerNotAvailable);
       return;
     }
 
     if (message.mediaData == null) {
-      print('❌ [MULTIMEDIA-CHAT] No hay datos de audio en el mensaje');
       _showError(AppLocalizations.of(context)!.audioNotAvailable);
       return;
     }
@@ -2633,11 +2290,6 @@ class _EphemeralChatScreenMultimediaState
       if (_currentlyPlayingMessageId != null) {
         await _stopAudioPlayback();
       }
-
-      print('🎵 [MULTIMEDIA-CHAT] === REPRODUCIENDO AUDIO ===');
-      print('🎵 [MULTIMEDIA-CHAT] Mensaje ID: ${message.id}');
-      print(
-          '🎵 [MULTIMEDIA-CHAT] Datos de audio: ${message.mediaData!.length} bytes');
 
       setState(() {
         _currentlyPlayingMessageId = message.id;
@@ -2652,7 +2304,6 @@ class _EphemeralChatScreenMultimediaState
           fromDataBuffer: message.mediaData!,
           codec: Codec.opusWebM,
           whenFinished: () {
-            print('🎵 [MULTIMEDIA-CHAT] ✅ Reproducción web completada');
             setState(() {
               _currentlyPlayingMessageId = null;
             });
@@ -2666,8 +2317,6 @@ class _EphemeralChatScreenMultimediaState
         // Escribir datos de audio al archivo temporal
         await tempFile.writeAsBytes(message.mediaData!);
 
-        print('🎵 [MULTIMEDIA-CHAT] Archivo temporal creado: ${tempFile.path}');
-
         // NUEVO: Configurar volumen y altavoz para iOS como WhatsApp
         await _audioPlayer!.setVolume(1.0); // Volumen máximo
 
@@ -2676,7 +2325,6 @@ class _EphemeralChatScreenMultimediaState
           fromURI: tempFile.path,
           codec: Codec.aacADTS,
           whenFinished: () {
-            print('🎵 [MULTIMEDIA-CHAT] ✅ Reproducción móvil completada');
             setState(() {
               _currentlyPlayingMessageId = null;
             });
@@ -2685,16 +2333,12 @@ class _EphemeralChatScreenMultimediaState
             try {
               tempFile.deleteSync();
             } catch (e) {
-              print(
-                  '⚠️ [MULTIMEDIA-CHAT] Error limpiando archivo temporal: $e');
+              // Error limpiando archivo temporal
             }
           },
         );
       }
-
-      print('🎵 [MULTIMEDIA-CHAT] ✅ Reproducción iniciada correctamente');
     } catch (e) {
-      print('❌ [MULTIMEDIA-CHAT] Error reproduciendo audio: $e');
       setState(() {
         _currentlyPlayingMessageId = null;
       });
@@ -2707,9 +2351,8 @@ class _EphemeralChatScreenMultimediaState
     if (_audioPlayer != null && _currentlyPlayingMessageId != null) {
       try {
         await _audioPlayer!.stopPlayer();
-        print('🎵 [MULTIMEDIA-CHAT] ✅ Reproducción detenida');
       } catch (e) {
-        print('⚠️ [MULTIMEDIA-CHAT] Error deteniendo reproducción: $e');
+        // Error deteniendo reproducción
       }
 
       setState(() {
@@ -2722,8 +2365,6 @@ class _EphemeralChatScreenMultimediaState
   Future<void> _autoPlayReceivedAudio(EphemeralMessage message) async {
     // Solo autoreproducir audios que no sean míos
     if (message.senderId != 'me' && message.messageType == 'audio') {
-      print('🎵 [MULTIMEDIA-CHAT] 🔄 Autoreproduciendo audio recibido...');
-
       // Esperar un poco para que la UI se actualice
       await Future.delayed(const Duration(milliseconds: 500));
 
@@ -2736,15 +2377,10 @@ class _EphemeralChatScreenMultimediaState
     if (kIsWeb) return;
 
     try {
-      print(
-          '🎵 [MULTIMEDIA-CHAT] 🔧 Configurando audio session para iOS (altavoz principal)...');
-
       // Configurar volumen alto para asegurar que se escuche bien
       await _audioPlayer!.setVolume(1.0); // Volumen máximo
-
-      print('🎵 [MULTIMEDIA-CHAT] ✅ Audio configurado para máximo volumen');
     } catch (e) {
-      print('⚠️ [MULTIMEDIA-CHAT] Error configurando audio session: $e');
+      // Error configurando audio session
     }
   }
 
@@ -2754,16 +2390,12 @@ class _EphemeralChatScreenMultimediaState
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final nickname = authProvider.user?.nickname ?? 'Usuario';
 
-      print('📸 [MULTIMEDIA-CHAT] 🧪 Enviando test de captura...');
-
       // Enviar mensaje de test directamente
       final testMessage = 'SCREENSHOT_NOTIFICATION:$nickname';
       await _chatService.sendMessage(testMessage);
 
       _showSnackBar(AppLocalizations.of(context)!.screenshotTestSent);
-      print('📸 [MULTIMEDIA-CHAT] ✅ Test enviado correctamente');
     } catch (e) {
-      print('📸 [MULTIMEDIA-CHAT] ❌ Error enviando test: $e');
       _showError(AppLocalizations.of(context)!.errorSendingTest(e.toString()));
     }
   }

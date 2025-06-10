@@ -41,10 +41,6 @@ class CallService {
     _currentReceiverId = receiverId;
 
     // Imprimir datos detallados para debugging
-    print(
-        '⚡️ INICIANDO LLAMADA: callId=${data['callId']}, receiverId=$receiverId');
-    print(
-        '⚡️ Respuesta API: turnConfig=${data['turnConfig'] != null}, token=${data['token'] != null}');
 
     // Almacenar datos de la llamada para uso futuro
     if (data['callId'] != null) {
@@ -54,29 +50,23 @@ class CallService {
       _callData[data['callId']]!['initiatorId'] =
           loginToken.split('.')[1]; // Intentar extraer ID del token
       _callData[data['callId']]!['receiverId'] = receiverId;
-
-      print('📝 Datos de llamada almacenados para callId: ${data['callId']}');
     }
 
     // IMPORTANTE: Usar la instancia singleton existente en lugar de crear una nueva
     final existingSocketService = SocketService.getInstance();
     if (existingSocketService != null) {
-      print(
-          '✅ Usando instancia singleton de SocketService para iniciar llamada');
       _socketService = existingSocketService;
 
       // Actualizar token si es necesario
       _socketService!.updateToken(loginToken);
     } else {
       // Solo crear nueva instancia si no existe ninguna
-      print('🔌 Creando nueva instancia SocketService (primera vez)');
       _ensureSocketIsReady(loginToken);
     }
 
     final callToken = data['token'] ?? loginToken;
 
     // 2️⃣ unirse a la sala enviando el call-token + `to` (SIEMPRE incluir el destinatario)
-    print('🔔 Enviando join-call con to=$receiverId');
     _socketService!.joinCall(
       data['callId'],
       callToken,
@@ -90,22 +80,17 @@ class CallService {
   void _ensureSocketIsReady(String loginToken) {
     // Si no hay socket, lo creamos
     if (_socketService == null) {
-      print('🔌 Creando nueva instancia SocketService');
       _socketService = SocketService(token: loginToken);
       return;
     }
 
     // Actualizar token si es necesario
-    print('🔄 Verificando token en SocketService existente');
     _socketService!.updateToken(loginToken);
 
     // Solo refrescar si la conexión está caída
     if (!_socketService!.isConnected()) {
-      print('🔄 Reconectando SocketService existente');
       _socketService!.refreshConnection();
-    } else {
-      print('✅ SocketService ya conectado - no es necesario reconectar');
-    }
+    } else {}
   }
 
   /*───────────  aceptar llamada  ───────────*/
@@ -135,31 +120,23 @@ class CallService {
     String? initiatorId;
 
     if (socketCallData != null && socketCallData.containsKey('initiatorId')) {
-      print('🔍 Encontrados datos previos para callId: $callId');
-
       // Guardar el initiatorId para pasarlo al SocketService
       initiatorId = socketCallData['initiatorId'];
 
       // Agregar datos que puedan faltar
       if (!data.containsKey('initiatorId')) {
         data['initiatorId'] = initiatorId;
-        print('✅ Agregado initiatorId de datos Socket: ${data['initiatorId']}');
       }
     } else {
-      print(
-          '⚠️ No se encontraron datos previos del emisor para el callId: $callId');
       // Intentar extraer initiatorId de otras fuentes
       if (data.containsKey('initiatorId')) {
         initiatorId = data['initiatorId'];
-        print('✅ Usando initiatorId de la respuesta API: $initiatorId');
       }
     }
 
     // IMPORTANTE: Usar la instancia singleton existente en lugar de crear una nueva
     final existingSocketService = SocketService.getInstance();
     if (existingSocketService != null) {
-      print(
-          '✅ Usando instancia singleton de SocketService para aceptar llamada');
       _socketService = existingSocketService;
 
       // Importante: Asegurar que el callId actual esté configurado
@@ -171,8 +148,6 @@ class CallService {
       }
     } else {
       // Solo crear nueva instancia si no existe ninguna (caso muy raro)
-      print(
-          '⚠️ No se encontró instancia singleton, creando nueva (esto no debería pasar)');
       _ensureSocketIsReady(loginToken);
 
       // Importante: Guardar el callId actual en el socket service
@@ -182,8 +157,6 @@ class CallService {
     }
 
     // Manualmente unirnos a la llamada para asegurar que estamos en la sala
-    print(
-        '✅ Uniendo explícitamente a sala de llamada: $callId, initiatorId: $initiatorId');
     _socketService!.joinCall(callId, data['token'] ?? loginToken,
         to: initiatorId // Pasamos el initiatorId para asegurar que esté disponible
         );

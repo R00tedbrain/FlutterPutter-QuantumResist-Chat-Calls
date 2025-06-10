@@ -23,35 +23,25 @@ class HybridNotificationService {
     required String token,
   }) async {
     if (_isInitialized) {
-      print('🔀 [HYBRID] Ya está inicializado');
       return;
     }
 
     try {
       _userId = userId;
 
-      print('🔀 [HYBRID] === INICIALIZANDO SERVICIOS HÍBRIDOS ===');
-      print('🔀 [HYBRID] Usuario: $userId');
-      print('🔀 [HYBRID] Plataforma: ${Platform.operatingSystem}');
-      print('🔀 [HYBRID] Estrategia: ${_getNotificationStrategy()}');
-
       // 1. SIEMPRE inicializar ntfy
       await NtfyNotificationService.instance.initialize(userId: userId);
-      print('✅ [HYBRID] ntfy inicializado');
 
       // 2. En iOS: MANTENER VoIP existente para videollamadas
       if (Platform.isIOS) {
         // NOTA: VoIP ya debe estar inicializado por el sistema existente
         // NO MODIFICAMOS NADA del VoIP existente
-        print('✅ [HYBRID] iOS: VoIP existente mantenido (NO ALTERADO)');
       }
 
       _isInitialized = true;
-      print('✅ [HYBRID] Servicios híbridos inicializados correctamente');
 
       _printConfiguration();
     } catch (e) {
-      print('❌ [HYBRID] Error inicializando: $e');
       rethrow;
     }
   }
@@ -67,24 +57,13 @@ class HybridNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [HYBRID] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔀 [HYBRID] === VIDEOLLAMADA ===');
-      print('🔀 [HYBRID] Target: $targetUserId');
-      print('🔀 [HYBRID] Caller: $callerName');
-      print('🔀 [HYBRID] CallId: $callId');
-      print('🔀 [HYBRID] Plataforma: ${Platform.operatingSystem}');
-
       if (Platform.isIOS) {
-        print('🔀 [HYBRID] iOS: USANDO VoIP existente (NO ALTERADO)');
-        print('🔀 [HYBRID] El sistema VoIP nativo ya maneja las videollamadas');
-        print('🔀 [HYBRID] NO enviamos ntfy para videollamadas en iOS');
         // NO HACEMOS NADA - el VoIP existente ya maneja esto
       } else {
-        print('🔀 [HYBRID] Android: USANDO ntfy para videollamada');
         await NtfyNotificationService.instance.sendCallNotification(
           targetUserId: targetUserId,
           callerName: callerName,
@@ -94,11 +73,7 @@ class HybridNotificationService {
           additionalData: additionalData,
         );
       }
-
-      print('✅ [HYBRID] Videollamada procesada correctamente');
-    } catch (e) {
-      print('❌ [HYBRID] Error en videollamada: $e');
-    }
+    } catch (e) {}
   }
 
   /// ENVIAR NOTIFICACIÓN DE LLAMADA DE AUDIO
@@ -111,17 +86,10 @@ class HybridNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [HYBRID] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔀 [HYBRID] === LLAMADA DE AUDIO ===');
-      print('🔀 [HYBRID] Target: $targetUserId');
-      print('🔀 [HYBRID] Caller: $callerName');
-      print('🔀 [HYBRID] CallId: $callId');
-      print('🔀 [HYBRID] Usando ntfy en todas las plataformas');
-
       await NtfyNotificationService.instance.sendCallNotification(
         targetUserId: targetUserId,
         callerName: callerName,
@@ -130,11 +98,7 @@ class HybridNotificationService {
         callerAvatar: callerAvatar,
         additionalData: additionalData,
       );
-
-      print('✅ [HYBRID] Llamada de audio enviada');
-    } catch (e) {
-      print('❌ [HYBRID] Error en llamada de audio: $e');
-    }
+    } catch (e) {}
   }
 
   /// ENVIAR NOTIFICACIÓN DE MENSAJE
@@ -147,17 +111,10 @@ class HybridNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [HYBRID] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔀 [HYBRID] === MENSAJE ===');
-      print('🔀 [HYBRID] Target: $targetUserId');
-      print('🔀 [HYBRID] Sender: $senderName');
-      print('🔀 [HYBRID] Tipo: $chatType');
-      print('🔀 [HYBRID] Usando ntfy en todas las plataformas');
-
       await NtfyNotificationService.instance.sendMessageNotification(
         targetUserId: targetUserId,
         senderName: senderName,
@@ -165,11 +122,7 @@ class HybridNotificationService {
         chatType: chatType,
         additionalData: additionalData,
       );
-
-      print('✅ [HYBRID] Mensaje enviado');
-    } catch (e) {
-      print('❌ [HYBRID] Error en mensaje: $e');
-    }
+    } catch (e) {}
   }
 
   /// ENVIAR INVITACIÓN DE CHAT EFÍMERO
@@ -181,28 +134,17 @@ class HybridNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [HYBRID] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔀 [HYBRID] === INVITACIÓN DE CHAT ===');
-      print('🔀 [HYBRID] Target: $targetUserId');
-      print('🔀 [HYBRID] Inviter: $inviterName');
-      print('🔀 [HYBRID] InvitationId: $invitationId');
-      print('🔀 [HYBRID] Usando ntfy en todas las plataformas');
-
       await NtfyNotificationService.instance.sendChatInvitationNotification(
         targetUserId: targetUserId,
         inviterName: inviterName,
         invitationId: invitationId,
         additionalData: additionalData,
       );
-
-      print('✅ [HYBRID] Invitación de chat enviada');
-    } catch (e) {
-      print('❌ [HYBRID] Error en invitación de chat: $e');
-    }
+    } catch (e) {}
   }
 
   /// Método genérico para notificaciones personalizadas
@@ -215,16 +157,10 @@ class HybridNotificationService {
     Map<String, dynamic>? data,
   }) async {
     if (!_isInitialized) {
-      print('❌ [HYBRID] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔀 [HYBRID] === NOTIFICACIÓN PERSONALIZADA ===');
-      print('🔀 [HYBRID] Target: $targetUserId');
-      print('🔀 [HYBRID] Title: $title');
-      print('🔀 [HYBRID] Usando ntfy en todas las plataformas');
-
       await NtfyNotificationService.instance.sendCustomNotification(
         targetUserId: targetUserId,
         title: title,
@@ -233,11 +169,7 @@ class HybridNotificationService {
         actions: actions,
         data: data,
       );
-
-      print('✅ [HYBRID] Notificación personalizada enviada');
-    } catch (e) {
-      print('❌ [HYBRID] Error en notificación personalizada: $e');
-    }
+    } catch (e) {}
   }
 
   /// Obtener estrategia de notificaciones por plataforma
@@ -251,25 +183,8 @@ class HybridNotificationService {
 
   /// Mostrar configuración actual
   void _printConfiguration() {
-    print('🔀 [HYBRID] === CONFIGURACIÓN ACTUAL ===');
-    print('🔀 [HYBRID] Plataforma: ${Platform.operatingSystem}');
-    print('🔀 [HYBRID] Usuario: $_userId');
-
     if (Platform.isIOS) {
-      print('🔀 [HYBRID] iOS Videollamadas: VoIP nativo (NO ALTERADO)');
-      print('🔀 [HYBRID] iOS Mensajes: ntfy');
-      print('🔀 [HYBRID] iOS Llamadas audio: ntfy');
-      print('🔀 [HYBRID] iOS Chat invitaciones: ntfy');
-    } else {
-      print('🔀 [HYBRID] Android Videollamadas: ntfy');
-      print('🔀 [HYBRID] Android Mensajes: ntfy');
-      print('🔀 [HYBRID] Android Llamadas audio: ntfy');
-      print('🔀 [HYBRID] Android Chat invitaciones: ntfy');
-    }
-
-    print(
-        '🔀 [HYBRID] ntfy Server: ${NtfyNotificationService.instance.getServiceInfo()['serverUrl']}');
-    print('🔀 [HYBRID] === FIN CONFIGURACIÓN ===');
+    } else {}
   }
 
   /// Obtener información completa del servicio
@@ -335,7 +250,5 @@ class HybridNotificationService {
     _isInitialized = false;
     _userId = null;
     _instance = null;
-
-    print('🔀 [HYBRID] Servicio híbrido limpiado');
   }
 }

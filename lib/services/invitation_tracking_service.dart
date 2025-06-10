@@ -1,3 +1,5 @@
+import 'ephemeral_chat_manager.dart';
+
 /// Servicio global para tracking de invitaciones rechazadas
 /// Evita bucles infinitos y duplicación de invitaciones
 class InvitationTrackingService {
@@ -18,11 +20,9 @@ class InvitationTrackingService {
 
     final result = _rejectedInvitations.contains(invitationId);
     if (result) {
-      print('🔐 [TRACKING] ⚠️ Invitación ya rechazada: $invitationId');
       final rejectedTime = _rejectionTime[invitationId];
       if (rejectedTime != null) {
         final elapsed = DateTime.now().difference(rejectedTime);
-        print('🔐 [TRACKING] ⏰ Rechazada hace: ${elapsed.inMinutes} minutos');
       }
     }
     return result;
@@ -32,17 +32,13 @@ class InvitationTrackingService {
   void markAsRejected(String invitationId) {
     _rejectedInvitations.add(invitationId);
     _rejectionTime[invitationId] = DateTime.now();
-    print('🔐 [TRACKING] 📝 Invitación marcada como rechazada: $invitationId');
-    print('🔐 [TRACKING] 📊 Total rechazadas: ${_rejectedInvitations.length}');
   }
 
   /// Desmarcar una invitación como rechazada (para reintentos en caso de error)
   void unmarkAsRejected(String invitationId) {
     final removed = _rejectedInvitations.remove(invitationId);
     _rejectionTime.remove(invitationId);
-    if (removed) {
-      print('🔐 [TRACKING] 🔄 Invitación removida del tracking: $invitationId');
-    }
+    if (removed) {}
   }
 
   /// NUEVO: Limpiar invitaciones rechazadas después de 5 minutos
@@ -58,11 +54,9 @@ class InvitationTrackingService {
     }
 
     if (toRemove.isNotEmpty) {
-      print('🔐 [TRACKING] 🧹 Limpiando ${toRemove.length} rechazos antiguos');
       for (final id in toRemove) {
         _rejectedInvitations.remove(id);
         _rejectionTime.remove(id);
-        print('🔐 [TRACKING] 🗑️ Limpiado rechazo antiguo: $id');
       }
     }
   }
@@ -72,7 +66,6 @@ class InvitationTrackingService {
     final count = _rejectedInvitations.length;
     _rejectedInvitations.clear();
     _rejectionTime.clear();
-    print('🔐 [TRACKING] 🧹 Tracking limpiado: $count invitaciones removidas');
   }
 
   /// NUEVO: Limpiar invitaciones rechazadas por un usuario específico
@@ -87,12 +80,9 @@ class InvitationTrackingService {
     }
 
     if (toRemove.isNotEmpty) {
-      print(
-          '🔐 [TRACKING] 🧹 Limpiando ${toRemove.length} rechazos del usuario: $userId');
       for (final id in toRemove) {
         _rejectedInvitations.remove(id);
         _rejectionTime.remove(id);
-        print('🔐 [TRACKING] 🗑️ Limpiado rechazo del usuario: $id');
       }
     }
   }
@@ -112,12 +102,21 @@ class InvitationTrackingService {
   /// Combina verificación de rechazo con otras validaciones
   bool shouldProcessInvitation(String invitationId) {
     if (isRejected(invitationId)) {
-      print(
-          '🔐 [TRACKING] 🚫 Invitación ignorada (ya rechazada): $invitationId');
       return false;
     }
 
-    print('🔐 [TRACKING] ✅ Invitación puede ser procesada: $invitationId');
-    return true;
+    // NUEVO: Verificar si es una invitación fantasma basada en sesiones activas
+    try {
+      // Importar EphemeralChatManager para verificar sesiones activas
+      final chatManager = EphemeralChatManager.instance;
+      final activeSessions = chatManager.activeSessions;
+
+      // Extraer userId de la invitación (asumiendo formato estándar)
+      // Por ahora devolvemos true si no podemos determinar - es más seguro
+      return true;
+    } catch (e) {
+      // Si hay error verificando, permitir procesamiento por seguridad
+      return true;
+    }
   }
 }

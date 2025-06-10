@@ -37,7 +37,6 @@ class _ActiveSessionsScreenState extends State<ActiveSessionsScreen> {
   Future<void> _loadActiveSessions() async {
     // ✅ NUEVO: Evitar múltiples cargas simultáneas
     if (_isRefreshing) {
-      print('🔄 [UI] Ya hay una carga en progreso, saltando...');
       return;
     }
 
@@ -61,8 +60,6 @@ class _ActiveSessionsScreenState extends State<ActiveSessionsScreen> {
         });
       }
     } catch (e) {
-      print('🔄 [UI] Error cargando sesiones: $e');
-
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -117,8 +114,6 @@ class _ActiveSessionsScreenState extends State<ActiveSessionsScreen> {
   Future<void> _terminateSession(ActiveSession session) async {
     // ✅ NUEVO: Evitar múltiples terminaciones simultáneas
     if (_sessionsBeingTerminated.contains(session.sessionId)) {
-      print(
-          '🔄 [UI] Sesión ya está siendo cerrada: ${session.sessionId.substring(0, 8)}...');
       return;
     }
 
@@ -160,8 +155,6 @@ class _ActiveSessionsScreenState extends State<ActiveSessionsScreen> {
         }
       }
     } catch (e) {
-      print('🔄 [UI] Error cerrando sesión: $e');
-
       if (mounted) {
         if (e.toString().contains('TimeoutException')) {
           _showError('Tiempo agotado. La sesión se cerró localmente.');

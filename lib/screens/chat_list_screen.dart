@@ -54,7 +54,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
       // Reproducir automáticamente
       _videoController!.play();
     } catch (e) {
-      print('❌ Error inicializando video de logo: $e');
       // Si hay error, no mostrar video
     }
   }

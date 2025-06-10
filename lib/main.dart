@@ -41,18 +41,15 @@ void main() async {
   // NUEVO: Inicializar servicio de seguridad de capturas de pantalla
   try {
     await ScreenshotSecurityService().initialize();
-    print(
-        '✅ [MAIN] Servicio de capturas de pantalla inicializado correctamente');
   } catch (e) {
-    print('❌ [MAIN] Error inicializando servicio de capturas: $e');
+    // Error inicializando servicio de capturas
   }
 
   // NUEVO: Inicializar servicio de sesiones activas
   try {
     await SessionManagementService().initialize();
-    print('✅ [MAIN] Servicio de sesiones activas inicializado correctamente');
   } catch (e) {
-    print('❌ [MAIN] Error inicializando servicio de sesiones: $e');
+    // Error inicializando servicio de sesiones
   }
 
   // 3️⃣ Handler de errores de Flutter
@@ -63,14 +60,14 @@ void main() async {
     FlutterError.presentError(details);
 
     // Además imprime con print para Chrome
-    print('### STACK FROM FlutterError ###');
-    print(details.stack);
+    // print('### STACK FROM FlutterError ###');
+    // print(details.stack);
   };
 
   // ③  atrapa errores fuera del árbol de widgets
   PlatformDispatcher.instance.onError = (e, s) {
-    print('### UNCAUGHT JS EXCEPTION ###');
-    print(e);
+    // print('### UNCAUGHT JS EXCEPTION ###');
+    // print(e);
     debugPrintStack(stackTrace: s);
     return true; // evita cerrar la app
   };

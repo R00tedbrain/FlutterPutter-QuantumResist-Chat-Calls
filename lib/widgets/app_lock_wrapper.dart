@@ -41,7 +41,6 @@ class _AppLockWrapperState extends State<AppLockWrapper>
         _isInitialized = true;
       });
     } catch (e) {
-      print('❌ Error inicializando AppLockService: $e');
       setState(() {
         _isInitialized = true;
       });

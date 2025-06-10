@@ -71,21 +71,14 @@ class _CallScreenState extends State<CallScreen> {
     if (!mounted) return;
 
     final callState = _callProvider.callState;
-    print('🔍 Estado de llamada cambió en CallScreen: $callState');
 
     // Si la llamada terminó (idle) o hay error, navegar de vuelta automáticamente
     // SOLO si no estamos ya en proceso de navegación manual
     if (callState == CallState.idle || callState == CallState.disconnected) {
-      print(
-          '🔄 Llamada terminada detectada en CallScreen por cambio de estado');
-
       // Verificar si ya hay un diálogo de navegación abierto
       final hasDialog = ModalRoute.of(context)?.isCurrent != true;
 
       if (!hasDialog) {
-        print(
-            '🔄 Navegando automáticamente de vuelta a HomeScreen por cambio de estado');
-
         // Usar un pequeño delay para asegurar que el estado se actualice completamente
         Future.delayed(const Duration(milliseconds: 200), () {
           if (mounted) {
@@ -93,8 +86,7 @@ class _CallScreenState extends State<CallScreen> {
           }
         });
       } else {
-        print(
-            'ℹ️ Ya hay navegación en progreso, omitiendo navegación automática');
+        // Ya hay navegación en progreso, omitiendo navegación automática
       }
     }
   }
@@ -110,8 +102,6 @@ class _CallScreenState extends State<CallScreen> {
 
   // Finalizar llamada
   void _endCall() async {
-    print('🔚 Usuario presionó botón de colgar en CallScreen');
-
     try {
       // Mostrar indicador de carga mientras se procesa
       if (mounted) {
@@ -124,8 +114,7 @@ class _CallScreenState extends State<CallScreen> {
         );
       }
 
-      final success = await _callProvider.endCall();
-      print('🔍 Resultado de endCall: $success');
+      await _callProvider.endCall();
 
       // Cerrar diálogo de carga si está abierto
       if (mounted && Navigator.canPop(context)) {
@@ -134,12 +123,9 @@ class _CallScreenState extends State<CallScreen> {
 
       // Navegar de vuelta a HomeScreen SIEMPRE, independientemente del resultado
       if (mounted) {
-        print('🔄 Navegando de vuelta a HomeScreen después de colgar');
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
     } catch (e) {
-      print('❌ Error al finalizar llamada: $e');
-
       // Cerrar diálogo de carga si está abierto
       if (mounted && Navigator.canPop(context)) {
         Navigator.pop(context); // Cerrar diálogo de carga
@@ -147,7 +133,6 @@ class _CallScreenState extends State<CallScreen> {
 
       // Navegar de vuelta INCLUSO si hay error
       if (mounted) {
-        print('🔄 Navegando de vuelta a HomeScreen después de error al colgar');
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
     }
@@ -175,17 +160,13 @@ class _CallScreenState extends State<CallScreen> {
       if (_callProvider.peerConnection != null &&
           _callProvider.callId != null) {
         try {
-          final success = await P2PImageService.instance.initialize(
+          await P2PImageService.instance.initialize(
             peerConnection: _callProvider.peerConnection!,
             roomId: _callProvider.callId!,
             userId: 'current_user_id', // Obtener del contexto real
           );
-
-          if (success) {
-            print('🖼️ Sistema P2P de imágenes inicializado correctamente');
-          }
         } catch (e) {
-          print('🖼️ Error inicializando P2P de imágenes: $e');
+          // Error inicializando P2P de imágenes
         }
       }
     });

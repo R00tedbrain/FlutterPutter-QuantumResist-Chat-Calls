@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final callProvider = Provider.of<CallProvider>(context, listen: false);
 
     if (authProvider.token == null) {
-      print('⚠️ No hay token disponible para configurar SocketService');
       return;
     }
 
@@ -56,8 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Configurar callback para llamadas terminadas
     _socketService.onCallEnded = _handleCallEnded;
-
-    print('✅ Callbacks de llamada registrados en HomeScreen');
   }
 
   void _setupEphemeralChatService() {
@@ -65,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final userId = authProvider.user?.id;
 
     if (userId == null) {
-      print('⚠️ No hay userId disponible para configurar EphemeralChatService');
       return;
     }
 
@@ -73,8 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Inicializar el servicio
     _ephemeralChatService.initialize(userId: userId).then((_) {
-      print('✅ EphemeralChatService inicializado en HomeScreen');
-
       // Configurar callback para invitaciones recibidas
       _ephemeralChatService.onInvitationReceived = (invitation) {
         setState(() {
@@ -105,23 +99,16 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       };
 
-      _ephemeralChatService.onError = (error) {
-        print('❌ Error en EphemeralChatService: $error');
-      };
-    }).catchError((error) {
-      print('❌ Error inicializando EphemeralChatService: $error');
-    });
+      _ephemeralChatService.onError = (error) {};
+    }).catchError((error) {});
   }
 
   void _handleIncomingCall(String callId, String from, String token) async {
-    print('📞 Llamada entrante recibida en UI: callId=$callId, from=$from');
-
     // Obtener información del llamante
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
       if (authProvider.token == null) {
-        print('⚠️ No hay token disponible para obtener detalles del llamante');
         return;
       }
 
@@ -132,13 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
       if (response.statusCode != 200) {
-        print('⚠️ Error al obtener datos del llamante: ${response.statusCode}');
         return;
       }
 
       // Verificar si la respuesta está vacía
       if (response.body.isEmpty) {
-        print('⚠️ Respuesta vacía al obtener datos del llamante');
         return;
       }
 
@@ -147,13 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         // Verificar que userData sea un Map antes de intentar crear un User
         if (userData == null) {
-          print('⚠️ Datos del llamante son null después de decodificar');
           return;
         }
 
         if (userData is! Map<String, dynamic>) {
-          print(
-              '⚠️ Datos del llamante no son un objeto Map: ${userData.runtimeType}');
           // Intentar convertir si es un Map genérico
           if (userData is Map) {
             final Map<String, dynamic> safeUserData = {};
@@ -164,8 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
             });
 
             if (safeUserData.isEmpty) {
-              print(
-                  '⚠️ No se pudieron convertir los datos del llamante a Map<String, dynamic>');
               return;
             }
 
@@ -204,17 +184,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         );
-      } catch (e) {
-        print('❌ Error al decodificar o procesar datos del llamante: $e');
-      }
-    } catch (e) {
-      print('❌ Error al procesar llamada entrante: $e');
-    }
+      } catch (e) {}
+    } catch (e) {}
   }
 
   void _handleCallEnded(Map<String, dynamic> data) {
-    print('🔚 Llamada terminada recibida en HomeScreen: $data');
-
     // Notificar al CallProvider que la llamada terminó
     final callProvider = Provider.of<CallProvider>(context, listen: false);
     callProvider.endCall();
@@ -225,24 +199,18 @@ class _HomeScreenState extends State<HomeScreen> {
       final currentRoute = ModalRoute.of(context);
       if (currentRoute != null) {
         final routeName = currentRoute.settings.name;
-        print('🔍 Ruta actual: $routeName');
 
         // Si estamos en CallScreen o IncomingCallScreen, volver a HomeScreen
         if (routeName == '/call' ||
             currentRoute.settings.arguments is Map &&
                 (currentRoute.settings.arguments as Map)
                     .containsKey('callId')) {
-          print(
-              '🔄 Navegando de vuelta a HomeScreen desde pantalla de llamada');
           Navigator.of(context).popUntil((route) => route.isFirst);
         } else {
           // Si no podemos determinar la ruta, intentar pop hasta llegar a home
-          print('🔄 Intentando navegación alternativa a HomeScreen');
           try {
             Navigator.of(context).popUntil((route) => route.isFirst);
-          } catch (e) {
-            print('⚠️ Error en navegación alternativa: $e');
-          }
+          } catch (e) {}
         }
       }
     }

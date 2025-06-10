@@ -19,12 +19,8 @@ class VoIPIntegration {
     }
 
     try {
-      print('🔔 Inicializando integración VoIP...');
       _isInitialized = true;
-      print('✅ Integración VoIP inicializada');
-    } catch (e) {
-      print('❌ Error inicializando integración VoIP: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación VoIP para llamada entrante
@@ -36,23 +32,17 @@ class VoIPIntegration {
     String? callerAvatar,
   }) async {
     if (!Platform.isIOS || !_isInitialized) {
-      print('🔔 VoIP no disponible en esta plataforma');
       return;
     }
 
     try {
-      print('🔔 Enviando notificación VoIP para llamada: $callId');
-
       // Mostrar llamada entrante usando CallKit
       await VoIPService.instance.showIncomingCall(
         callId: callId,
         callerName: callerName,
         callerAvatar: callerAvatar,
       );
-
-      print('✅ Notificación VoIP enviada exitosamente');
     } catch (e) {
-      print('❌ Error enviando notificación VoIP: $e');
       // No es crítico, el sistema WebSocket sigue funcionando
     }
   }
@@ -65,10 +55,7 @@ class VoIPIntegration {
 
     try {
       await VoIPService.instance.endCall(callId);
-      print('✅ Llamada VoIP terminada: $callId');
-    } catch (e) {
-      print('❌ Error terminando llamada VoIP: $e');
-    }
+    } catch (e) {}
   }
 
   /// Terminar todas las llamadas VoIP
@@ -79,10 +66,7 @@ class VoIPIntegration {
 
     try {
       await VoIPService.instance.endAllCalls();
-      print('✅ Todas las llamadas VoIP terminadas');
-    } catch (e) {
-      print('❌ Error terminando todas las llamadas VoIP: $e');
-    }
+    } catch (e) {}
   }
 
   /// Obtener llamadas VoIP activas
@@ -94,7 +78,6 @@ class VoIPIntegration {
     try {
       return await VoIPService.instance.getActiveCalls();
     } catch (e) {
-      print('❌ Error obteniendo llamadas VoIP activas: $e');
       return [];
     }
   }
@@ -102,6 +85,5 @@ class VoIPIntegration {
   /// Limpiar recursos
   void dispose() {
     _isInitialized = false;
-    print('🔔 VoIP Integration disposed');
   }
 }

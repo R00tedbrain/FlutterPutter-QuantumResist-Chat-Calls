@@ -43,11 +43,8 @@ class SessionPersistenceService {
     required String authToken,
   }) async {
     if (_isInitialized) {
-      print('📌 [Session] Ya inicializado para usuario: $_currentUserId');
       return;
     }
-
-    print('🚀 [Session] Inicializando persistencia para: $userId');
 
     _currentUserId = userId;
     _authToken = authToken;
@@ -73,16 +70,12 @@ class SessionPersistenceService {
     }
 
     _isInitialized = true;
-    print('✅ [Session] Persistencia inicializada completamente');
   }
 
   /// Inicializar todos los servicios necesarios
   Future<void> _initializeServices() async {
-    print('🔧 [Session] Inicializando servicios...');
-
     // Asegurarse de que Socket esté conectado
     if (!_socketService.isConnected()) {
-      print('📡 [Session] Conectando Socket...');
       // Socket se conecta automáticamente al crearse con token
 
       // Esperar conexión con timeout
@@ -95,7 +88,6 @@ class SessionPersistenceService {
 
     // Inicializar VoIP para iOS
     if (Platform.isIOS && !_voipService.isInitialized) {
-      print('📱 [Session] Inicializando VoIP...');
       await _voipService.initialize(
         userId: _currentUserId!,
         token: _authToken!,
@@ -107,8 +99,6 @@ class SessionPersistenceService {
       userId: _currentUserId!,
       token: _authToken!,
     );
-
-    print('✅ [Session] Servicios inicializados');
   }
 
   /// Guardar credenciales para recuperación
@@ -143,11 +133,8 @@ class SessionPersistenceService {
         _hasConnection = results.isNotEmpty &&
             results.any((result) => result != ConnectivityResult.none);
 
-        print('📶 [Session] Conectividad cambió: $_hasConnection');
-
         // Si recuperamos conexión, reconectar
         if (!wasConnected && _hasConnection) {
-          print('🔄 [Session] Conexión recuperada, reconectando...');
           _reconnect();
         }
       },
@@ -161,7 +148,6 @@ class SessionPersistenceService {
     // Enviar ping cada 30 segundos
     _heartbeatTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       if (_socketService.isConnected()) {
-        print('💓 [Session] Enviando heartbeat...');
         _socketService.socket?.emit('heartbeat', {
           'userId': _currentUserId,
           'timestamp': DateTime.now().toIso8601String(),
@@ -170,7 +156,6 @@ class SessionPersistenceService {
         // Actualizar última actividad
         _updateLastActive();
       } else {
-        print('⚠️ [Session] Socket desconectado, intentando reconectar...');
         _reconnect();
       }
     });
@@ -186,19 +171,16 @@ class SessionPersistenceService {
   void _setupAutoReconnect() {
     // Escuchar desconexiones del socket
     _socketService.socket?.on('disconnect', (_) {
-      print('🔌 [Session] Socket desconectado, programando reconexión...');
       _scheduleReconnect();
     });
 
     // Escuchar errores de conexión
     _socketService.socket?.on('connect_error', (error) {
-      print('❌ [Session] Error de conexión: $error');
       _scheduleReconnect();
     });
 
     // Escuchar reconexión exitosa
     _socketService.socket?.on('connect', (_) {
-      print('✅ [Session] Socket reconectado exitosamente');
       _reconnectTimer?.cancel();
 
       // Re-autenticar si es necesario
@@ -223,12 +205,10 @@ class SessionPersistenceService {
       attempts++;
 
       if (_socketService.isConnected()) {
-        print('✅ [Session] Ya conectado, cancelando reconexión');
         timer.cancel();
         return;
       }
 
-      print('🔄 [Session] Intento de reconexión #$attempts...');
       _reconnect();
 
       // Aumentar delay hasta máximo de 60 segundos
@@ -252,7 +232,6 @@ class SessionPersistenceService {
   /// Reconectar servicios
   Future<void> _reconnect() async {
     if (!_hasConnection) {
-      print('📵 [Session] Sin conexión a internet, esperando...');
       return;
     }
 
@@ -279,13 +258,10 @@ class SessionPersistenceService {
         final needsRefresh =
             await VoipTokenService.instance.needsTokenRefresh();
         if (needsRefresh) {
-          print('🔄 [Session] Renovando token VoIP...');
           // El token se renovará automáticamente cuando iOS lo proporcione
         }
       }
-    } catch (e) {
-      print('❌ [Session] Error en reconexión: $e');
-    }
+    } catch (e) {}
   }
 
   /// Registrar ejecución en background para iOS
@@ -303,17 +279,11 @@ class SessionPersistenceService {
             break;
         }
       });
-
-      print('✅ [Session] Ejecución en background registrada');
-    } catch (e) {
-      print('⚠️ [Session] Error registrando background: $e');
-    }
+    } catch (e) {}
   }
 
   /// Ejecutar tareas en background
   Future<void> _performBackgroundTasks() async {
-    print('🌙 [Session] Ejecutando tareas en background...');
-
     // Verificar y reconectar si es necesario
     if (!_socketService.isConnected()) {
       await _reconnect();
@@ -328,7 +298,6 @@ class SessionPersistenceService {
 
   /// Pausar servicios (cuando la app va a background)
   void pause() {
-    print('⏸️ [Session] Pausando servicios...');
     // En iOS, mantener conexión activa para VoIP
     if (!Platform.isIOS) {
       _heartbeatTimer?.cancel();
@@ -337,8 +306,6 @@ class SessionPersistenceService {
 
   /// Resumir servicios (cuando la app vuelve a foreground)
   void resume() {
-    print('▶️ [Session] Resumiendo servicios...');
-
     // Verificar conexión
     if (!_socketService.isConnected()) {
       _reconnect();
@@ -352,8 +319,6 @@ class SessionPersistenceService {
 
   /// Cerrar sesión y limpiar recursos
   Future<void> logout() async {
-    print('🚪 [Session] Cerrando sesión persistente...');
-
     _isInitialized = false;
     _currentUserId = null;
     _authToken = null;

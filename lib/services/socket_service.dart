@@ -99,16 +99,13 @@ class SocketService {
 
   // Constructor interno privado
   SocketService._internal(this._peerConnection, this._token) {
-    print(
-      '📱 Creando SocketService con peerConnection: ${_peerConnection != null ? "disponible" : "nulo"}',
-    );
     if (_token != null) {
       _currentUserId = _extractUserIdFromToken(_token!);
     }
     _initSocket();
     // 🔐 Inicializar cifrado ChaCha20-Poly1305 de forma no bloqueante
     _initEncryption().catchError((e) {
-      print('🔐 [SOCKET] ⚠️ Cifrado no disponible, continuando sin él: $e');
+      // Cifrado no disponible, continuando sin él
     });
   }
 
@@ -124,24 +121,10 @@ class SocketService {
 
   // Actualizar peerConnection (usado cuando se acepta una llamada)
   void updatePeerConnection(RTCPeerConnection? newPeerConnection) {
-    print('🔄 Actualizando peerConnection en SocketService');
-    print(
-      '🔍 Estado anterior: ${_peerConnection != null ? "conectado" : "nulo"}',
-    );
-    print(
-      '🔍 Estado de _pendingOffer ANTES de actualizar: ${_pendingOffer != null ? "PRESENTE" : "NULO"}',
-    );
-    if (_pendingOffer != null) {
-      print(
-        '🔍 Datos de _pendingOffer: callId=${_pendingOffer!['callId']}, from=${_pendingOffer!['from']}, to=${_pendingOffer!['to']}',
-      );
-    }
-
     _peerConnection = newPeerConnection;
 
     // Si se está limpiando (newPeerConnection es null), limpiar también estado pendiente
     if (newPeerConnection == null) {
-      print('🧹 Limpiando estado WebRTC en SocketService');
       _pendingOffer = null;
       _hasRemoteDescription = false;
       _pendingIceCandidates.clear();
@@ -149,75 +132,32 @@ class SocketService {
       _pendingCandidatesTimer = null;
     } else {
       // Verificar que el peerConnection está en buen estado
-      print(
-        '🔍 PeerConnection establecido - Estado: ${newPeerConnection.connectionState}',
-      );
-      print(
-        '🔍 PeerConnection establecido - Signaling: ${newPeerConnection.signalingState}',
-      );
-
       // CRÍTICO: En web, el peerConnection puede tener estados null inicialmente
       // Esto es normal y no indica un problema
       if (kIsWeb) {
-        print(
-          '🌐 PeerConnection en web - estados pueden ser null inicialmente',
-        );
-
+        // PeerConnection en web - estados pueden ser null inicialmente
         // CRÍTICO: Verificar que los event handlers estén configurados
-        print('🔍 Verificando event handlers del peerConnection...');
-        print(
-          '🔍 onTrack configurado: ${newPeerConnection.onTrack != null ? "✅" : "❌"}',
-        );
-        print(
-          '🔍 onAddStream configurado: ${newPeerConnection.onAddStream != null ? "✅" : "❌"}',
-        );
-
         // Dar tiempo para que se inicialice completamente
         Future.delayed(const Duration(milliseconds: 150), () async {
           try {
-            final connectionState =
-                await newPeerConnection.getConnectionState();
-            print(
-              '🔍 PeerConnection después del delay - Estado: $connectionState',
-            );
+            // final connectionState =
+            // await newPeerConnection.getConnectionState();
           } catch (e) {
-            print(
-              '🔍 PeerConnection después del delay - Error obteniendo estado: $e',
-            );
+            // PeerConnection después del delay - Error obteniendo estado
           }
         });
       } else {
         // En plataformas nativas, verificar estados normalmente
-        print(
-          '📱 PeerConnection nativo - Estado: ${newPeerConnection.connectionState}',
-        );
       }
     }
-
-    print('✅ PeerConnection actualizado correctamente');
-    print(
-      '🔍 Estado actual: ${_peerConnection != null ? "conectado" : "nulo"}',
-    );
-    print(
-      '🔍 Estado de _pendingOffer DESPUÉS de actualizar: ${_pendingOffer != null ? "PRESENTE" : "NULO"}',
-    );
 
     // IMPORTANTE: NO procesar la oferta inmediatamente aquí
     // Esperar a que se agreguen los tracks locales primero
     if (_pendingOffer != null) {
-      print(
-        '🔄 Oferta SDP pendiente detectada, esperando a que se agreguen tracks locales',
-      );
-      print(
-        '🔍 Datos de oferta pendiente: callId=${_pendingOffer!['callId']}, from=${_pendingOffer!['from']}, to=${_pendingOffer!['to']}',
-      );
+      // Oferta SDP pendiente detectada, esperando a que se agreguen tracks locales
     } else {
-      print('ℹ️ No hay oferta SDP pendiente');
       if (_pendingIceCandidates.isNotEmpty) {
         // Solo procesar candidatos si no hay oferta pendiente
-        print(
-          '🔄 Procesando ${_pendingIceCandidates.length} candidatos ICE pendientes (sin oferta)',
-        );
         _processPendingIceCandidates();
       }
     }
@@ -226,29 +166,15 @@ class SocketService {
   // Nuevo método para procesar oferta pendiente después de agregar tracks
   void processPendingOfferAfterTracks() {
     if (_peerConnection == null || _pendingOffer == null) {
-      print('ℹ️ No hay oferta pendiente o peerConnection para procesar');
       return;
     }
-
-    print(
-      '🔄 Procesando oferta SDP pendiente DESPUÉS de agregar tracks locales',
-    );
-    print(
-      '🔍 Datos de oferta pendiente: callId=${_pendingOffer!['callId']}, from=${_pendingOffer!['from']}, to=${_pendingOffer!['to']}',
-    );
 
     // Procesar la oferta después de un pequeño delay para asegurar que los tracks estén agregados
     Future.delayed(const Duration(milliseconds: 100), () async {
       await _processPendingOffer();
-      print(
-        '✅ Oferta SDP pendiente procesada completamente después de agregar tracks',
-      );
 
       // Después de procesar la oferta, procesar candidatos ICE pendientes
       if (_pendingIceCandidates.isNotEmpty) {
-        print(
-          '🔄 Procesando ${_pendingIceCandidates.length} candidatos ICE después de la oferta',
-        );
         await Future.delayed(const Duration(milliseconds: 500));
         _processPendingIceCandidates();
       }
@@ -265,13 +191,9 @@ class SocketService {
     try {
       final remoteDescription = await _peerConnection!.getRemoteDescription();
       if (remoteDescription == null) {
-        print(
-          '⚠️ No se puede procesar candidatos ICE: descripción remota no establecida aún',
-        );
         return; // No limpiar la lista, intentar más tarde
       }
     } catch (e) {
-      print('⚠️ Error al verificar descripción remota: $e');
       return; // No limpiar la lista, intentar más tarde
     }
 
@@ -287,9 +209,7 @@ class SocketService {
             candidateData['sdpMLineIndex'],
           ),
         );
-        print('✅ Candidato ICE pendiente procesado correctamente');
       } catch (e) {
-        print('⚠️ Error al procesar candidato ICE pendiente: $e');
         // Si hay error, volver a agregar a la lista pendiente
         _pendingIceCandidates.add(candidateData);
       }
@@ -298,51 +218,37 @@ class SocketService {
 
   // Procesa la oferta SDP pendiente
   Future<void> _processPendingOffer() async {
-    print('🎯 INICIANDO _processPendingOffer()');
-
     if (_peerConnection == null) {
-      print('❌ No se puede procesar oferta SDP: peerConnection es nulo');
       return;
     }
 
     if (_pendingOffer == null) {
-      print('ℹ️ No hay oferta SDP pendiente para procesar');
       return;
     }
 
     try {
-      print('🔄 Procesando oferta SDP pendiente');
-      print('🔍 Datos completos de _pendingOffer: $_pendingOffer');
-
       final sdp = _pendingOffer!['sdp'];
-      print('🔍 SDP extraído: $sdp');
 
       if (sdp != null &&
           sdp is Map<String, dynamic> &&
           sdp['sdp'] != null &&
           sdp['type'] != null) {
-        print('✅ SDP válido encontrado, tipo: ${sdp['type']}');
         // Verificar si ya hay una descripción remota (evitar duplicados)
         bool hasExistingRemoteDescription = false;
         try {
           final currentDesc = await _peerConnection!.getRemoteDescription();
           hasExistingRemoteDescription = currentDesc != null;
           if (hasExistingRemoteDescription) {
-            print(
-              '⚠️ Ya existe una descripción remota, verificando si es la misma',
-            );
+            // Ya existe una descripción remota, verificando si es la misma
           }
         } catch (e) {
-          print('Info: No se pudo verificar descripción remota: $e');
+          // Info: No se pudo verificar descripción remota
         }
 
         try {
           // 🔐 INICIAR INTERCAMBIO DE CLAVES DE CIFRADO ANTES DE PROCESAR OFERTA PENDIENTE
           final pendingCallId = _pendingOffer!['callId'];
           if (pendingCallId != null) {
-            print(
-              '🔐 [SOCKET] 🚀 Iniciando intercambio DH para oferta pendiente',
-            );
             diagnoseEncryption();
             _startEncryptionKeyExchange(pendingCallId, false);
           }
@@ -353,7 +259,6 @@ class SocketService {
           );
 
           _hasRemoteDescription = true;
-          print('✅ Descripción remota establecida desde oferta pendiente');
 
           // Iniciar temporizador para reintentar procesar candidatos pendientes
           _startPendingCandidatesTimer();
@@ -364,12 +269,10 @@ class SocketService {
 
           // Verificar que tenemos todos los datos necesarios antes de enviar la respuesta
           if (_pendingOffer!['callId'] == null) {
-            print('❌ ERROR: callId es null al enviar respuesta SDP');
             return;
           }
 
           if (_pendingOffer!['from'] == null) {
-            print('❌ ERROR: from es null al enviar respuesta SDP');
             return;
           }
 
@@ -381,32 +284,16 @@ class SocketService {
             'sdp': {'type': answer.type, 'sdp': answer.sdp},
           };
 
-          print('🎯 PREPARANDO ENVÍO DE ANSWER SDP');
-          print('🔍 Socket conectado: ${socket?.connected}');
-          print('🔍 Socket no es nulo: ${socket != null}');
-          print(
-            '⚡️ Enviando answer con: callId=${emitterData['callId']}, from=${emitterData['from']}, to=${emitterData['to']}',
-          );
-          print('🔍 Datos completos del answer: $emitterData');
-
           if (socket == null) {
-            print('❌ ERROR CRÍTICO: Socket es nulo, no se puede enviar answer');
             return;
           }
 
           if (!socket!.connected) {
-            print(
-              '❌ ERROR CRÍTICO: Socket no está conectado, no se puede enviar answer',
-            );
             return;
           }
 
           socket!.emit('answer', emitterData);
-          print('✅ Respuesta SDP enviada al emisor exitosamente');
         } catch (e) {
-          print(
-            '❌ Error al establecer descripción remota o crear respuesta: $e',
-          );
           _hasRemoteDescription =
               false; // Asegurar que estado es correcto en caso de error
           return;
@@ -419,10 +306,9 @@ class SocketService {
         // El temporizador _startPendingCandidatesTimer() ya se encargará de eso
         // Esto evita el error "The remote description was null"
       } else {
-        print('❌ Oferta SDP pendiente inválida o con formato incorrecto: $sdp');
+        // Oferta SDP pendiente inválida o con formato incorrecto
       }
     } catch (e) {
-      print('❌ Error al procesar oferta SDP pendiente: $e');
       _hasRemoteDescription =
           false; // Asegurar que estado es correcto en caso de error
     }
@@ -432,17 +318,12 @@ class SocketService {
     try {
       if (_token == null) {
         // ⬅️  espera al token
-        print('⏸️  Esperando token para abrir Socket.IO');
         return;
       }
 
       // No volver a desconectar si ya estamos dentro
       // solo lo hacemos la primera vez
       if (socket != null) return;
-
-      print(
-        '[DEBUG] Conectando Socket.IO a https://clubprivado.ws con path /signaling/socket.io',
-      );
 
       // Crear socket de forma compatible con todas las plataformas
       socket = _buildSocket(_token);
@@ -457,27 +338,16 @@ class SocketService {
         // Detener cualquier temporizador pendiente
         _reconnectTimer?.cancel();
 
-        print('🔌 Socket.IO conectado');
-        print(
-          '🔍 Estado de peerConnection al conectar socket: ${_peerConnection != null ? "disponible" : "nulo"}',
-        );
-
         // Si tenemos un callId pendiente, unirse automáticamente
         if (_currentCallId != null && _token != null) {
-          print('🔄 Reconectado: uniendo a llamada pendiente $_currentCallId');
           // Incluir _lastTo para mantener el destinatario al reconectar
           _joinCallInternal(_currentCallId!, _token!, to: _lastTo);
         }
 
         // 🚀 REENVIAR OFERTA SDP PENDIENTE si existe
         if (_pendingOutgoingOffer != null) {
-          print('🚀 Reenviando oferta SDP pendiente después de reconexión');
-          print('🚀 Datos de oferta pendiente: $_pendingOutgoingOffer');
-
           // Reenviar la oferta
           socket!.emit('offer', _pendingOutgoingOffer);
-          print('✅ Oferta SDP pendiente reenviada exitosamente');
-
           // Limpiar la oferta pendiente
           _pendingOutgoingOffer = null;
         }
@@ -485,32 +355,22 @@ class SocketService {
 
       socket?.onConnectError((error) {
         _isConnected = false;
-        print('❌ Error de conexión Socket.IO: $error');
-        print(
-          'Detalles conexión: URL=https://clubprivado.ws, path=/signaling/socket.io, token=${_token != null ? 'presente' : 'ausente'}',
-        );
         _scheduleReconnect();
       });
 
       socket?.onError((error) {
-        print('⚠️ Error general Socket.IO: $error');
         if (error.toString().contains('auth')) {
-          print('⚠️ Posible problema con el token de autorización');
+          // Posible problema con el token de autorización
         }
       });
 
       socket?.onDisconnect((reason) {
         _isConnected = false;
-        print('⚠️ Socket.IO desconectado. Razón: $reason');
-        print(
-          '🔍 Estado de peerConnection al desconectar: ${_peerConnection != null ? "disponible" : "nulo"}',
-        );
         _scheduleReconnect();
       });
 
       _setupSocketListeners();
     } catch (e) {
-      print('🚨 Error crítico Socket.IO: $e');
       _scheduleReconnect();
     }
   }
@@ -545,29 +405,18 @@ class SocketService {
       final delay = Duration(
         seconds: _reconnectAttempts * 2,
       ); // Backoff exponencial
-      print(
-        'Programando reconexión #$_reconnectAttempts en ${delay.inSeconds} segundos',
-      );
       _reconnectTimer = Timer(delay, _reconnect);
     } else {
-      print(
-        'Máximo número de intentos de reconexión alcanzado ($maxReconnectAttempts)',
-      );
+      // Máximo número de intentos de reconexión alcanzado
     }
   }
 
   void _reconnect() {
     if (_isReconnecting) {
-      print('Ya hay una reconexión en progreso, ignorando solicitud duplicada');
       return;
     }
 
     _isReconnecting = true;
-    print('Intentando reconexión de Socket.io...');
-    print(
-      '🔍 Estado de peerConnection antes de reconectar: ${_peerConnection != null ? "disponible" : "nulo"}',
-    );
-
     // Guardar la referencia actual al peerConnection
     final existingPeerConnection = _peerConnection;
 
@@ -582,21 +431,12 @@ class SocketService {
       // Verificar la conexión después de un breve retraso
       Future.delayed(const Duration(seconds: 2), () {
         if (socket != null && socket!.connected) {
-          print('✅ Reconexión exitosa');
-
           // Verificar si se mantuvo la referencia al peerConnection
           if (_peerConnection == null && existingPeerConnection != null) {
-            print(
-              '🔄 Restaurando referencia a peerConnection después de reconexión',
-            );
             _peerConnection = existingPeerConnection;
           }
-
-          print(
-            '🔍 Estado de peerConnection después de reconectar: ${_peerConnection != null ? "disponible" : "nulo"}',
-          );
         } else {
-          print('⚠️ La reconexión no se completó correctamente');
+          // La reconexión no se completó correctamente
         }
       });
     } finally {
@@ -606,30 +446,19 @@ class SocketService {
 
   // Método explícito para forzar el refresco de la conexión
   void refreshConnection() {
-    print('🔄 Refrescando conexión de socket...');
-    print(
-      '🔍 Estado de peerConnection antes de refrescar: ${_peerConnection != null ? "disponible" : "nulo"}',
-    );
-
     if (socket != null) {
       // Garantizar que los listeners estén configurados
       _setupSocketListeners();
 
       if (!socket!.connected) {
         socket!.connect();
-        print('⚡️ Intentando reconexión explícita del socket');
       } else {
-        print('✅ Socket ya conectado, refrescando listeners');
+        // Socket ya conectado, refrescando listeners
       }
     } else {
       _initSocket();
-      print('🆕 Creando nuevo socket');
     }
-
     // Verificar estado de peerConnection después del refresco
-    print(
-      '🔍 Estado de peerConnection después de refrescar: ${_peerConnection != null ? "disponible" : "nulo"}',
-    );
   }
 
   void _setupSocketListeners() {
@@ -648,26 +477,18 @@ class SocketService {
 
       socket?.on('user-joined', (data) {
         if (data == null || data is! Map<String, dynamic>) {
-          print('⚠️ user-joined payload no válido o null, lo ignoramos: $data');
           return;
         }
-        print('User joined: ${data['userId']}');
       });
 
       socket?.on('user-left', (data) {
         if (data == null || data is! Map<String, dynamic>) {
-          print('⚠️ user-left payload no válido o null, lo ignoramos: $data');
           return;
         }
-        print('User left: ${data['userId']}');
       });
 
       socket?.on('incoming-call', (data) {
-        print('🔔 Llamada entrante recibida: $data');
         if (data == null || data is! Map<String, dynamic>) {
-          print(
-            '⚠️ incoming-call payload no válido o null, lo ignoramos: $data',
-          );
           return;
         }
 
@@ -676,36 +497,26 @@ class SocketService {
         final from = data['from'] as String?;
 
         if (callId == null || token == null) {
-          print(
-            '⚠️ incoming-call con datos incompletos: callId=$callId, token=$token, from=$from',
-          );
           return;
         }
 
         // Verificar si ya estamos procesando esta llamada
         if (_currentCallId == callId) {
-          print(
-            '⚠️ Ya estamos en la llamada $callId, ignorando notificación duplicada',
-          );
           return;
         }
 
         // Verificar si ya procesamos esta notificación de llamada entrante
         if (_processedIncomingCalls.contains(callId)) {
-          print('⚠️ Llamada entrante $callId ya fue procesada anteriormente');
           return;
         }
 
         _processedIncomingCalls.add(callId);
-        print('✅ Procesando llamada entrante: callId=$callId, from=$from');
 
         // Auto-guardar el ID del emisor para referencia futura
         if (from != null) {
-          print('📝 Guardando el ID del emisor: $from para uso futuro');
           final callData = {'initiatorId': from, 'callId': callId};
           // Almacenar en una variable estática para uso futuro
           _lastIncomingCallData[callId] = callData;
-          print('📋 Datos de llamada actualizados: $callData');
         }
 
         // Establecer el callId actual ANTES de unirse
@@ -722,23 +533,18 @@ class SocketService {
         if (_onIncomingCallCallback != null) {
           _onIncomingCallCallback!(callId, from ?? 'desconocido', token);
         } else {
-          print('⚠️ No hay callback registrado para llamadas entrantes');
+          // No hay callback registrado para llamadas entrantes
         }
       });
 
       socket?.on('offer', (incoming) async {
-        print('🎯 EVENTO OFFER RECIBIDO: $incoming');
-        print('🎯 Tipo de datos: ${incoming.runtimeType}');
-        print('🎯 Es nulo: ${incoming == null}');
         try {
           if (incoming == null) {
-            print('⚠️ oferta SDP es null, ignorando');
             return;
           }
 
           // Verificar tipo de datos y estructura
           if (incoming is! Map) {
-            print('⚠️ oferta SDP no es un Map: ${incoming.runtimeType}');
             return;
           }
 
@@ -751,16 +557,12 @@ class SocketService {
               }
             });
           } catch (e) {
-            print(
-              '⚠️ Error al convertir oferta SDP a Map<String, dynamic>: $e',
-            );
             return;
           }
 
           // Validar que el SDP exista y tenga la estructura correcta
           final sdp = safeIncoming['sdp'];
           if (sdp == null) {
-            print('⚠️ campo sdp no encontrado en la oferta');
             return;
           }
 
@@ -774,25 +576,18 @@ class SocketService {
                 }
               });
             } catch (e) {
-              print('⚠️ Error al convertir sdp a Map<String, dynamic>: $e');
               return;
             }
           } else {
-            print('⚠️ sdp no es un Map: ${sdp.runtimeType}');
             return;
           }
 
           if (safeSdp['sdp'] == null || safeSdp['type'] == null) {
-            print('ERROR: SDP inválido, campos requeridos faltantes: $safeSdp');
             return;
           }
 
           // Verificar si el peerConnection está disponible
           if (_peerConnection == null) {
-            print(
-              '⚠️ peerConnection es nulo, guardando oferta SDP para procesamiento posterior',
-            );
-
             // Guardar oferta para procesamiento posterior
             // IMPORTANTE: Incluir el callId actual y los datos necesarios
             _pendingOffer = {
@@ -801,18 +596,6 @@ class SocketService {
               'from': safeIncoming['from'],
               'to': safeIncoming['to'],
             };
-
-            print('🔍 OFERTA SDP GUARDADA COMO PENDIENTE:');
-            print('🔍 _pendingOffer = $_pendingOffer');
-            print('🔍 _currentCallId = $_currentCallId');
-            print('🔍 Esperando a que se actualice peerConnection...');
-
-            // CRÍTICO: Verificar si hay algún problema con la inicialización
-            print('🔍 DIAGNÓSTICO: ¿Por qué peerConnection es nulo?');
-            print('🔍 - Socket conectado: ${socket?.connected}');
-            print('🔍 - CallId actual: $_currentCallId');
-            print('🔍 - Token disponible: ${_token != null}');
-
             return;
           }
 
@@ -821,22 +604,15 @@ class SocketService {
             final connectionState = await _peerConnection!.getConnectionState();
             if (connectionState ==
                 RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
-              print(
-                '❌ ERROR: PeerConnection está cerrado, no se puede procesar oferta SDP',
-              );
               return;
             }
           } catch (e) {
-            print('⚠️ Error verificando estado de peerConnection: $e');
             return;
           }
 
           // 🔐 INICIAR INTERCAMBIO DE CLAVES DE CIFRADO ANTES DE PROCESAR SDP (RECEPTOR)
           final receiverCallId = safeIncoming['callId'] ?? _currentCallId;
           if (receiverCallId != null) {
-            print(
-              '🔐 [SOCKET] 🚀 Iniciando intercambio DH ANTES de procesar oferta SDP',
-            );
             diagnoseEncryption();
             _startEncryptionKeyExchange(receiverCallId, false);
           }
@@ -858,20 +634,15 @@ class SocketService {
           // Si falta el callId, intentar usar _currentCallId (establecido por setCallData)
           if (callId == null && _currentCallId != null) {
             callId = _currentCallId;
-            print('🔍 Usando callId almacenado: $callId');
           }
 
           // Si falta el destinatario (to), intentar usar _lastTo
           if (to == null && _lastTo != null) {
             to = _lastTo;
-            print('🔍 Usando initiatorId almacenado como destinatario: $to');
           }
 
           // Verificar de nuevo
           if (callId == null || from == null || to == null) {
-            print(
-              'ERROR: Datos necesarios faltantes en la oferta SDP incluso después de usar fallbacks: callId=$callId, from=$from, to=$to',
-            );
             return;
           }
 
@@ -885,33 +656,25 @@ class SocketService {
             'sdp': {'type': answer.type, 'sdp': answer.sdp},
           };
 
-          print(
-            '⚡️ Enviando answer en tiempo real: callId=${answerData['callId']}, from=${answerData['from']}, to=${answerData['to']}',
-          );
           socket?.emit('answer', answerData);
-          print('✅ Respuesta SDP enviada al emisor en tiempo real');
 
           // 🔐 INTERCAMBIO DE CLAVES YA INICIADO ANTES DE PROCESAR SDP
-          print('🔐 [SOCKET] ✅ Intercambio DH ya iniciado previamente');
 
           // Procesar candidatos ICE pendientes después de establecer la oferta
           _processPendingIceCandidates();
         } catch (e) {
-          print('ERROR procesando oferta SDP: $e');
+          // ERROR procesando oferta SDP
         }
       });
 
       socket?.on('answer', (incoming) async {
-        print('📥 Recibida respuesta SDP: $incoming');
         try {
           if (incoming == null) {
-            print('⚠️ respuesta SDP es null, ignorando');
             return;
           }
 
           // Verificar tipo de datos y estructura
           if (incoming is! Map) {
-            print('⚠️ respuesta SDP no es un Map: ${incoming.runtimeType}');
             return;
           }
 
@@ -924,16 +687,10 @@ class SocketService {
               }
             });
           } catch (e) {
-            print(
-              '⚠️ Error al convertir respuesta SDP a Map<String, dynamic>: $e',
-            );
             return;
           }
 
           if (_peerConnection == null) {
-            print(
-              'ERROR: peerConnection es nulo, no se puede procesar respuesta',
-            );
             return;
           }
 
@@ -942,41 +699,25 @@ class SocketService {
             final connectionState = await _peerConnection!.getConnectionState();
             if (connectionState ==
                 RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
-              print(
-                '❌ ERROR: PeerConnection está cerrado, no se puede procesar respuesta SDP',
-              );
               return;
             }
           } catch (e) {
-            print(
-              '⚠️ Error verificando estado de peerConnection para respuesta: $e',
-            );
             return;
           }
 
           // Verificar que los datos de callId y remitentes sean correctos
           final responseCallId = safeIncoming['callId'] as String?;
           if (responseCallId == null) {
-            print(
-              '⚠️ La respuesta no contiene callId, usando _currentCallId: $_currentCallId',
-            );
             if (_currentCallId == null) {
-              print('❌ No hay callId disponible para procesar respuesta SDP');
               return;
             }
-          } else {
-            print('📝 Respuesta para llamada: $responseCallId');
           }
 
-          final effectiveCallId = responseCallId ?? _currentCallId;
-          print('📝 CallId efectivo para procesar: $effectiveCallId');
-          print('📝 Remitente (from): ${safeIncoming['from']}');
-          print('📝 Destinatario (to): ${safeIncoming['to']}');
+          // final effectiveCallId = responseCallId ?? _currentCallId;
 
           // Validar que el SDP exista y tenga la estructura correcta
           final sdp = safeIncoming['sdp'];
           if (sdp == null) {
-            print('⚠️ campo sdp no encontrado en la respuesta');
             return;
           }
 
@@ -990,18 +731,13 @@ class SocketService {
                 }
               });
             } catch (e) {
-              print('⚠️ Error al convertir sdp a Map<String, dynamic>: $e');
               return;
             }
           } else {
-            print('⚠️ sdp no es un Map: ${sdp.runtimeType}');
             return;
           }
 
           if (safeSdp['sdp'] == null || safeSdp['type'] == null) {
-            print(
-              'ERROR: SDP inválido en respuesta, campos requeridos faltantes: $safeSdp',
-            );
             return;
           }
 
@@ -1009,7 +745,6 @@ class SocketService {
             RTCSessionDescription(safeSdp['sdp'], safeSdp['type']),
           );
           _hasRemoteDescription = true;
-          print('✅ Descripción remota establecida desde respuesta SDP');
 
           // Iniciar temporizador para reintentar procesar candidatos pendientes
           _startPendingCandidatesTimer();
@@ -1018,21 +753,18 @@ class SocketService {
           await Future.delayed(const Duration(milliseconds: 500));
           _processPendingIceCandidates();
         } catch (e) {
-          print('ERROR procesando respuesta SDP: $e');
+          // ERROR procesando respuesta SDP
         }
       });
 
       socket?.on('ice-candidate', (incoming) async {
-        print('Recibido candidato ICE: $incoming');
         try {
           if (incoming == null) {
-            print('⚠️ candidato ICE es null, ignorando');
             return;
           }
 
           // Verificar tipo de datos y estructura
           if (incoming is! Map) {
-            print('⚠️ candidato ICE no es un Map: ${incoming.runtimeType}');
             return;
           }
 
@@ -1045,16 +777,12 @@ class SocketService {
               }
             });
           } catch (e) {
-            print(
-              '⚠️ Error al convertir candidato ICE a Map<String, dynamic>: $e',
-            );
             return;
           }
 
           // Validar que el candidato exista y tenga la estructura correcta
           final candidate = safeIncoming['candidate'];
           if (candidate == null) {
-            print('⚠️ campo candidate no encontrado en el mensaje');
             return;
           }
 
@@ -1068,30 +796,20 @@ class SocketService {
                 }
               });
             } catch (e) {
-              print(
-                '⚠️ Error al convertir candidate a Map<String, dynamic>: $e',
-              );
               return;
             }
           } else {
-            print('⚠️ candidate no es un Map: ${candidate.runtimeType}');
             return;
           }
 
           if (safeCandidate['candidate'] == null ||
               safeCandidate['sdpMid'] == null ||
               safeCandidate['sdpMLineIndex'] == null) {
-            print(
-              'ERROR: Candidato ICE inválido, campos requeridos faltantes: $safeCandidate',
-            );
             return;
           }
 
           // Si no hay peerConnection o no tenemos descripción remota, guardamos el candidato
           if (_peerConnection == null) {
-            print(
-              '⚠️ No se puede procesar candidato ICE: peerConnection es nulo, guardando para más tarde',
-            );
             _pendingIceCandidates.add({
               'candidate': safeCandidate['candidate'],
               'sdpMid': safeCandidate['sdpMid'],
@@ -1107,13 +825,9 @@ class SocketService {
                     RTCPeerConnectionState.RTCPeerConnectionStateClosed ||
                 connectionState ==
                     RTCPeerConnectionState.RTCPeerConnectionStateFailed) {
-              print(
-                '⚠️ PeerConnection está cerrada o falló, no se puede procesar candidato ICE',
-              );
               return;
             }
           } catch (e) {
-            print('⚠️ Error verificando estado de conexión: $e');
             // Continuar con el procesamiento
           }
 
@@ -1127,20 +841,14 @@ class SocketService {
                   await _peerConnection!.getRemoteDescription();
               hasDesc = remoteDesc != null;
               if (hasDesc && !_hasRemoteDescription) {
-                print(
-                  '⚠️ Se detectó descripción remota existente, actualizando _hasRemoteDescription',
-                );
                 _hasRemoteDescription = true;
               }
             } catch (e) {
-              print('No se pudo verificar descripción remota: $e');
+              // No se pudo verificar descripción remota
             }
           }
 
           if (!hasDesc) {
-            print(
-              '⚠️ No se puede procesar candidato ICE: sin descripción remota, guardando para procesamiento posterior',
-            );
             _pendingIceCandidates.add({
               'candidate': safeCandidate['candidate'],
               'sdpMid': safeCandidate['sdpMid'],
@@ -1158,16 +866,10 @@ class SocketService {
                 safeCandidate['sdpMLineIndex'],
               ),
             );
-            print('✅ Candidato ICE procesado correctamente');
           } catch (e) {
-            print('ERROR procesando candidato ICE: $e');
-
             // Si hubo error, almacenar el candidato para intentarlo más tarde
             if (e.toString().contains('The remote description was null') ||
                 e.toString().contains('setRemoteDescription')) {
-              print(
-                '⚠️ Error sugiere problema con descripción remota - guardando candidato para procesamiento posterior',
-              );
               _pendingIceCandidates.add({
                 'candidate': safeCandidate['candidate'],
                 'sdpMid': safeCandidate['sdpMid'],
@@ -1179,17 +881,14 @@ class SocketService {
             }
           }
         } catch (e) {
-          print('ERROR general procesando candidato ICE: $e');
+          // ERROR general procesando candidato ICE
         }
       });
 
       socket?.on('call-ended', (data) {
         if (data == null || data is! Map<String, dynamic>) {
-          print('⚠️ call-ended payload no válido o null, lo ignoramos: $data');
           return;
         }
-        print('🔚 Llamada terminada por el otro usuario: $data');
-
         // LIMPIAR COMPLETAMENTE todos los recursos WebRTC
         _cleanupCallResources();
 
@@ -1200,93 +899,64 @@ class SocketService {
       // 🔐 LISTENER PARA INTERCAMBIO MILITAR DH - ZERO KNOWLEDGE
       socket?.on('secure-key-exchange', (data) {
         if (data == null || data is! Map<String, dynamic>) {
-          print('🔐 [SOCKET] ⚠️ secure-key-exchange payload no válido: $data');
           return;
         }
-        print(
-          '🔐 [SOCKET] 📥 Evento secure-key-exchange recibido - PROCESANDO DH',
-        );
         _handleSecureKeyExchange(data);
       });
 
       // 🔐 LISTENER OBSOLETO PARA RETROCOMPATIBILIDAD
       socket?.on('encryption-key', (data) {
         if (data == null || data is! Map<String, dynamic>) {
-          print('🔐 [SOCKET] ⚠️ encryption-key payload no válido: $data');
           return;
         }
-        print('🔐 [SOCKET] 📥 Evento encryption-key recibido (OBSOLETO)');
-        print(
-          '🔐 [SOCKET] ⚠️ ADVERTENCIA: Usando método inseguro - actualizar a DH militar',
-        );
         _handleEncryptionKey(data);
       });
 
       socket?.on('call-status', (data) {
         if (data == null || data is! Map<String, dynamic>) {
-          print('⚠️ call-status payload no válido o null, lo ignoramos: $data');
           return;
         }
 
-        print('Estado de llamada actualizado: $data');
-        print('[DEBUG] call-status data type: ${data.runtimeType}');
-
         // Verificar si status existe y es un String antes de procesar
         if (!data.containsKey('status') || data['status'] == null) {
-          print('⚠️ call-status sin campo status o status es null: $data');
           return;
         }
 
         // Imprimir cada clave y su tipo de dato
         data.forEach((key, value) {
-          print('[DEBUG] call-status $key: $value (${value?.runtimeType})');
+          // [DEBUG] call-status $key: $value (${value?.runtimeType})
         });
 
         // Si hay un objeto anidado en alguna propiedad, verificarlo también
         if (data['status'] is Map) {
-          print(
-            '⚠️ Advertencia: status es un Map anidado, podría causar problemas de cast',
-          );
+          // Advertencia: status es un Map anidado, podría causar problemas de cast
         }
       });
 
       socket?.on('ping-user', (data) {
-        print('🏓 Ping recibido: $data');
         if (data != null && data is Map<String, dynamic>) {
           final type = data['type'];
           final from = data['from'];
-          final to = data['to'];
-          final callId = data['callId'];
+          // final to = data['to'];
+          // final callId = data['callId'];
 
           if (type == 'offer-sent') {
-            print(
-              '🎯 Confirmación: El emisor envió una oferta SDP para callId: $callId',
-            );
-            print('🎯 Emisor: $from, Receptor esperado: $to');
-
             // Responder con confirmación de que estamos conectados
             socket?.emit('ping-user', {
               'to': from,
               'from': _currentUserId,
-              'callId': callId,
+              'callId': data['callId'], // Reutilizar callId recibido
               'type': 'receiver-connected',
             });
           } else if (type == 'receiver-connected') {
-            print(
-              '✅ Confirmación: El receptor está conectado y listo para recibir ofertas',
-            );
+            // Confirmación: El receptor está conectado y listo para recibir ofertas
           }
         }
       });
 
       // 🚨 NUEVO: LISTENER PARA LOGOUT FORZADO (SEGURIDAD CRÍTICA)
       socket?.on('session-force-logout', (data) {
-        print('🚨 [SECURITY] Evento session-force-logout recibido: $data');
-
         if (data == null || data is! Map<String, dynamic>) {
-          print(
-            '🚨 [SECURITY] ⚠️ session-force-logout payload no válido: $data',
-          );
           return;
         }
 
@@ -1296,13 +966,6 @@ class SocketService {
           final timestamp =
               data['timestamp'] ?? DateTime.now().toIso8601String();
           final sessionId = data['sessionId'] as String?;
-
-          print('🚨 [SECURITY] Tu sesión fue cerrada forzosamente:');
-          print('🚨 [SECURITY] - Razón: $reason');
-          print('🚨 [SECURITY] - Timestamp: $timestamp');
-          print(
-            '🚨 [SECURITY] - SessionId afectado: ${sessionId?.substring(0, 8)}...',
-          );
 
           // Mostrar alerta crítica de seguridad
           SecurityAlertService.instance.showSessionForcedLogoutAlert(
@@ -1315,13 +978,7 @@ class SocketService {
           _currentCallId = null;
           _token = null;
           _currentUserId = null;
-
-          print(
-            '🚨 [SECURITY] Estado local limpiado después de logout forzado',
-          );
         } catch (e) {
-          print('🚨 [SECURITY] Error procesando session-force-logout: $e');
-
           // Fallback: mostrar alerta genérica
           SecurityAlertService.instance.showSessionForcedLogoutAlert(
             reason: 'Acceso detectado desde otro dispositivo',
@@ -1330,16 +987,12 @@ class SocketService {
         }
       });
     } catch (e) {
-      print('Error configurando listeners de Socket.io: $e');
+      // Error configurando listeners de Socket.io
     }
   }
 
   void joinCall(String callId, String token, {String? to}) {
     try {
-      print(
-        '📣 Uniendo a llamada: $callId, token: ${token.substring(0, math.min(10, token.length))}..., to: $to',
-      );
-
       // Actualizar el token y el callId actual
       _token = token;
       _currentUserId = _extractUserIdFromToken(token);
@@ -1361,25 +1014,17 @@ class SocketService {
         ); // Usar _lastTo como fallback
       } else {
         // No forzamos reconexión, solo esperamos a que onConnect se dispare
-        print(
-          '🔄 Esperando a que Socket.IO se conecte para unirse a $callId...',
-        );
         // onConnect() internamente llamará a _joinCallInternal si _currentCallId != null
       }
     } catch (e) {
-      print('ERROR uniendo a llamada: $e');
+      // ERROR uniendo a llamada
     }
   }
 
   // Método interno para unirse a la llamada (evita duplicación de código)
   void _joinCallInternal(String callId, String token, {String? to}) {
-    print(
-      '🔄 Uniendo a llamada: $callId con token: ${token.substring(0, math.min(10, token.length))}..., to: $to',
-    );
-
     // Validación adicional
     if (callId.isEmpty) {
-      print('❌ ERROR: Intento de unirse a una llamada con callId vacío');
       return;
     }
 
@@ -1387,9 +1032,6 @@ class SocketService {
     if (_lastJoinedCallId == callId &&
         _lastJoinTime != null &&
         DateTime.now().difference(_lastJoinTime!).inSeconds < 5) {
-      print(
-        '⚠️ Ya nos unimos a la llamada $callId hace menos de 5 segundos, evitando duplicado',
-      );
       return;
     }
 
@@ -1410,9 +1052,8 @@ class SocketService {
       final callData = {'callId': callId};
       if (to != null) {
         callData['to'] = to;
-        print('✅ Enviando join-call con destinatario explícito: $to');
       } else {
-        print('⚠️ join-call sin destinatario específico');
+        // join-call sin destinatario específico
       }
 
       socket!.emit('join-call', callData);
@@ -1428,11 +1069,10 @@ class SocketService {
 
   void leaveCall(String callId) {
     try {
-      print('Abandonando llamada: $callId');
       socket?.emit('leave-call', {'callId': callId});
       _currentCallId = null;
     } catch (e) {
-      print('ERROR abandonando llamada: $e');
+      // ERROR abandonando llamada
     }
   }
 
@@ -1443,11 +1083,6 @@ class SocketService {
     RTCSessionDescription offer,
   ) {
     try {
-      print('🚀 Enviando oferta SDP a $to');
-      print('🚀 CallId: $callId, From: $from, To: $to');
-      print('🚀 Socket conectado: ${socket?.connected}');
-      print('🚀 Tipo de oferta: ${offer.type}');
-
       final offerData = {
         'callId': callId,
         'from': from,
@@ -1455,25 +1090,18 @@ class SocketService {
         'sdp': {'type': offer.type, 'sdp': offer.sdp},
       };
 
-      print('🚀 Datos de oferta a enviar: $offerData');
-
       // Verificar que el socket esté conectado antes de enviar
       if (socket == null) {
-        print(
-            '❌ ERROR: Socket es nulo, guardando oferta para reenvío posterior');
         _pendingOutgoingOffer = offerData;
         return;
       }
 
       if (!socket!.connected) {
-        print(
-            '❌ ERROR: Socket no está conectado, guardando oferta para reenvío posterior');
         _pendingOutgoingOffer = offerData;
         return;
       }
 
       socket!.emit('offer', offerData);
-      print('✅ Oferta SDP enviada exitosamente');
 
       // 🔐 DIAGNÓSTICO DE CIFRADO ANTES DEL INTERCAMBIO
       diagnoseEncryption();
@@ -1491,15 +1119,11 @@ class SocketService {
 
       // Agregar un timeout para verificar si se recibe respuesta
       Timer(const Duration(seconds: 5), () {
-        print(
-          '⏰ Timeout: Han pasado 5 segundos desde que se envió la oferta SDP',
-        );
-        print(
-          '⏰ Si no se recibió respuesta, puede haber un problema de conectividad',
-        );
+        // Timeout: Han pasado 5 segundos desde que se envió la oferta SDP
+        // Si no se recibió respuesta, puede haber un problema de conectividad
       });
     } catch (e) {
-      print('❌ ERROR enviando oferta SDP: $e');
+      // ERROR enviando oferta SDP
     }
   }
 
@@ -1510,7 +1134,6 @@ class SocketService {
     RTCIceCandidate candidate,
   ) {
     try {
-      print('Enviando candidato ICE a $to');
       socket?.emit('ice-candidate', {
         'callId': callId,
         'from': from,
@@ -1522,14 +1145,12 @@ class SocketService {
         },
       });
     } catch (e) {
-      print('ERROR enviando candidato ICE: $e');
+      // ERROR enviando candidato ICE
     }
   }
 
   // Limpiar recursos de la llamada actual
   void _cleanupCallResources() {
-    print('🧹 Limpiando recursos de la llamada actual');
-
     // Limpiar estado de la llamada
     _currentCallId = null;
     _lastTo = null;
@@ -1552,7 +1173,6 @@ class SocketService {
     _pendingPublicKeys = null;
 
     // NO cerrar peerConnection aquí, eso lo maneja CallProvider
-    print('✅ Recursos de llamada limpiados');
   }
 
   // Notificar que la llamada terminó
@@ -1560,17 +1180,16 @@ class SocketService {
     if (_onCallEndedCallback != null) {
       _onCallEndedCallback!(data);
     } else {
-      print('⚠️ No hay callback configurado para call-ended');
+      // No hay callback configurado para call-ended
     }
   }
 
   // Enviar evento de llamada terminada
   void sendEndCall(String callId) {
     if (socket != null && socket!.connected) {
-      print('🔚 Enviando end-call para callId: $callId');
       socket!.emit('end-call', {'callId': callId});
     } else {
-      print('⚠️ No se puede enviar end-call: socket no conectado');
+      // No se puede enviar end-call: socket no conectado
     }
   }
 
@@ -1583,7 +1202,6 @@ class SocketService {
     socket = null;
     _peerConnection = null;
     _instance = null;
-    print('🧹 SocketService liberado y recursos limpiados');
   }
 
   // Método para verificar si el socket está conectado
@@ -1594,11 +1212,6 @@ class SocketService {
   // Método para actualizar el token sin necesidad de re-crear el socket
   void updateToken(String newToken) {
     if (_token != newToken) {
-      print('🔄 Actualizando token de autenticación');
-      print(
-        '🔍 Estado de _pendingOffer ANTES de updateToken: ${_pendingOffer != null ? "PRESENTE" : "NULO"}',
-      );
-
       _token = newToken;
       _currentUserId = _extractUserIdFromToken(newToken);
 
@@ -1606,13 +1219,10 @@ class SocketService {
       // Solo limpiar si es una llamada completamente nueva
       final newCallId = _extractCallIdFromToken(newToken);
       if (newCallId != null && newCallId != _currentCallId) {
-        print(
-          '🔄 Nuevo callId detectado ($newCallId vs $_currentCallId), limpiando estado WebRTC',
-        );
         _hasRemoteDescription = false;
         _pendingOffer = null;
       } else {
-        print('✅ Mismo callId, manteniendo _pendingOffer y estado WebRTC');
+        // Mismo callId, manteniendo _pendingOffer y estado WebRTC
       }
 
       // No limpiamos los candidatos ICE pendientes, los procesaremos
@@ -1625,23 +1235,15 @@ class SocketService {
         if (!kIsWeb) {
           socket!.io.options?['extraHeaders'] = {'x-auth-token': newToken};
         }
-        print('✅ Token de autenticación Socket.IO actualizado');
       } else {
         // Si no está conectado, intentar reconexión con el nuevo token
         _reconnect();
       }
-
-      print(
-        '🔍 Estado de _pendingOffer DESPUÉS de updateToken: ${_pendingOffer != null ? "PRESENTE" : "NULO"}',
-      );
     }
   }
 
   // Método para establecer los datos de la llamada actual
   void setCallData(String callId, String? initiatorId) {
-    print(
-      '📝 Estableciendo datos de llamada: callId=$callId, initiatorId=$initiatorId',
-    );
     _currentCallId = callId;
 
     // Si tenemos el initiatorId, guardarlo para uso futuro
@@ -1653,12 +1255,8 @@ class SocketService {
         'initiatorId': initiatorId,
         'callId': callId,
       };
-
-      print(
-        '✅ Datos de llamada guardados: callId=$callId, initiatorId=$initiatorId',
-      );
     } else {
-      print('⚠️ No se proporcionó initiatorId al establecer datos de llamada');
+      // No se proporcionó initiatorId al establecer datos de llamada
     }
   }
 
@@ -1674,23 +1272,13 @@ class SocketService {
 
     // Iniciar nuevo temporizador si hay candidatos pendientes
     if (_pendingIceCandidates.isNotEmpty) {
-      print(
-        '⏱️ Iniciando temporizador para reintentar procesar ${_pendingIceCandidates.length} candidatos ICE pendientes',
-      );
-
       // IMPORTANTE: Esperar 1 segundo antes del primer intento para dar tiempo
       // a que la descripción remota se establezca completamente
       Timer(const Duration(milliseconds: 1000), () {
         if (_pendingIceCandidates.isEmpty || _peerConnection == null) {
-          print(
-            '⚠️ Candidatos ICE o peerConnection no disponibles después del delay inicial',
-          );
           return;
         }
 
-        print(
-          '🔄 Primer intento de procesar candidatos ICE después del delay inicial',
-        );
         _processPendingIceCandidates();
 
         // Si aún quedan candidatos, iniciar temporizador periódico
@@ -1700,35 +1288,21 @@ class SocketService {
           ) async {
             if (_pendingIceCandidates.isEmpty) {
               timer.cancel();
-              print(
-                '✅ Temporizador de candidatos ICE cancelado: no hay candidatos pendientes',
-              );
               return;
             }
 
             if (_peerConnection == null) {
               timer.cancel();
-              print(
-                '❌ Temporizador de candidatos ICE cancelado: peerConnection es nulo',
-              );
               return;
             }
 
-            print(
-              '🔄 Reintentando procesar candidatos ICE pendientes: ${_pendingIceCandidates.length} restantes',
-            );
             _processPendingIceCandidates();
 
             // Limitar a un máximo de 10 intentos (20 segundos)
             if (timer.tick >= 10) {
               timer.cancel();
-              print(
-                '⚠️ Temporizador de candidatos ICE cancelado después de 10 intentos',
-              );
               if (_pendingIceCandidates.isNotEmpty) {
-                print(
-                  '⚠️ Aún quedan ${_pendingIceCandidates.length} candidatos ICE sin procesar',
-                );
+                // Aún quedan candidatos ICE sin procesar
               }
             }
           });
@@ -1749,11 +1323,10 @@ class SocketService {
 
         // Intentar extraer userId o id del token
         final userId = data['userId'] ?? data['id'] ?? '';
-        print('📝 UserId extraído del token: $userId');
         return userId;
       }
     } catch (e) {
-      print('⚠️ Error al extraer ID de usuario del token: $e');
+      // Error al extraer ID de usuario del token
     }
     return ''; // Retornar string vacío si no se puede extraer
   }
@@ -1770,11 +1343,10 @@ class SocketService {
 
         // Intentar extraer callId del token
         final callId = data['callId'];
-        print('📝 CallId extraído del token: $callId');
         return callId;
       }
     } catch (e) {
-      print('⚠️ Error al extraer callId del token: $e');
+      // Error al extraer callId del token
     }
     return null; // Retornar null si no se puede extraer
   }
@@ -1787,20 +1359,14 @@ class SocketService {
     // Solo en iOS - verificación web-compatible
     try {
       if (!Platform.isIOS) {
-        print('🔔 VoIP: Solo disponible en iOS, omitiendo notificación');
         return;
       }
     } catch (e) {
       // En Web, Platform.isIOS lanza excepción
-      print('🔔 VoIP: No disponible en Web/navegador, omitiendo notificación');
       return;
     }
 
     try {
-      print(
-        '🔔 Disparando notificación VoIP para callId: $callId, from: $fromUserId',
-      );
-
       // Obtener nombre del usuario que llama
       String callerName = 'Llamada entrante';
       if (fromUserId != null && _token != null) {
@@ -1812,10 +1378,8 @@ class SocketService {
           if (response.statusCode == 200 && response.body.isNotEmpty) {
             final userData = jsonDecode(response.body);
             callerName = userData['nickname'] ?? 'Llamada entrante';
-            print('🔔 Nombre del llamante obtenido: $callerName');
           }
         } catch (e) {
-          print('⚠️ Error obteniendo nombre del llamante: $e');
           // Continuar con nombre por defecto
         }
       }
@@ -1825,10 +1389,7 @@ class SocketService {
         callId: callId,
         callerName: callerName,
       );
-
-      print('✅ Notificación VoIP disparada exitosamente');
     } catch (e) {
-      print('❌ Error disparando notificación VoIP: $e');
       // No es crítico, el sistema WebSocket sigue funcionando
     }
   }
@@ -1838,21 +1399,11 @@ class SocketService {
   /// Inicializa el servicio de cifrado ChaCha20-Poly1305
   Future<void> _initEncryption() async {
     try {
-      print('🔐 [SOCKET] Inicializando cifrado ChaCha20-Poly1305...');
-
       _encryptionService = EncryptionService();
       await _encryptionService!.initialize();
 
       _encryptionInitialized = true;
-      print(
-        '🔐 [SOCKET] ✅ Cifrado ChaCha20-Poly1305 inicializado correctamente',
-      );
-      print(
-        '🔐 [SOCKET] 📊 Estado del cifrado: ${_encryptionService!.getStatus()}',
-      );
     } catch (e) {
-      print('🔐 [SOCKET] ❌ Error inicializando cifrado: $e');
-      print('🔐 [SOCKET] 📋 Stack trace: ${StackTrace.current}');
       _encryptionInitialized = false;
       _encryptionService = null;
     }
@@ -1864,42 +1415,21 @@ class SocketService {
     bool isInitiator,
   ) async {
     if (!_encryptionInitialized || _encryptionService == null) {
-      print(
-        '🔐 [SOCKET] ⚠️ Cifrado no inicializado, omitiendo intercambio de claves',
-      );
-      print(
-        '🔐 [SOCKET] 📊 Estado: initialized=$_encryptionInitialized, service=${_encryptionService != null}',
-      );
-
       // Intentar inicializar el cifrado una vez más
       try {
-        print('🔐 [SOCKET] 🔄 Intentando inicializar cifrado nuevamente...');
         await _initEncryption();
         if (!_encryptionInitialized || _encryptionService == null) {
-          print('🔐 [SOCKET] ❌ Cifrado sigue sin estar disponible');
           return;
         }
-        print(
-          '🔐 [SOCKET] ✅ Cifrado inicializado exitosamente en segundo intento',
-        );
       } catch (e) {
-        print('🔐 [SOCKET] ❌ Segundo intento de inicialización falló: $e');
         return;
       }
     }
 
     try {
-      print('🔐 [SOCKET] 🚀 INICIANDO INTERCAMBIO MILITAR DH - ZERO KNOWLEDGE');
-      print('🔐 [SOCKET] 🎯 CallId: $callId');
-      print('🔐 [SOCKET] 👤 Rol: ${isInitiator ? "INICIADOR" : "RECEPTOR"}');
-      print('🔐 [SOCKET] 🔐 SERVIDOR NUNCA VERÁ SECRETOS COMPARTIDOS');
-
       // PASO 1: GENERAR CLAVES DH LOCALES (NUNCA SALEN DEL DISPOSITIVO)
       final dhKeyPair = await _encryptionService!.generateDHKeyPair();
       final ephemeralPair = await _encryptionService!.generateEphemeralPair();
-
-      print('🔐 [SOCKET] ✅ Pares DH generados localmente');
-      print('🔐 [SOCKET] 🔐 Claves privadas: NUNCA SALEN DEL DISPOSITIVO');
 
       // PASO 2: ENVIAR SOLO CLAVES PÚBLICAS (SEGURO)
       await _sendPublicKeys(
@@ -1913,18 +1443,8 @@ class SocketService {
       _tempEphemeralPrivateKey = ephemeralPair['privateKey']!;
       _tempCallId = callId;
 
-      print('🔐 [SOCKET] ✅ Claves privadas almacenadas para callId: $callId');
-      print('🔐 [SOCKET] 🔐 _tempCallId establecido: $_tempCallId');
-      print('🔐 [SOCKET] ✅ Claves públicas enviadas - esperando respuesta');
-      print(
-        '🔐 [SOCKET] 🔐 MÁXIMA SEGURIDAD: Forward secrecy + Perfect secrecy',
-      );
-
       // 🔄 PROCESAR CLAVES PÚBLICAS PENDIENTES SI LAS HAY
       if (_pendingPublicKeys != null) {
-        print(
-          '🔐 [SOCKET] 🔄 Procesando claves públicas que llegaron antes...',
-        );
         final pendingData = _pendingPublicKeys!;
         _pendingPublicKeys = null; // Limpiar para evitar re-procesamiento
 
@@ -1932,7 +1452,7 @@ class SocketService {
         await _handleSecureKeyExchange(pendingData);
       }
     } catch (e) {
-      print('🔐 [SOCKET] ❌ Error en intercambio DH militar: $e');
+      // Error en intercambio DH militar
     }
   }
 
@@ -1951,19 +1471,11 @@ class SocketService {
     Uint8List ephemeralPublic,
   ) async {
     if (socket == null || !socket!.connected) {
-      print(
-        '🔐 [SOCKET] ❌ No se puede enviar claves públicas: socket no conectado',
-      );
       return;
     }
 
     try {
       final nonce = _encryptionService!.generateSecureNonce();
-
-      print('🔐 [SOCKET] 📤 ENVIANDO CLAVES PÚBLICAS (SEGURO)...');
-      print('🔐 [SOCKET] 📊 DH Pública: ${dhPublic.length} bytes');
-      print('🔐 [SOCKET] 📊 Efímera Pública: ${ephemeralPublic.length} bytes');
-      print('🔐 [SOCKET] 🔐 NINGUNA CLAVE PRIVADA O SECRETA SE ENVÍA');
 
       socket!.emit('secure-key-exchange', {
         'callId': callId,
@@ -1976,23 +1488,18 @@ class SocketService {
         'algorithm': 'Military-DH-Curve25519',
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       });
-
-      print('🔐 [SOCKET] ✅ CLAVES PÚBLICAS ENVIADAS - CERO EXPOSICIÓN');
     } catch (e) {
-      print('🔐 [SOCKET] ❌ Error enviando claves públicas: $e');
+      // Error enviando claves públicas
     }
   }
 
   /// Procesa las claves públicas recibidas y genera secreto compartido LOCALMENTE
   Future<void> _handleSecureKeyExchange(Map<String, dynamic> data) async {
     if (!_encryptionInitialized || _encryptionService == null) {
-      print('🔐 [SOCKET] ⚠️ Cifrado no inicializado, ignorando intercambio DH');
       return;
     }
 
     try {
-      print('🔐 [SOCKET] 📥 CLAVES PÚBLICAS RECIBIDAS - PROCESANDO...');
-
       final step = data['step'] as String?;
       final callId = data['callId'] as String?;
       final dhPublicBase64 = data['dhPublic'] as String?;
@@ -2002,7 +1509,6 @@ class SocketService {
           callId != _currentCallId ||
           dhPublicBase64 == null ||
           ephemeralPublicBase64 == null) {
-        print('🔐 [SOCKET] ❌ Datos de intercambio DH inválidos');
         return;
       }
 
@@ -2010,55 +1516,27 @@ class SocketService {
       if (_tempDHPrivateKey == null ||
           _tempEphemeralPrivateKey == null ||
           _tempCallId != callId) {
-        print(
-          '🔐 [SOCKET] ⚠️ Claves privadas aún no generadas, intentando iniciar intercambio DH',
-        );
-        print(
-          '🔐 [SOCKET] 📋 CallId esperado: $_tempCallId, Recibido: $callId',
-        );
-        print(
-          '🔐 [SOCKET] 📋 DH privada: ${_tempDHPrivateKey != null}, Efímera privada: ${_tempEphemeralPrivateKey != null}',
-        );
-
         // 🔄 INTENTAR INICIAR INTERCAMBIO DH COMO RESPALDO SI NO SE HA INICIADO
         if (_tempCallId == null && callId != null) {
-          print(
-            '🔐 [SOCKET] 🔄 Iniciando intercambio DH de emergencia como receptor',
-          );
           try {
             await _startEncryptionKeyExchange(callId, false);
             // Si se inició correctamente, procesar inmediatamente las claves públicas
             if (_tempDHPrivateKey != null &&
                 _tempEphemeralPrivateKey != null &&
                 _tempCallId == callId) {
-              print(
-                '🔐 [SOCKET] ✅ Intercambio iniciado exitosamente, procesando claves públicas inmediatamente',
-              );
               // Continuar con el procesamiento normal
             } else {
               // Guardar para procesar después
               _pendingPublicKeys = data;
-              print(
-                '🔐 [SOCKET] 💾 Claves públicas guardadas para procesar después del intercambio',
-              );
               return;
             }
           } catch (e) {
-            print(
-              '🔐 [SOCKET] ❌ Error iniciando intercambio DH de emergencia: $e',
-            );
             _pendingPublicKeys = data;
-            print(
-              '🔐 [SOCKET] 💾 Claves públicas guardadas para procesar después',
-            );
             return;
           }
         } else {
           // Guardar las claves públicas para procesarlas cuando tengamos las nuestras
           _pendingPublicKeys = data;
-          print(
-            '🔐 [SOCKET] 💾 Claves públicas guardadas para procesar después',
-          );
           return;
         }
       }
@@ -2066,12 +1544,6 @@ class SocketService {
       // Decodificar claves públicas del otro participante
       final theirDHPublic = base64Decode(dhPublicBase64);
       final theirEphemeralPublic = base64Decode(ephemeralPublicBase64);
-
-      print('🔐 [SOCKET] 🔐 COMPUTANDO SECRETOS DH LOCALMENTE...');
-      print('🔐 [SOCKET] 📊 Su DH Pública: ${theirDHPublic.length} bytes');
-      print(
-        '🔐 [SOCKET] 📊 Su Efímera Pública: ${theirEphemeralPublic.length} bytes',
-      );
 
       // PASO CRÍTICO: COMPUTAR SECRETOS COMPARTIDOS LOCALMENTE
       final dh1Secret = await _encryptionService!.computeDH(
@@ -2082,12 +1554,6 @@ class SocketService {
         _tempEphemeralPrivateKey!,
         theirEphemeralPublic,
       );
-
-      print('🔐 [SOCKET] ✅ SECRETOS DH COMPUTADOS LOCALMENTE');
-      print(
-        '🔐 [SOCKET] 🔐 DH1: ${dh1Secret.length} bytes, DH2: ${dh2Secret.length} bytes',
-      );
-      print('🔐 [SOCKET] 🔐 SERVIDOR NUNCA VIO ESTOS SECRETOS');
 
       // GENERAR CLAVE MAESTRA DE 64 BYTES USANDO DOBLE DH + HKDF
       final masterKey = await _encryptionService!.generateMasterKeyFromDoubleDH(
@@ -2105,29 +1571,12 @@ class SocketService {
       // ESTABLECER CLAVE DE SESIÓN
       await _encryptionService!.setSessionKey(sessionKey);
 
-      print('🔐 [SOCKET] 🎉 INTERCAMBIO DH MILITAR COMPLETADO');
-      print(
-        '🔐 [SOCKET] ✅ Clave maestra: ${masterKey.length} bytes (512 bits)',
-      );
-      print(
-        '🔐 [SOCKET] ✅ Clave sesión: ${sessionKey.length} bytes (256 bits)',
-      );
-      print(
-        '🔐 [SOCKET] 🔐 MÁXIMA SEGURIDAD: Forward secrecy + Perfect secrecy',
-      );
-      print('🔐 [SOCKET] 🛡️ ZERO-KNOWLEDGE: Servidor nunca vio secretos');
-      print('🔐 [SOCKET] 🚀 CIFRADO END-TO-END ACTIVO - GRADO MILITAR');
-
       // LIMPIAR CLAVES TEMPORALES INMEDIATAMENTE
       _tempDHPrivateKey = null;
       _tempEphemeralPrivateKey = null;
       _tempCallId = null;
       _pendingPublicKeys = null;
-
-      print('🔐 [SOCKET] 🗑️ Claves temporales eliminadas de memoria');
     } catch (e) {
-      print('🔐 [SOCKET] ❌ Error procesando intercambio DH: $e');
-
       // Limpiar en caso de error
       _tempDHPrivateKey = null;
       _tempEphemeralPrivateKey = null;
@@ -2138,18 +1587,14 @@ class SocketService {
 
   /// MÉTODO OBSOLETO - MANTENIDO PARA COMPATIBILIDAD
   void _sendEncryptionKey(String callId, Uint8List sessionKey) {
-    print(
-      '🔐 [SOCKET] ⚠️ MÉTODO OBSOLETO: _sendEncryptionKey - Ahora usamos DH militar',
-    );
-    print('🔐 [SOCKET] 🔐 Las claves ya NO se envían en texto plano');
+    // MÉTODO OBSOLETO: _sendEncryptionKey - Ahora usamos DH militar
+    // Las claves ya NO se envían en texto plano
   }
 
   /// MÉTODO OBSOLETO - MANTENIDO PARA COMPATIBILIDAD
   Future<void> _handleEncryptionKey(Map<String, dynamic> data) async {
-    print(
-      '🔐 [SOCKET] ⚠️ MÉTODO OBSOLETO: _handleEncryptionKey - Ahora usamos DH militar',
-    );
-    print('🔐 [SOCKET] 🔐 Las claves ya NO se reciben en texto plano');
+    // MÉTODO OBSOLETO: _handleEncryptionKey - Ahora usamos DH militar
+    // Las claves ya NO se reciben en texto plano
   }
 
   /// Cifra datos de media antes de enviarlos
@@ -2161,12 +1606,8 @@ class SocketService {
 
     try {
       final encryptedData = await _encryptionService!.encrypt(data);
-      print(
-        '🔐 [SOCKET] 🔒 Datos cifrados: ${data.length} → ${encryptedData.length} bytes',
-      );
       return encryptedData;
     } catch (e) {
-      print('🔐 [SOCKET] ❌ Error cifrando datos: $e');
       // En caso de error, devolver datos sin cifrar para mantener la llamada
       return data;
     }
@@ -2181,12 +1622,8 @@ class SocketService {
 
     try {
       final decryptedData = await _encryptionService!.decrypt(encryptedData);
-      print(
-        '🔐 [SOCKET] 🔓 Datos descifrados: ${encryptedData.length} → ${decryptedData.length} bytes',
-      );
       return decryptedData;
     } catch (e) {
-      print('🔐 [SOCKET] ❌ Error descifrando datos: $e');
       // En caso de error, devolver datos originales
       return encryptedData;
     }
@@ -2195,11 +1632,9 @@ class SocketService {
   /// Limpia recursos de cifrado al finalizar la llamada
   void _cleanupEncryption() {
     if (_encryptionService != null) {
-      print('🔐 [SOCKET] 🧹 Limpiando recursos de cifrado...');
       _encryptionService!.dispose();
       _encryptionService = null;
       _encryptionInitialized = false;
-      print('🔐 [SOCKET] ✅ Recursos de cifrado limpiados');
     }
   }
 
@@ -2218,23 +1653,21 @@ class SocketService {
 
   /// Diagnóstico completo del estado del cifrado
   void diagnoseEncryption() {
-    print('🔐 [SOCKET] === DIAGNÓSTICO DE CIFRADO ===');
-    print('🔐 [SOCKET] 📊 _encryptionInitialized: $_encryptionInitialized');
-    print(
-      '🔐 [SOCKET] 📊 _encryptionService != null: ${_encryptionService != null}',
-    );
-    print('🔐 [SOCKET] 📊 isEncryptionActive(): ${isEncryptionActive()}');
+    // === DIAGNÓSTICO DE CIFRADO ===
+    // _encryptionInitialized: $_encryptionInitialized
+    // _encryptionService != null: ${_encryptionService != null}
+    // isEncryptionActive(): ${isEncryptionActive()}
 
     if (_encryptionService != null) {
       try {
-        final status = _encryptionService!.getStatus();
-        print('🔐 [SOCKET] 📊 Estado del servicio: $status');
+        // final status = _encryptionService!.getStatus();
+        // Estado del servicio: $status
       } catch (e) {
-        print('🔐 [SOCKET] ❌ Error obteniendo estado: $e');
+        // Error obteniendo estado
       }
     } else {
-      print('🔐 [SOCKET] ⚠️ Servicio de cifrado es null');
+      // Servicio de cifrado es null
     }
-    print('🔐 [SOCKET] === FIN DIAGNÓSTICO ===');
+    // === FIN DIAGNÓSTICO ===
   }
 }

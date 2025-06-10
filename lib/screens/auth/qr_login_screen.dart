@@ -44,7 +44,7 @@ class _QRLoginScreenState extends State<QRLoginScreen> {
     }
   }
 
-  /// Mostrar dialog para introducir QR manualmente
+  /// Mostrar dialog para introducir QR manually
   Future<String?> _showQRInputDialog() async {
     _qrTextController.clear();
 
@@ -109,8 +109,6 @@ class _QRLoginScreenState extends State<QRLoginScreen> {
     setState(() => _isScanning = true);
 
     try {
-      print('🔍 [QR-LOGIN] Procesando código QR para auto-login...');
-
       // Intentar vincular con el QR usando SessionManagementService
       final success = await _sessionService.linkSessionWithQR(qrData);
 
@@ -129,7 +127,6 @@ class _QRLoginScreenState extends State<QRLoginScreen> {
             'Código QR inválido o expirado. Verifica que el código sea correcto.');
       }
     } catch (e) {
-      print('🔍 [QR-LOGIN] Error en auto-login: $e');
       _showError('Error vinculando dispositivo: $e');
     } finally {
       if (mounted) {

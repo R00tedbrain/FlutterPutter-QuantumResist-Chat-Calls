@@ -28,46 +28,33 @@ class ApiService {
     if (token != null && token.isNotEmpty) {
       // ACTUALIZADO: Usar Authorization Bearer en lugar de x-auth-token para sesiones
       headers['Authorization'] = 'Bearer $token';
-      if (enableSessionsDebug) {
-        print('🔐 [API-DEBUG] Token configurado: ${token.substring(0, 20)}...');
-      }
+      if (enableSessionsDebug) {}
     }
 
-    if (enableDebugLogs) {
-      print('🌐 [API-DEBUG] Headers configurados: $headers');
-    }
+    if (enableDebugLogs) {}
 
     return headers;
   }
 
   // Validar y procesar respuesta JSON
   static dynamic _parseResponse(http.Response response) {
-    if (enableDebugLogs) {
-      print('🌐 [API-DEBUG] Status: ${response.statusCode}');
-      print('🌐 [API-DEBUG] Response body: ${response.body}');
-    }
+    if (enableDebugLogs) {}
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      print('❌ [API-ERROR] HTTP ${response.statusCode}: ${response.body}');
       throw Exception('Error HTTP: ${response.statusCode}');
     }
 
     // Manejar respuestas vacías explícitamente
     if (response.body.isEmpty) {
-      print('⚠️ [API-WARNING] Respuesta vacía del servidor');
       // Devuelve un mapa vacío en lugar de lanzar una excepción
       return {};
     }
 
     try {
       final data = jsonDecode(response.body);
-      if (enableDebugLogs) {
-        print('✅ [API-DEBUG] JSON decodificado correctamente');
-      }
+      if (enableDebugLogs) {}
       return data;
     } catch (e) {
-      print(
-          '❌ [API-ERROR] Error al decodificar respuesta JSON: $e. Contenido: ${response.body}');
       throw Exception('Error al decodificar respuesta JSON: $e');
     }
   }
@@ -82,9 +69,7 @@ class ApiService {
     if (endpoint.startsWith('/sessions/') || endpoint.startsWith('sessions/')) {
       endpoint =
           endpoint.replaceFirst(RegExp('^/?sessions/'), '/api/sessions/');
-      if (enableSessionsDebug) {
-        print('🔐 [SESSIONS-DEBUG] Endpoint de sesiones corregido: $endpoint');
-      }
+      if (enableSessionsDebug) {}
     }
 
     // Asegurar que los endpoints de auth tengan el prefijo /api si no lo tienen
@@ -94,9 +79,7 @@ class ApiService {
 
     final url = Uri.parse('$baseUrl$endpoint');
 
-    if (enableDebugLogs) {
-      print('🌐 [API-DEBUG] GET Request: $url');
-    }
+    if (enableDebugLogs) {}
 
     try {
       final response = await http.get(
@@ -104,15 +87,10 @@ class ApiService {
         headers: _getHeaders(token),
       );
 
-      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {
-        print(
-            '🔐 [SESSIONS-DEBUG] GET Response Status: ${response.statusCode}');
-        print('🔐 [SESSIONS-DEBUG] GET Response Body: ${response.body}');
-      }
+      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
       return response;
     } catch (e) {
-      print('❌ [API-ERROR] Error de conexión en GET $endpoint: $e');
       throw Exception('Error de conexión en GET $endpoint: $e');
     }
   }
@@ -132,9 +110,7 @@ class ApiService {
     if (endpoint.startsWith('/sessions/') || endpoint.startsWith('sessions/')) {
       endpoint =
           endpoint.replaceFirst(RegExp('^/?sessions/'), '/api/sessions/');
-      if (enableSessionsDebug) {
-        print('🔐 [SESSIONS-DEBUG] Endpoint de sesiones corregido: $endpoint');
-      }
+      if (enableSessionsDebug) {}
     }
 
     // Asegurar que los endpoints de auth tengan el prefijo /api si no lo tienen
@@ -144,10 +120,7 @@ class ApiService {
 
     final url = Uri.parse('$baseUrl$endpoint');
 
-    if (enableDebugLogs) {
-      print('🌐 [API-DEBUG] POST Request: $url');
-      print('🌐 [API-DEBUG] POST Data: $data');
-    }
+    if (enableDebugLogs) {}
 
     try {
       final jsonData = jsonEncode(data);
@@ -157,19 +130,13 @@ class ApiService {
         body: jsonData,
       );
 
-      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {
-        print(
-            '🔐 [SESSIONS-DEBUG] POST Response Status: ${response.statusCode}');
-        print('🔐 [SESSIONS-DEBUG] POST Response Body: ${response.body}');
-      }
+      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
       return response;
     } catch (e) {
       if (e is FormatException) {
-        print('❌ [API-ERROR] Error de formato JSON: $e');
         throw Exception('Error de formato JSON: $e');
       }
-      print('❌ [API-ERROR] Error de conexión en POST $endpoint: $e');
       throw Exception('Error de conexión en POST $endpoint: $e');
     }
   }
@@ -189,9 +156,7 @@ class ApiService {
     if (endpoint.startsWith('/sessions/') || endpoint.startsWith('sessions/')) {
       endpoint =
           endpoint.replaceFirst(RegExp('^/?sessions/'), '/api/sessions/');
-      if (enableSessionsDebug) {
-        print('🔐 [SESSIONS-DEBUG] Endpoint de sesiones corregido: $endpoint');
-      }
+      if (enableSessionsDebug) {}
     }
 
     // Asegurar que los endpoints de auth tengan el prefijo /api si no lo tienen
@@ -201,10 +166,7 @@ class ApiService {
 
     final url = Uri.parse('$baseUrl$endpoint');
 
-    if (enableDebugLogs) {
-      print('🌐 [API-DEBUG] PUT Request: $url');
-      print('🌐 [API-DEBUG] PUT Data: $data');
-    }
+    if (enableDebugLogs) {}
 
     try {
       final jsonData = jsonEncode(data);
@@ -214,19 +176,13 @@ class ApiService {
         body: jsonData,
       );
 
-      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {
-        print(
-            '🔐 [SESSIONS-DEBUG] PUT Response Status: ${response.statusCode}');
-        print('🔐 [SESSIONS-DEBUG] PUT Response Body: ${response.body}');
-      }
+      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
       return response;
     } catch (e) {
       if (e is FormatException) {
-        print('❌ [API-ERROR] Error de formato JSON: $e');
         throw Exception('Error de formato JSON: $e');
       }
-      print('❌ [API-ERROR] Error de conexión en PUT $endpoint: $e');
       throw Exception('Error de conexión en PUT $endpoint: $e');
     }
   }
@@ -241,9 +197,7 @@ class ApiService {
     if (endpoint.startsWith('/sessions/') || endpoint.startsWith('sessions/')) {
       endpoint =
           endpoint.replaceFirst(RegExp('^/?sessions/'), '/api/sessions/');
-      if (enableSessionsDebug) {
-        print('🔐 [SESSIONS-DEBUG] Endpoint de sesiones corregido: $endpoint');
-      }
+      if (enableSessionsDebug) {}
     }
 
     // Asegurar que los endpoints de auth tengan el prefijo /api si no lo tienen
@@ -253,9 +207,7 @@ class ApiService {
 
     final url = Uri.parse('$baseUrl$endpoint');
 
-    if (enableDebugLogs) {
-      print('🌐 [API-DEBUG] DELETE Request: $url');
-    }
+    if (enableDebugLogs) {}
 
     try {
       final response = await http.delete(
@@ -263,15 +215,10 @@ class ApiService {
         headers: _getHeaders(token),
       );
 
-      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {
-        print(
-            '🔐 [SESSIONS-DEBUG] DELETE Response Status: ${response.statusCode}');
-        print('🔐 [SESSIONS-DEBUG] DELETE Response Body: ${response.body}');
-      }
+      if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
       return response;
     } catch (e) {
-      print('❌ [API-ERROR] Error de conexión en DELETE $endpoint: $e');
       throw Exception('Error de conexión en DELETE $endpoint: $e');
     }
   }
@@ -284,39 +231,29 @@ class ApiService {
 
     // Validar el código de estado HTTP
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      print(
-          '❌ [API-ERROR] postAndGetMap ${response.statusCode}: ${response.body}');
       throw Exception('API ${response.statusCode}: ${response.body}');
     }
 
     // Manejar respuestas de estado éxito sin contenido (204, 205)
     if (response.statusCode == 204 || response.statusCode == 205) {
-      print(
-          '✅ [API-DEBUG] Respuesta con código ${response.statusCode} sin contenido');
       return {'success': true};
     }
 
     // Verificar si la respuesta está vacía
     if (response.body.isEmpty) {
-      print('⚠️ [API-WARNING] Respuesta vacía del servidor');
       return {'success': true};
     }
 
     try {
       // Imprimir contenido para depuración
-      if (enableDebugLogs) {
-        print('✅ [API-DEBUG] Contenido respuesta API: ${response.body}');
-      }
+      if (enableDebugLogs) {}
 
       final jsonData = jsonDecode(response.body);
 
       // Validar explícitamente que el resultado sea un Map<String, dynamic>
       if (jsonData == null) {
-        print('⚠️ [API-WARNING] La respuesta se decodificó como null');
         return {'success': true};
       } else if (jsonData is! Map<String, dynamic>) {
-        print(
-            '⚠️ [API-WARNING] Respuesta no es Map<String,dynamic> sino ${jsonData.runtimeType}');
         // Convertir cualquier tipo de respuesta a un Map seguro
         if (jsonData is Map) {
           // Intentar convertir un Map genérico a Map<String, dynamic>
@@ -336,8 +273,6 @@ class ApiService {
       return jsonData;
     } catch (e) {
       if (e is FormatException) {
-        print(
-            '❌ [API-ERROR] Error al decodificar respuesta JSON: $e. Contenido: ${response.body}');
         throw Exception('Error al decodificar respuesta JSON: $e');
       }
       rethrow;
@@ -353,14 +288,7 @@ class ApiService {
     String? sessionId,
   }) async {
     if (enableSessionsDebug) {
-      print('🔐 [SESSIONS-API] === SESSIONS REQUEST ===');
-      print('🔐 [SESSIONS-API] Método: $method');
-      print('🔐 [SESSIONS-API] Endpoint: $sessionEndpoint');
-      print('🔐 [SESSIONS-API] Data: $data');
-      print('🔐 [SESSIONS-API] Base URL: $baseUrl');
-      if (sessionId != null) {
-        print('🔐 [SESSIONS-API] Session ID: ${sessionId.substring(0, 8)}...');
-      }
+      if (sessionId != null) {}
     }
 
     final fullEndpoint = '/api/sessions$sessionEndpoint';
@@ -404,10 +332,7 @@ class ApiService {
           throw Exception('Método HTTP no soportado: $method');
       }
 
-      if (enableSessionsDebug) {
-        print('🔐 [SESSIONS-API] Status: ${response.statusCode}');
-        print('🔐 [SESSIONS-API] Response: ${response.body}');
-      }
+      if (enableSessionsDebug) {}
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         if (response.body.isEmpty) {
@@ -421,7 +346,6 @@ class ApiService {
         throw Exception('Error HTTP ${response.statusCode}: ${response.body}');
       }
     } catch (e) {
-      print('❌ [SESSIONS-API] Error en sessionsRequest: $e');
       rethrow;
     }
   }

@@ -26,7 +26,6 @@ class NtfyNotificationService {
     String? serverUrl,
   }) async {
     if (_isInitialized) {
-      print('🔔 [NTFY] Ya está inicializado');
       return;
     }
 
@@ -35,16 +34,8 @@ class NtfyNotificationService {
       _serverUrl = serverUrl ?? _ntfyServerUrl;
       _deviceId = await _generateDeviceId();
 
-      print('🔔 [NTFY] Inicializando servicio ntfy...');
-      print('🔔 [NTFY] Usuario: $_userId');
-      print('🔔 [NTFY] Servidor: $_serverUrl');
-      print('🔔 [NTFY] Device ID: $_deviceId');
-      print('🔔 [NTFY] Plataforma: ${Platform.operatingSystem}');
-
       _isInitialized = true;
-      print('✅ [NTFY] Servicio inicializado correctamente');
     } catch (e) {
-      print('❌ [NTFY] Error inicializando: $e');
       rethrow;
     }
   }
@@ -58,17 +49,10 @@ class NtfyNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔 [NTFY] === ENVIANDO NOTIFICACIÓN DE MENSAJE ===');
-      print('🔔 [NTFY] Para: $targetUserId');
-      print('🔔 [NTFY] De: $senderName');
-      print('🔔 [NTFY] Texto: $messageText');
-      print('🔔 [NTFY] Tipo: $chatType');
-
       final topic = 'user_messages_$targetUserId';
       final title = senderName;
       final message = messageText;
@@ -93,11 +77,7 @@ class NtfyNotificationService {
         data: data,
         priority: 'default',
       );
-
-      print('✅ [NTFY] Notificación de mensaje enviada exitosamente');
-    } catch (e) {
-      print('❌ [NTFY] Error enviando notificación de mensaje: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación de LLAMADA
@@ -112,25 +92,15 @@ class NtfyNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [NTFY] Servicio no inicializado');
       return;
     }
 
     // CRÍTICO: En iOS, NO enviar para videollamadas WebRTC (mantener VoIP)
     if (Platform.isIOS && callType == 'video') {
-      print('🔔 [NTFY] iOS + videollamada = SKIP (usar VoIP existente)');
-      print('🔔 [NTFY] Manteniendo sistema VoIP nativo para iOS videollamadas');
       return;
     }
 
     try {
-      print('🔔 [NTFY] === ENVIANDO NOTIFICACIÓN DE LLAMADA ===');
-      print('🔔 [NTFY] Para: $targetUserId');
-      print('🔔 [NTFY] De: $callerName');
-      print('🔔 [NTFY] CallId: $callId');
-      print('🔔 [NTFY] Tipo: $callType');
-      print('🔔 [NTFY] Plataforma: ${Platform.operatingSystem}');
-
       final topic = 'user_calls_$targetUserId';
       const title = 'Llamada entrante';
       final message = callType == 'video'
@@ -170,11 +140,7 @@ class NtfyNotificationService {
           }
         ],
       );
-
-      print('✅ [NTFY] Notificación de llamada enviada exitosamente');
-    } catch (e) {
-      print('❌ [NTFY] Error enviando notificación de llamada: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación de invitación de chat efímero
@@ -185,16 +151,10 @@ class NtfyNotificationService {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔 [NTFY] === ENVIANDO INVITACIÓN DE CHAT ===');
-      print('🔔 [NTFY] Para: $targetUserId');
-      print('🔔 [NTFY] De: $inviterName');
-      print('🔔 [NTFY] InvitationId: $invitationId');
-
       final topic = 'user_invitations_$targetUserId';
       const title = 'Invitación de chat';
       final message = '$inviterName te invita a un chat efímero';
@@ -229,11 +189,7 @@ class NtfyNotificationService {
           }
         ],
       );
-
-      print('✅ [NTFY] Invitación de chat enviada exitosamente');
-    } catch (e) {
-      print('❌ [NTFY] Error enviando invitación de chat: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación genérica personalizada
@@ -246,7 +202,6 @@ class NtfyNotificationService {
     Map<String, dynamic>? data,
   }) async {
     if (!_isInitialized) {
-      print('❌ [NTFY] Servicio no inicializado');
       return;
     }
 
@@ -270,11 +225,7 @@ class NtfyNotificationService {
         priority: priority ?? 'default',
         actions: actions,
       );
-
-      print('✅ [NTFY] Notificación personalizada enviada');
-    } catch (e) {
-      print('❌ [NTFY] Error enviando notificación personalizada: $e');
-    }
+    } catch (e) {}
   }
 
   /// Método base para enviar notificaciones a ntfy
@@ -309,10 +260,6 @@ class NtfyNotificationService {
             .join('; ');
       }
 
-      print('🔔 [NTFY] Enviando a: $url');
-      print('🔔 [NTFY] Headers: $headers');
-      print('🔔 [NTFY] Mensaje: $message');
-
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -320,15 +267,10 @@ class NtfyNotificationService {
       );
 
       if (response.statusCode == 200) {
-        print('✅ [NTFY] Notificación enviada exitosamente');
-        print('✅ [NTFY] Response: ${response.body}');
       } else {
-        print('❌ [NTFY] Error HTTP: ${response.statusCode}');
-        print('❌ [NTFY] Response: ${response.body}');
         throw Exception('Error HTTP ${response.statusCode}: ${response.body}');
       }
     } catch (e) {
-      print('❌ [NTFY] Error en _sendNtfyNotification: $e');
       rethrow;
     }
   }
@@ -394,6 +336,5 @@ class NtfyNotificationService {
     _serverUrl = null;
     _deviceId = null;
     _instance = null;
-    print('🔔 [NTFY] Servicio limpiado');
   }
 }

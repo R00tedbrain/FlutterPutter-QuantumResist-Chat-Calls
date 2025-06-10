@@ -67,11 +67,8 @@ class AppLockService extends ChangeNotifier {
       _isEnabled = isEnabledStr == 'true';
       _lockTimeoutMinutes = int.tryParse(timeoutStr ?? '5') ?? 5;
       _biometricEnabled = biometricStr == 'true';
-
-      print(
-          '🔒 Configuración cargada: enabled=$_isEnabled, timeout=$_lockTimeoutMinutes min, biometric=$_biometricEnabled');
     } catch (e) {
-      print('❌ Error cargando configuración de bloqueo: $e');
+      // Error cargando configuración de bloqueo
     }
   }
 
@@ -94,11 +91,8 @@ class AppLockService extends ChangeNotifier {
 
       if (difference.inMinutes >= _lockTimeoutMinutes) {
         _isLocked = true;
-        print(
-            '🔒 App bloqueada: ${difference.inMinutes} minutos de inactividad');
       }
     } catch (e) {
-      print('❌ Error verificando bloqueo: $e');
       _isLocked = _isEnabled; // Por seguridad, bloquear si hay error
     }
 
@@ -123,10 +117,8 @@ class AppLockService extends ChangeNotifier {
       await _updateLastActiveTime();
       notifyListeners();
 
-      print('🔒 PIN configurado exitosamente');
       return true;
     } catch (e) {
-      print('❌ Error configurando PIN: $e');
       return false;
     }
   }
@@ -144,14 +136,11 @@ class AppLockService extends ChangeNotifier {
         await _updateLastActiveTime();
         _startLockTimer();
         notifyListeners();
-        print('🔓 PIN verificado correctamente');
         return true;
       }
 
-      print('❌ PIN incorrecto');
       return false;
     } catch (e) {
-      print('❌ Error verificando PIN: $e');
       return false;
     }
   }
@@ -178,13 +167,11 @@ class AppLockService extends ChangeNotifier {
         await _updateLastActiveTime();
         _startLockTimer();
         notifyListeners();
-        print('🔓 Autenticación biométrica exitosa');
         return true;
       }
 
       return false;
     } catch (e) {
-      print('❌ Error en autenticación biométrica: $e');
       return false;
     }
   }
@@ -196,7 +183,6 @@ class AppLockService extends ChangeNotifier {
       final availableBiometrics = await _localAuth.getAvailableBiometrics();
       return isAvailable && availableBiometrics.isNotEmpty;
     } catch (e) {
-      print('❌ Error verificando biometría: $e');
       return false;
     }
   }
@@ -213,9 +199,8 @@ class AppLockService extends ChangeNotifier {
       }
 
       notifyListeners();
-      print('🔒 Timeout configurado a $_lockTimeoutMinutes minutos');
     } catch (e) {
-      print('❌ Error configurando timeout: $e');
+      // Error configurando timeout
     }
   }
 
@@ -226,9 +211,8 @@ class AppLockService extends ChangeNotifier {
           key: _biometricEnabledKey, value: enabled.toString());
       _biometricEnabled = enabled;
       notifyListeners();
-      print('🔒 Biometría ${enabled ? 'habilitada' : 'deshabilitada'}');
     } catch (e) {
-      print('❌ Error configurando biometría: $e');
+      // Error configurando biometría
     }
   }
 
@@ -242,9 +226,8 @@ class AppLockService extends ChangeNotifier {
       _lockTimeoutMinutes = 5;
       _lockTimer?.cancel();
       notifyListeners();
-      print('🔓 Bloqueo de aplicación deshabilitado');
     } catch (e) {
-      print('❌ Error deshabilitando bloqueo: $e');
+      // Error deshabilitando bloqueo
     }
   }
 
@@ -263,7 +246,6 @@ class AppLockService extends ChangeNotifier {
       _isLocked = true;
       _lockTimer?.cancel();
       notifyListeners();
-      print('🔒 App bloqueada manualmente');
     }
   }
 
@@ -273,7 +255,7 @@ class AppLockService extends ChangeNotifier {
       final now = DateTime.now().millisecondsSinceEpoch.toString();
       await _storage.write(key: _lastActiveKey, value: now);
     } catch (e) {
-      print('❌ Error actualizando tiempo activo: $e');
+      // Error actualizando tiempo activo
     }
   }
 
@@ -286,7 +268,6 @@ class AppLockService extends ChangeNotifier {
     _lockTimer = Timer(Duration(minutes: _lockTimeoutMinutes), () {
       _isLocked = true;
       notifyListeners();
-      print('🔒 App bloqueada automáticamente por inactividad');
     });
   }
 

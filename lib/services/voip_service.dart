@@ -28,13 +28,11 @@ class VoIPService {
     String? voipServerUrl,
   }) async {
     if (_isInitialized) {
-      print('🔔 VoIP Service ya está inicializado');
       return;
     }
 
     // Solo funciona en iOS
     if (!Platform.isIOS) {
-      print('🔔 VoIP Service: Solo disponible en iOS');
       return;
     }
 
@@ -60,10 +58,8 @@ class VoIPService {
       // await _channel.invokeMethod('sendPendingTokenIfNeeded'); // Comentado temporalmente
 
       _isInitialized = true;
-      print('✅ VoIP Service inicializado correctamente para usuario: $userId');
-      print('📱 Usando VoIP nativo (PushKit + CallKit)');
     } catch (e) {
-      print('❌ Error inicializando VoIP Service: $e');
+      // Error inicializando VoIP Service
     }
   }
 
@@ -82,16 +78,12 @@ class VoIPService {
           final callUUID = call.arguments['callUUID'] as String;
           final timestamp = call.arguments['timestamp'] as double?;
           final source = call.arguments['source'] as String?;
-          print(
-              '✅ [VoIP] Llamada aceptada desde CallKit: $callUUID (source: $source)');
           _handleCallAnswered(callUUID, timestamp: timestamp, source: source);
           break;
         case 'onCallEnded':
           final callUUID = call.arguments['callUUID'] as String;
           final timestamp = call.arguments['timestamp'] as double?;
           final source = call.arguments['source'] as String?;
-          print(
-              '🔚 [VoIP] Llamada terminada desde CallKit: $callUUID (source: $source)');
           _handleCallEnded(callUUID, timestamp: timestamp, source: source);
           break;
       }
@@ -101,8 +93,6 @@ class VoIPService {
   /// Registrar token VoIP en el servidor
   Future<void> _registerVoIPToken(String voipToken) async {
     try {
-      print('📱 Token VoIP recibido: ${voipToken.substring(0, 10)}...');
-
       // Registrar en el servidor VoIP
       final response = await http.post(
         Uri.parse('$_voipServerUrl/api/register-voip-token'),
@@ -118,13 +108,12 @@ class VoIPService {
       );
 
       if (response.statusCode == 200) {
-        print('✅ Token VoIP registrado exitosamente en el servidor');
+        // Token VoIP registrado exitosamente en el servidor
       } else {
-        print(
-            '❌ Error registrando token VoIP: ${response.statusCode} - ${response.body}');
+        // Error registrando token VoIP
       }
     } catch (e) {
-      print('❌ Error registrando token VoIP: $e');
+      // Error registrando token VoIP
     }
   }
 
@@ -141,21 +130,16 @@ class VoIPService {
         'callerName': callerName,
         'hasVideo': true,
       });
-      print('✅ Llamada VoIP nativa mostrada: $callId de $callerName');
     } catch (e) {
-      print('❌ Error mostrando llamada VoIP nativa: $e');
+      // Error mostrando llamada VoIP nativa
     }
   }
 
   /// Manejar llamada aceptada
   void _handleCallAnswered(String callUUID,
       {double? timestamp, String? source}) {
-    print(
-        '✅ Llamada VoIP aceptada: $callUUID (timestamp: $timestamp, source: $source)');
-
     // NUEVO: Notificar al backend que la llamada fue aceptada desde CallKit
     if (source == 'callkit_native') {
-      print('🔄 [VoIP] Sincronizando aceptación de CallKit con backend');
       _notifyBackendCallAccepted(callUUID);
     }
   }
@@ -163,13 +147,10 @@ class VoIPService {
   /// NUEVO: Notificar al backend que la llamada fue aceptada desde CallKit
   Future<void> _notifyBackendCallAccepted(String callId) async {
     if (_authToken == null) {
-      print('⚠️ [VoIP] No hay token de autenticación para notificar backend');
       return;
     }
 
     try {
-      print('🔄 [VoIP] Notificando al backend aceptación de llamada: $callId');
-
       final response = await http.post(
         Uri.parse('$_voipServerUrl/signaling/api/calls/accept'),
         headers: {
@@ -184,24 +165,19 @@ class VoIPService {
       );
 
       if (response.statusCode == 200) {
-        print('✅ [VoIP] Backend notificado de aceptación CallKit: $callId');
+        // Backend notificado de aceptación CallKit
       } else {
-        print(
-            '❌ [VoIP] Error notificando backend (${response.statusCode}): ${response.body}');
+        // Error notificando backend
       }
     } catch (e) {
-      print('❌ [VoIP] Error notificando aceptación al backend: $e');
+      // Error notificando aceptación al backend
     }
   }
 
   /// Manejar llamada terminada
   void _handleCallEnded(String callUUID, {double? timestamp, String? source}) {
-    print(
-        '🔚 Llamada VoIP terminada: $callUUID (timestamp: $timestamp, source: $source)');
-
     // NUEVO: Notificar al backend que la llamada fue terminada desde CallKit
     if (source == 'callkit_native') {
-      print('🔄 [VoIP] Sincronizando finalización de CallKit con backend');
       _notifyBackendCallEnded(callUUID);
     }
   }
@@ -209,14 +185,10 @@ class VoIPService {
   /// NUEVO: Notificar al backend que la llamada fue terminada desde CallKit
   Future<void> _notifyBackendCallEnded(String callId) async {
     if (_authToken == null) {
-      print('⚠️ [VoIP] No hay token de autenticación para notificar backend');
       return;
     }
 
     try {
-      print(
-          '🔄 [VoIP] Notificando al backend finalización de llamada: $callId');
-
       final response = await http.post(
         Uri.parse('$_voipServerUrl/signaling/api/calls/end'),
         headers: {
@@ -231,16 +203,13 @@ class VoIPService {
       );
 
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        final duration = responseData['duration'] ?? 0;
-        print(
-            '✅ [VoIP] Backend notificado de finalización CallKit: $callId (duración: ${duration}s)');
+        // final responseData = jsonDecode(response.body);
+        // final duration = responseData['duration'] ?? 0;
       } else {
-        print(
-            '❌ [VoIP] Error notificando backend (${response.statusCode}): ${response.body}');
+        // Error notificando backend
       }
     } catch (e) {
-      print('❌ [VoIP] Error notificando finalización al backend: $e');
+      // Error notificando finalización al backend
     }
   }
 
@@ -249,13 +218,11 @@ class VoIPService {
     if (!Platform.isIOS) return;
 
     try {
-      print('🔚 Terminando llamada VoIP: $callUUID');
       await _channel.invokeMethod('endCall', {
         'callUUID': callUUID,
       });
-      print('✅ Llamada VoIP terminada exitosamente: $callUUID');
     } catch (e) {
-      print('❌ Error terminando llamada VoIP: $e');
+      // Error terminando llamada VoIP
     }
   }
 
@@ -264,11 +231,9 @@ class VoIPService {
     if (!Platform.isIOS) return;
 
     try {
-      print('🔚 Terminando todas las llamadas VoIP');
       await _channel.invokeMethod('endAllCalls');
-      print('✅ Todas las llamadas VoIP terminadas');
     } catch (e) {
-      print('❌ Error terminando todas las llamadas VoIP: $e');
+      // Error terminando todas las llamadas VoIP
     }
   }
 
@@ -277,17 +242,14 @@ class VoIPService {
     if (!Platform.isIOS) return [];
 
     try {
-      print('📋 Obteniendo llamadas activas');
       return [];
     } catch (e) {
-      print('❌ Error obteniendo llamadas activas: $e');
       return [];
     }
   }
 
   /// Limpiar recursos
   void dispose() {
-    print('🧹 Limpiando recursos VoIP Service');
     _isInitialized = false;
     _currentUserId = null;
     _voipServerUrl = null;

@@ -79,11 +79,6 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   Future<void> _initiateEphemeralChat(User user) async {
     final l10n = AppLocalizations.of(context)!;
 
-    print('🔐 [SEARCH] === INICIANDO CHAT EFÍMERO ===');
-    print('🔐 [SEARCH] Usuario objetivo: ${user.nickname} (${user.id})');
-    print(
-        '🔐 [SEARCH] Servicio disponible: ${widget.ephemeralChatService != null}');
-
     // Mostrar diálogo de carga
     showDialog(
       context: context,
@@ -100,19 +95,15 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
     );
 
     try {
-      print('🔐 [SEARCH] Enviando invitación usando servicio existente...');
       await widget.ephemeralChatService!.createChatInvitation(user.id);
-      print('🔐 [SEARCH] ✅ Invitación enviada exitosamente');
 
       // Cerrar diálogo de carga
       if (mounted) {
         Navigator.pop(context);
-        print('🔐 [SEARCH] ✅ Diálogo de carga cerrado');
       }
 
       // Mostrar pantalla de espera (el callback se configurará allí)
       if (mounted) {
-        print('🔐 [SEARCH] Navegando a pantalla de espera...');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -122,11 +113,8 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
             ),
           ),
         );
-        print('🔐 [SEARCH] ✅ Navegación a pantalla de espera iniciada');
       }
     } catch (e) {
-      print('❌ [SEARCH] Error enviando invitación: $e');
-
       // Cerrar diálogo de carga si está abierto
       if (mounted) {
         Navigator.pop(context);
@@ -418,17 +406,9 @@ class _WaitingForResponseScreenState extends State<_WaitingForResponseScreen> {
   void initState() {
     super.initState();
 
-    print('🔐 [WAITING] Configurando callbacks en pantalla de espera...');
-
     // Configurar callbacks
     widget.ephemeralChatService.onRoomCreated = (room) {
-      print('🔐 [WAITING] ¡¡¡CALLBACK onRoomCreated EJECUTADO!!!');
-      print('🔐 [WAITING] Room ID: ${room.id}');
-      print('🔐 [WAITING] Participantes: ${room.participants.length}');
-      print('🔐 [WAITING] Mounted: $mounted');
-
       if (mounted) {
-        print('🔐 [WAITING] Navegando a EphemeralChatScreenMultimedia...');
         // Navegar a la pantalla de chat multimedia
         Navigator.pushReplacement(
           context,
@@ -438,17 +418,12 @@ class _WaitingForResponseScreenState extends State<_WaitingForResponseScreen> {
             ),
           ),
         );
-        print('🔐 [WAITING] ✅ Navegación iniciada');
       } else {
-        print('🔐 [WAITING] ❌ Widget no está mounted, no se puede navegar');
+        // Widget no está mounted, no se puede navegar
       }
     };
 
     widget.ephemeralChatService.onError = (error) {
-      print('🔐 [WAITING] ¡¡¡CALLBACK onError EJECUTADO!!!');
-      print('🔐 [WAITING] Error: $error');
-      print('🔐 [WAITING] Mounted: $mounted');
-
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -459,8 +434,6 @@ class _WaitingForResponseScreenState extends State<_WaitingForResponseScreen> {
         Navigator.pop(context);
       }
     };
-
-    print('🔐 [WAITING] ✅ Callbacks configurados en pantalla de espera');
   }
 
   @override

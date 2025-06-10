@@ -40,7 +40,6 @@ class _EncryptingAnimationScreenState extends State<EncryptingAnimationScreen> {
         }
       });
     } catch (e) {
-      print('❌ Error inicializando video: $e');
       // Si hay error, navegar directamente al home
       _navigateToHome();
     }

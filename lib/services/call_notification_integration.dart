@@ -20,33 +20,23 @@ class CallNotificationIntegration {
     required String token,
   }) async {
     if (_isInitialized) {
-      print('🔔📞 [CALL-NTFY] Ya está inicializado');
       return;
     }
 
     try {
       _currentUserId = userId;
 
-      print('🔔📞 [CALL-NTFY] === INICIALIZANDO INTEGRACIÓN DE LLAMADAS ===');
-      print('🔔📞 [CALL-NTFY] Usuario: $userId');
-      print('🔔📞 [CALL-NTFY] Plataforma: ${Platform.operatingSystem}');
-      print(
-          '🔔📞 [CALL-NTFY] IMPORTANTE: iOS videollamadas mantienen VoIP nativo');
-
       // El HybridNotificationService ya debe estar inicializado por AuthProvider
       // Solo verificamos que esté disponible
       final serviceInfo = HybridNotificationService.instance.getServiceInfo();
       if (!serviceInfo['isInitialized']) {
-        print('❌ [CALL-NTFY] HybridNotificationService no inicializado');
         throw Exception(
             'HybridNotificationService debe estar inicializado primero');
       }
 
       _isInitialized = true;
-      print('✅ [CALL-NTFY] Integración de llamadas inicializada correctamente');
       _printCallStrategy();
     } catch (e) {
-      print('❌ [CALL-NTFY] Error inicializando: $e');
       rethrow;
     }
   }
@@ -62,20 +52,11 @@ class CallNotificationIntegration {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [CALL-NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔📞 [CALL-NTFY] === VIDEOLLAMADA ===');
-      print('🔔📞 [CALL-NTFY] Target: $targetUserId');
-      print('🔔📞 [CALL-NTFY] Caller: $callerName');
-      print('🔔📞 [CALL-NTFY] CallId: $callId');
-
       if (Platform.isIOS) {
-        print(
-            '🔔📞 [CALL-NTFY] iOS: OMITIENDO ntfy - VoIP nativo maneja videollamadas');
-        print('🔔📞 [CALL-NTFY] El SocketService ya debe haber disparado VoIP');
         // NO hacemos nada - el VoIP existente maneja esto
         return;
       }
@@ -88,11 +69,7 @@ class CallNotificationIntegration {
         callerAvatar: callerAvatar,
         additionalData: additionalData,
       );
-
-      print('✅ [CALL-NTFY] Videollamada procesada');
-    } catch (e) {
-      print('❌ [CALL-NTFY] Error en videollamada: $e');
-    }
+    } catch (e) {}
   }
 
   /// Enviar notificación de LLAMADA DE AUDIO
@@ -105,17 +82,10 @@ class CallNotificationIntegration {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [CALL-NTFY] Servicio no inicializado');
       return;
     }
 
     try {
-      print('🔔📞 [CALL-NTFY] === LLAMADA DE AUDIO ===');
-      print('🔔📞 [CALL-NTFY] Target: $targetUserId');
-      print('🔔📞 [CALL-NTFY] Caller: $callerName');
-      print('🔔📞 [CALL-NTFY] CallId: $callId');
-      print('🔔📞 [CALL-NTFY] Enviando ntfy en todas las plataformas');
-
       await HybridNotificationService.instance.sendAudioCallNotification(
         targetUserId: targetUserId,
         callerName: callerName,
@@ -123,11 +93,7 @@ class CallNotificationIntegration {
         callerAvatar: callerAvatar,
         additionalData: additionalData,
       );
-
-      print('✅ [CALL-NTFY] Llamada de audio enviada');
-    } catch (e) {
-      print('❌ [CALL-NTFY] Error en llamada de audio: $e');
-    }
+    } catch (e) {}
   }
 
   /// Método genérico para cualquier tipo de llamada
@@ -141,13 +107,8 @@ class CallNotificationIntegration {
     Map<String, dynamic>? additionalData,
   }) async {
     if (!_isInitialized) {
-      print('❌ [CALL-NTFY] Servicio no inicializado');
       return;
     }
-
-    print('🔔📞 [CALL-NTFY] === LLAMADA AUTOMÁTICA ===');
-    print('🔔📞 [CALL-NTFY] Tipo: $callType');
-    print('🔔📞 [CALL-NTFY] Plataforma: ${Platform.operatingSystem}');
 
     if (callType == 'video') {
       await sendVideoCallNotification(
@@ -178,12 +139,6 @@ class CallNotificationIntegration {
     String? callerAvatar,
     Map<String, dynamic>? additionalData,
   }) async {
-    print('🔔📞 [CALL-NTFY] [INTEGRATION] === LLAMADA RECIBIDA ===');
-    print('🔔📞 [CALL-NTFY] [INTEGRATION] CallId: $callId');
-    print('🔔📞 [CALL-NTFY] [INTEGRATION] From: $from');
-    print('🔔📞 [CALL-NTFY] [INTEGRATION] Caller: $callerName');
-    print('🔔📞 [CALL-NTFY] [INTEGRATION] Type: $callType');
-
     try {
       if (instance._isInitialized) {
         await instance.sendCallNotificationAuto(
@@ -198,30 +153,14 @@ class CallNotificationIntegration {
             ...?additionalData,
           },
         );
-        print('✅ [CALL-NTFY] [INTEGRATION] Notificación procesada');
-      } else {
-        print('❌ [CALL-NTFY] [INTEGRATION] Servicio no inicializado');
-      }
-    } catch (e) {
-      print('❌ [CALL-NTFY] [INTEGRATION] Error: $e');
-    }
+      } else {}
+    } catch (e) {}
   }
 
   /// Mostrar estrategia de llamadas por plataforma
   void _printCallStrategy() {
-    print('🔔📞 [CALL-NTFY] === ESTRATEGIA DE LLAMADAS ===');
-
     if (Platform.isIOS) {
-      print('🔔📞 [CALL-NTFY] iOS Videollamadas: VoIP nativo (NO ALTERADO)');
-      print('🔔📞 [CALL-NTFY] iOS Llamadas audio: ntfy');
-      print('🔔📞 [CALL-NTFY] iOS Otras llamadas: ntfy');
-    } else {
-      print('🔔📞 [CALL-NTFY] Android Videollamadas: ntfy');
-      print('🔔📞 [CALL-NTFY] Android Llamadas audio: ntfy');
-      print('🔔📞 [CALL-NTFY] Android Todas las llamadas: ntfy');
-    }
-
-    print('🔔📞 [CALL-NTFY] === FIN ESTRATEGIA ===');
+    } else {}
   }
 
   /// Verificar qué servicio maneja cada tipo de llamada
@@ -261,7 +200,5 @@ class CallNotificationIntegration {
     _isInitialized = false;
     _currentUserId = null;
     _instance = null;
-
-    print('🔔📞 [CALL-NTFY] Integración de llamadas limpiada');
   }
 }

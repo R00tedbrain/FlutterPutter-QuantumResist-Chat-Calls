@@ -28,16 +28,12 @@ class KyberServiceUniversal {
   /// Inicializa el servicio Kyber (detecta plataforma automáticamente)
   static Future<bool> initialize() async {
     try {
-      print('$_logPrefix Inicializando servicio post-cuántico universal...');
-      print('$_logPrefix 🌐 Plataforma detectada: ${_isWeb ? "Web" : "Móvil"}');
-
       if (_isWeb) {
         return await _initializeWeb();
       } else {
         return await _initializeMobile();
       }
     } catch (e) {
-      print('$_logPrefix ❌ Error inicializando: $e');
       _isAvailable = false;
       _isInitialized = false;
       return false;
@@ -47,8 +43,6 @@ class KyberServiceUniversal {
   /// Inicialización para plataforma Web
   static Future<bool> _initializeWeb() async {
     try {
-      print('$_logPrefix 🌐 Inicializando Kyber para Web...');
-
       // Verificar que @noble/post-quantum esté disponible
       if (!_isNoblePostQuantumAvailable()) {
         throw Exception('@noble/post-quantum no está disponible');
@@ -60,16 +54,11 @@ class KyberServiceUniversal {
       if (result) {
         _isAvailable = true;
         _isInitialized = true;
-        print('$_logPrefix ✅ Kyber Web disponible (@noble/post-quantum)');
-        print('$_logPrefix 🛡️ Algoritmo: ML-KEM-768 (equivalente a Kyber768)');
-        print('$_logPrefix 🔮 Resistencia post-cuántica: ACTIVA');
         return true;
       } else {
         throw Exception('Test de noble-post-quantum falló');
       }
     } catch (e) {
-      print('$_logPrefix ⚠️ Kyber Web no disponible: $e');
-      print('$_logPrefix 🔄 Fallback a cifrado clásico');
       return false;
     }
   }
@@ -79,8 +68,6 @@ class KyberServiceUniversal {
     if (_isWeb) return false; // Seguridad extra
 
     try {
-      print('$_logPrefix 📱 Inicializando Kyber para móvil...');
-
       // Test básico para verificar que Kyber funciona
       final testKeyPair = KyberKeyPair.generate();
 
@@ -89,21 +76,11 @@ class KyberServiceUniversal {
         _isAvailable = true;
         _isInitialized = true;
 
-        print('$_logPrefix ✅ Kyber móvil disponible (xkyber_crypto)');
-        print(
-            '$_logPrefix 📊 Clave pública: ${testKeyPair.publicKey.length} bytes');
-        print(
-            '$_logPrefix 📊 Clave secreta: ${testKeyPair.secretKey.length} bytes');
-        print('$_logPrefix 🛡️ Algoritmo: Kyber768');
-        print('$_logPrefix 🔮 Resistencia post-cuántica: ACTIVA');
-
         return true;
       } else {
         throw Exception('Claves vacías generadas');
       }
     } catch (e) {
-      print('$_logPrefix ⚠️ Kyber móvil no disponible: $e');
-      print('$_logPrefix 🔄 Fallback a cifrado clásico');
       return false;
     }
   }
@@ -130,7 +107,6 @@ class KyberServiceUniversal {
       final result = js.context.callMethod('testNobleKyber');
       return result == true;
     } catch (e) {
-      print('$_logPrefix ❌ Error en test noble: $e');
       return false;
     }
   }
@@ -146,15 +122,12 @@ class KyberServiceUniversal {
     }
 
     try {
-      print('$_logPrefix Generando par de claves post-cuánticas...');
-
       if (_isWeb) {
         return await _generateKeyPairWeb();
       } else {
         return _generateKeyPairMobile();
       }
     } catch (e) {
-      print('$_logPrefix ❌ Error generando claves: $e');
       rethrow;
     }
   }
@@ -172,16 +145,11 @@ class KyberServiceUniversal {
       final secretKey =
           Uint8List.fromList(List<int>.from(jsResult['secretKey']));
 
-      print('$_logPrefix ✅ Claves Web generadas');
-      print('$_logPrefix 📊 Clave pública: ${publicKey.length} bytes');
-      print('$_logPrefix 📊 Clave secreta: ${secretKey.length} bytes');
-
       return {
         'publicKey': publicKey,
         'secretKey': secretKey,
       };
     } catch (e) {
-      print('$_logPrefix ❌ Error generando claves Web: $e');
       rethrow;
     }
   }
@@ -193,16 +161,11 @@ class KyberServiceUniversal {
     try {
       final keyPair = KyberKeyPair.generate();
 
-      print('$_logPrefix ✅ Claves móvil generadas');
-      print('$_logPrefix 📊 Clave pública: ${keyPair.publicKey.length} bytes');
-      print('$_logPrefix 📊 Clave secreta: ${keyPair.secretKey.length} bytes');
-
       return {
         'publicKey': keyPair.publicKey,
         'secretKey': keyPair.secretKey,
       };
     } catch (e) {
-      print('$_logPrefix ❌ Error generando claves móvil: $e');
       rethrow;
     }
   }
@@ -220,15 +183,12 @@ class KyberServiceUniversal {
     }
 
     try {
-      print('$_logPrefix Encapsulando clave maestra...');
-
       if (_isWeb) {
         return await _encapsulateWeb(masterKey, publicKey);
       } else {
         return await _encapsulateMobile(masterKey, publicKey);
       }
     } catch (e) {
-      print('$_logPrefix ❌ Error encapsulando: $e');
       rethrow;
     }
   }
@@ -247,10 +207,8 @@ class KyberServiceUniversal {
 
       final result = Uint8List.fromList(List<int>.from(jsResult));
 
-      print('$_logPrefix ✅ Clave encapsulada (Web): ${result.length} bytes');
       return result;
     } catch (e) {
-      print('$_logPrefix ❌ Error encapsulando Web: $e');
       rethrow;
     }
   }
@@ -276,12 +234,8 @@ class KyberServiceUniversal {
             masterKey[i] ^ sharedSecret[i % sharedSecret.length];
       }
 
-      print('$_logPrefix ✅ Clave encapsulada (móvil): ${result.length} bytes');
-      print('$_logPrefix 🔐 Ciphertext Kyber: ${ciphertext.length} bytes');
-
       return result;
     } catch (e) {
-      print('$_logPrefix ❌ Error encapsulando móvil: $e');
       rethrow;
     }
   }
@@ -294,15 +248,12 @@ class KyberServiceUniversal {
     }
 
     try {
-      print('$_logPrefix Desencapsulando clave maestra...');
-
       if (_isWeb) {
         return await _decapsulateWeb(encapsulatedData, secretKey);
       } else {
         return await _decapsulateMobile(encapsulatedData, secretKey);
       }
     } catch (e) {
-      print('$_logPrefix ❌ Error desencapsulando: $e');
       rethrow;
     }
   }
@@ -321,10 +272,8 @@ class KyberServiceUniversal {
 
       final result = Uint8List.fromList(List<int>.from(jsResult));
 
-      print('$_logPrefix ✅ Clave desencapsulada (Web): ${result.length} bytes');
       return result;
     } catch (e) {
-      print('$_logPrefix ❌ Error desencapsulando Web: $e');
       rethrow;
     }
   }
@@ -359,11 +308,8 @@ class KyberServiceUniversal {
             encryptedMasterKey[i] ^ sharedSecret[i % sharedSecret.length];
       }
 
-      print(
-          '$_logPrefix ✅ Clave desencapsulada (móvil): ${masterKey.length} bytes');
       return masterKey;
     } catch (e) {
-      print('$_logPrefix ❌ Error desencapsulando móvil: $e');
       rethrow;
     }
   }
@@ -375,8 +321,6 @@ class KyberServiceUniversal {
     }
 
     try {
-      print('$_logPrefix Ejecutando auto-test universal...');
-
       // Generar par de claves
       final keyPair = await generateKeyPair();
 
@@ -396,21 +340,17 @@ class KyberServiceUniversal {
 
       // Verificar
       if (decrypted.length != originalKey.length) {
-        print('$_logPrefix ❌ Auto-test falló: tamaños diferentes');
         return false;
       }
 
       for (int i = 0; i < originalKey.length; i++) {
         if (decrypted[i] != originalKey[i]) {
-          print('$_logPrefix ❌ Auto-test falló: byte $i diferente');
           return false;
         }
       }
 
-      print('$_logPrefix ✅ Auto-test universal exitoso');
       return true;
     } catch (e) {
-      print('$_logPrefix ❌ Auto-test falló: $e');
       return false;
     }
   }
@@ -432,7 +372,6 @@ class KyberServiceUniversal {
 
   /// Reinicia el servicio
   static void reset() {
-    print('$_logPrefix Reiniciando servicio universal...');
     _isInitialized = false;
     _isAvailable = false;
   }

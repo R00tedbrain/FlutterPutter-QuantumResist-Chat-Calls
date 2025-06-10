@@ -48,15 +48,10 @@ class EncryptionService {
   /// Inicializa el servicio de cifrado
   Future<void> initialize() async {
     try {
-      print('$_logPrefix Inicializando servicio de cifrado...');
-
       // Verificar si ya está inicializado
       if (_isInitialized && _sodium != null) {
-        print('$_logPrefix ⚠️ Ya está inicializado, omitiendo...');
         return;
       }
-
-      print('$_logPrefix 🔄 Inicializando libsodium...');
 
       // Inicializar Sodium usando sodium_libs con timeout
       _sodium = await SodiumInit.init().timeout(
@@ -71,19 +66,10 @@ class EncryptionService {
       }
 
       _isInitialized = true;
-      print('$_logPrefix ✅ Servicio inicializado correctamente');
-      print('$_logPrefix 📚 Versión libsodium: ${_sodium!.version}');
-      print('$_logPrefix 🔐 Algoritmo: XSalsa20-Poly1305 (secretBox)');
-      print('$_logPrefix 🔑 Tamaño de clave: $_keyBytes bytes');
-      print('$_logPrefix 🎲 Tamaño de nonce: $_nonceBytes bytes');
-      print('$_logPrefix 🏷️ Tamaño de tag: $_tagBytes bytes');
-      print('$_logPrefix 🚀 Listo para cifrar datos');
 
       // 🔐 INICIALIZAR POST-QUANTUM CRYPTOGRAPHY (sin fallar si no está disponible)
       await _initKyberSafely();
     } catch (e) {
-      print('$_logPrefix ❌ Error al inicializar: $e');
-      print('$_logPrefix 📋 Tipo de error: ${e.runtimeType}');
       _isInitialized = false;
       _sodium = null;
       rethrow;
@@ -93,27 +79,13 @@ class EncryptionService {
   /// Inicializa Kyber de manera segura sin afectar el funcionamiento principal
   Future<void> _initKyberSafely() async {
     try {
-      print('$_logPrefix 🔮 Inicializando resistencia post-cuántica...');
-
       _kyberAvailable = await KyberServiceUniversal.initialize();
       _kyberInitialized = true;
 
       if (_kyberAvailable) {
-        print('$_logPrefix ✅ RESISTENCIA CUÁNTICA DISPONIBLE');
         final status = KyberServiceUniversal.getStatus();
-        print(
-            '$_logPrefix 📊 ${status['algorithm']} - ${status['securityLevel']}');
-        print(
-            '$_logPrefix 🛡️ Tu aplicación está protegida contra computadoras cuánticas');
-      } else {
-        print('$_logPrefix ⚠️ Kyber no disponible, usando cifrado clásico');
-        print(
-            '$_logPrefix 🔄 La aplicación funcionará normalmente con seguridad clásica');
-      }
+      } else {}
     } catch (e) {
-      print('$_logPrefix ⚠️ Error inicializando Kyber: $e');
-      print(
-          '$_logPrefix 🔄 Continuando con cifrado clásico (funcionalidad completa)');
       _kyberAvailable = false;
       _kyberInitialized = false;
       // NO lanzar error - la aplicación debe funcionar sin Kyber
@@ -126,8 +98,6 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print('$_logPrefix Generando nueva clave de sesión...');
-
       // Generar nueva clave ChaCha20-Poly1305 usando keygen seguro
       _sessionKey = _sodium!.crypto.secretBox.keygen();
 
@@ -137,13 +107,8 @@ class EncryptionService {
       // Extraer bytes de la clave para intercambio
       final keyBytes = _sessionKey!.extractBytes();
 
-      print(
-          '$_logPrefix ✅ Clave de sesión generada (${keyBytes.length} bytes)');
-      print('$_logPrefix 🔄 Contador de nonce reseteado');
-
       return keyBytes;
     } catch (e) {
-      print('$_logPrefix ❌ Error al generar clave: $e');
       rethrow;
     }
   }
@@ -155,17 +120,12 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print('$_logPrefix Derivando clave de sesión usando HKDF...');
-      print('$_logPrefix 📊 Clave maestra: ${sharedSecret.length} bytes');
-
       // Si la clave ya es de 32 bytes, usar directamente
       if (sharedSecret.length == 32) {
-        print('$_logPrefix ✅ Clave ya es de 32 bytes, usando directamente');
         return sharedSecret;
       }
 
       // Para claves de otros tamaños (64, 128 bytes), usar derivación SHA-256
-      print('$_logPrefix 🔄 Derivando clave de 32 bytes usando SHA-256...');
 
       // Crear material de entrada: clave maestra + contexto
       final contextBytes = utf8.encode(context);
@@ -181,14 +141,8 @@ class EncryptionService {
         outLen: 32, // Exactamente 32 bytes para ChaCha20-Poly1305
       );
 
-      print('$_logPrefix ✅ Clave de sesión derivada (${hash.length} bytes)');
-      print('$_logPrefix 📝 Contexto: "$context"');
-      print(
-          '$_logPrefix 🔐 Derivación: ${sharedSecret.length} bytes → 32 bytes');
-
       return hash;
     } catch (e) {
-      print('$_logPrefix ❌ Error al derivar clave de sesión: $e');
       rethrow;
     }
   }
@@ -198,8 +152,6 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print('$_logPrefix Estableciendo clave de sesión recibida...');
-
       if (keyBytes.length != _keyBytes) {
         throw Exception(
             'Tamaño de clave inválido: ${keyBytes.length} bytes (esperado: $_keyBytes)');
@@ -213,11 +165,7 @@ class EncryptionService {
 
       // Resetear contador de nonce
       _nonceCounter = 0;
-
-      print('$_logPrefix ✅ Clave de sesión establecida');
-      print('$_logPrefix 🔄 Contador de nonce reseteado');
     } catch (e) {
-      print('$_logPrefix ❌ Error al establecer clave: $e');
       rethrow;
     }
   }
@@ -236,10 +184,6 @@ class EncryptionService {
       // Generar nonce único y criptográficamente seguro
       final nonce = _generateSecureNonce();
 
-      print('$_logPrefix 🔒 Cifrando ${data.length} bytes...');
-      print('$_logPrefix 📊 Nonce: ${nonce.length} bytes');
-      print('$_logPrefix 📊 AD: ${additionalData?.length ?? 0} bytes');
-
       // Cifrar usando ChaCha20-Poly1305 (secretBox)
       final ciphertext = _sodium!.crypto.secretBox.easy(
         message: data,
@@ -252,13 +196,8 @@ class EncryptionService {
       result.setRange(0, nonce.length, nonce);
       result.setRange(nonce.length, result.length, ciphertext);
 
-      print(
-          '$_logPrefix ✅ Datos cifrados: ${data.length} → ${result.length} bytes');
-      print('$_logPrefix 📈 Overhead: ${result.length - data.length} bytes');
-
       return result;
     } catch (e) {
-      print('$_logPrefix ❌ Error al cifrar: $e');
       rethrow;
     }
   }
@@ -284,11 +223,6 @@ class EncryptionService {
       final nonce = encryptedData.sublist(0, _nonceBytes);
       final ciphertext = encryptedData.sublist(_nonceBytes);
 
-      print('$_logPrefix 🔓 Descifrando ${encryptedData.length} bytes...');
-      print('$_logPrefix 📊 Nonce: ${nonce.length} bytes');
-      print('$_logPrefix 📊 Ciphertext: ${ciphertext.length} bytes');
-      print('$_logPrefix 📊 AD: ${additionalData?.length ?? 0} bytes');
-
       // Descifrar y verificar autenticidad usando ChaCha20-Poly1305 (secretBox)
       final plaintext = _sodium!.crypto.secretBox.openEasy(
         cipherText: ciphertext,
@@ -296,13 +230,8 @@ class EncryptionService {
         key: _sessionKey!,
       );
 
-      print(
-          '$_logPrefix ✅ Datos descifrados: ${encryptedData.length} → ${plaintext.length} bytes');
-      print('$_logPrefix 🔐 Autenticidad verificada');
-
       return plaintext;
     } catch (e) {
-      print('$_logPrefix ❌ Error al descifrar (posible manipulación): $e');
       rethrow;
     }
   }
@@ -334,7 +263,6 @@ class EncryptionService {
     // Verificar que no excedemos el límite de nonces seguros
     if (_nonceCounter > 0xFFFFFF) {
       // 2^24 - 1
-      print('$_logPrefix ⚠️ Límite de nonces alcanzado, regenerando clave...');
       // En una implementación real, aquí se debería regenerar la clave de sesión
     }
 
@@ -359,8 +287,6 @@ class EncryptionService {
 
   /// Limpia recursos y claves de memoria de forma segura
   void dispose() {
-    print('$_logPrefix Limpiando recursos de forma segura...');
-
     // Limpiar clave de sesión
     _sessionKey?.dispose();
     _sessionKey = null;
@@ -376,9 +302,6 @@ class EncryptionService {
     _isInitialized = false;
     _kyberAvailable = false;
     _kyberInitialized = false;
-
-    print('$_logPrefix ✅ Recursos limpiados de forma segura');
-    print('$_logPrefix 🗑️ Claves eliminadas de memoria');
   }
 
   /// Obtiene información del estado actual
@@ -399,8 +322,6 @@ class EncryptionService {
 
   /// Rota la clave de sesión para forward secrecy
   Future<Uint8List> rotateSessionKey() async {
-    print('$_logPrefix 🔄 Rotando clave de sesión...');
-
     // Limpiar clave anterior
     _sessionKey?.dispose();
     _sessionKey = null;
@@ -416,7 +337,6 @@ class EncryptionService {
       await decrypt(encryptedData, additionalData: additionalData);
       return true;
     } catch (e) {
-      print('$_logPrefix ⚠️ Verificación de integridad falló: $e');
       return false;
     }
   }
@@ -450,8 +370,6 @@ class EncryptionService {
     }
 
     try {
-      print('$_logPrefix 🔮 Generando par de claves post-cuánticas...');
-
       _kyberKeyPair = await KyberServiceUniversal.generateKeyPair();
 
       return {
@@ -460,7 +378,6 @@ class EncryptionService {
         'keySize': _kyberKeyPair!['publicKey']!.length,
       };
     } catch (e) {
-      print('$_logPrefix ❌ Error generando claves Kyber: $e');
       rethrow;
     }
   }
@@ -473,9 +390,6 @@ class EncryptionService {
     }
 
     try {
-      print(
-          '$_logPrefix 🔮 Encapsulando clave con resistencia post-cuántica...');
-
       if (masterKey.length != 64) {
         throw Exception(
             'Clave maestra debe ser de 64 bytes, recibida: ${masterKey.length}');
@@ -484,13 +398,8 @@ class EncryptionService {
       final encapsulatedKey = await KyberServiceUniversal.encapsulateMasterKey(
           masterKey, recipientPublicKey);
 
-      print(
-          '$_logPrefix ✅ Clave encapsulada con Kyber: ${encapsulatedKey.length} bytes');
-      print('$_logPrefix 🛡️ RESISTENCIA POST-CUÁNTICA APLICADA');
-
       return encapsulatedKey;
     } catch (e) {
-      print('$_logPrefix ❌ Error encapsulando con Kyber: $e');
       rethrow;
     }
   }
@@ -502,18 +411,11 @@ class EncryptionService {
     }
 
     try {
-      print(
-          '$_logPrefix 🔮 Desencapsulando clave con resistencia post-cuántica...');
-
       final masterKey = await KyberServiceUniversal.decapsulateMasterKey(
           encapsulatedKey, _kyberKeyPair!['secretKey']!);
 
-      print('$_logPrefix ✅ Clave desencapsulada: ${masterKey.length} bytes');
-      print('$_logPrefix 🛡️ RESISTENCIA POST-CUÁNTICA VERIFICADA');
-
       return masterKey;
     } catch (e) {
-      print('$_logPrefix ❌ Error desencapsulando con Kyber: $e');
       rethrow;
     }
   }
@@ -544,9 +446,6 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print(
-          '$_logPrefix 🔮 Generando clave maestra para encapsulación Kyber...');
-
       // Generar 64 bytes de entropía criptográficamente segura
       final masterKey = Uint8List(64);
       final random = Random.secure();
@@ -555,12 +454,8 @@ class EncryptionService {
         masterKey[i] = random.nextInt(256);
       }
 
-      print('$_logPrefix ✅ Clave maestra generada: ${masterKey.length} bytes');
-      print('$_logPrefix 🔐 Lista para encapsulación post-cuántica');
-
       return masterKey;
     } catch (e) {
-      print('$_logPrefix ❌ Error generando clave maestra: $e');
       rethrow;
     }
   }
@@ -568,24 +463,17 @@ class EncryptionService {
   /// Ejecuta un auto-test de Kyber para verificar funcionamiento
   Future<bool> testKyberIntegrity() async {
     if (!isKyberAvailable()) {
-      print('$_logPrefix ⚠️ Kyber no disponible para test');
       return false;
     }
 
     try {
-      print('$_logPrefix 🧪 Ejecutando test de integridad post-cuántica...');
-
       final result = await KyberServiceUniversal.selfTest();
 
       if (result) {
-        print('$_logPrefix ✅ Test de integridad post-cuántica exitoso');
-      } else {
-        print('$_logPrefix ❌ Test de integridad post-cuántica falló');
-      }
+      } else {}
 
       return result;
     } catch (e) {
-      print('$_logPrefix ❌ Error en test de integridad: $e');
       return false;
     }
   }
@@ -597,11 +485,8 @@ class EncryptionService {
         // Las claves de Kyber se limpian automáticamente por GC
         _kyberKeyPair = null;
         // Reset del servicio post-cuántico
-        print('$_logPrefix ✅ Claves post-cuánticas limpiadas');
       }
-    } catch (e) {
-      print('$_logPrefix ⚠️ Error limpiando Kyber: $e');
-    }
+    } catch (e) {}
   }
 
   // ===================================================================
@@ -613,27 +498,17 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] Generando par DH para intercambio militar...');
-
       // Generar par de claves usando Curve25519 (criptografía de curva elíptica)
       final dhKeyPair = _sodium!.crypto.kx.keyPair();
 
       final publicKeyBytes = dhKeyPair.publicKey;
       final secretKeyBytes = dhKeyPair.secretKey.extractBytes();
 
-      print('$_logPrefix 🔐 [MILITARY-DH] ✅ Par DH generado (Curve25519)');
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] 📊 Clave pública: ${publicKeyBytes.length} bytes');
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] 🔐 Clave privada: NUNCA SALE DEL DISPOSITIVO');
-
       return {
         'publicKey': publicKeyBytes,
         'privateKey': secretKeyBytes,
       };
     } catch (e) {
-      print('$_logPrefix 🔐 [MILITARY-DH] ❌ Error generando par DH: $e');
       rethrow;
     }
   }
@@ -643,25 +518,17 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] Generando par efímero para doble DH...');
-
       // Generar segundo par de claves para doble DH
       final ephemeralPair = _sodium!.crypto.kx.keyPair();
 
       final publicKeyBytes = ephemeralPair.publicKey;
       final secretKeyBytes = ephemeralPair.secretKey.extractBytes();
 
-      print('$_logPrefix 🔐 [MILITARY-DH] ✅ Par efímero generado');
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] 🔐 DOBLE DH: Máxima seguridad forward secrecy');
-
       return {
         'publicKey': publicKeyBytes,
         'privateKey': secretKeyBytes,
       };
     } catch (e) {
-      print('$_logPrefix 🔐 [MILITARY-DH] ❌ Error generando par efímero: $e');
       rethrow;
     }
   }
@@ -672,9 +539,6 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] Computando secreto DH (NUNCA SALE DEL DISPOSITIVO)...');
-
       // Crear claves desde bytes
       final mySecret = SecureKey.fromList(_sodium!, myPrivateKey);
 
@@ -693,13 +557,8 @@ class EncryptionService {
       sharedSecret.rx.dispose();
       sharedSecret.tx.dispose();
 
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] ✅ Secreto DH computado (${secretBytes.length} bytes)');
-      print('$_logPrefix 🔐 [MILITARY-DH] 🔐 NUNCA EXPUESTO AL SERVIDOR');
-
       return secretBytes;
     } catch (e) {
-      print('$_logPrefix 🔐 [MILITARY-DH] ❌ Error computando DH: $e');
       rethrow;
     }
   }
@@ -714,10 +573,6 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print('$_logPrefix 🔐 [MILITARY-DH] Derivando clave usando HKDF...');
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] 📊 IKM: ${ikm.length} bytes → Output: $length bytes');
-
       // Crear material de entrada: salt + ikm + info
       final saltBytes = utf8.encode(salt);
       final infoBytes = utf8.encode(info);
@@ -740,14 +595,8 @@ class EncryptionService {
         outLen: length,
       );
 
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] ✅ HKDF exitoso: ${derivedKey.length} bytes');
-      print('$_logPrefix 🔐 [MILITARY-DH] 🔐 Salt: "$salt"');
-      print('$_logPrefix 🔐 [MILITARY-DH] 📝 Info: "$info"');
-
       return derivedKey;
     } catch (e) {
-      print('$_logPrefix 🔐 [MILITARY-DH] ❌ Error en HKDF: $e');
       rethrow;
     }
   }
@@ -777,11 +626,6 @@ class EncryptionService {
     _ensureInitialized();
 
     try {
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] Generando clave maestra desde doble DH...');
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] 📊 DH1: ${dh1Secret.length} bytes, DH2: ${dh2Secret.length} bytes');
-
       // Combinar ambos secretos DH
       final combinedSecret = Uint8List(dh1Secret.length + dh2Secret.length);
       combinedSecret.setRange(0, dh1Secret.length, dh1Secret);
@@ -796,14 +640,8 @@ class EncryptionService {
         length: 64, // Máximo permitido por HKDF (512 bits)
       );
 
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] ✅ Clave maestra generada: ${masterKey.length} bytes');
-      print(
-          '$_logPrefix 🔐 [MILITARY-DH] 🔐 MÁXIMA SEGURIDAD: 512 bits - Nivel militar');
-
       return masterKey;
     } catch (e) {
-      print('$_logPrefix 🔐 [MILITARY-DH] ❌ Error generando clave maestra: $e');
       rethrow;
     }
   }

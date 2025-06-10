@@ -51,38 +51,24 @@ class _MainScreenState extends State<MainScreen> {
 
     final currentRoute = ModalRoute.of(context)?.settings.name;
 
-    print('🔐 [MAINSCREEN] 🔄 === didChangeDependencies EJECUTADO ===');
-    print('🔐 [MAINSCREEN] 🔄 ModalRoute.of(context): $currentRoute');
-    print('🔐 [MAINSCREEN] 🔄 Última ruta configurada: $_lastRouteConfigured');
-    print('🔐 [MAINSCREEN] 🔄 Callbacks configurados: $_callbacksConfigured');
-
     // PATRÓN OFICIAL FLUTTER: Solo limpiar en home, callbacks se preservan
     if (currentRoute == '/home') {
-      print('🔐 [MAINSCREEN] 🧹 Limpieza al regresar a home...');
       _cleanRejectedInvitations();
 
       // NUEVO: SIEMPRE verificar callbacks reales (no confiar en flag)
-      print('🔐 [MAINSCREEN] 🔄 Verificando estado real de callbacks...');
       _ensureCallbacksConfigured();
       _callbacksConfigured = true;
-      print('🔐 [MAINSCREEN] ✅ Callbacks verificados/restaurados');
 
       _lastRouteConfigured = currentRoute;
     }
-
-    print('🔐 [MAINSCREEN] 🔄 === didChangeDependencies COMPLETADO ===');
   }
 
   @override
   void didUpdateWidget(covariant MainScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    print('🔐 [MAINSCREEN] 🔄 === didUpdateWidget EJECUTADO ===');
-
     // PATRÓN OFICIAL FLUTTER: Verificar callbacks cuando el widget se actualiza
     _ensureCallbacksConfigured();
-
-    print('🔐 [MAINSCREEN] 🔄 === didUpdateWidget COMPLETADO ===');
   }
 
   void _setupSocketService() {
@@ -90,7 +76,6 @@ class _MainScreenState extends State<MainScreen> {
     final callProvider = Provider.of<CallProvider>(context, listen: false);
 
     if (authProvider.token == null) {
-      print('⚠️ No hay token disponible para configurar SocketService');
       return;
     }
 
@@ -99,8 +84,6 @@ class _MainScreenState extends State<MainScreen> {
 
     _socketService.onIncomingCall = _handleIncomingCall;
     _socketService.onCallEnded = _handleCallEnded;
-
-    print('✅ Callbacks de llamada registrados en MainScreen');
   }
 
   void _setupEphemeralChatService() {
@@ -108,15 +91,12 @@ class _MainScreenState extends State<MainScreen> {
     final userId = authProvider.user?.id;
 
     if (userId == null) {
-      print('⚠️ No hay userId disponible para configurar EphemeralChatService');
       return;
     }
 
     _ephemeralChatService = EphemeralChatService();
 
     _ephemeralChatService.initialize(userId: userId).then((_) {
-      print('✅ EphemeralChatService inicializado en MainScreen');
-
       // NUEVO: Inicializar LocalNotificationService Y EphemeralChatNotificationIntegration
       Future.wait([
         LocalNotificationService.instance.initialize(),
@@ -125,20 +105,11 @@ class _MainScreenState extends State<MainScreen> {
           token: authProvider.token ?? '',
         ),
       ]).then((_) {
-        print('✅ LocalNotificationService inicializado en MainScreen');
-        print(
-            '✅ EphemeralChatNotificationIntegration inicializado en MainScreen');
-
         // NOTA: Los callbacks se configuran directamente abajo para evitar sobrescritura
-        print(
-            '✅ Servicios de notificación inicializados - callbacks configurados directamente');
-      }).catchError((e) {
-        print('❌ Error inicializando servicios de notificación: $e');
-      });
+      }).catchError((e) {});
 
       // CONFIGURAR CALLBACKS DEL MAINSCREEN CON INTEGRACIÓN DE NOTIFICACIONES
       _ephemeralChatService.onInvitationReceived = (invitation) {
-        print('🔐 [MAINSCREEN] Nueva invitación recibida: ${invitation.id}');
         // SOLUCIÓN OFICIAL FLUTTER 2025: Manejar callback sin async gaps
         _handleInvitationSync(invitation);
       };
@@ -146,8 +117,6 @@ class _MainScreenState extends State<MainScreen> {
       // NUEVO: Configurar callback para mensajes recibidos para notificaciones
       // NOTA: Los mensajes van a través del ChatManager, no del servicio global
       _ephemeralChatService.onMessageReceived = (message) {
-        print(
-            '🔐 [MAINSCREEN] 💬 Mensaje recibido en servicio global: ${message.id}');
         // NOTA: Esto solo maneja mensajes del servicio global (raramente usado)
         _showSystemNotificationForMessage(message);
       };
@@ -156,85 +125,44 @@ class _MainScreenState extends State<MainScreen> {
       _ensureCallbacksConfigured();
       _callbacksConfigured = true;
 
-      _ephemeralChatService.onError = (error) {
-        print('❌ Error en EphemeralChatService: $error');
-      };
+      _ephemeralChatService.onError = (error) {};
 
       // NOTA: Configuración de callbacks movida dentro del Future.wait() arriba
-    }).catchError((error) {
-      print('❌ Error inicializando EphemeralChatService: $error');
-    });
+    }).catchError((error) {});
   }
 
   /// PATRÓN OFICIAL FLUTTER: Asegurar que los callbacks estén configurados correctamente
   void _ensureCallbacksConfigured() {
     try {
-      print('🔐 [MAINSCREEN] 🔗 === ASEGURANDO CALLBACKS CONFIGURADOS ===');
-      print(
-          '🔐 [MAINSCREEN] 🔍 Callback actual de invitaciones: ${_ephemeralChatService.onInvitationReceived != null ? "EXISTS" : "NULL"}');
-
       // VERIFICAR: Estado del callback de invitaciones del servicio
       if (_ephemeralChatService.onInvitationReceived == null) {
-        print(
-            '🔐 [MAINSCREEN] ⚠️ CALLBACK DE INVITACIONES PERDIDO - RECONFIGURAR');
-
         // SOLUCIÓN OFICIAL FLUTTER 2025: Usar método síncrono
         _ephemeralChatService.onInvitationReceived = (invitation) {
-          print('🔐 [MAINSCREEN] Nueva invitación recibida: ${invitation.id}');
           _handleInvitationSync(invitation);
         };
-
-        print('🔐 [MAINSCREEN] ✅ Callback de invitaciones RESTAURADO');
-      } else {
-        print('🔐 [MAINSCREEN] ✅ Callback de invitaciones PRESERVADO - OK');
-      }
+      } else {}
 
       // Importar ChatManager si no está disponible
       final chatManager = EphemeralChatManager.instance;
-      print(
-          '🔐 [MAINSCREEN] 🔍 Callback actual de ChatManager: ${chatManager.onMessageReceived != null ? "EXISTS" : "NULL"}');
 
       // PATRÓN OFICIAL: Solo configurar si no está configurado o se perdió
       if (chatManager.onMessageReceived == null) {
-        print('🔐 [MAINSCREEN] 🔄 Configurando callback de ChatManager...');
-
         // Configurar callback para mensajes recibidos en cualquier sesión
         chatManager.onMessageReceived = (sessionId, message) {
-          print('🔐 [MAINSCREEN] 💬 === CALLBACK EJECUTADO ===');
-          print('🔐 [MAINSCREEN] 💬 Mensaje ID: ${message.id}');
-          print('🔐 [MAINSCREEN] 💬 Sesión: $sessionId');
-          print('🔐 [MAINSCREEN] 💬 Contenido: ${message.content}');
-          print('🔐 [MAINSCREEN] 💬 SenderId: ${message.senderId}');
-
           // Filtrar mensajes de verificación
           if (message.content.startsWith('VERIFICATION_CODES:')) {
-            print(
-                '🔐 [MAINSCREEN] 🚫 Mensaje de verificación filtrado - NO notificar');
             return;
           }
 
-          print(
-              '🔐 [MAINSCREEN] 🔔 Llamando a _showSystemNotificationForMessage...');
           // Llamar a la función de notificación
           _showSystemNotificationForMessage(message);
         };
-
-        print('🔐 [MAINSCREEN] ✅ Callback de ChatManager configurado');
-      } else {
-        print(
-            '🔐 [MAINSCREEN] ✅ Callback de ChatManager ya existe - preservando');
-      }
-
-      print('🔐 [MAINSCREEN] ✅ === CALLBACKS ASEGURADOS EXITOSAMENTE ===');
-    } catch (e) {
-      print('🔐 [MAINSCREEN] ❌ Error asegurando callbacks de ChatManager: $e');
-    }
+      } else {}
+    } catch (e) {}
   }
 
   /// DEPRECATED: Usar _ensureCallbacksConfigured en su lugar
   void _setupChatManagerCallback() {
-    print(
-        '🔐 [MAINSCREEN] ⚠️ _setupChatManagerCallback DEPRECATED - usando _ensureCallbacksConfigured');
     _ensureCallbacksConfigured();
   }
 
@@ -243,97 +171,84 @@ class _MainScreenState extends State<MainScreen> {
     if (!mounted) return;
 
     final initialCount = _pendingInvitations.length;
+
+    // Limpiar invitaciones rechazadas
     final rejectedInvitations = _pendingInvitations
         .where((inv) => InvitationTrackingService.instance.isRejected(inv.id))
         .toList();
 
-    if (rejectedInvitations.isNotEmpty) {
-      print(
-          '🔐 [MAINSCREEN] 🧹 Limpiando ${rejectedInvitations.length} invitaciones rechazadas');
+    // NUEVO: También limpiar invitaciones "fantasma" de usuarios con sesiones activas
+    List<ChatInvitation> phantomInvitations = [];
+    try {
+      final chatManager = EphemeralChatManager.instance;
+      final activeSessions = chatManager.activeSessions;
 
-      for (final inv in rejectedInvitations) {
-        print('🔐 [MAINSCREEN] 🗑️ Eliminando invitación rechazada: ${inv.id}');
-      }
+      phantomInvitations = _pendingInvitations.where((inv) {
+        return activeSessions.any((session) =>
+            session.targetUserId == inv.fromUserId &&
+            (session.currentRoom != null || session.justReset));
+      }).toList();
+    } catch (e) {
+      // Si hay error, continuar solo con limpieza de rechazadas
+    }
+
+    final allToRemove = [...rejectedInvitations, ...phantomInvitations];
+
+    if (allToRemove.isNotEmpty) {
+      for (final inv in allToRemove) {}
 
       setState(() {
+        // Remover invitaciones rechazadas
         _pendingInvitations.removeWhere(
             (inv) => InvitationTrackingService.instance.isRejected(inv.id));
+
+        // Remover invitaciones fantasma
+        for (final phantom in phantomInvitations) {
+          _pendingInvitations.remove(phantom);
+        }
       });
 
       final finalCount = _pendingInvitations.length;
-      print(
-          '🔐 [MAINSCREEN] ✅ Limpieza completada: ${initialCount} → ${finalCount} invitaciones');
-    } else {
-      print('🔐 [MAINSCREEN] ✅ No hay invitaciones rechazadas que limpiar');
-    }
+    } else {}
   }
 
   /// NUEVO: Mostrar notificación del sistema para invitaciones
   Future<void> _showSystemNotificationForInvitation(dynamic invitation) async {
     try {
-      print('🔔💬 [MAINSCREEN] === INICIANDO NOTIFICACIÓN DE INVITACIÓN ===');
-      print('🔔💬 [MAINSCREEN] InvitationId: ${invitation.id}');
-      print('🔔💬 [MAINSCREEN] FromUserId: ${invitation.fromUserId}');
-
       // VERIFICAR: LocalNotificationService está inicializado
       try {
         await LocalNotificationService.instance.initialize();
-        print('🔔💬 [MAINSCREEN] ✅ LocalNotificationService verificado');
       } catch (initError) {
-        print(
-            '🔔💬 [MAINSCREEN] ❌ Error verificando LocalNotificationService: $initError');
         return;
       }
 
       // MOSTRAR: Notificación del sistema
-      print(
-          '🔔💬 [MAINSCREEN] 📱 Llamando a showChatInvitationNotification...');
-
       await LocalNotificationService.instance.showChatInvitationNotification(
         invitationId: invitation.id ?? 'unknown',
         senderName: invitation.fromUserId ?? 'Usuario desconocido',
         message: 'Te ha enviado una invitación de chat efímero',
         senderAvatar: null,
       );
-
-      print(
-          '🔔💬 [MAINSCREEN] ✅ Notificación del sistema enviada para invitación: ${invitation.id}');
-      print('🔔💬 [MAINSCREEN] === NOTIFICACIÓN DE INVITACIÓN COMPLETADA ===');
-    } catch (e) {
-      print(
-          '❌ [MAINSCREEN] Error crítico mostrando notificación de invitación: $e');
-      print('❌ [MAINSCREEN] Stack trace: ${StackTrace.current}');
-    }
+    } catch (e) {}
   }
 
   /// NUEVO: Mostrar notificación del sistema para mensajes
   Future<void> _showSystemNotificationForMessage(dynamic message) async {
     try {
-      print('🔔💬 [MAINSCREEN] === INICIANDO NOTIFICACIÓN DE MENSAJE ===');
-      print('🔔💬 [MAINSCREEN] MessageId: ${message.id}');
-      print('🔔💬 [MAINSCREEN] SenderId: ${message.senderId}');
-      print('🔔💬 [MAINSCREEN] Content: ${message.content}');
-
       // FILTRAR: No mostrar notificaciones para mensajes de verificación
       if (message.content != null &&
           message.content.toString().startsWith('VERIFICATION_CODES:')) {
-        print('🔔💬 [MAINSCREEN] 🚫 Mensaje de verificación filtrado');
         return;
       }
 
       // VERIFICAR: LocalNotificationService está inicializado
       try {
         await LocalNotificationService.instance.initialize();
-        print('🔔💬 [MAINSCREEN] ✅ LocalNotificationService verificado');
       } catch (initError) {
-        print(
-            '🔔💬 [MAINSCREEN] ❌ Error verificando LocalNotificationService: $initError');
         return;
       }
 
       // MOSTRAR: Notificación del sistema
-      print('🔔💬 [MAINSCREEN] 📱 Llamando a showMessageNotification...');
-
       await LocalNotificationService.instance.showMessageNotification(
         messageId: message.id ?? 'unknown',
         senderName: message.senderId ?? 'Usuario desconocido',
@@ -341,27 +256,15 @@ class _MainScreenState extends State<MainScreen> {
             'Tienes un mensaje', // PRIVACIDAD: No mostrar contenido real
         senderAvatar: null,
       );
-
-      print(
-          '🔔💬 [MAINSCREEN] ✅ Notificación del sistema enviada para mensaje: ${message.id}');
-      print('🔔💬 [MAINSCREEN] === NOTIFICACIÓN DE MENSAJE COMPLETADA ===');
-    } catch (e) {
-      print(
-          '❌ [MAINSCREEN] Error crítico mostrando notificación de mensaje: $e');
-      print('❌ [MAINSCREEN] Stack trace: ${StackTrace.current}');
-    }
+    } catch (e) {}
   }
 
   void _handleIncomingCall(String callId, String from, String token) async {
-    print(
-        '📞 Llamada entrante recibida en MainScreen: callId=$callId, from=$from');
-
     // Obtener información del llamante
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
       if (authProvider.token == null) {
-        print('⚠️ No hay token disponible para obtener detalles del llamante');
         return;
       }
 
@@ -372,13 +275,11 @@ class _MainScreenState extends State<MainScreen> {
       );
 
       if (response.statusCode != 200) {
-        print('⚠️ Error al obtener datos del llamante: ${response.statusCode}');
         return;
       }
 
       // Verificar si la respuesta está vacía
       if (response.body.isEmpty) {
-        print('⚠️ Respuesta vacía al obtener datos del llamante');
         return;
       }
 
@@ -387,13 +288,10 @@ class _MainScreenState extends State<MainScreen> {
 
         // Verificar que userData sea un Map antes de intentar crear un User
         if (userData == null) {
-          print('⚠️ Datos del llamante son null después de decodificar');
           return;
         }
 
         if (userData is! Map<String, dynamic>) {
-          print(
-              '⚠️ Datos del llamante no son un objeto Map: ${userData.runtimeType}');
           // Intentar convertir si es un Map genérico
           if (userData is Map) {
             final Map<String, dynamic> safeUserData = {};
@@ -404,8 +302,6 @@ class _MainScreenState extends State<MainScreen> {
             });
 
             if (safeUserData.isEmpty) {
-              print(
-                  '⚠️ No se pudieron convertir los datos del llamante a Map<String, dynamic>');
               return;
             }
 
@@ -444,17 +340,11 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         );
-      } catch (e) {
-        print('❌ Error al decodificar o procesar datos del llamante: $e');
-      }
-    } catch (e) {
-      print('❌ Error al procesar llamada entrante: $e');
-    }
+      } catch (e) {}
+    } catch (e) {}
   }
 
   void _handleCallEnded(Map<String, dynamic> data) {
-    print('🔚 Llamada terminada recibida en MainScreen: $data');
-
     // Notificar al CallProvider que la llamada terminó
     final callProvider = Provider.of<CallProvider>(context, listen: false);
     callProvider.endCall();
@@ -465,24 +355,18 @@ class _MainScreenState extends State<MainScreen> {
       final currentRoute = ModalRoute.of(context);
       if (currentRoute != null) {
         final routeName = currentRoute.settings.name;
-        print('🔍 Ruta actual: $routeName');
 
         // Si estamos en CallScreen o IncomingCallScreen, volver a MainScreen
         if (routeName == '/call' ||
             currentRoute.settings.arguments is Map &&
                 (currentRoute.settings.arguments as Map)
                     .containsKey('callId')) {
-          print(
-              '🔄 Navegando de vuelta a MainScreen desde pantalla de llamada');
           Navigator.of(context).popUntil((route) => route.isFirst);
         } else {
           // Si no podemos determinar la ruta, intentar pop hasta llegar a home
-          print('🔄 Intentando navegación alternativa a MainScreen');
           try {
             Navigator.of(context).popUntil((route) => route.isFirst);
-          } catch (e) {
-            print('⚠️ Error en navegación alternativa: $e');
-          }
+          } catch (e) {}
         }
       }
     }
@@ -716,11 +600,15 @@ class _MainScreenState extends State<MainScreen> {
 
   /// SOLUCIÓN OFICIAL FLUTTER 2025: Método síncrono para manejar invitaciones
   void _handleInvitationSync(invitation) {
+    print('🔐 [MAINSCREEN] 📨 === INVITACIÓN RECIBIDA ===');
+    print('🔐 [MAINSCREEN] 📨 ID: ${invitation.id}');
+    print('🔐 [MAINSCREEN] 📨 From: ${invitation.fromUserId}');
+    print('🔐 [MAINSCREEN] 📨 To: ${invitation.toUserId}');
+
     // CRÍTICO: Verificar tracking global de invitaciones rechazadas
     if (!InvitationTrackingService.instance
         .shouldProcessInvitation(invitation.id)) {
-      print(
-          '🔐 [MAINSCREEN] 🚫 Invitación ignorada por tracking global: ${invitation.id}');
+      print('🔐 [MAINSCREEN] ❌ Invitación ya rechazada - ignorando');
       return;
     }
 
@@ -728,27 +616,48 @@ class _MainScreenState extends State<MainScreen> {
     final alreadyExists =
         _pendingInvitations.any((inv) => inv.id == invitation.id);
     if (alreadyExists) {
-      print(
-          '🔐 [MAINSCREEN] ⚠️ Invitación ya existe en lista: ${invitation.id}');
+      print('🔐 [MAINSCREEN] ❌ Invitación ya existe en lista - ignorando');
       return;
+    }
+
+    // NUEVO: Verificar si hay una sesión activa con este usuario para evitar invitaciones fantasma
+    try {
+      final chatManager = EphemeralChatManager.instance;
+      final activeSessions = chatManager.activeSessions;
+
+      print(
+          '🔐 [MAINSCREEN] 🔍 Verificando sesiones activas: ${activeSessions.length}');
+
+      // Si ya hay una sesión activa o recién destruida con este usuario, ignorar invitación
+      final hasActiveSession = activeSessions.any((session) =>
+          session.targetUserId == invitation.fromUserId &&
+          (session.currentRoom != null || session.justReset));
+
+      if (hasActiveSession) {
+        print('🔐 [MAINSCREEN] 👻 INVITACIÓN FANTASMA DETECTADA Y BLOQUEADA');
+        print('🔐 [MAINSCREEN] 👻 Usuario: ${invitation.fromUserId}');
+        // Es una invitación fantasma - no procesarla
+        return;
+      } else {
+        print('🔐 [MAINSCREEN] ✅ No hay sesión activa - invitación válida');
+      }
+    } catch (e) {
+      print('🔐 [MAINSCREEN] ⚠️ Error verificando sesiones: $e');
+      // Si hay error verificando, continuar con el flujo normal por seguridad
     }
 
     // PATRÓN OFICIAL FLUTTER 2025: Solo procesar si el widget está montado
     if (!mounted) {
-      print(
-          '🔐 [MAINSCREEN] ⚠️ Widget no montado - ignorando invitación: ${invitation.id}');
+      print('🔐 [MAINSCREEN] ❌ Widget no montado - ignorando');
       return;
     }
+
+    print('🔐 [MAINSCREEN] ✅ PROCESANDO INVITACIÓN VÁLIDA');
 
     // FLUTTER 2025: setState síncrono - sin async gaps
     setState(() {
       _pendingInvitations.add(invitation);
     });
-
-    print(
-        '🔐 [MAINSCREEN] ✅ Invitación añadida a pendientes: ${invitation.id}');
-    print(
-        '🔐 [MAINSCREEN] 📊 Total invitaciones pendientes: ${_pendingInvitations.length}');
 
     // FLUTTER 2025: Llamar async sin BuildContext
     _showSystemNotificationForInvitation(invitation);
@@ -782,8 +691,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    print('🔐 [MAINSCREEN] 🔄 === DISPOSE EJECUTADO ===');
-
     // PATRÓN OFICIAL FLUTTER: Marcar como disposed ANTES de limpiar
     _callbacksConfigured = false;
     _lastRouteConfigured = null;
@@ -793,29 +700,17 @@ class _MainScreenState extends State<MainScreen> {
       _ephemeralChatService.onInvitationReceived = null;
       _ephemeralChatService.onMessageReceived = null;
       _ephemeralChatService.onError = null;
-      print('🔐 [MAINSCREEN] ✅ Callbacks de EphemeralChatService limpiados');
-    } catch (e) {
-      print('🔐 [MAINSCREEN] ⚠️ Error limpiando callbacks: $e');
-    }
+    } catch (e) {}
 
     // NOTA: No limpiar ChatManager callbacks aquí - pueden ser usados por otros widgets
     // Solo marcar que este widget ya no los controla
-    try {
-      print(
-          '🔐 [MAINSCREEN] ℹ️ ChatManager callbacks preservados para otros widgets');
-    } catch (e) {
-      print('🔐 [MAINSCREEN] ⚠️ Error con ChatManager: $e');
-    }
+    try {} catch (e) {}
 
     // PATRÓN OFICIAL FLUTTER: Dispose del servicio al final
     try {
       _ephemeralChatService.dispose();
-      print('🔐 [MAINSCREEN] ✅ EphemeralChatService disposed');
-    } catch (e) {
-      print('🔐 [MAINSCREEN] ⚠️ Error disposing EphemeralChatService: $e');
-    }
+    } catch (e) {}
 
-    print('🔐 [MAINSCREEN] 🔄 === DISPOSE COMPLETADO ===');
     super.dispose();
   }
 }

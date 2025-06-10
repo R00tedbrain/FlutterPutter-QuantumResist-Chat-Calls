@@ -4,6 +4,7 @@ import '../providers/auth_provider.dart';
 import '../services/ephemeral_chat_manager.dart';
 import '../services/local_notification_service.dart';
 import '../models/chat_session.dart';
+import '../models/chat_invitation.dart';
 import '../models/user.dart';
 import '../widgets/room_tab_widget.dart';
 import '../widgets/user_search_widget.dart';
@@ -35,15 +36,15 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
   bool _isLoading = false;
   String? _error;
 
+  // NUEVO: Preservar callback original para no romper MainScreen
+  Function(ChatInvitation)? _originalInvitationCallback;
+
   @override
   void initState() {
     super.initState();
 
-    print('🏢 [MULTI-ROOM] Inicializando pantalla de múltiples salas');
-
     // NUEVO: Usar singleton en lugar de crear nueva instancia
     _chatManager = EphemeralChatManager.instance;
-    print('🏢 [MULTI-ROOM] ✅ Usando singleton existente');
 
     // Configurar callbacks
     _setupManagerCallbacks();
@@ -65,8 +66,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
   /// Configurar callbacks del manager
   void _setupManagerCallbacks() {
     _chatManager.onSessionsChanged = (sessions) {
-      print('🏢 [MULTI-ROOM] Sesiones cambiadas: ${sessions.length}');
-
       // CORREGIDO: No filtrar sesiones tan agresivamente - mostrar TODAS las sesiones activas
       // Esto incluye sesiones "conectando", "esperando respuesta" y "con sala activa"
       final activeSessions = sessions
@@ -83,12 +82,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
               true) // NUEVO: Mostrar TODAS las sesiones del manager
           .toList();
 
-      print('🏢 [MULTI-ROOM] Sesiones a mostrar: ${activeSessions.length}');
-      for (final session in activeSessions) {
-        print(
-            '🏢 [MULTI-ROOM] - ${session.sessionId}: ${session.currentRoom?.id ?? "sin sala"} (conectando: ${session.isConnecting})');
-      }
-
       if (mounted) {
         setState(() {
           _sessions = activeSessions;
@@ -98,8 +91,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
     };
 
     _chatManager.onMessageReceived = (sessionId, message) {
-      print('🏢 [MULTI-ROOM] Mensaje recibido en sesión: $sessionId');
-
       // NUEVO: También manejar notificaciones desde MultiRoomChatScreen
       _showSystemNotificationForMessage(message);
 
@@ -107,15 +98,10 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
     };
 
     _chatManager.onSessionError = (sessionId, error) {
-      print('🏢 [MULTI-ROOM] Error en sesión $sessionId: $error');
-
       // CORREGIDO: Limpiar sesión con error
       try {
         _chatManager.closeSession(sessionId);
-        print('🏢 [MULTI-ROOM] ✅ Sesión con error cerrada: $sessionId');
-      } catch (e) {
-        print('🏢 [MULTI-ROOM] ⚠️ Error cerrando sesión: $e');
-      }
+      } catch (e) {}
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -128,7 +114,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
     };
 
     _chatManager.onSessionConnected = (sessionId) {
-      print('🏢 [MULTI-ROOM] Sesión conectada: $sessionId');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -143,14 +128,23 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
 
   /// NUEVO: Solo inicializar servicio global si no existe
   Future<void> _initializeGlobalInvitationServiceIfNeeded() async {
+    // CRÍTICO: Preservar callback original ANTES de sobrescribir
+    _originalInvitationCallback = _chatManager.onGlobalInvitationReceived;
+
     // Verificar si ya está inicializado
     if (_chatManager.hasGlobalInvitationService) {
-      print('🏢 [MULTI-ROOM] ✅ Servicio global ya existe - reutilizando');
-
-      // Solo configurar callback
+      // Configurar callback COMBINADO que llama ambos
       _chatManager.onGlobalInvitationReceived = (invitation) {
-        print(
-            '🏢 [MULTI-ROOM] 📨 Invitación global recibida en UI: ${invitation.id}');
+        // Primero ejecutar callback original (MainScreen)
+        if (_originalInvitationCallback != null) {
+          try {
+            _originalInvitationCallback!(invitation);
+          } catch (e) {
+            print('🔐 [MULTIROOM] ⚠️ Error en callback original: $e');
+          }
+        }
+
+        // Luego mostrar diálogo propio
         _showInvitationDialog(invitation);
       };
 
@@ -164,17 +158,21 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
 
       await _chatManager.initializeGlobalInvitationService(currentUserId);
 
-      // Configurar callback para invitaciones globales
+      // Configurar callback COMBINADO
       _chatManager.onGlobalInvitationReceived = (invitation) {
-        print(
-            '🏢 [MULTI-ROOM] 📨 Invitación global recibida en UI: ${invitation.id}');
+        // Primero ejecutar callback original (MainScreen)
+        if (_originalInvitationCallback != null) {
+          try {
+            _originalInvitationCallback!(invitation);
+          } catch (e) {
+            print('🔐 [MULTIROOM] ⚠️ Error en callback original: $e');
+          }
+        }
+
+        // Luego mostrar diálogo propio
         _showInvitationDialog(invitation);
       };
-
-      print('🏢 [MULTI-ROOM] ✅ Servicio global de invitaciones configurado');
-    } catch (e) {
-      print('🏢 [MULTI-ROOM] ❌ Error configurando servicio global: $e');
-    }
+    } catch (e) {}
   }
 
   /// NUEVO: Mostrar diálogo de invitación recibida
@@ -243,7 +241,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
         ),
       );
     } catch (e) {
-      print('🏢 [MULTI-ROOM] ❌ Error aceptando invitación: $e');
       if (mounted) {
         setState(() {
           _error = 'Error aceptando invitación: $e';
@@ -295,12 +292,10 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
             currentUserId: currentUserId,
           );
         } catch (e) {
-          print('🏢 [MULTI-ROOM] Error específico con invitación: $e');
           rethrow;
         }
       }
     } catch (e) {
-      print('🏢 [MULTI-ROOM] Error manejando sesión inicial: $e');
       if (mounted) {
         setState(() {
           _error = 'Error iniciando chat: $e';
@@ -343,7 +338,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
       // Pestaña de sesión
       final session = _sessions[index];
       _chatManager.setActiveSession(session.sessionId);
-      print('🏢 [MULTI-ROOM] Pestaña activa: ${session.sessionId}');
     } else {
       // Pestaña "Agregar"
       _chatManager.setActiveSession(null);
@@ -400,7 +394,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
         _tabController.animateTo(sessionIndex);
       }
     } catch (e) {
-      print('🏢 [MULTI-ROOM] Error creando nueva sesión: $e');
       if (mounted) {
         setState(() {
           _error = 'Error creando sala: $e';
@@ -424,8 +417,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
 
   /// Cerrar una sesión específica
   void _closeSession(String sessionId) {
-    print('🏢 [MULTI-ROOM] 🗑️ Cerrando sesión: $sessionId');
-
     // Encontrar la sesión
     final session = _sessions.firstWhere(
       (s) => s.sessionId == sessionId,
@@ -435,17 +426,12 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
     try {
       // NUEVO: Enviar evento de destrucción al servidor si hay sala activa
       if (session.currentRoom != null) {
-        print(
-            '🏢 [MULTI-ROOM] 💥 Enviando destrucción de sala: ${session.currentRoom!.id}');
         session.chatService.startDestructionCountdown();
       }
 
       // Cerrar la sesión en el manager
       _chatManager.closeSession(sessionId);
-      print('🏢 [MULTI-ROOM] ✅ Sesión cerrada correctamente');
     } catch (e) {
-      print('🏢 [MULTI-ROOM] ❌ Error cerrando sesión: $e');
-
       // Mostrar error al usuario
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -476,21 +462,14 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            print('🏢 [MULTI-ROOM] ⬅️ Volviendo atrás desde chats múltiples');
-
             // CORREGIDO: NO cerrar sesiones al volver atrás - deben persistir
             // Las sesiones solo se cierran cuando:
             // 1. El usuario las cierra explícitamente con la X
             // 2. Se autodestruyen
             // 3. Se usa el botón "Cerrar Todas"
 
-            print(
-                '🏢 [MULTI-ROOM] ✅ Sesiones mantenidas activas: ${_chatManager.activeSessions.length}');
-
             // Volver atrás manteniendo las sesiones
             Navigator.of(context).pop();
-            print(
-                '🏢 [MULTI-ROOM] ✅ Navegación hacia atrás completada - sesiones preservadas');
           },
           tooltip: 'Volver',
         ),
@@ -708,28 +687,19 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
 
   @override
   void dispose() {
-    print('🏢 [MULTI-ROOM] Liberando recursos de pantalla...');
-
-    // CRÍTICO: Solo limpiar callbacks si MainScreen NO está activo
-    // Verificar si estamos navegando de vuelta a MainScreen
+    // CRÍTICO: Restaurar callback original ANTES de salir
+    print('🔐 [MULTIROOM] 🔄 Restaurando callback original...');
     try {
-      final navigator = Navigator.of(context);
-      final canPop = navigator.canPop();
-
-      if (canPop) {
-        print('🏢 [MULTI-ROOM] ⚠️ Navegando de vuelta - NO limpiar callbacks');
-        print('🏢 [MULTI-ROOM] ℹ️ MainScreen se hará cargo de los callbacks');
+      if (_originalInvitationCallback != null) {
+        _chatManager.onGlobalInvitationReceived = _originalInvitationCallback;
+        print('🔐 [MULTIROOM] ✅ Callback original restaurado');
       } else {
-        print(
-            '🏢 [MULTI-ROOM] 🧹 Saliendo completamente - limpiando callbacks');
-        _chatManager.clearCallbacks();
+        print('🔐 [MULTIROOM] ⚠️ No había callback original para restaurar');
       }
     } catch (e) {
-      print(
-          '🏢 [MULTI-ROOM] ⚠️ Error verificando navegación: $e - NO limpiar callbacks por seguridad');
+      print('🔐 [MULTIROOM] ❌ Error restaurando callback: $e');
     }
 
-    print('🏢 [MULTI-ROOM] ✅ Recursos liberados - singleton preservado');
     _tabController.dispose();
     super.dispose();
   }
@@ -737,9 +707,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    print(
-        '🏢 [MULTI-ROOM] 🔄 didChangeDependencies ejecutado - reconfigurar estado');
 
     // NUEVO: Asegurar que el servicio global esté activo
     _ensureGlobalServiceActive();
@@ -761,39 +728,23 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
 
   /// NUEVO: Asegurar que el servicio global de invitaciones esté activo
   void _ensureGlobalServiceActive() {
-    print('🏢 [MULTI-ROOM] 🌐 Verificando servicio global de invitaciones...');
-
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final userId = authProvider.user?.id;
 
     if (userId != null && !_chatManager.hasGlobalInvitationService) {
-      print('🏢 [MULTI-ROOM] ⚠️ Servicio global perdido - reinicializando...');
-
       _chatManager.initializeGlobalInvitationService(userId).then((_) {
-        print('🏢 [MULTI-ROOM] ✅ Servicio global reinicializado correctamente');
-
         // Reconfigurar callback de invitaciones globales
         _chatManager.onGlobalInvitationReceived = (invitation) {
-          print(
-              '🏢 [MULTI-ROOM] 📨 Invitación global recibida después de reinicio: ${invitation.id}');
           _showInvitationDialog(invitation);
         };
-      }).catchError((e) {
-        print('🏢 [MULTI-ROOM] ❌ Error reinicializando servicio global: $e');
-      });
-    } else {
-      print('🏢 [MULTI-ROOM] ✅ Servicio global ya activo');
-    }
+      }).catchError((e) {});
+    } else {}
   }
 
   /// NUEVO: Forzar actualización de todas las sesiones activas
   void _forceUpdateAllSessions() {
-    print('🏢 [MULTI-ROOM] 🔄 Forzando actualización de todas las sesiones...');
-
     for (final session in _sessions) {
       if (session.currentRoom != null) {
-        print('🏢 [MULTI-ROOM] 🔄 Actualizando sesión: ${session.sessionId}');
-
         // Forzar actualización de participantes en cada sesión
         session.chatService.forceUpdateParticipants();
       }
@@ -810,31 +761,20 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
   /// NUEVO: Mostrar notificación del sistema para mensajes (copiado desde MainScreen)
   Future<void> _showSystemNotificationForMessage(dynamic message) async {
     try {
-      print('🔔💬 [MULTI-ROOM] === INICIANDO NOTIFICACIÓN DE MENSAJE ===');
-      print('🔔💬 [MULTI-ROOM] MessageId: ${message.id}');
-      print('🔔💬 [MULTI-ROOM] SenderId: ${message.senderId}');
-      print('🔔💬 [MULTI-ROOM] Content: ${message.content}');
-
       // FILTRAR: No mostrar notificaciones para mensajes de verificación
       if (message.content != null &&
           message.content.toString().startsWith('VERIFICATION_CODES:')) {
-        print('🔔💬 [MULTI-ROOM] 🚫 Mensaje de verificación filtrado');
         return;
       }
 
       // VERIFICAR: LocalNotificationService está inicializado
       try {
         await LocalNotificationService.instance.initialize();
-        print('🔔💬 [MULTI-ROOM] ✅ LocalNotificationService verificado');
       } catch (initError) {
-        print(
-            '🔔💬 [MULTI-ROOM] ❌ Error verificando LocalNotificationService: $initError');
         return;
       }
 
       // MOSTRAR: Notificación del sistema
-      print('🔔💬 [MULTI-ROOM] 📱 Llamando a showMessageNotification...');
-
       await LocalNotificationService.instance.showMessageNotification(
         messageId: message.id ?? 'unknown',
         senderName: message.senderId ?? 'Usuario desconocido',
@@ -842,14 +782,6 @@ class _MultiRoomChatScreenState extends State<MultiRoomChatScreen>
             'Tienes un mensaje', // PRIVACIDAD: No mostrar contenido real
         senderAvatar: null,
       );
-
-      print(
-          '🔔💬 [MULTI-ROOM] ✅ Notificación del sistema enviada para mensaje: ${message.id}');
-      print('🔔💬 [MULTI-ROOM] === NOTIFICACIÓN DE MENSAJE COMPLETADA ===');
-    } catch (e) {
-      print(
-          '❌ [MULTI-ROOM] Error crítico mostrando notificación de mensaje: $e');
-      print('❌ [MULTI-ROOM] Stack trace: ${StackTrace.current}');
-    }
+    } catch (e) {}
   }
 }

@@ -20,8 +20,6 @@ class KyberService {
   /// Inicializa el servicio Kyber
   static Future<bool> initialize() async {
     try {
-      print('$_logPrefix Inicializando servicio post-cuántico...');
-
       // Test básico para verificar que Kyber funciona
       final testKeyPair = KyberKeyPair.generate();
 
@@ -30,21 +28,11 @@ class KyberService {
         _isAvailable = true;
         _isInitialized = true;
 
-        print('$_logPrefix ✅ Kyber disponible');
-        print(
-            '$_logPrefix 📊 Clave pública: ${testKeyPair.publicKey.length} bytes');
-        print(
-            '$_logPrefix 📊 Clave secreta: ${testKeyPair.secretKey.length} bytes');
-        print('$_logPrefix 🛡️ Algoritmo: Kyber768');
-        print('$_logPrefix 🔮 Resistencia post-cuántica: ACTIVA');
-
         return true;
       } else {
         throw Exception('Claves vacías generadas');
       }
     } catch (e) {
-      print('$_logPrefix ⚠️ Kyber no disponible: $e');
-      print('$_logPrefix 🔄 Se usará cifrado clásico como fallback');
       _isAvailable = false;
       _isInitialized = false;
       return false;
@@ -62,17 +50,10 @@ class KyberService {
     }
 
     try {
-      print('$_logPrefix Generando par de claves post-cuánticas...');
-
       final keyPair = KyberKeyPair.generate();
-
-      print('$_logPrefix ✅ Claves generadas');
-      print('$_logPrefix 📊 Clave pública: ${keyPair.publicKey.length} bytes');
-      print('$_logPrefix 📊 Clave secreta: ${keyPair.secretKey.length} bytes');
 
       return keyPair;
     } catch (e) {
-      print('$_logPrefix ❌ Error generando claves: $e');
       rethrow;
     }
   }
@@ -85,8 +66,6 @@ class KyberService {
     }
 
     try {
-      print('$_logPrefix Encapsulando clave maestra...');
-
       if (masterKey.length != 64) {
         throw Exception(
             'Clave maestra debe ser de 64 bytes, recibida: ${masterKey.length}');
@@ -112,13 +91,8 @@ class KyberService {
             masterKey[i] ^ sharedSecret[i % sharedSecret.length];
       }
 
-      print('$_logPrefix ✅ Clave encapsulada: ${result.length} bytes');
-      print('$_logPrefix 🔐 Ciphertext Kyber: ${ciphertext.length} bytes');
-      print('$_logPrefix 🔐 Shared secret: ${sharedSecret.length} bytes');
-
       return result;
     } catch (e) {
-      print('$_logPrefix ❌ Error encapsulando: $e');
       rethrow;
     }
   }
@@ -131,8 +105,6 @@ class KyberService {
     }
 
     try {
-      print('$_logPrefix Desencapsulando clave maestra...');
-
       // Determinar el tamaño del ciphertext Kyber (debería ser constante)
       // Para Kyber768, el ciphertext es típicamente ~1088 bytes, pero verificamos dinámicamente
       final testKeyPair = KyberKeyPair.generate();
@@ -158,13 +130,8 @@ class KyberService {
             encryptedMasterKey[i] ^ sharedSecret[i % sharedSecret.length];
       }
 
-      print('$_logPrefix ✅ Clave desencapsulada: ${masterKey.length} bytes');
-      print(
-          '$_logPrefix 🔐 Shared secret recuperado: ${sharedSecret.length} bytes');
-
       return masterKey;
     } catch (e) {
-      print('$_logPrefix ❌ Error desencapsulando: $e');
       rethrow;
     }
   }
@@ -176,8 +143,6 @@ class KyberService {
     }
 
     try {
-      print('$_logPrefix Ejecutando auto-test...');
-
       // Generar par de claves
       final keyPair = generateKeyPair();
 
@@ -197,21 +162,17 @@ class KyberService {
 
       // Verificar
       if (decrypted.length != originalKey.length) {
-        print('$_logPrefix ❌ Auto-test falló: tamaños diferentes');
         return false;
       }
 
       for (int i = 0; i < originalKey.length; i++) {
         if (decrypted[i] != originalKey[i]) {
-          print('$_logPrefix ❌ Auto-test falló: byte $i diferente');
           return false;
         }
       }
 
-      print('$_logPrefix ✅ Auto-test exitoso');
       return true;
     } catch (e) {
-      print('$_logPrefix ❌ Auto-test falló: $e');
       return false;
     }
   }
@@ -231,13 +192,11 @@ class KyberService {
 
   /// Limpia la caché (para testing)
   static void clearCache() {
-    print('$_logPrefix Limpiando caché...');
     // No hay caché específica que limpiar en esta implementación
   }
 
   /// Reinicia el servicio (para testing)
   static void reset() {
-    print('$_logPrefix Reiniciando servicio...');
     _isInitialized = false;
     _isAvailable = false;
   }

@@ -37,34 +37,23 @@ class _QRScannerScreenState extends State<QRScannerScreen>
   /// Verificar y solicitar permisos de cámara
   Future<void> _checkCameraPermission() async {
     try {
-      print('📷 [QR-SCANNER] Verificando permisos de cámara...');
-
       final status = await Permission.camera.status;
-      print('📷 [QR-SCANNER] Estado actual de permisos: $status');
 
       if (status.isGranted) {
-        print('📷 [QR-SCANNER] ✅ Permisos concedidos');
         setState(() => _hasPermission = true);
       } else if (status.isDenied) {
-        print('📷 [QR-SCANNER] ⚠️ Permisos denegados, solicitando...');
         final result = await Permission.camera.request();
-        print('📷 [QR-SCANNER] Resultado de solicitud: $result');
         setState(() => _hasPermission = result.isGranted);
 
-        if (!result.isGranted) {
-          print('📷 [QR-SCANNER] ❌ Usuario denegó permisos');
-        }
+        if (!result.isGranted) {}
       } else if (status.isPermanentlyDenied) {
-        print('📷 [QR-SCANNER] ❌ Permisos permanentemente denegados');
         _showPermissionDialog();
       } else {
-        print('📷 [QR-SCANNER] ⚠️ Estado de permisos desconocido: $status');
         // Intentar solicitar de todos modos
         final result = await Permission.camera.request();
         setState(() => _hasPermission = result.isGranted);
       }
     } catch (e) {
-      print('📷 [QR-SCANNER] ❌ Error verificando permisos: $e');
       setState(() => _hasPermission = false);
     }
   }
@@ -109,10 +98,8 @@ class _QRScannerScreenState extends State<QRScannerScreen>
 
     for (final barcode in barcodes) {
       final String? code = barcode.rawValue;
-      print('📷 [QR-SCANNER] Código detectado: $code');
 
       if (_isScanning && code != null && code.isNotEmpty) {
-        print('📷 [QR-SCANNER] ✅ QR válido detectado, procesando...');
         setState(() {
           _isScanning = false;
           _scannedData = code;
@@ -124,10 +111,7 @@ class _QRScannerScreenState extends State<QRScannerScreen>
         // Procesar QR escaneado
         widget.onQRScanned(code);
         break; // Solo procesar el primer código válido
-      } else {
-        print(
-            '📷 [QR-SCANNER] ⚠️ QR rechazado - isScanning: $_isScanning, code: $code');
-      }
+      } else {}
     }
   }
 
@@ -135,10 +119,7 @@ class _QRScannerScreenState extends State<QRScannerScreen>
   void _vibrate() {
     try {
       // En implementación real usarías vibration: ^3.1.0
-      print('📳 Vibrando...');
-    } catch (e) {
-      print('No se puede vibrar: $e');
-    }
+    } catch (e) {}
   }
 
   /// Toggle flash
@@ -146,9 +127,7 @@ class _QRScannerScreenState extends State<QRScannerScreen>
     try {
       await controller.toggleTorch();
       setState(() => _isFlashOn = !_isFlashOn);
-    } catch (e) {
-      print('📷 [QR-SCANNER] Error cambiando flash: $e');
-    }
+    } catch (e) {}
   }
 
   /// Reiniciar scanner

@@ -60,14 +60,7 @@ class AutoDestructionPreferencesService {
       _autoApplyDefault = storedAutoApply == 'true';
 
       _initialized = true;
-
-      print('🔥 [AUTO-DESTRUCTION] Preferencias inicializadas:');
-      print(
-          '🔥 [AUTO-DESTRUCTION] - Por defecto: ${_defaultDestructionMinutes != null ? '${_defaultDestructionMinutes}min' : 'deshabilitado'}');
-      print(
-          '🔥 [AUTO-DESTRUCTION] - Auto-aplicar: ${_autoApplyDefault ? 'SÍ' : 'NO'}');
     } catch (e) {
-      print('❌ [AUTO-DESTRUCTION] Error inicializando preferencias: $e');
       _defaultDestructionMinutes = null;
       _autoApplyDefault = false;
       _initialized = true;
@@ -76,17 +69,13 @@ class AutoDestructionPreferencesService {
 
   /// Obtener tiempo por defecto de auto-destrucción
   int? get defaultDestructionMinutes {
-    if (!_initialized) {
-      print('⚠️ [AUTO-DESTRUCTION] Servicio no inicializado');
-    }
+    if (!_initialized) {}
     return _defaultDestructionMinutes;
   }
 
   /// Obtener si debe aplicar automáticamente
   bool get shouldAutoApplyDefault {
-    if (!_initialized) {
-      print('⚠️ [AUTO-DESTRUCTION] Servicio no inicializado');
-    }
+    if (!_initialized) {}
     return _autoApplyDefault && _defaultDestructionMinutes != null;
   }
 
@@ -99,11 +88,8 @@ class AutoDestructionPreferencesService {
 
       _defaultDestructionMinutes = minutes;
 
-      print(
-          '✅ [AUTO-DESTRUCTION] Tiempo por defecto actualizado: ${minutes != null ? '${minutes}min' : 'deshabilitado'}');
       return true;
     } catch (e) {
-      print('❌ [AUTO-DESTRUCTION] Error guardando tiempo por defecto: $e');
       return false;
     }
   }
@@ -115,11 +101,8 @@ class AutoDestructionPreferencesService {
           key: _keyAutoApplyDefault, value: enabled.toString());
       _autoApplyDefault = enabled;
 
-      print(
-          '✅ [AUTO-DESTRUCTION] Auto-aplicar actualizado: ${enabled ? 'SÍ' : 'NO'}');
       return true;
     } catch (e) {
-      print('❌ [AUTO-DESTRUCTION] Error guardando auto-aplicar: $e');
       return false;
     }
   }
@@ -168,11 +151,7 @@ class AutoDestructionPreferencesService {
 
       _defaultDestructionMinutes = null;
       _autoApplyDefault = false;
-
-      print('🧹 [AUTO-DESTRUCTION] Preferencias limpiadas');
-    } catch (e) {
-      print('❌ [AUTO-DESTRUCTION] Error limpiando preferencias: $e');
-    }
+    } catch (e) {}
   }
 
   /// Obtener información del estado del servicio

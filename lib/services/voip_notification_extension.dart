@@ -20,10 +20,7 @@ class VoIPNotificationExtension {
     Map<String, dynamic>? additionalData,
   }) async {
     try {
-      print('🔔 Enviando notificación híbrida para llamada: $callId');
-
       // 1. MANTENER: El sistema WebSocket/notificaciones existente sigue funcionando
-      print('📡 Sistema WebSocket mantiene su funcionalidad normal');
 
       // 2. AÑADIR: Notificación VoIP solo en iOS como complemento
       if (Platform.isIOS) {
@@ -33,15 +30,8 @@ class VoIPNotificationExtension {
           receiverId: receiverId,
           callerAvatar: callerAvatar,
         );
-        print('✅ Notificación VoIP complementaria enviada');
-      } else {
-        print(
-            '🔔 VoIP no disponible en esta plataforma, usando solo WebSocket');
-      }
-
-      print('✅ Notificación híbrida completada');
+      } else {}
     } catch (e) {
-      print('❌ Error en notificación híbrida: $e');
       // El error en VoIP no afecta el sistema principal
     }
   }
@@ -49,21 +39,13 @@ class VoIPNotificationExtension {
   /// Terminar llamada en ambos sistemas (WebSocket + VoIP)
   Future<void> endHybridCall(String callId) async {
     try {
-      print('🔚 Terminando llamada híbrida: $callId');
-
       // 1. El sistema WebSocket maneja su lógica normal
-      print('📡 Sistema WebSocket maneja el fin de llamada normalmente');
 
       // 2. Terminar también en VoIP si está disponible
       if (Platform.isIOS) {
         await VoIPIntegration.instance.endVoIPCall(callId);
-        print('✅ Llamada VoIP terminada como complemento');
       }
-
-      print('✅ Llamada híbrida terminada completamente');
-    } catch (e) {
-      print('❌ Error terminando llamada híbrida: $e');
-    }
+    } catch (e) {}
   }
 
   /// Obtener estado de llamadas en ambos sistemas
@@ -81,7 +63,6 @@ class VoIPNotificationExtension {
         'timestamp': DateTime.now().toIso8601String(),
       };
     } catch (e) {
-      print('❌ Error obteniendo estado híbrido: $e');
       return {
         'platform': Platform.operatingSystem,
         'voipSupported': false,
@@ -98,9 +79,6 @@ class VoIPNotificationExtension {
       if (Platform.isIOS) {
         VoIPIntegration.instance.dispose();
       }
-      print('✅ Recursos híbridos limpiados');
-    } catch (e) {
-      print('❌ Error limpiando recursos híbridos: $e');
-    }
+    } catch (e) {}
   }
 }

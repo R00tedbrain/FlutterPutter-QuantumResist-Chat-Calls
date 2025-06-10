@@ -22,11 +22,8 @@ class NotificationManager {
   Future<void> initialize(String userId, String token,
       GlobalKey<NavigatorState> navigatorKey) async {
     if (_isInitialized) {
-      print('⚠️ NotificationManager ya está inicializado');
       return;
     }
-
-    print('🔔 Inicializando NotificationManager para usuario: $userId');
 
     _navigatorKey = navigatorKey;
 
@@ -51,20 +48,16 @@ class NotificationManager {
     await _notificationSocket.initialize(userId, token);
 
     _isInitialized = true;
-    print('✅ NotificationManager inicializado correctamente');
   }
 
   // Manejar notificación de llamada entrante desde WebSocket
   void _handleIncomingCallNotification(Map<String, dynamic> data) {
-    print('🔔 Procesando notificación de llamada entrante: $data');
-
     final callId = data['callId'] as String?;
     final callerName = data['callerName'] as String?;
     final callerAvatar = data['callerAvatar'] as String?;
     final token = data['token'] as String?;
 
     if (callId == null || callerName == null) {
-      print('⚠️ Datos de llamada entrante incompletos');
       return;
     }
 
@@ -84,15 +77,12 @@ class NotificationManager {
 
   // Manejar notificación de mensaje desde WebSocket
   void _handleMessageNotification(Map<String, dynamic> data) {
-    print('🔔 Procesando notificación de mensaje: $data');
-
     final messageId = data['messageId'] as String?;
     final senderName = data['senderName'] as String?;
     final messageText = data['messageText'] as String?;
     final senderAvatar = data['senderAvatar'] as String?;
 
     if (messageId == null || senderName == null || messageText == null) {
-      print('⚠️ Datos de mensaje incompletos');
       return;
     }
 
@@ -107,15 +97,12 @@ class NotificationManager {
 
   // Manejar notificación genérica desde WebSocket
   void _handleGenericNotification(Map<String, dynamic> data) {
-    print('🔔 Procesando notificación genérica: $data');
-
     final id = data['id'] as String?;
     final title = data['title'] as String?;
     final body = data['body'] as String?;
     final extraData = data['data'] as Map<String, dynamic>?;
 
     if (id == null || title == null || body == null) {
-      print('⚠️ Datos de notificación genérica incompletos');
       return;
     }
 
@@ -136,8 +123,6 @@ class NotificationManager {
       final data = jsonDecode(payload) as Map<String, dynamic>;
       final type = data['type'] as String?;
 
-      print('🔔 Notificación tocada - Tipo: $type, Datos: $data');
-
       switch (type) {
         case 'incoming_call':
           _handleIncomingCallTapped(data);
@@ -149,11 +134,9 @@ class NotificationManager {
           _handleGeneralNotificationTapped(data);
           break;
         default:
-          print('⚠️ Tipo de notificación desconocido: $type');
+          break;
       }
-    } catch (e) {
-      print('❌ Error procesando notificación tocada: $e');
-    }
+    } catch (e) {}
   }
 
   // Manejar cuando se toca notificación de llamada
@@ -171,24 +154,19 @@ class NotificationManager {
   // Manejar cuando se toca notificación de mensaje
   void _handleMessageTapped(Map<String, dynamic> data) {
     // TODO: Navegar a la pantalla de chat
-    print('🔔 Navegando a chat - Datos: $data');
   }
 
   // Manejar cuando se toca notificación genérica
   void _handleGeneralNotificationTapped(Map<String, dynamic> data) {
     // TODO: Manejar según el tipo de notificación
-    print('🔔 Notificación genérica tocada - Datos: $data');
   }
 
   // Navegar a pantalla de llamada entrante
   void _navigateToIncomingCall(
       String callId, String callerName, String? callerAvatar, String? token) {
     if (_navigatorKey?.currentContext == null) {
-      print('⚠️ No hay contexto de navegación disponible');
       return;
     }
-
-    print('🔔 Navegando a pantalla de llamada entrante: $callId');
 
     // Cancelar la notificación ya que vamos a mostrar la pantalla
     _localNotifications.cancelNotification(callId);
@@ -254,7 +232,6 @@ class NotificationManager {
       await _notificationSocket.dispose();
       _isInitialized = false;
       _instance = null;
-      print('🔔 NotificationManager limpiado');
     }
   }
 }

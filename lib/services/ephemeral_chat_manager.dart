@@ -16,24 +16,18 @@ class EphemeralChatManager {
   // Constructor privado
   EphemeralChatManager._internal() {
     _startDestructionTimer();
-    print('🏢 [CHAT-MANAGER] 🌟 SINGLETON ROBUSTO INICIALIZADO');
   }
 
   // Getter estático para obtener la instancia única
   static EphemeralChatManager get instance {
     if (_instance == null) {
-      print('🏢 [CHAT-MANAGER] 🆕 Creando nueva instancia singleton');
       _instance = EphemeralChatManager._internal();
-    } else {
-      print('🏢 [CHAT-MANAGER] ♻️ Reutilizando instancia singleton existente');
-    }
+    } else {}
     return _instance!;
   }
 
   // DEPRECATED: Constructor factory (redirige al singleton)
   factory EphemeralChatManager() {
-    print(
-        '🏢 [CHAT-MANAGER] ⚠️ Factory constructor llamado - redirigiendo a singleton');
     return instance;
   }
 
@@ -57,19 +51,60 @@ class EphemeralChatManager {
   Function(String sessionId)? onSessionConnected;
   Function(ChatInvitation)? onGlobalInvitationReceived; // NUEVO
 
+  // NUEVO: Sistema de callbacks apilados para invitaciones
+  final List<Function(ChatInvitation)> _invitationCallbackStack = [];
+
   /// NUEVO: Verificar si el servicio global está inicializado
   bool get hasGlobalInvitationService => _globalInvitationService != null;
+
+  /// NUEVO: Agregar callback al stack (permite múltiples callbacks activos)
+  void pushInvitationCallback(Function(ChatInvitation) callback) {
+    _invitationCallbackStack.add(callback);
+    print(
+        '🔐 [CHAT_MANAGER] 📚 Callback agregado al stack. Total: ${_invitationCallbackStack.length}');
+  }
+
+  /// NUEVO: Remover el último callback del stack
+  Function(ChatInvitation)? popInvitationCallback() {
+    if (_invitationCallbackStack.isNotEmpty) {
+      final removed = _invitationCallbackStack.removeLast();
+      print(
+          '🔐 [CHAT_MANAGER] 📚 Callback removido del stack. Restantes: ${_invitationCallbackStack.length}');
+      return removed;
+    }
+    return null;
+  }
+
+  /// NUEVO: Ejecutar TODOS los callbacks del stack
+  void _executeInvitationCallbacks(ChatInvitation invitation) {
+    print(
+        '🔐 [CHAT_MANAGER] 📢 Ejecutando ${_invitationCallbackStack.length} callbacks para invitación ${invitation.id}');
+
+    for (int i = 0; i < _invitationCallbackStack.length; i++) {
+      try {
+        print('🔐 [CHAT_MANAGER] 📢 Ejecutando callback #$i');
+        _invitationCallbackStack[i](invitation);
+      } catch (e) {
+        print('🔐 [CHAT_MANAGER] ❌ Error en callback #$i: $e');
+      }
+    }
+
+    // DEPRECATED: Mantener compatibilidad con callback único
+    if (onGlobalInvitationReceived != null) {
+      try {
+        print('🔐 [CHAT_MANAGER] 📢 Ejecutando callback legacy');
+        onGlobalInvitationReceived!(invitation);
+      } catch (e) {
+        print('🔐 [CHAT_MANAGER] ❌ Error en callback legacy: $e');
+      }
+    }
+  }
 
   /// NUEVO: Inicializar servicio global de invitaciones
   Future<void> initializeGlobalInvitationService(String userId) async {
     if (_globalInvitationService != null && _currentUserId == userId) {
-      print(
-          '🏢 [CHAT-MANAGER] ✅ Servicio global ya inicializado para usuario: $userId');
       return;
     }
-
-    print(
-        '🏢 [CHAT-MANAGER] 🌐 Inicializando servicio global para usuario: $userId');
 
     // Limpiar servicio anterior si existe
     if (_globalInvitationService != null) {
@@ -85,15 +120,9 @@ class EphemeralChatManager {
 
       // Configurar callback solo para invitaciones
       _globalInvitationService!.onInvitationReceived = (invitation) {
-        print(
-            '🏢 [CHAT-MANAGER] 📨 Invitación global recibida: ${invitation.id}');
         onGlobalInvitationReceived?.call(invitation);
       };
-
-      print('🏢 [CHAT-MANAGER] ✅ Servicio global de invitaciones activo');
-    } catch (e) {
-      print('🏢 [CHAT-MANAGER] ❌ Error inicializando servicio global: $e');
-    }
+    } catch (e) {}
   }
 
   /// Obtener todas las sesiones activas
@@ -114,8 +143,6 @@ class EphemeralChatManager {
     String? targetUserName,
     required String currentUserId,
   }) async {
-    print('🏢 [CHAT-MANAGER] Creando nueva sesión con $targetUserId');
-
     // Verificar límite de sesiones
     if (_activeSessions.length >= MAX_CONCURRENT_SESSIONS) {
       throw Exception(
@@ -137,10 +164,6 @@ class EphemeralChatManager {
     }
 
     if (existingActiveSession != null) {
-      print(
-          '🏢 [CHAT-MANAGER] ✅ Sesión activa existente encontrada: ${existingActiveSession.sessionId}');
-      print('🏢 [CHAT-MANAGER] ✅ Reutilizando sesión con sala activa');
-
       // Forzar actualización de la UI
       _notifySessionsChanged();
       return existingActiveSession;
@@ -148,8 +171,6 @@ class EphemeralChatManager {
 
     // NUEVO: Siempre crear nueva sesión si no hay una ACTIVA
     // Esto permite múltiples invitaciones pendientes al mismo usuario
-    print(
-        '🏢 [CHAT-MANAGER] 🆕 Creando nueva sesión (no hay sesión activa con sala)');
 
     // Crear nuevo servicio de chat con aislamiento completo
     final chatService = EphemeralChatService();
@@ -167,14 +188,8 @@ class EphemeralChatManager {
     // Agregar a sesiones activas
     _activeSessions[session.sessionId] = session;
 
-    print('🏢 [CHAT-MANAGER] ✅ Nueva sesión creada: ${session.sessionId}');
-    print(
-        '🏢 [CHAT-MANAGER] 📊 Total sesiones activas: ${_activeSessions.length}');
-
     // NUEVO: Notificar cambios INMEDIATAMENTE para mostrar pestaña "conectando"
     _notifySessionsChanged();
-    print(
-        '🏢 [CHAT-MANAGER] 📢 UI notificada - nueva pestaña debería aparecer');
 
     // Inicializar el servicio de chat
     try {
@@ -182,15 +197,11 @@ class EphemeralChatManager {
       await chatService.createChatInvitation(targetUserId);
 
       session.updateConnectionState(connecting: false);
-      print(
-          '🏢 [CHAT-MANAGER] ✅ Sesión ${session.sessionId} inicializada correctamente');
     } catch (e) {
       session.updateConnectionState(
         connecting: false,
         errorMessage: 'Error creando invitación: $e',
       );
-      print(
-          '🏢 [CHAT-MANAGER] ❌ Error inicializando sesión ${session.sessionId}: $e');
     }
 
     // Notificar cambios a la UI nuevamente después de la inicialización
@@ -206,8 +217,6 @@ class EphemeralChatManager {
     String? targetUserName,
     required String currentUserId,
   }) async {
-    print('🏢 [CHAT-MANAGER] Aceptando invitación: $invitationId');
-
     // Verificar límite de sesiones
     if (_activeSessions.length >= MAX_CONCURRENT_SESSIONS) {
       throw Exception(
@@ -231,13 +240,8 @@ class EphemeralChatManager {
     // Agregar a sesiones activas
     _activeSessions[session.sessionId] = session;
 
-    print(
-        '🏢 [CHAT-MANAGER] ✅ Sesión de invitación creada: ${session.sessionId}');
-
     // NUEVO: Notificar cambios INMEDIATAMENTE para mostrar pestaña "conectando"
     _notifySessionsChanged();
-    print(
-        '🏢 [CHAT-MANAGER] 📢 UI notificada - nueva pestaña de invitación debería aparecer');
 
     // Inicializar y aceptar invitación
     try {
@@ -245,15 +249,11 @@ class EphemeralChatManager {
       await chatService.acceptInvitation(invitationId);
 
       session.updateConnectionState(connecting: false);
-      print(
-          '🏢 [CHAT-MANAGER] ✅ Invitación aceptada para sesión ${session.sessionId}');
     } catch (e) {
       session.updateConnectionState(
         connecting: false,
         errorMessage: 'Error aceptando invitación: $e',
       );
-      print(
-          '🏢 [CHAT-MANAGER] ❌ Error aceptando invitación ${session.sessionId}: $e');
     }
 
     // Notificar cambios nuevamente después de la aceptación
@@ -265,23 +265,12 @@ class EphemeralChatManager {
   /// Configurar callbacks específicos para una sesión
   void _setupSessionCallbacks(ChatSession session) {
     final sessionId = session.sessionId;
-    print('🏢 [CHAT-MANAGER] Configurando callbacks para sesión: $sessionId');
 
     session.chatService.onRoomCreated = (room) {
-      print(
-          '🏢 [CHAT-MANAGER] 🏠 Sala creada para sesión $sessionId: ${room.id}');
-
       // NUEVO: Actualizar displayName basado en participantes reales
       if (room.participants.length >= 2 && session.targetUserId == 'unknown') {
-        print(
-            '🏢 [CHAT-MANAGER] 🆔 Detectado targetUserId "unknown", sala con ${room.participants.length} participantes');
-        print(
-            '🏢 [CHAT-MANAGER] 🆔 Participantes: ${room.participants.join(", ")}');
-
         // Si solo tenemos 2 participantes, el targetUserId debería ser actualizado
         // Nota: En este punto ya sabemos que hay una conexión exitosa
-        print(
-            '🏢 [CHAT-MANAGER] ✅ Sala conectada - displayName se basará en participantes reales');
       }
 
       session.updateConnectionState(room: room);
@@ -290,8 +279,6 @@ class EphemeralChatManager {
     };
 
     session.chatService.onMessageReceived = (message) {
-      print('🏢 [CHAT-MANAGER] 💬 Mensaje recibido en sesión $sessionId');
-
       // Filtrar mensajes de verificación
       if (message.content.startsWith('VERIFICATION_CODES:')) {
         return;
@@ -303,23 +290,14 @@ class EphemeralChatManager {
     };
 
     session.chatService.onError = (error) {
-      print('🏢 [CHAT-MANAGER] ❌ Error en sesión $sessionId: $error');
       session.updateConnectionState(errorMessage: error);
       onSessionError?.call(sessionId, error);
       _notifySessionsChanged();
     };
 
     session.chatService.onRoomDestroyed = () {
-      print('🏢 [CHAT-MANAGER] 🗑️ Sala destruida para sesión $sessionId');
-
       // CRÍTICO: Resetear INMEDIATAMENTE y de forma SÍNCRONA
       session.resetForReuse();
-
-      print('🏢 [CHAT-MANAGER] ✅ Sesión completamente reiniciada: $sessionId');
-      print(
-          '🏢 [CHAT-MANAGER] - Disponible para nueva conexión: ${session.isAvailableForNewConnection}');
-      print(
-          '🏢 [CHAT-MANAGER] - Mensajes después del reset: ${session.messages.length}');
 
       // CRÍTICO: Notificar cambios INMEDIATAMENTE de forma síncrona
       _notifySessionsChanged();
@@ -327,28 +305,30 @@ class EphemeralChatManager {
       // NUEVO: Marcar la sesión como "recién reseteada" para evitar carga de mensajes obsoletos
       session.justReset = true;
 
-      print(
-          '🏢 [CHAT-MANAGER] ✅ Sesión marcada como recién reseteada: $sessionId');
+      // NUEVO: LIMPIAR INVITACIÓN FANTASMA DEL SERVICIO GLOBAL
+      // Esto previene que aparezcan invitaciones "fantasma" al volver al home
+      if (_globalInvitationService != null) {
+        try {
+          // Notificar al servicio global que la sala se destruyó para limpiar invitaciones pendientes
+          _globalInvitationService!.notifyRoomDestroyed(session.targetUserId);
+        } catch (e) {
+          // Si hay error, solo logueamos pero no interrumpimos el flujo
+        }
+      }
 
       // NUEVO: Notificaciones más lentas para mejor sincronización
       Future.delayed(const Duration(milliseconds: 200), () {
         _notifySessionsChanged();
-        print('🏢 [CHAT-MANAGER] 🔄 Actualización 1 enviada (200ms)');
       });
 
       Future.delayed(const Duration(milliseconds: 500), () {
         session.justReset = false; // Quitar marca después de más tiempo
         _notifySessionsChanged();
-        print('🏢 [CHAT-MANAGER] 🔄 Actualización 2 enviada (500ms)');
       });
 
       Future.delayed(const Duration(milliseconds: 1000), () {
         _notifySessionsChanged();
-        print('🏢 [CHAT-MANAGER] 🔄 Actualización final enviada (1000ms)');
       });
-
-      print(
-          '🏢 [CHAT-MANAGER] ✅ Reset completo y notificaciones enviadas: $sessionId');
     };
   }
 
@@ -382,11 +362,7 @@ class EphemeralChatManager {
 
       session.addMessage(myMessage);
       _notifySessionsChanged();
-
-      print('🏢 [CHAT-MANAGER] ✅ Mensaje enviado en sesión $sessionId');
     } catch (e) {
-      print(
-          '🏢 [CHAT-MANAGER] ❌ Error enviando mensaje en sesión $sessionId: $e');
       rethrow;
     }
   }
@@ -404,7 +380,6 @@ class EphemeralChatManager {
       _activeSessions[sessionId]?.setActive(true);
     }
 
-    print('🏢 [CHAT-MANAGER] 👁️ Sesión activa cambiada a: $sessionId');
     _notifySessionsChanged();
   }
 
@@ -412,8 +387,6 @@ class EphemeralChatManager {
   void closeSession(String sessionId) {
     final session = _activeSessions[sessionId];
     if (session == null) return;
-
-    print('🏢 [CHAT-MANAGER] 🗑️ Cerrando sesión: $sessionId');
 
     // Limpiar callbacks
     session.chatService.onRoomCreated = null;
@@ -432,23 +405,17 @@ class EphemeralChatManager {
       _currentActiveSessionId = null;
     }
 
-    print('🏢 [CHAT-MANAGER] ✅ Sesión cerrada: $sessionId');
-    print('🏢 [CHAT-MANAGER] 📊 Sesiones restantes: ${_activeSessions.length}');
-
     _notifySessionsChanged();
   }
 
   /// Cerrar todas las sesiones
   void closeAllSessions() {
-    print('🏢 [CHAT-MANAGER] 🗑️ Cerrando todas las sesiones...');
-
     final sessionIds = _activeSessions.keys.toList();
     for (final sessionId in sessionIds) {
       closeSession(sessionId);
     }
 
     _currentActiveSessionId = null;
-    print('🏢 [CHAT-MANAGER] ✅ Todas las sesiones cerradas');
   }
 
   /// Iniciar timer para limpiar mensajes destruidos
@@ -482,13 +449,8 @@ class EphemeralChatManager {
 
   /// NUEVO: Limpiar callbacks temporales (NO destruir singleton)
   void clearCallbacks() {
-    print('🏢 [CHAT-MANAGER] 🧹 Limpiando callbacks temporales...');
-
     // ADVERTENCIA: Esto puede afectar las notificaciones de MainScreen
-    if (onMessageReceived != null) {
-      print(
-          '🏢 [CHAT-MANAGER] ⚠️ ADVERTENCIA: Limpiando callback onMessageReceived - esto puede afectar notificaciones');
-    }
+    if (onMessageReceived != null) {}
 
     // Solo limpiar callbacks de UI, mantener sesiones activas
     onSessionsChanged = null;
@@ -496,37 +458,23 @@ class EphemeralChatManager {
     onSessionError = null;
     onSessionConnected = null;
     onGlobalInvitationReceived = null;
-
-    print(
-        '🏢 [CHAT-MANAGER] ✅ Callbacks temporales limpiados - singleton preservado');
-    print(
-        '🏢 [CHAT-MANAGER] ℹ️ MainScreen debería reconfigurar callbacks en didChangeDependencies()');
   }
 
   /// Liberar todos los recursos (SOLO para cierre completo de app)
   void dispose() {
-    print(
-        '🏢 [CHAT-MANAGER] ⚠️ DISPOSE LLAMADO - Esto NO debería pasar en navegación normal');
-    print('🏢 [CHAT-MANAGER] 🔄 Usando clearCallbacks() en su lugar...');
-
     // En lugar de destruir todo, solo limpiar callbacks
     clearCallbacks();
 
     // NO destruir sesiones ni servicio global para mantener estado
-    print('🏢 [CHAT-MANAGER] ✅ Singleton preservado para navegación');
   }
 
   /// NUEVO: Destruir completamente (solo para cierre de app)
   void destroyCompletely() {
-    print('🏢 [CHAT-MANAGER] 💥 DESTRUCCIÓN COMPLETA DEL SINGLETON');
-
     _destructionTimer?.cancel();
     closeAllSessions();
 
     // Limpiar servicio global de invitaciones
     if (_globalInvitationService != null) {
-      print(
-          '🏢 [CHAT-MANAGER] 🌐 Limpiando servicio global de invitaciones...');
       _globalInvitationService!.onInvitationReceived = null;
       _globalInvitationService!.dispose();
       _globalInvitationService = null;
@@ -536,7 +484,5 @@ class EphemeralChatManager {
 
     // Resetear singleton
     _instance = null;
-
-    print('🏢 [CHAT-MANAGER] ✅ Singleton completamente destruido');
   }
 }

@@ -31,8 +31,6 @@ class VoipTokenService {
     required String userId,
     required String authToken,
   }) async {
-    print('📱 [VoIP Token Service] Inicializando para usuario: $userId');
-
     _currentUserId = userId;
     _authToken = authToken;
 
@@ -47,11 +45,7 @@ class VoipTokenService {
 
   /// Registrar un nuevo token VoIP
   Future<bool> registerVoipToken(String token) async {
-    print('📤 [VoIP Token Service] Registrando token VoIP...');
-
     if (_currentUserId == null || _authToken == null) {
-      print(
-          '⚠️ [VoIP Token Service] No hay credenciales, guardando token para después');
       await _savePendingToken(token);
       return false;
     }
@@ -76,7 +70,6 @@ class VoipTokenService {
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
-        print('✅ [VoIP Token Service] Token registrado exitosamente');
         await _clearPendingToken();
         _cancelRetryTimer();
 
@@ -88,14 +81,10 @@ class VoipTokenService {
 
         return true;
       } else {
-        print(
-            '❌ [VoIP Token Service] Error del servidor: ${response.statusCode}');
-        print('Response body: ${response.body}');
         await _scheduleRetry(token);
         return false;
       }
     } catch (e) {
-      print('❌ [VoIP Token Service] Error registrando token: $e');
       await _scheduleRetry(token);
       return false;
     }
@@ -103,10 +92,7 @@ class VoipTokenService {
 
   /// Registrar token APNs para notificaciones regulares
   Future<bool> registerApnsToken(String token) async {
-    print('📤 [VoIP Token Service] Registrando token APNs...');
-
     if (_currentUserId == null || _authToken == null) {
-      print('⚠️ [VoIP Token Service] No hay credenciales para APNs');
       return false;
     }
 
@@ -130,15 +116,11 @@ class VoipTokenService {
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
-        print('✅ [VoIP Token Service] Token APNs registrado exitosamente');
         return true;
       } else {
-        print(
-            '❌ [VoIP Token Service] Error registrando APNs: ${response.statusCode}');
         return false;
       }
     } catch (e) {
-      print('❌ [VoIP Token Service] Error registrando APNs: $e');
       return false;
     }
   }
@@ -149,7 +131,6 @@ class VoipTokenService {
     final pendingToken = prefs.getString('pendingVoipToken');
 
     if (pendingToken != null) {
-      print('📨 [VoIP Token Service] Encontrado token pendiente, enviando...');
       await registerVoipToken(pendingToken);
     }
   }
@@ -176,8 +157,6 @@ class VoipTokenService {
 
     // Reintentar cada 30 segundos
     _retryTimer = Timer.periodic(const Duration(seconds: 30), (timer) async {
-      print('🔄 [VoIP Token Service] Reintentando registro de token...');
-
       final success = await registerVoipToken(token);
       if (success) {
         timer.cancel();
@@ -217,16 +196,12 @@ class VoipTokenService {
         };
       }
     } catch (e) {
-      print(
-          '⚠️ [VoIP Token Service] Error obteniendo info del dispositivo: $e');
       return {'error': 'Could not get device info'};
     }
   }
 
   /// Cerrar sesión y limpiar tokens
   Future<void> logout() async {
-    print('🚪 [VoIP Token Service] Cerrando sesión...');
-
     _cancelRetryTimer();
 
     // Notificar al servidor que se va a cerrar sesión
@@ -241,9 +216,7 @@ class VoipTokenService {
             'userId': _currentUserId,
           }),
         );
-      } catch (e) {
-        print('⚠️ [VoIP Token Service] Error al desregistrar: $e');
-      }
+      } catch (e) {}
     }
 
     // Limpiar datos locales

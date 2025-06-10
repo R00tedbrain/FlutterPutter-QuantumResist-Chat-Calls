@@ -37,10 +37,7 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
       final socketService = SocketService.getInstance();
       if (socketService != null) {
         callProvider.setSocketService(socketService);
-        print('✅ SocketService establecido en IncomingCallScreen');
-      } else {
-        print('⚠️ No se encontró instancia de SocketService');
-      }
+      } else {}
     });
   }
 
@@ -53,10 +50,7 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
     final socketService = SocketService.getInstance();
     if (socketService != null) {
       callProvider.setSocketService(socketService);
-      print(
-          '✅ SocketService establecido en CallProvider antes de aceptar llamada');
     } else {
-      print('❌ ERROR: No se encontró instancia de SocketService');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error interno: servicio de conexión no disponible'),
@@ -85,10 +79,6 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
 
     // Aceptar llamada
     try {
-      print('🎯 Iniciando aceptación de llamada: ${widget.callId}');
-      print(
-          '🎯 Información del llamante: ${widget.caller.id} (${widget.caller.nickname})');
-
       final success = await callProvider.acceptCall(
         widget.callId,
         authProvider.token!,
@@ -98,7 +88,6 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
       if (success && mounted) {
         // Cerrar diálogo de carga
         Navigator.pop(context);
-        print('✅ Llamada aceptada correctamente');
 
         // Ir a pantalla de llamada
         Navigator.pushReplacement(
@@ -113,7 +102,6 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
       } else if (mounted) {
         // Cerrar diálogo de carga
         Navigator.pop(context);
-        print('❌ Error al aceptar llamada: ${callProvider.error}');
 
         // Mostrar error
         ScaffoldMessenger.of(context).showSnackBar(
@@ -129,7 +117,6 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
       if (mounted) {
         // Cerrar diálogo de carga
         Navigator.pop(context);
-        print('❌ Excepción al aceptar llamada: $e');
 
         // Mostrar error
         ScaffoldMessenger.of(context).showSnackBar(
