@@ -421,7 +421,25 @@ class _EphemeralChatScreenMultimediaState
     // CRÍTICO: Configurar callbacks principales SIEMPRE
     _chatService.onRoomCreated = (data) => _onRoomCreated(data);
     _chatService.onMessageReceived = (message) => _onMessageReceived(message);
-    _chatService.onRoomDestroyed = _onRoomDestroyed;
+
+    // NUEVO: PRESERVAR callback original del ChatManager antes de sobrescribir
+    final originalOnRoomDestroyed = _chatService.onRoomDestroyed;
+    _chatService.onRoomDestroyed = () {
+      print('🔐 [MULTIMEDIA] 💥 Sala destruida - llamando callbacks...');
+
+      // PRIMERO: Ejecutar mi limpieza local
+      _onRoomDestroyed();
+
+      // SEGUNDO: Llamar al callback original del ChatManager si existe
+      if (originalOnRoomDestroyed != null) {
+        print(
+            '🔐 [MULTIMEDIA] 🔄 Ejecutando callback original del ChatManager...');
+        originalOnRoomDestroyed();
+      } else {
+        print('🔐 [MULTIMEDIA] ⚠️ No hay callback original del ChatManager');
+      }
+    };
+
     _chatService.onError = _onError;
 
     // Si ya hay una sala activa pero no tenemos _currentRoom, crearla

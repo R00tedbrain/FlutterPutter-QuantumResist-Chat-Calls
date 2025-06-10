@@ -263,6 +263,37 @@ class EphemeralChatManager {
   }
 
   /// Configurar callbacks específicos para una sesión
+  /// NUEVO: Reconfigurar callbacks del servicio global después de destrucción
+  void _configureGlobalServiceCallbacks() {
+    if (_globalInvitationService == null) {
+      print('🔐 [CHAT-MANAGER] ❌ No hay servicio global para reconfigurar');
+      return;
+    }
+
+    print('🔐 [CHAT-MANAGER] 🔧 Reconfigurando callback de invitaciones...');
+    print(
+        '🔐 [CHAT-MANAGER] 🔧 onGlobalInvitationReceived existe: ${onGlobalInvitationReceived != null}');
+
+    // Reconfigurar callback de invitaciones
+    _globalInvitationService!.onInvitationReceived = (invitation) {
+      print(
+          '🔐 [CHAT-MANAGER] 📨 Invitación recibida por servicio global: ${invitation.id}');
+
+      // Pasar la invitación al callback global si existe
+      if (onGlobalInvitationReceived != null) {
+        print('🔐 [CHAT-MANAGER] 📨 Pasando invitación a callback global');
+        onGlobalInvitationReceived!(invitation);
+      } else {
+        print('🔐 [CHAT-MANAGER] ⚠️ No hay callback global configurado');
+      }
+    };
+
+    print(
+        '🔐 [CHAT-MANAGER] ✅ Callback de invitaciones reconfigurado exitosamente');
+    print(
+        '🔐 [CHAT-MANAGER] ✅ Servicio global tiene callback: ${_globalInvitationService!.onInvitationReceived != null}');
+  }
+
   void _setupSessionCallbacks(ChatSession session) {
     final sessionId = session.sessionId;
 
@@ -295,7 +326,27 @@ class EphemeralChatManager {
       _notifySessionsChanged();
     };
 
+    // CRÍTICO: CONFIGURAR callback de invitaciones EN CADA SERVICIO
+    // Esto es lo que faltaba - cada servicio necesita el callback configurado
+    session.chatService.onInvitationReceived = (invitation) {
+      print(
+          '🔐 [CHAT-MANAGER] 📨 Invitación recibida por servicio de sesión: ${invitation.id}');
+
+      // Reenviar al callback global si existe
+      if (onGlobalInvitationReceived != null) {
+        print('🔐 [CHAT-MANAGER] 🔄 Reenviando a callback global desde sesión');
+        onGlobalInvitationReceived!(invitation);
+      } else {
+        print('🔐 [CHAT-MANAGER] ⚠️ No hay callback global configurado');
+      }
+    };
+
     session.chatService.onRoomDestroyed = () {
+      print(
+          '🔐 [CHAT-MANAGER] 💥 Sala destruida - session: ${session.sessionId}');
+      print(
+          '🔐 [CHAT-MANAGER] 💥 Servicio compartido: ${session.chatService == _globalInvitationService}');
+
       // CRÍTICO: Resetear INMEDIATAMENTE y de forma SÍNCRONA
       session.resetForReuse();
 
@@ -305,29 +356,52 @@ class EphemeralChatManager {
       // NUEVO: Marcar la sesión como "recién reseteada" para evitar carga de mensajes obsoletos
       session.justReset = true;
 
-      // NUEVO: LIMPIAR INVITACIÓN FANTASMA DEL SERVICIO GLOBAL
-      // Esto previene que aparezcan invitaciones "fantasma" al volver al home
-      if (_globalInvitationService != null) {
-        try {
-          // Notificar al servicio global que la sala se destruyó para limpiar invitaciones pendientes
-          _globalInvitationService!.notifyRoomDestroyed(session.targetUserId);
-        } catch (e) {
-          // Si hay error, solo logueamos pero no interrumpimos el flujo
+      // CRÍTICO: RECONFIGURAR callback de invitaciones INMEDIATAMENTE
+      // después de destruir la sala para mantener la funcionalidad
+      print(
+          '🔐 [CHAT-MANAGER] 🔧 Reconfigurando callback de invitaciones post-destrucción...');
+      session.chatService.onInvitationReceived = (invitation) {
+        print(
+            '🔐 [CHAT-MANAGER] 📨 Post-destrucción: Invitación recibida por servicio de sesión: ${invitation.id}');
+
+        // Reenviar al callback global si existe
+        if (onGlobalInvitationReceived != null) {
+          print(
+              '🔐 [CHAT-MANAGER] 🔄 Post-destrucción: Reenviando a callback global');
+          onGlobalInvitationReceived!(invitation);
+        } else {
+          print(
+              '🔐 [CHAT-MANAGER] ⚠️ Post-destrucción: No hay callback global configurado');
         }
+      };
+
+      // CRÍTICO: SIEMPRE reconfigurar el servicio global después de destruir cualquier sesión
+      if (_globalInvitationService != null) {
+        print('🔐 [CHAT-MANAGER] 🔧 Reconfigurando servicio global FORZADO...');
+
+        // Reconfigurar inmediatamente el servicio global
+        _globalInvitationService!.onInvitationReceived = (invitation) {
+          print(
+              '🔐 [CHAT-MANAGER] 📨 Invitación recibida por servicio global reconfigurado: ${invitation.id}');
+
+          if (onGlobalInvitationReceived != null) {
+            print('🔐 [CHAT-MANAGER] 📨 Pasando a callback global');
+            onGlobalInvitationReceived!(invitation);
+          } else {
+            print('🔐 [CHAT-MANAGER] ⚠️ No hay callback global configurado');
+          }
+        };
+
+        print('🔐 [CHAT-MANAGER] ✅ Servicio global reconfigurado');
+      } else {
+        print('🔐 [CHAT-MANAGER] ⚠️ No hay servicio global para reconfigurar');
       }
 
-      // NUEVO: Notificaciones más lentas para mejor sincronización
-      Future.delayed(const Duration(milliseconds: 200), () {
-        _notifySessionsChanged();
-      });
-
-      Future.delayed(const Duration(milliseconds: 500), () {
-        session.justReset = false; // Quitar marca después de más tiempo
-        _notifySessionsChanged();
-      });
-
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        _notifySessionsChanged();
+      // NUEVA: Reconfiguración asíncrona adicional para asegurar consistencia
+      Future.delayed(Duration(milliseconds: 100), () {
+        print(
+            '🔐 [CHAT-MANAGER] 🔧 Reconfigurando callbacks del servicio global (ASYNC)...');
+        _configureGlobalServiceCallbacks();
       });
     };
   }

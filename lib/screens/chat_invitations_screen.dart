@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../services/ephemeral_chat_service.dart';
+import '../services/ephemeral_chat_manager.dart';
 import '../services/invitation_tracking_service.dart';
 import '../models/chat_invitation.dart';
 import '../l10n/app_localizations.dart';
@@ -31,8 +32,9 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
   String? _error;
   Timer? _cleanupTimer;
 
-  // NUEVO: Preservar callback original para no romper MainScreen
+  // NUEVO: Preservar callbacks originales para no romper MainScreen
   Function(ChatInvitation)? _originalOnInvitationReceived;
+  Function(ChatInvitation)? _originalGlobalInvitationCallback;
 
   @override
   void initState() {
@@ -88,34 +90,71 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
   }
 
   void _setupCallbacks() {
-    // NUEVO: Preservar callback original ANTES de sobrescribir
+    print('🔐 [INVITATIONS] 🔧 Configurando callbacks...');
+
+    // CRÍTICO: SI usamos el servicio del MainScreen, NO modificar sus callbacks
+    if (widget.ephemeralChatService != null) {
+      print(
+          '🔐 [INVITATIONS] 📌 Usando servicio compartido - NO modificar callbacks');
+      // Solo configurar callback de error propio
+      _chatService.onError = (error) {
+        if (mounted) {
+          setState(() {
+            _error = error;
+          });
+        }
+      };
+      print('🔐 [INVITATIONS] ✅ Modo compartido configurado');
+      return;
+    }
+
+    // SOLO si creamos nuestro propio servicio, configurar callbacks
+    print('🔐 [INVITATIONS] 🆕 Servicio propio - configurando callbacks...');
+
+    // Preservar callback original del servicio local ANTES de sobrescribir
     _originalOnInvitationReceived = _chatService.onInvitationReceived;
 
+    // Preservar callback original del manager global ANTES de sobrescribir
+    final chatManager = EphemeralChatManager.instance;
+    _originalGlobalInvitationCallback = chatManager.onGlobalInvitationReceived;
+    print(
+        '🔐 [INVITATIONS] 📦 Callback global original preservado: ${_originalGlobalInvitationCallback != null}');
+
+    // Configurar callback del servicio local
     _chatService.onInvitationReceived = (invitation) {
+      print(
+          '🔐 [INVITATIONS] 📨 Invitación recibida (servicio local): ${invitation.id}');
+
       // PRIMERO: Ejecutar callback original (MainScreen) si existe
       if (_originalOnInvitationReceived != null) {
         try {
           _originalOnInvitationReceived!(invitation);
-        } catch (e) {}
-      } else {}
+        } catch (e) {
+          print('🔐 [INVITATIONS] ❌ Error ejecutando callback original: $e');
+        }
+      }
 
       // SEGUNDO: Ejecutar lógica propia de ChatInvitationsScreen
-      if (mounted) {
-        // NUEVO: Verificar si la invitación ya fue rechazada o ya existe
-        if (InvitationTrackingService.instance.isRejected(invitation.id)) {
-          return;
-        }
+      _handleInvitationReceived(invitation);
+    };
 
-        // Verificar si ya existe en la lista
-        final exists = _invitations.any((inv) => inv.id == invitation.id);
-        if (exists) {
-          return;
-        }
+    // CRÍTICO: Configurar callback del manager global
+    chatManager.onGlobalInvitationReceived = (invitation) {
+      print(
+          '🔐 [INVITATIONS] 📨 Invitación recibida (manager global): ${invitation.id}');
 
-        setState(() {
-          _invitations.add(invitation);
-        });
+      // PRIMERO: Ejecutar callback original (MainScreen) si existe
+      if (_originalGlobalInvitationCallback != null) {
+        try {
+          _originalGlobalInvitationCallback!(invitation);
+        } catch (e) {
+          print(
+              '🔐 [INVITATIONS] ❌ Error ejecutando callback global original: $e');
+        }
       }
+
+      // SEGUNDO: Ejecutar lógica propia de ChatInvitationsScreen
+      _handleInvitationReceived(invitation);
     };
 
     _chatService.onError = (error) {
@@ -125,6 +164,30 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
         });
       }
     };
+
+    print('🔐 [INVITATIONS] ✅ Callbacks configurados');
+  }
+
+  void _handleInvitationReceived(ChatInvitation invitation) {
+    if (mounted) {
+      // NUEVO: Verificar si la invitación ya fue rechazada o ya existe
+      if (InvitationTrackingService.instance.isRejected(invitation.id)) {
+        print('🔐 [INVITATIONS] ❌ Invitación ya rechazada: ${invitation.id}');
+        return;
+      }
+
+      // Verificar si ya existe en la lista
+      final exists = _invitations.any((inv) => inv.id == invitation.id);
+      if (exists) {
+        print('🔐 [INVITATIONS] ⚠️ Invitación ya existe: ${invitation.id}');
+        return;
+      }
+
+      print('🔐 [INVITATIONS] ✅ Agregando invitación: ${invitation.id}');
+      setState(() {
+        _invitations.add(invitation);
+      });
+    }
   }
 
   Future<void> _acceptInvitation(ChatInvitation invitation) async {
@@ -297,22 +360,54 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
 
   @override
   void dispose() {
+    print('🔐 [INVITATIONS] 🔄 Limpiando ChatInvitationsScreen...');
+
     // NUEVO: Cancelar timer de limpieza
     _cleanupTimer?.cancel();
 
-    // CRÍTICO: Restaurar callback original antes de limpiar
-    if (_originalOnInvitationReceived != null) {
-      _chatService.onInvitationReceived = _originalOnInvitationReceived;
+    // CRÍTICO: Solo restaurar si usamos servicio propio
+    if (widget.ephemeralChatService == null) {
+      print('🔐 [INVITATIONS] 🔄 Restaurando callbacks de servicio propio...');
+
+      // Restaurar callback del servicio local
+      try {
+        if (_originalOnInvitationReceived != null) {
+          _chatService.onInvitationReceived = _originalOnInvitationReceived;
+          print('🔐 [INVITATIONS] ✅ Callback local restaurado');
+        } else {
+          _chatService.onInvitationReceived = null;
+          print('🔐 [INVITATIONS] 🧹 Callback local limpiado');
+        }
+      } catch (e) {
+        print('🔐 [INVITATIONS] ❌ Error restaurando callback local: $e');
+      }
+
+      // Restaurar callback del manager global
+      try {
+        final chatManager = EphemeralChatManager.instance;
+        if (_originalGlobalInvitationCallback != null) {
+          chatManager.onGlobalInvitationReceived =
+              _originalGlobalInvitationCallback;
+          print('🔐 [INVITATIONS] ✅ Callback global restaurado');
+        } else {
+          // NO limpiar el callback global si no había uno original
+          print(
+              '🔐 [INVITATIONS] 📌 Manteniendo callback global (sin original)');
+        }
+      } catch (e) {
+        print('🔐 [INVITATIONS] ❌ Error restaurando callback global: $e');
+      }
+
+      // Dispose del servicio propio
+      _chatService.dispose();
     } else {
-      _chatService.onInvitationReceived = null;
+      print('🔐 [INVITATIONS] 📌 Servicio compartido - NO tocar callbacks');
     }
 
+    // Siempre limpiar callback de error
     _chatService.onError = null;
 
-    // Solo dispose si creamos el servicio nosotros mismos
-    if (widget.ephemeralChatService == null) {
-      _chatService.dispose();
-    }
+    print('🔐 [INVITATIONS] 🏁 ChatInvitationsScreen limpiado');
     super.dispose();
   }
 

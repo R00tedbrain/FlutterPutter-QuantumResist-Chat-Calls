@@ -139,6 +139,8 @@ class EphemeralChatService {
 
     _socket!.onDisconnect((reason) {
       if (_disposed) return;
+      print('🔐 [CHAT-SERVICE] ⚠️ Socket desconectado: $reason');
+      print('🔐 [CHAT-SERVICE] ⚠️ UserId afectado: $_userId');
     });
 
     _socket!.onConnectError((error) {
@@ -155,19 +157,34 @@ class EphemeralChatService {
     });
 
     _socket!.on('chat-invitation-received', (data) {
+      print('🔐 [CHAT-SERVICE] 📨 Invitación recibida del servidor');
+      print('🔐 [CHAT-SERVICE] 📨 Para userId: ${data['targetUserId']}');
+      print('🔐 [CHAT-SERVICE] 📨 Mi userId: $_userId');
+      print(
+          '🔐 [CHAT-SERVICE] 📨 Estado cifrado: ${_encryptionService != null ? 'DISPONIBLE' : 'NULL'}');
+
       // Verificar si la invitación es para este usuario
       if (data['targetUserId'] == _userId) {
         if (onInvitationReceived != null) {
+          print('🔐 [CHAT-SERVICE] ✅ Procesando invitación para mi usuario');
           final invitation =
               ChatInvitation.fromJson(Map<String, dynamic>.from(data));
           onInvitationReceived!(invitation);
+        } else {
+          print('🔐 [CHAT-SERVICE] ⚠️ No hay callback onInvitationReceived');
         }
-      } else {}
+      } else {
+        print('🔐 [CHAT-SERVICE] ⚠️ Invitación no es para mi usuario');
+      }
     });
 
     _socket!.on('invitation-created', (data) {});
 
-    _socket!.on('invitation-rejected', (data) {});
+    _socket!.on('invitation-rejected', (data) {
+      print(
+          '🔐 [CHAT-SERVICE] 📥 Servidor respondió invitation-rejected: $data');
+      // TODO: Procesar respuesta del servidor si es necesario
+    });
 
     _socket!.on('room-created', (data) async {
       // CORREGIDO: Establecer roomId con múltiples verificaciones
@@ -311,6 +328,10 @@ class EphemeralChatService {
     _socket!.on('room-destroyed', (data) {
       // CORREGIDO: Limpiar estado local INMEDIATAMENTE
       final destroyedRoomId = _currentRoomId;
+
+      print('🔐 [CHAT-SERVICE] 💥 SALA DESTRUIDA - Iniciando limpieza...');
+      print('🔐 [CHAT-SERVICE] 💥 Sala destruida: $destroyedRoomId');
+      print('🔐 [CHAT-SERVICE] 💥 UserId afectado: $_userId');
       _currentRoomId = null;
       _participantCount = 0;
 
@@ -330,23 +351,38 @@ class EphemeralChatService {
       }
 
       // CORREGIDO: Limpiar cifrado
+      print('🔐 [CHAT-SERVICE] 💥 Limpiando cifrado...');
       try {
         _encryptionService?.dispose();
         _encryptionService = null;
-      } catch (e) {}
+        print('🔐 [CHAT-SERVICE] ✅ Cifrado limpiado');
+      } catch (e) {
+        print('🔐 [CHAT-SERVICE] ❌ Error limpiando cifrado: $e');
+      }
 
       if (onRoomDestroyed != null) {
         try {
+          print('🔐 [CHAT-SERVICE] 💥 Llamando callback onRoomDestroyed...');
           onRoomDestroyed!();
-        } catch (e) {}
-      } else {}
+          print('🔐 [CHAT-SERVICE] ✅ Callback onRoomDestroyed ejecutado');
+        } catch (e) {
+          print('🔐 [CHAT-SERVICE] ❌ Error en callback onRoomDestroyed: $e');
+        }
+      } else {
+        print('🔐 [CHAT-SERVICE] ⚠️ No hay callback onRoomDestroyed');
+      }
 
-      // CORREGIDO: Reinicializar cifrado para próxima sala
-      Future.delayed(const Duration(milliseconds: 500), () async {
+      // CRÍTICO: Reinicializar cifrado SÍNCRONAMENTE para evitar estado inconsistente
+      print('🔐 [CHAT-SERVICE] 💥 Reinicializando cifrado...');
+      Future.delayed(const Duration(milliseconds: 100), () async {
         try {
           _encryptionService = EncryptionService();
           await _encryptionService!.initialize();
-        } catch (e) {}
+          print(
+              '🔐 [CHAT-SERVICE] ✅ Cifrado reinicializado - LISTO para nuevas invitaciones');
+        } catch (e) {
+          print('🔐 [CHAT-SERVICE] ❌ Error reinicializando cifrado: $e');
+        }
       });
     });
 
@@ -527,7 +563,12 @@ class EphemeralChatService {
 
   // NUEVO: Método para rechazar invitación informando al servidor
   Future<void> rejectInvitation(String invitationId) async {
+    print('🔐 [CHAT-SERVICE] 🚫 Rechazando invitación: $invitationId');
+    print('🔐 [CHAT-SERVICE] 🚫 Socket conectado: ${_socket?.connected}');
+    print('🔐 [CHAT-SERVICE] 🚫 UserId: $_userId');
+
     if (_socket == null || !_socket!.connected) {
+      print('🔐 [CHAT-SERVICE] ❌ No hay conexión para rechazar');
       throw Exception('No conectado al servidor de chat efímero');
     }
 
@@ -536,6 +577,19 @@ class EphemeralChatService {
       'userId': _userId,
       'reason': 'declined_by_user',
       'timestamp': DateTime.now().millisecondsSinceEpoch,
+    });
+
+    print('🔐 [CHAT-SERVICE] ✅ Evento de rechazo enviado');
+
+    // NUEVO: Verificar estado del socket después del rechazo
+    Future.delayed(const Duration(seconds: 1), () {
+      if (_socket != null) {
+        print(
+            '🔐 [CHAT-SERVICE] 🔍 Estado post-rechazo - Conectado: ${_socket!.connected}');
+        print('🔐 [CHAT-SERVICE] 🔍 Estado post-rechazo - ID: ${_socket!.id}');
+      } else {
+        print('🔐 [CHAT-SERVICE] ❌ Estado post-rechazo - Socket es null');
+      }
     });
   }
 

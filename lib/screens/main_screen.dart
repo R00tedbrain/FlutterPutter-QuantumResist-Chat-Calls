@@ -145,6 +145,21 @@ class _MainScreenState extends State<MainScreen> {
       // Importar ChatManager si no está disponible
       final chatManager = EphemeralChatManager.instance;
 
+      // CRÍTICO: Configurar callback global de invitaciones para que MultiRoomChatScreen lo pueda preservar
+      if (chatManager.onGlobalInvitationReceived == null) {
+        print(
+            '🔐 [MAINSCREEN] 🔧 Configurando callback global de invitaciones...');
+        chatManager.onGlobalInvitationReceived = (invitation) {
+          print('🔐 [MAINSCREEN] 📨 === INVITACIÓN RECIBIDA ===');
+          print('🔐 [MAINSCREEN] 📨 De: ${invitation.fromUserId}');
+          print('🔐 [MAINSCREEN] 📨 ID: ${invitation.id}');
+          _handleInvitationSync(invitation);
+        };
+        print('🔐 [MAINSCREEN] ✅ Callback global configurado');
+      } else {
+        print('🔐 [MAINSCREEN] ℹ️ Callback global ya existía');
+      }
+
       // PATRÓN OFICIAL: Solo configurar si no está configurado o se perdió
       if (chatManager.onMessageReceived == null) {
         // Configurar callback para mensajes recibidos en cualquier sesión
@@ -158,7 +173,9 @@ class _MainScreenState extends State<MainScreen> {
           _showSystemNotificationForMessage(message);
         };
       } else {}
-    } catch (e) {}
+    } catch (e) {
+      print('🔐 [MAINSCREEN] ❌ Error configurando callbacks: $e');
+    }
   }
 
   /// DEPRECATED: Usar _ensureCallbacksConfigured en su lugar
@@ -702,9 +719,13 @@ class _MainScreenState extends State<MainScreen> {
       _ephemeralChatService.onError = null;
     } catch (e) {}
 
-    // NOTA: No limpiar ChatManager callbacks aquí - pueden ser usados por otros widgets
-    // Solo marcar que este widget ya no los controla
-    try {} catch (e) {}
+    // NOTA: NO limpiar callback global del ChatManager aquí
+    // El MultiRoomChatScreen lo necesita y maneja su propia restauración
+    // Solo lo limpiamos en casos específicos como logout completo
+    try {
+      print(
+          '🔐 [MAINSCREEN] 🏁 MainScreen dispose - callback global se mantiene para MultiRoomChatScreen');
+    } catch (e) {}
 
     // PATRÓN OFICIAL FLUTTER: Dispose del servicio al final
     try {
