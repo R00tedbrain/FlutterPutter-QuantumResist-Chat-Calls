@@ -1,0 +1,1434 @@
+{
+  "@@locale": "ar",
+  "appTitle": "فلاتر باتر",
+  "@appTitle": {
+    "description": "اسم التطبيق"
+  },
+  "loginTitle": "سجل الدخول للمتابعة",
+  "@loginTitle": {
+    "description": "عنوان شاشة تسجيل الدخول"
+  },
+  "email": "البريد الإلكتروني",
+  "@email": {
+    "description": "حقل البريد الإلكتروني"
+  },
+  "enterEmail": "أدخل بريدك الإلكتروني",
+  "@enterEmail": {
+    "description": "تلميح حقل البريد الإلكتروني"
+  },
+  "password": "كلمة المرور",
+  "@password": {
+    "description": "حقل كلمة المرور"
+  },
+  "enterPassword": "أدخل كلمة المرور الخاصة بك",
+  "@enterPassword": {
+    "description": "تلميح حقل كلمة المرور"
+  },
+  "pleaseEnterEmail": "من فضلك أدخل بريدك الإلكتروني",
+  "@pleaseEnterEmail": {
+    "description": "التحقق من صحة البريد الإلكتروني الفارغ"
+  },
+  "enterValidEmail": "أدخل بريدًا إلكترونيًا صالحًا",
+  "@enterValidEmail": {
+    "description": "التحقق من صحة البريد الإلكتروني غير الصالح"
+  },
+  "pleaseEnterPassword": "من فضلك أدخل كلمة المرور",
+  "@pleaseEnterPassword": {
+    "description": "التحقق من صحة كلمة المرور الفارغة"
+  },
+  "passwordMinLength": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+  "@passwordMinLength": {
+    "description": "التحقق من طول كلمة المرور"
+  },
+  "privacyAndSecurity": "الخصوصية والأمان",
+  "@privacyAndSecurity": {
+    "description": "عنوان قسم الخصوصية"
+  },
+  "noDataCollection": "نحن لا نجمع بيانات شخصية",
+  "@noDataCollection": {
+    "description": "رسالة حول عدم جمع البيانات"
+  },
+  "anonymousConnections": "جميع الاتصالات مجهولة المصدر",
+  "@anonymousConnections": {
+    "description": "رسالة حول الاتصالات المجهولة"
+  },
+  "ephemeralChatRooms": "غرف دردشة سريعة الزوال يتم تدميرها تلقائيًا",
+  "@ephemeralChatRooms": {
+    "description": "وصف الغرف سريعة الزوال"
+  },
+  "encryptionInfo": "تشفير XSalsa20 بمفاتيح عشوائية لكل غرفة",
+  "@encryptionInfo": {
+    "description": "معلومات حول التشفير"
+  },
+  "loginButton": "تسجيل الدخول",
+  "@loginButton": {
+    "description": "زر تسجيل الدخول"
+  },
+  "noAccount": "ليس لديك حساب؟",
+  "@noAccount": {
+    "description": "سؤال حول التسجيل"
+  },
+  "register": "سجل",
+  "@register": {
+    "description": "رابط التسجيل"
+  },
+  "oneSessionSecurity": "🔒 يُسمح بجلسة نشطة واحدة فقط لكل مستخدم لمزيد من الأمان",
+  "@oneSessionSecurity": {
+    "description": "رسالة جلسة واحدة للأمان"
+  },
+  "oneSessionMaxSecurity": "جلسة واحدة فقط لكل مستخدم (أقصى درجات الأمان)",
+  "@oneSessionMaxSecurity": {
+    "description": "نص زر الأمان الأقصى"
+  },
+  "chats": "الدردشات",
+  "@chats": {
+    "description": "علامة تبويب الدردشات"
+  },
+  "secureChat": "دردشة آمنة",
+  "@secureChat": {
+    "description": "عنوان الدردشة الآمنة"
+  },
+  "secureChatDescription": "انقر لإنشاء أو الانضمام إلى الدردشات سريعة الزوال",
+  "@secureChatDescription": {
+    "description": "وصف الدردشة الآمنة"
+  },
+  "privateVideoCall": "مكالمة فيديو خاصة",
+  "@privateVideoCall": {
+    "description": "عنوان مكالمة الفيديو الخاصة"
+  },
+  "videoCallDescription": "انتهت المكالمة",
+  "@videoCallDescription": {
+    "description": "حالة المكالمة المنتهية"
+  },
+  "multipleChats": "دردشات متعددة",
+  "@multipleChats": {
+    "description": "عنوان الدردشات المتعددة"
+  },
+  "noActiveChats": "لا توجد دردشات نشطة",
+  "@noActiveChats": {
+    "description": "رسالة عند عدم وجود دردشات"
+  },
+  "useNewRoomButton": "استخدم علامة التبويب 'غرفة جديدة' لإنشاء دردشة",
+  "@useNewRoomButton": {
+    "description": "تعليمات إنشاء دردشة"
+  },
+  "calls": "المكالمات",
+  "@calls": {
+    "description": "علامة تبويب المكالمات"
+  },
+  "verification": "التحقق",
+  "@verification": {
+    "description": "علامة تبويب التحقق"
+  },
+  "verificationDemo": "🔐 عرض توضيحي للتحقق",
+  "@verificationDemo": {
+    "description": "عنوان زر العرض التوضيحي للتحقق"
+  },
+  "verificationDemoDescription": "هذا عرض توضيحي لنظام التحقق من الهوية المجهول. في التنفيذ الحقيقي، سيتم دمج هذه الأداة في غرف الدردشة سريعة الزوال.",
+  "@verificationDemoDescription": {
+    "description": "وصف العرض التوضيحي للتحقق"
+  },
+  "room": "الغرفة",
+  "@room": {
+    "description": "تسمية الغرفة"
+  },
+  "user": "المستخدم",
+  "@user": {
+    "description": "تسمية المستخدم"
+  },
+  "identityVerification": "التحقق من الهوية",
+  "@identityVerification": {
+    "description": "عنوان التحقق من الهوية"
+  },
+  "verifyIdentityDescription": "انقر للتحقق من الهوية بشكل مجهول",
+  "@verifyIdentityDescription": {
+    "description": "وصف التحقق المجهول"
+  },
+  "statusNotVerified": "الحالة: لم يتم التحقق",
+  "@statusNotVerified": {
+    "description": "الحالة لم يتم التحقق"
+  },
+  "notVerifiedYet": "لم يتم التحقق من الهوية بعد",
+  "@notVerifiedYet": {
+    "description": "رسالة لم يتم التحقق"
+  },
+  "howToTest": "كيفية اختبار التحقق",
+  "@howToTest": {
+    "description": "عنوان التعليمات"
+  },
+  "step1": "اضغط على",
+  "@step1": {
+    "description": "الخطوة 1"
+  },
+  "step2": "اضغط",
+  "@step2": {
+    "description": "الخطوة 2"
+  },
+  "step3": "انسخ أحد الرموز (أبجدي رقمي، رقمي، أو إيموجي)",
+  "@step3": {
+    "description": "الخطوة 3"
+  },
+  "step4": "الصق الرمز في",
+  "@step4": {
+    "description": "الخطوة 4"
+  },
+  "step5": "اضغط",
+  "@step5": {
+    "description": "الخطوة 5"
+  },
+  "showMyCodes": "عرض رموزي",
+  "@showMyCodes": {
+    "description": "زر عرض الرموز"
+  },
+  "verifyPartnerCode": "التحقق من رمز الشريك",
+  "@verifyPartnerCode": {
+    "description": "نص زر التحقق"
+  },
+  "verify": "تحقق",
+  "@verify": {
+    "description": "زر التحقق"
+  },
+  "realUsage": "في الاستخدام الحقيقي: سيشارك المستخدمون الرموز عبر WhatsApp، Telegram، إلخ.",
+  "@realUsage": {
+    "description": "ملاحظة حول الاستخدام الحقيقي"
+  },
+  "securitySettings": "إعدادات الأمان",
+  "@securitySettings": {
+    "description": "عنوان إعدادات الأمان"
+  },
+  "securitySettingsDescription": "قم بتكوين رقم تعريف شخصي (PIN) للأمان لحماية خصوصيتك. ستستمر الإشعارات في الوصول حتى إذا كان التطبيق مقفلاً.",
+  "@securitySettingsDescription": {
+    "description": "وصف إعدادات الأمان"
+  },
+  "configureAppLock": "تكوين قفل التطبيق",
+  "@configureAppLock": {
+    "description": "عنوان تكوين القفل"
+  },
+  "newPin": "رقم تعريف شخصي جديد (4-15 حرفًا)",
+  "@newPin": {
+    "description": "حقل رقم التعريف الشخصي الجديد"
+  },
+  "confirmPin": "تأكيد رقم التعريف الشخصي",
+  "@confirmPin": {
+    "description": "حقل تأكيد رقم التعريف الشخصي"
+  },
+  "activateLock": "تفعيل القفل",
+  "@activateLock": {
+    "description": "زر تفعيل القفل"
+  },
+  "screenshotSecurity": "أمان لقطات الشاشة",
+  "@screenshotSecurity": {
+    "description": "عنوان أمان لقطات الشاشة"
+  },
+  "screenshotSecurityDescription": "تحكم فيما إذا كان يمكن التقاط لقطات شاشة للتطبيق.",
+  "@screenshotSecurityDescription": {
+    "description": "وصف أمان لقطات الشاشة"
+  },
+  "allowScreenshots": "السماح بلقطات الشاشة",
+  "@allowScreenshots": {
+    "description": "خيار السماح بلقطات الشاشة"
+  },
+  "screenshotsAllowed": "لقطات الشاشة مسموح بها",
+  "@screenshotsAllowed": {
+    "description": "حالة لقطات الشاشة المسموح بها"
+  },
+  "screenshotsDisabled": "يمكنك تعطيلها لمزيد من الأمان",
+  "@screenshotsDisabled": {
+    "description": "اقتراح حول تعطيل لقطات الشاشة"
+  },
+  "autoDestructionDefault": "التدمير الذاتي الافتراضي",
+  "@autoDestructionDefault": {
+    "description": "عنوان التدمير الذاتي"
+  },
+  "autoDestructionDescription": "قم بتكوين وقت تدمير ذاتي سيتم تطبيقه تلقائيًا عند الانضمام إلى غرف دردشة جديدة:",
+  "@autoDestructionDescription": {
+    "description": "وصف التدمير الذاتي"
+  },
+  "defaultTime": "الوقت الافتراضي:",
+  "@defaultTime": {
+    "description": "تسمية الوقت الافتراضي"
+  },
+  "noLimit": "بلا حدود",
+  "@noLimit": {
+    "description": "خيار بلا حدود"
+  },
+  "selectTime": "حدد وقتًا لتمكين التدمير الذاتي الافتراضي. سيتم حذف الرسائل تلقائيًا بعد الوقت الذي تم تكوينه.",
+  "@selectTime": {
+    "description": "تعليمات اختيار الوقت"
+  },
+  "activeSessions": "الجلسات النشطة",
+  "@activeSessions": {
+    "description": "عنوان الجلسات النشطة"
+  },
+  "activeSessionsDescription": "إدارة الأجهزة التي لديك فيها جلسات مفتوحة. مشابه لـ Signal و WhatsApp.",
+  "@activeSessionsDescription": {
+    "description": "وصف الجلسات النشطة"
+  },
+  "currentState": "الحالة الحالية",
+  "@currentState": {
+    "description": "الحالة الحالية"
+  },
+  "noActiveSessionsRegistered": "0 جلسات نشطة مسجلة",
+  "@noActiveSessionsRegistered": {
+    "description": "حالة الجلسات"
+  },
+  "multipleSessions": "جلسات متعددة: معطلة",
+  "@multipleSessions": {
+    "description": "حالة الجلسات المتعددة"
+  },
+  "configurationLikeSignal": "وتكوين مثل Signal",
+  "@configurationLikeSignal": {
+    "description": "وصف التكوين"
+  },
+  "manageSessions": "إدارة الجلسات",
+  "@manageSessions": {
+    "description": "زر إدارة الجلسات"
+  },
+  "allowMultipleSessions": "السماح بجلسات متعددة",
+  "@allowMultipleSessions": {
+    "description": "خيار الجلسات المتعددة"
+  },
+  "onlyOneActiveSession": "جلسة نشطة واحدة فقط في كل مرة (مثل Signal)",
+  "@onlyOneActiveSession": {
+    "description": "وصف جلسة واحدة"
+  },
+  "writeAtLeast2Characters": "اكتب حرفين على الأقل للبحث عن المستخدمين",
+  "@writeAtLeast2Characters": {
+    "description": "تعليمات الحد الأدنى للبحث"
+  },
+  "error": "خطأ",
+  "@error": {
+    "description": "تسمية الخطأ"
+  },
+  "secureMultimediaChat": "دردشة وسائط متعددة آمنة",
+  "@secureMultimediaChat": {
+    "description": "عنوان دردشة الوسائط المتعددة"
+  },
+  "sendEncryptedMessages": "أرسل رسائل وصورًا\\nمشفرة باستخدام XChaCha20-Poly1305",
+  "@sendEncryptedMessages": {
+    "description": "وصف الدردشة الآمنة"
+  },
+  "encryptedMessage": "رسالة مشفرة...",
+  "@encryptedMessage": {
+    "description": "عنصر نائب لحقل الرسالة"
+  },
+  "sendEncryptedImage": "📷 إرسال صورة مشفرة",
+  "@sendEncryptedImage": {
+    "description": "عنوان منتقي الصور"
+  },
+  "takePhoto": "التقاط صورة",
+  "@takePhoto": {
+    "description": "خيار التقاط صورة"
+  },
+  "useCamera": "استخدام الكاميرا",
+  "@useCamera": {
+    "description": "وصف استخدام الكاميرا"
+  },
+  "gallery": "المعرض",
+  "@gallery": {
+    "description": "خيار المعرض"
+  },
+  "selectImage": "تحديد صورة",
+  "@selectImage": {
+    "description": "وصف تحديد الصورة"
+  },
+  "capturesBlocked": "التقاطات محظورة",
+  "@capturesBlocked": {
+    "description": "تلميح التقاطات محظورة"
+  },
+  "capturesAllowed": "التقاطات مسموح بها",
+  "@capturesAllowed": {
+    "description": "تلميح التقاطات مسموح بها"
+  },
+  "e2eEncryptionSecurity": "تشفير من طرف إلى طرف + أمان",
+  "@e2eEncryptionSecurity": {
+    "description": "عنوان معلومات التشفير"
+  },
+  "encryptionDescription": "جميع الرسائل والصور والصوتيات مشفرة محليًا باستخدام XChaCha20-Poly1305.\\n\\nيرى الخادم فقط كتل بيانات مشفرة معتمة.\\n\\nتم تنفيذ الصوت مع تسجيل حقيقي.",
+  "@encryptionDescription": {
+    "description": "وصف مفصل للتشفير"
+  },
+  "screenshotsStatus": "لقطات الشاشة:",
+  "@screenshotsStatus": {
+    "description": "حالة لقطات الشاشة"
+  },
+  "screenshotsBlocked": "محظورة",
+  "@screenshotsBlocked": {
+    "description": "لقطات الشاشة محظورة"
+  },
+  "screenshotsPermitted": "مسموح بها",
+  "@screenshotsPermitted": {
+    "description": "لقطات الشاشة مسموح بها"
+  },
+  "likeWhatsAppTelegram": "مثل WhatsApp/Telegram - شاشة سوداء في لقطات الشاشة",
+  "@likeWhatsAppTelegram": {
+    "description": "وصف سلوك لقطات الشاشة"
+  },
+  "understood": "مفهوم",
+  "@understood": {
+    "description": "زر مفهوم"
+  },
+  "destroyRoom": "⚠️ تدمير الغرفة",
+  "@destroyRoom": {
+    "description": "عنوان مربع حوار تدمير الغرفة"
+  },
+  "warningDestroyRoom": "سيؤدي هذا الإجراء إلى تدمير غرفة الدردشة بشكل دائم لكلا المستخدمين.\\n\\nسيبدأ عد تنازلي لمدة 10 ثوانٍ مرئي لكلا المشاركين.",
+  "@warningDestroyRoom": {
+    "description": "تحذير تدمير الغرفة"
+  },
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "زر إلغاء"
+  },
+  "audioNote": "ملاحظة صوتية",
+  "@audioNote": {
+    "description": "نوع الرسالة صوت"
+  },
+  "recordedAudioNote": "ملاحظة صوتية (مسجلة)",
+  "@recordedAudioNote": {
+    "description": "ملاحظة صوتية مسجلة"
+  },
+  "playing": "قيد التشغيل...",
+  "@playing": {
+    "description": "حالة التشغيل"
+  },
+  "tapToStop": "انقر للتوقف",
+  "@tapToStop": {
+    "description": "تعليمات الإيقاف"
+  },
+  "tapToPlay": "انقر للتشغيل",
+  "@tapToPlay": {
+    "description": "تعليمات التشغيل"
+  },
+  "image": "صورة",
+  "@image": {
+    "description": "نوع الرسالة صورة"
+  },
+  "backToMultipleChats": "العودة إلى الدردشات المتعددة",
+  "@backToMultipleChats": {
+    "description": "تلميح العودة إلى الدردشات المتعددة"
+  },
+  "backToChat": "العودة إلى الدردشة",
+  "@backToChat": {
+    "description": "تلميح العودة إلى الدردشة"
+  },
+  "screenshotsBlockedAutomatically": "لقطات الشاشة محظورة تلقائيًا",
+  "@screenshotsBlockedAutomatically": {
+    "description": "رسالة لقطات الشاشة المحظورة"
+  },
+  "screenshotsEnabled": "لقطات الشاشة مفعلة",
+  "@screenshotsEnabled": {
+    "description": "رسالة لقطات الشاشة المفعلة"
+  },
+  "identityVerifiedCorrectly": "تم التحقق من هوية الشريك بنجاح",
+  "@identityVerifiedCorrectly": {
+    "description": "رسالة التحقق الناجح"
+  },
+  "createAccount": "إنشاء حساب",
+  "@createAccount": {
+    "description": "عنوان شاشة التسجيل"
+  },
+  "registerSubtitle": "سجل لتبدأ في استخدام FlutterPutter",
+  "@registerSubtitle": {
+    "description": "عنوان فرعي لشاشة التسجيل"
+  },
+  "nickname": "الاسم المستعار",
+  "@nickname": {
+    "description": "حقل الاسم المستعار"
+  },
+  "chooseUniqueNickname": "اختر اسمًا مستعارًا فريدًا",
+  "@chooseUniqueNickname": {
+    "description": "تلميح حقل الاسم المستعار"
+  },
+  "createSecurePassword": "أنشئ كلمة مرور آمنة",
+  "@createSecurePassword": {
+    "description": "تلميح حقل كلمة المرور في التسجيل"
+  },
+  "confirmPassword": "تأكيد كلمة المرور",
+  "@confirmPassword": {
+    "description": "حقل تأكيد كلمة المرور"
+  },
+  "repeatPassword": "كرر كلمة المرور الخاصة بك",
+  "@repeatPassword": {
+    "description": "تلميح حقل تأكيد كلمة المرور"
+  },
+  "invitationCode": "رمز الدعوة",
+  "@invitationCode": {
+    "description": "حقل رمز الدعوة"
+  },
+  "enterInvitationCode": "أدخل رمز الدعوة الخاص بك",
+  "@enterInvitationCode": {
+    "description": "تلميح حقل رمز الدعوة"
+  },
+  "registerButton": "تسجيل",
+  "@registerButton": {
+    "description": "زر التسجيل"
+  },
+  "pleaseConfirmPassword": "يرجى تأكيد كلمة المرور الخاصة بك",
+  "@pleaseConfirmPassword": {
+    "description": "التحقق من صحة تأكيد كلمة المرور الفارغة"
+  },
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+  "@passwordsDoNotMatch": {
+    "description": "التحقق من صحة كلمات المرور المختلفة"
+  },
+  "pleaseEnterNickname": "يرجى إدخال اسم مستعار",
+  "@pleaseEnterNickname": {
+    "description": "التحقق من صحة الاسم المستعار الفارغ"
+  },
+  "nicknameMinLength": "يجب أن يتكون الاسم المستعار من 3 أحرف على الأقل",
+  "@nicknameMinLength": {
+    "description": "التحقق من طول الاسم المستعار"
+  },
+  "pleaseEnterInvitationCode": "يرجى إدخال رمز دعوة",
+  "@pleaseEnterInvitationCode": {
+    "description": "التحقق من صحة رمز الدعوة الفارغ"
+  },
+  "invitationCodeLength": "يجب أن يتكون الرمز من 8 أحرف",
+  "@invitationCodeLength": {
+    "description": "التحقق من طول رمز الدعوة"
+  },
+  "newChatInvitationReceived": "📩 تم استلام دعوة دردشة جديدة",
+  "@newChatInvitationReceived": {
+    "description": "إشعار دعوة جديدة"
+  },
+  "view": "عرض",
+  "@view": {
+    "description": "زر عرض"
+  },
+  "chatInvitations": "دعوات الدردشة",
+  "@chatInvitations": {
+    "description": "تلميح دعوات الدردشة"
+  },
+  "securitySettingsTooltip": "إعدادات الأمان",
+  "@securitySettingsTooltip": {
+    "description": "تلميح إعدادات الأمان"
+  },
+  "helloUser": "مرحبًا، {nickname}",
+  "@helloUser": {
+    "description": "ترحيب مخصص للمستخدم",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "searchUsersToVideoCall": "ابحث عن مستخدمين لبدء مكالمة فيديو",
+  "@searchUsersToVideoCall": {
+    "description": "التعليمات الرئيسية للشاشة الرئيسية"
+  },
+  "searchUsersButton": "بحث عن المستخدمين",
+  "@searchUsersButton": {
+    "description": "زر البحث عن المستخدمين"
+  },
+  "testIdentityVerification": "اختبار التحقق من الهوية",
+  "@testIdentityVerification": {
+    "description": "عنوان فرعي للعرض التوضيحي للتحقق"
+  },
+  "ephemeralChat": "💬 دردشة سريعة الزوال",
+  "@ephemeralChat": {
+    "description": "عنوان زر الدردشة سريعة الزوال"
+  },
+  "multipleSimultaneousRooms": "غرف متزامنة متعددة (بحد أقصى 10)",
+  "@multipleSimultaneousRooms": {
+    "description": "عنوان فرعي للدردشة سريعة الزوال"
+  },
+  "logout": "تسجيل الخروج",
+  "@logout": {
+    "description": "خيار تسجيل الخروج"
+  },
+  "logoutConfirmTitle": "تسجيل الخروج",
+  "@logoutConfirmTitle": {
+    "description": "عنوان مربع حوار تأكيد تسجيل الخروج"
+  },
+  "logoutConfirmMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "@logoutConfirmMessage": {
+    "description": "رسالة تأكيد تسجيل الخروج"
+  },
+  "helpSection": "المساعدة والدعم",
+  "@helpSection": {
+    "description": "عنوان قسم المساعدة"
+  },
+  "supportCenter": "مركز المساعدة",
+  "@supportCenter": {
+    "description": "خيار مركز المساعدة"
+  },
+  "supportCenterDescription": "احصل على المساعدة واطلع على الأسئلة الشائعة",
+  "@supportCenterDescription": {
+    "description": "وصف مركز المساعدة"
+  },
+  "contactUs": "اتصل بنا",
+  "@contactUs": {
+    "description": "خيار الاتصال"
+  },
+  "contactUsDescription": "أرسل لنا بريدًا إلكترونيًا لحل شكوكك",
+  "@contactUsDescription": {
+    "description": "وصف الاتصال"
+  },
+  "contactEmail": "FlutterPutter@Proton.me",
+  "@contactEmail": {
+    "description": "بريد الاتصال الإلكتروني"
+  },
+  "appVersion": "الإصدار",
+  "@appVersion": {
+    "description": "تسمية الإصدار"
+  },
+  "versionNumber": "الإصدار 1.0 تجريبي",
+  "@versionNumber": {
+    "description": "رقم إصدار التطبيق"
+  },
+  "termsAndConditions": "الشروط والأحكام",
+  "@termsAndConditions": {
+    "description": "خيار الشروط والأحكام"
+  },
+  "termsDescription": "اقرأ شروط الخدمة الخاصة بنا",
+  "@termsDescription": {
+    "description": "وصف الشروط والأحكام"
+  },
+  "privacyPolicy": "سياسة الخصوصية",
+  "@privacyPolicy": {
+    "description": "خيار سياسة الخصوصية"
+  },
+  "privacyPolicyDescription": "راجع كيف نحمي معلوماتك",
+  "@privacyPolicyDescription": {
+    "description": "وصف سياسة الخصوصية"
+  },
+  "emailCopied": "تم نسخ البريد الإلكتروني إلى الحافظة",
+  "@emailCopied": {
+    "description": "رسالة عند نسخ بريد الاتصال الإلكتروني"
+  },
+  "openingWebPage": "جارٍ فتح صفحة الويب...",
+  "@openingWebPage": {
+    "description": "رسالة عند فتح صفحة ويب"
+  },
+  "errorOpeningWebPage": "خطأ في فتح صفحة الويب",
+  "@errorOpeningWebPage": {
+    "description": "رسالة خطأ عند فتح صفحة الويب"
+  },
+  "pinLengthError": "يجب أن يتكون رقم التعريف الشخصي من 4 إلى 15 حرفًا",
+  "@pinLengthError": {
+    "description": "خطأ في طول رقم التعريف الشخصي"
+  },
+  "pinMismatch": "أرقام التعريف الشخصية غير متطابقة",
+  "@pinMismatch": {
+    "description": "خطأ عندما لا تتطابق أرقام التعريف الشخصية"
+  },
+  "appLockSetupSuccess": "🔒 تم تكوين قفل التطبيق بنجاح",
+  "@appLockSetupSuccess": {
+    "description": "رسالة نجاح عند تكوين القفل"
+  },
+  "pinSetupError": "خطأ في تكوين رقم التعريف الشخصي",
+  "@pinSetupError": {
+    "description": "خطأ عند تكوين رقم التعريف الشخصي"
+  },
+  "pinChangeSuccess": "🔒 تم تغيير رقم التعريف الشخصي بنجاح",
+  "@pinChangeSuccess": {
+    "description": "رسالة نجاح عند تغيير رقم التعريف الشخصي"
+  },
+  "currentPinIncorrect": "رقم التعريف الشخصي الحالي غير صحيح",
+  "@currentPinIncorrect": {
+    "description": "خطأ عندما يكون رقم التعريف الشخصي الحالي غير صحيح"
+  },
+  "disableAppLockTitle": "تعطيل القفل",
+  "@disableAppLockTitle": {
+    "description": "عنوان مربع الحوار لتعطيل القفل"
+  },
+  "disableAppLockMessage": "هل أنت متأكد أنك تريد تعطيل قفل التطبيق؟",
+  "@disableAppLockMessage": {
+    "description": "رسالة تأكيد لتعطيل القفل"
+  },
+  "appLockDisabled": "🔓 تم تعطيل قفل التطبيق",
+  "@appLockDisabled": {
+    "description": "رسالة عند تعطيل القفل"
+  },
+  "confirm": "تأكيد",
+  "@confirm": {
+    "description": "زر تأكيد"
+  },
+  "changePin": "تغيير رقم التعريف الشخصي:",
+  "@changePin": {
+    "description": "عنوان لتغيير رقم التعريف الشخصي"
+  },
+  "currentPin": "رقم التعريف الشخصي الحالي",
+  "@currentPin": {
+    "description": "حقل رقم التعريف الشخصي الحالي"
+  },
+  "confirmNewPin": "تأكيد رقم التعريف الشخصي الجديد",
+  "@confirmNewPin": {
+    "description": "حقل تأكيد رقم التعريف الشخصي الجديد"
+  },
+  "changePinButton": "تغيير رقم التعريف الشخصي",
+  "@changePinButton": {
+    "description": "زر لتغيير رقم التعريف الشخصي"
+  },
+  "biometricUnlock": "افتح التطبيق باستخدام القياسات الحيوية بالإضافة إلى رقم التعريف الشخصي",
+  "@biometricUnlock": {
+    "description": "وصف فتح القفل بالقياسات الحيوية"
+  },
+  "screenshotsAllowedMessage": "🔓 لقطات الشاشة مسموح بها",
+  "@screenshotsAllowedMessage": {
+    "description": "رسالة عندما تكون لقطات الشاشة مسموحًا بها"
+  },
+  "screenshotsBlockedMessage": "🔒 لقطات الشاشة محظورة",
+  "@screenshotsBlockedMessage": {
+    "description": "رسالة عندما تكون لقطات الشاشة محظورة"
+  },
+  "screenshotConfigError": "خطأ في تحديث تكوين لقطات الشاشة",
+  "@screenshotConfigError": {
+    "description": "خطأ عند تحديث تكوين لقطات الشاشة"
+  },
+  "protectionActive": "الحماية نشطة",
+  "@protectionActive": {
+    "description": "عنوان الحماية النشطة"
+  },
+  "nativeProtectionFeatures": "• قفل أصلي على iOS و Android\n• تنبيه عند اكتشاف محاولات التقاط\n• حماية في مبدل التطبيقات",
+  "@nativeProtectionFeatures": {
+    "description": "قائمة بميزات الحماية الأصلية"
+  },
+  "autoDestructionDefaultDisabled": "🔥 تم تعطيل التدمير الذاتي الافتراضي",
+  "@autoDestructionDefaultDisabled": {
+    "description": "رسالة عند تعطيل التدمير الذاتي"
+  },
+  "autoDestructionError": "خطأ في تحديث تكوين التدمير الذاتي",
+  "@autoDestructionError": {
+    "description": "خطأ عند تحديث التدمير الذاتي"
+  },
+  "protectYourApp": "احمِ تطبيقك",
+  "@protectYourApp": {
+    "description": "العنوان الرئيسي للأمان"
+  },
+  "securityPinDescription": "قم بتكوين رقم تعريف شخصي (PIN) للأمان لحماية خصوصيتك. ستستمر الإشعارات في الوصول حتى إذا كان التطبيق مقفلاً.",
+  "@securityPinDescription": {
+    "description": "وصف تكوين رقم التعريف الشخصي"
+  },
+  "lockActivated": "تم تفعيل القفل",
+  "@lockActivated": {
+    "description": "الحالة عندما يكون القفل نشطًا"
+  },
+  "disable": "تعطيل",
+  "@disable": {
+    "description": "زر تعطيل"
+  },
+  "errorCopyingEmail": "خطأ في نسخ البريد الإلكتروني",
+  "@errorCopyingEmail": {
+    "description": "خطأ عند نسخ البريد الإلكتروني إلى الحافظة"
+  },
+  "automaticLockTimeout": "مهلة القفل التلقائي",
+  "@automaticLockTimeout": {
+    "description": "عنوان تكوين وقت القفل"
+  },
+  "appWillLockAfter": "سيتم قفل التطبيق تلقائيًا بعد:",
+  "@appWillLockAfter": {
+    "description": "وصف القفل التلقائي"
+  },
+  "biometricAuthentication": "المصادقة البيومترية",
+  "@biometricAuthentication": {
+    "description": "عنوان المصادقة البيومترية"
+  },
+  "enableBiometric": "تمكين بصمة الإصبع/معرف الوجه",
+  "@enableBiometric": {
+    "description": "خيار تمكين القياسات الحيوية"
+  },
+  "autoApplyDefault": "تطبيق تلقائي",
+  "@autoApplyDefault": {
+    "description": "خيار التطبيق التلقائي الافتراضي"
+  },
+  "autoApplyEnabled": "سيتم تطبيقه عند الانضمام إلى غرف جديدة",
+  "@autoApplyEnabled": {
+    "description": "وصف عند تمكين التطبيق التلقائي"
+  },
+  "autoApplyDisabled": "تطبيق يدوي فقط في كل غرفة",
+  "@autoApplyDisabled": {
+    "description": "وصف عند تعطيل التطبيق التلقائي"
+  },
+  "currentConfiguration": "التكوين الحالي",
+  "@currentConfiguration": {
+    "description": "عنوان التكوين الحالي"
+  },
+  "sessionActive": "جلسة نشطة",
+  "@sessionActive": {
+    "description": "مفرد جلسة نشطة"
+  },
+  "sessionsActive": "جلسات نشطة",
+  "@sessionsActive": {
+    "description": "جمع جلسات نشطة"
+  },
+  "noActiveSessionsMessage": "لا توجد جلسات نشطة مسجلة",
+  "@noActiveSessionsMessage": {
+    "description": "رسالة عند عدم وجود جلسات نشطة"
+  },
+  "helpAndSupport": "احصل على المساعدة، اتصل بنا، أو راجع سياساتنا",
+  "@helpAndSupport": {
+    "description": "وصف المساعدة والدعم"
+  },
+  "autoDestructionDefaultEnabled": "🔥 التدمير الذاتي الافتراضي: ",
+  "@autoDestructionDefaultEnabled": {
+    "description": "رسالة عند تمكين التدمير الذاتي"
+  },
+  "verificationDemonstration": "عرض توضيحي للتحقق",
+  "@verificationDemonstration": {
+    "description": "عنوان العرض التوضيحي للتحقق"
+  },
+  "roomLabel": "الغرفة:",
+  "@roomLabel": {
+    "description": "تسمية الغرفة"
+  },
+  "userLabel": "المستخدم:",
+  "@userLabel": {
+    "description": "تسمية المستخدم"
+  },
+  "statusVerified": "الحالة: تم التحقق ✅",
+  "@statusVerified": {
+    "description": "الحالة عند التحقق"
+  },
+  "identityVerifiedCorrect": "تم التحقق من الهوية بنجاح",
+  "@identityVerifiedCorrect": {
+    "description": "رسالة عند التحقق من الهوية"
+  },
+  "identityVerifiedFull": "✅ الهوية محققة",
+  "@identityVerifiedFull": {
+    "description": "عنوان عند التحقق من الهوية"
+  },
+  "bothUsersVerified": "كلا المستخدمين قد تحققا من هويتهما",
+  "@bothUsersVerified": {
+    "description": "رسالة عند التحقق من كلا المستخدمين"
+  },
+  "yourVerificationCodes": "رموز التحقق الخاصة بك",
+  "@yourVerificationCodes": {
+    "description": "عنوان رموز التحقق الخاصة"
+  },
+  "shareCodeMessage": "شارك أحد هذه الرموز عبر قناة أخرى (WhatsApp، Telegram، إلخ.)",
+  "@shareCodeMessage": {
+    "description": "تعليمات مشاركة الرموز"
+  },
+  "hideCodesBut": "🙈 إخفاء الرموز",
+  "@hideCodesBut": {
+    "description": "زر إخفاء الرموز"
+  },
+  "alphanumericCode": "🔤 أبجدي رقمي",
+  "@alphanumericCode": {
+    "description": "نوع الرمز الأبجدي الرقمي"
+  },
+  "numericCode": "🔢 رقمي",
+  "@numericCode": {
+    "description": "نوع الرمز الرقمي"
+  },
+  "emojiCode": "😀 إيموجي",
+  "@emojiCode": {
+    "description": "نوع رمز الإيموجي"
+  },
+  "enterCodeToVerify": "❌ أدخل رمزًا للتحقق",
+  "@enterCodeToVerify": {
+    "description": "خطأ عند عدم إدخال رمز"
+  },
+  "invalidCodeFormat": "❌ تنسيق الرمز غير صالح",
+  "@invalidCodeFormat": {
+    "description": "خطأ في تنسيق الرمز"
+  },
+  "identityVerifiedSuccess": "✅ تم التحقق من الهوية بنجاح!",
+  "@identityVerifiedSuccess": {
+    "description": "رسالة نجاح عند التحقق"
+  },
+  "incorrectCode": "❌ رمز غير صحيح",
+  "@incorrectCode": {
+    "description": "خطأ عندما يكون الرمز غير صحيح"
+  },
+  "codesRegenerated": "🔄 تم إعادة إنشاء الرموز",
+  "@codesRegenerated": {
+    "description": "رسالة عند إعادة إنشاء الرموز"
+  },
+  "codeCopied": "📋 تم نسخ الرمز إلى الحافظة",
+  "@codeCopied": {
+    "description": "رسالة عند نسخ الرمز"
+  },
+  "partnerCodesReceived": "📥 تم استلام رموز الشريك",
+  "@partnerCodesReceived": {
+    "description": "رسالة عند استلام رموز الشريك"
+  },
+  "codesSentToPartner": "📤 تم إرسال الرموز إلى الشريك",
+  "@codesSentToPartner": {
+    "description": "رسالة عند إرسال الرموز"
+  },
+  "resendingCodes": "🔄 إعادة إرسال الرموز إلى الشريك...",
+  "@resendingCodes": {
+    "description": "رسالة عند إعادة إرسال الرموز"
+  },
+  "stepExpandVerification": "اضغط على \"🔐 التحقق من الهوية\" للتوسيع",
+  "@stepExpandVerification": {
+    "description": "خطوة لتوسيع التحقق"
+  },
+  "stepShowCodes": "اضغط على \"👁️ عرض رموزي\" لرؤية رموزك الفريدة",
+  "@stepShowCodes": {
+    "description": "خطوة لعرض الرموز"
+  },
+  "stepPasteCode": "الصق الرمز في \"التحقق من رمز الشريك\"",
+  "@stepPasteCode": {
+    "description": "خطوة للصق الرمز"
+  },
+  "stepVerifyCode": "اضغط على \"✅ تحقق\" لمحاكاة التحقق",
+  "@stepVerifyCode": {
+    "description": "خطوة للتحقق من الرمز"
+  },
+  "enterPartnerCode": "أدخل الرمز الذي شاركه الشخص الآخر معك:",
+  "@enterPartnerCode": {
+    "description": "تعليمات إدخال رمز الشريك"
+  },
+  "partnerCodesReceivedWithCode": "✅ تم استلام رموز الشريك:",
+  "@partnerCodesReceivedWithCode": {
+    "description": "رسالة مع الرمز المستلم من الشريك"
+  },
+  "waitingPartnerCodes": "⏳ في انتظار رموز الشريك...",
+  "@waitingPartnerCodes": {
+    "description": "رسالة في انتظار رموز الشريك"
+  },
+  "verificationSuccessMessage": "تم التحقق من الهوية بنجاح! كلا المستخدمين أصليان.",
+  "@verificationSuccessMessage": {
+    "description": "رسالة نجاح التحقق الكاملة"
+  },
+  "chatInvitationsTitle": "دعوات الدردشة",
+  "@chatInvitationsTitle": {
+    "description": "عنوان شاشة الدعوات"
+  },
+  "cleanExpiredInvitations": "تنظيف الدعوات منتهية الصلاحية",
+  "@cleanExpiredInvitations": {
+    "description": "تلميح لتنظيف الدعوات منتهية الصلاحية"
+  },
+  "refreshInvitations": "تحديث الدعوات",
+  "@refreshInvitations": {
+    "description": "تلميح لتحديث الدعوات"
+  },
+  "errorInitializing": "خطأ في التهيئة: {error}",
+  "@errorInitializing": {
+    "description": "خطأ عند تهيئة الخدمة",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "expiredInvitationsDeleted": "تم حذف {count} دعوات منتهية الصلاحية نهائيًا",
+  "@expiredInvitationsDeleted": {
+    "description": "رسالة عند حذف الدعوات منتهية الصلاحية",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noExpiredInvitationsToClean": "لا توجد دعوات منتهية الصلاحية للتنظيف",
+  "@noExpiredInvitationsToClean": {
+    "description": "رسالة عند عدم وجود دعوات منتهية الصلاحية"
+  },
+  "errorAcceptingInvitation": "خطأ في قبول الدعوة: {error}",
+  "@errorAcceptingInvitation": {
+    "description": "خطأ عند قبول الدعوة",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorUpdatingInvitations": "خطأ في تحديث الدعوات: {error}",
+  "@errorUpdatingInvitations": {
+    "description": "خطأ عند تحديث الدعوات",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsUpdated": "تم التحديث: {active} نشطة، {expired} منتهية الصلاحية تم حذفها",
+  "@invitationsUpdated": {
+    "description": "رسالة تحديث مع الأعداد",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "expired": {
+        "type": "int"
+      }
+    }
+  },
+  "invitationsUpdatedActive": "تم التحديث: {active} دعوات نشطة",
+  "@invitationsUpdatedActive": {
+    "description": "رسالة تحديث الدعوات النشطة فقط",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      }
+    }
+  },
+  "noInvitations": "لا توجد دعوات",
+  "@noInvitations": {
+    "description": "رسالة عند عدم وجود دعوات"
+  },
+  "invitationsWillAppearHere": "ستظهر دعوات الدردشة هنا",
+  "@invitationsWillAppearHere": {
+    "description": "وصف الحالة الفارغة"
+  },
+  "chatInvitation": "دعوة دردشة",
+  "@chatInvitation": {
+    "description": "عنوان دعوة فردية"
+  },
+  "fromUser": "من: {userId}",
+  "@fromUser": {
+    "description": "من أي مستخدم تأتي الدعوة",
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
+  "expired": "منتهية الصلاحية",
+  "@expired": {
+    "description": "حالة الدعوة منتهية الصلاحية"
+  },
+  "reject": "رفض",
+  "@reject": {
+    "description": "زر رفض الدعوة"
+  },
+  "accept": "قبول",
+  "@accept": {
+    "description": "زر قبول الدعوة"
+  },
+  "tapToCreateOrJoinEphemeralChats": "انقر لإنشاء أو الانضمام إلى الدردشات سريعة الزوال",
+  "@tapToCreateOrJoinEphemeralChats": {
+    "description": "وصف الدردشة الآمنة"
+  },
+  "now": "الآن",
+  "@now": {
+    "description": "الوقت الحالي"
+  },
+  "callEnded": "انتهت المكالمة",
+  "@callEnded": {
+    "description": "حالة المكالمة المنتهية"
+  },
+  "videoCallFeatureAvailable": "🎥 ميزة مكالمات الفيديو متاحة",
+  "@videoCallFeatureAvailable": {
+    "description": "رسالة توفر ميزة مكالمات الفيديو"
+  },
+  "pendingInvitations": "الدعوات المعلقة",
+  "@pendingInvitations": {
+    "description": "عنوان الدعوات المعلقة"
+  },
+  "chatInvitationsCount": "{count} دعوة (دعوات) دردشة",
+  "@chatInvitationsCount": {
+    "description": "عداد دعوات الدردشة",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchUsers": "بحث عن المستخدمين",
+  "@searchUsers": {
+    "description": "عنوان شاشة البحث عن المستخدمين"
+  },
+  "searchByNickname": "بحث بالاسم المستعار",
+  "@searchByNickname": {
+    "description": "تلميح حقل البحث بالاسم المستعار"
+  },
+  "searching": "جارٍ البحث...",
+  "@searching": {
+    "description": "رسالة أثناء البحث"
+  },
+  "noUsersFound": "لم يتم العثور على مستخدمين",
+  "@noUsersFound": {
+    "description": "رسالة عند عدم العثور على مستخدمين"
+  },
+  "errorSearchingUsers": "خطأ في البحث عن المستخدمين",
+  "@errorSearchingUsers": {
+    "description": "خطأ عند البحث عن المستخدمين"
+  },
+  "startVideoCall": "بدء مكالمة فيديو",
+  "@startVideoCall": {
+    "description": "عنوان لبدء مكالمة فيديو"
+  },
+  "startAudioCall": "بدء مكالمة صوتية",
+  "@startAudioCall": {
+    "description": "عنوان لبدء مكالمة صوتية"
+  },
+  "confirmVideoCall": "هل تريد بدء مكالمة فيديو مع {nickname}؟",
+  "@confirmVideoCall": {
+    "description": "تأكيد لبدء مكالمة فيديو",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmAudioCall": "هل تريد بدء مكالمة صوتية مع {nickname}؟",
+  "@confirmAudioCall": {
+    "description": "تأكيد لبدء مكالمة صوتية",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "initiatingVideoCall": "جارٍ بدء مكالمة الفيديو...",
+  "@initiatingVideoCall": {
+    "description": "رسالة عند بدء مكالمة الفيديو"
+  },
+  "initiatingAudioCall": "جارٍ بدء المكالمة الصوتية...",
+  "@initiatingAudioCall": {
+    "description": "رسالة عند بدء المكالمة الصوتية"
+  },
+  "sendingInvitation": "جارٍ إرسال الدعوة...",
+  "@sendingInvitation": {
+    "description": "رسالة عند إرسال الدعوة"
+  },
+  "errorInitiatingCall": "خطأ في بدء المكالمة",
+  "@errorInitiatingCall": {
+    "description": "خطأ عند بدء المكالمة"
+  },
+  "waitingForResponse": "في انتظار الرد...",
+  "@waitingForResponse": {
+    "description": "حالة انتظار الرد"
+  },
+  "invitationSentTo": "تم إرسال الدعوة إلى",
+  "@invitationSentTo": {
+    "description": "رسالة الدعوة المرسلة"
+  },
+  "waitingForAcceptance": "في انتظار قبول الدعوة...",
+  "@waitingForAcceptance": {
+    "description": "رسالة في انتظار القبول"
+  },
+  "ephemeralChatTooltip": "دردشة سريعة الزوال",
+  "@ephemeralChatTooltip": {
+    "description": "تلميح للدردشة سريعة الزوال"
+  },
+  "audioCallTooltip": "مكالمة",
+  "@audioCallTooltip": {
+    "description": "تلميح للمكالمة الصوتية"
+  },
+  "videoCallTooltip": "فيديو",
+  "@videoCallTooltip": {
+    "description": "تلميح لمكالمة الفيديو"
+  },
+  "searchUser": "بحث عن مستخدم",
+  "@searchUser": {
+    "description": "عنوان أداة البحث"
+  },
+  "searchByName": "بحث بالاسم...",
+  "@searchByName": {
+    "description": "تلميح للبحث بالاسم"
+  },
+  "retry": "إعادة المحاولة",
+  "@retry": {
+    "description": "زر إعادة المحاولة"
+  },
+  "searchingUsers": "جارٍ البحث عن المستخدمين...",
+  "@searchingUsers": {
+    "description": "رسالة البحث عن المستخدمين"
+  },
+  "noUsersFoundWith": "لم يتم العثور على مستخدمين\\nبـ \"{query}\"",
+  "@noUsersFoundWith": {
+    "description": "رسالة عند عدم العثور على مستخدمين ببحث محدد",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSearchingUsersDetails": "خطأ في البحث عن المستخدمين: {error}",
+  "@errorSearchingUsersDetails": {
+    "description": "خطأ مفصل عند البحث عن المستخدمين",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "multipleChatsTitle": "دردشات متعددة ({count}/10)",
+  "@multipleChatsTitle": {
+    "description": "عنوان الدردشات المتعددة مع عداد",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backToHome": "العودة إلى الرئيسية",
+  "@backToHome": {
+    "description": "تلميح للعودة إلى الرئيسية"
+  },
+  "closeAllRooms": "إغلاق جميع الغرف",
+  "@closeAllRooms": {
+    "description": "زر إغلاق جميع الغرف"
+  },
+  "closeAllRoomsConfirm": "هل أنت متأكد أنك تريد إغلاق جميع غرف الدردشة؟",
+  "@closeAllRoomsConfirm": {
+    "description": "تأكيد إغلاق جميع الغرف"
+  },
+  "closeAll": "إغلاق الكل",
+  "@closeAll": {
+    "description": "زر إغلاق الكل"
+  },
+  "participants": "{count} مشاركين",
+  "@participants": {
+    "description": "عداد المشاركين",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomActive": "الغرفة نشطة ({count} مشاركين)",
+  "@roomActive": {
+    "description": "حالة الغرفة النشطة",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "connecting": "جارٍ الاتصال...",
+  "@connecting": {
+    "description": "حالة الاتصال"
+  },
+  "noConnection": "لا يوجد اتصال",
+  "@noConnection": {
+    "description": "حالة عدم الاتصال"
+  },
+  "newRoom": "غرفة جديدة",
+  "@newRoom": {
+    "description": "زر غرفة جديدة"
+  },
+  "createNewRoom": "إنشاء غرفة جديدة",
+  "@createNewRoom": {
+    "description": "عنوان إنشاء غرفة جديدة"
+  },
+  "addChat": "إضافة دردشة",
+  "@addChat": {
+    "description": "زر إضافة دردشة"
+  },
+  "statistics": "الإحصائيات",
+  "@statistics": {
+    "description": "عنوان الإحصائيات"
+  },
+  "close": "إغلاق",
+  "@close": {
+    "description": "زر إغلاق"
+  },
+  "chatStatisticsTitle": "إحصائيات الدردشة",
+  "@chatStatisticsTitle": {
+    "description": "عنوان إحصائيات الدردشة"
+  },
+  "activeRooms": "الغرف النشطة",
+  "@activeRooms": {
+    "description": "الغرف النشطة"
+  },
+  "totalMessages": "إجمالي الرسائل",
+  "@totalMessages": {
+    "description": "إجمالي عدد الرسائل"
+  },
+  "unreadMessages": "غير مقروءة",
+  "@unreadMessages": {
+    "description": "الرسائل غير المقروءة"
+  },
+  "initiatingChat": "جارٍ بدء الدردشة...",
+  "@initiatingChat": {
+    "description": "رسالة بدء الدردشة"
+  },
+  "errorClosingRoom": "خطأ في إغلاق الغرفة: {error}",
+  "@errorClosingRoom": {
+    "description": "خطأ عند إغلاق الغرفة",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationAccepted": "✅ تم قبول الدعوة",
+  "@invitationAccepted": {
+    "description": "رسالة قبول الدعوة"
+  },
+  "errorAcceptingInvitationDetails": "خطأ في قبول الدعوة: {error}",
+  "@errorAcceptingInvitationDetails": {
+    "description": "خطأ مفصل عند قبول الدعوة",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorCreatingRoom": "خطأ في إنشاء الغرفة: {error}",
+  "@errorCreatingRoom": {
+    "description": "خطأ عند إنشاء الغرفة",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createNewChatRoom": "إنشاء غرفة دردشة جديدة",
+  "@createNewChatRoom": {
+    "description": "تلميح إنشاء غرفة دردشة جديدة"
+  },
+  "minutes": "دقائق",
+  "@minutes": {
+    "description": "كلمة دقائق للمدة"
+  },
+  "seconds": "ثوانٍ",
+  "@seconds": {
+    "description": "كلمة ثوانٍ للمدة"
+  },
+  "microphonePermissions": "🎵 أذونات الميكروفون",
+  "@microphonePermissions": {
+    "description": "عنوان مربع حوار أذونات الميكروفون"
+  },
+  "microphonePermissionsContent": "لتسجيل الصوت، تحتاج إلى تفعيل أذونات الميكروفون في إعدادات التطبيق.\n\nاذهب إلى الإعدادات > الخصوصية > الميكروفون وقم بتفعيل الأذونات لهذا التطبيق.",
+  "@microphonePermissionsContent": {
+    "description": "محتوى مربع حوار أذونات الميكروفون"
+  },
+  "openSettings": "فتح الإعدادات",
+  "@openSettings": {
+    "description": "زر فتح الإعدادات"
+  },
+  "errorInitializingAudio": "خطأ في تهيئة الصوت: {error}",
+  "@errorInitializingAudio": {
+    "description": "خطأ عند تهيئة الصوت",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "imageTooLarge": "الصورة كبيرة جدًا. الحد الأقصى المسموح به 500 كيلوبايت.",
+  "@imageTooLarge": {
+    "description": "خطأ صورة كبيرة جدًا"
+  },
+  "errorSendingImage": "خطأ في إرسال الصورة: {error}",
+  "@errorSendingImage": {
+    "description": "خطأ عند إرسال الصورة",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSendingAudio": "خطأ في إرسال الصوت: {error}",
+  "@errorSendingAudio": {
+    "description": "خطأ عند إرسال الصوت",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "destroyRoomContent": "سيؤدي هذا الإجراء إلى تدمير غرفة الدردشة بشكل دائم لكلا المستخدمين.\\n\\nسيبدأ عد تنازلي لمدة 10 ثوانٍ مرئي لكلا المشاركين.",
+  "@destroyRoomContent": {
+    "description": "محتوى مربع حوار تدمير الغرفة"
+  },
+  "destroyRoomButton": "تدمير الغرفة",
+  "@destroyRoomButton": {
+    "description": "زر تدمير الغرفة"
+  },
+  "connectingToSecureChat": "جارٍ الاتصال بالدردشة الآمنة...",
+  "@connectingToSecureChat": {
+    "description": "رسالة الاتصال بالدردشة"
+  },
+  "autoDestructionConfigured1Min": "تم تكوين التدمير الذاتي: دقيقة واحدة",
+  "@autoDestructionConfigured1Min": {
+    "description": "تأكيد التدمير الذاتي لمدة دقيقة واحدة"
+  },
+  "autoDestructionConfigured5Min": "تم تكوين التدمير الذاتي: 5 دقائق",
+  "@autoDestructionConfigured5Min": {
+    "description": "تأكيد التدمير الذاتي لمدة 5 دقائق"
+  },
+  "autoDestructionConfigured1Hour": "تم تكوين التدمير الذاتي: ساعة واحدة",
+  "@autoDestructionConfigured1Hour": {
+    "description": "تأكيد التدمير الذاتي لمدة ساعة واحدة"
+  },
+  "screenshotAlert": "📸 تنبيه! {user} التقط لقطة شاشة",
+  "@screenshotAlert": {
+    "description": "تنبيه لقطة الشاشة",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotNotification": "📸 {user} التقط لقطة شاشة",
+  "@screenshotNotification": {
+    "description": "إشعار لقطة الشاشة",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "initializingAudioRecorder": "جارٍ تهيئة مسجل الصوت...",
+  "@initializingAudioRecorder": {
+    "description": "رسالة تهيئة المسجل"
+  },
+  "audioRecorderNotAvailable": "مسجل الصوت غير متوفر. تحقق من أذونات الميكروفون.",
+  "@audioRecorderNotAvailable": {
+    "description": "خطأ المسجل غير متوفر"
+  },
+  "errorStartingRecording": "خطأ في بدء التسجيل: {error}",
+  "@errorStartingRecording": {
+    "description": "خطأ عند بدء التسجيل",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioPlayerNotAvailable": "مشغل الصوت غير متوفر",
+  "@audioPlayerNotAvailable": {
+    "description": "خطأ المشغل غير متوفر"
+  },
+  "audioNotAvailable": "الصوت غير متوفر",
+  "@audioNotAvailable": {
+    "description": "خطأ الصوت غير متوفر"
+  },
+  "errorPlayingAudio": "خطأ في تشغيل الصوت: {error}",
+  "@errorPlayingAudio": {
+    "description": "خطأ عند تشغيل الصوت",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotTestSent": "📸 تم إرسال اختبار لقطة الشاشة",
+  "@screenshotTestSent": {
+    "description": "تأكيد اختبار لقطة الشاشة"
+  },
+  "errorSendingTest": "خطأ في إرسال الاختبار: {error}",
+  "@errorSendingTest": {
+    "description": "خطأ عند إرسال الاختبار",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioTooLong": "الصوت طويل جدًا. الحد الأقصى المسموح به 1 ميغابايت.",
+  "@audioTooLong": {
+    "description": "خطأ الصوت طويل جدًا"
+  },
+  "errorWebAudioRecording": "خطأ: تعذر تسجيل الصوت على الويب",
+  "@errorWebAudioRecording": {
+    "description": "خطأ التسجيل على الويب"
+  },
+  "errorWebAudioSaving": "خطأ: تعذر حفظ الصوت",
+  "@errorWebAudioSaving": {
+    "description": "خطأ حفظ الصوت على الويب"
+  },
+  "errorStoppingRecording": "خطأ في إيقاف التسجيل: {error}",
+  "@errorStoppingRecording": {
+    "description": "خطأ عند إيقاف التسجيل",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sendEncryptedImageTooltip": "إرسال صورة مشفرة",
+  "@sendEncryptedImageTooltip": {
+    "description": "تلميح زر إرسال صورة مشفرة"
+  }
+}

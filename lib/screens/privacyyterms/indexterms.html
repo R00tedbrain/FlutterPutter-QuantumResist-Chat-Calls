@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Condiciones - FlutterPutter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 25px;
+            border: 1px solid #FF6B35;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background: transparent;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .lang-btn.active {
+            background: #FF6B35;
+            color: #000;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 107, 53, 0.2);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #FF6B35;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(0, 123, 255, 0.1));
+            border-radius: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .shield-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            overflow: hidden;
+        }
+
+        .shield-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FF6B35, #007BFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #B0B0B0;
+            margin-bottom: 5px;
+        }
+
+        .developer {
+            font-size: 0.9em;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        .date-info {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #FF6B35;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .legal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid #FFD700;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            color: #FFD700;
+            margin: 5px;
+        }
+
+        h2 {
+            color: #FF6B35;
+            font-size: 1.8em;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3 {
+            color: #007BFF;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .warning-box {
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(255, 107, 53, 0.1));
+            border: 2px solid #FF0000;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: "⚠️";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #1a1a1a;
+            padding: 0 10px;
+            font-size: 1.2em;
+        }
+
+        .disclaimer-box {
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 53, 0.1));
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .disclaimer-box::before {
+            content: "⚖️";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #1a1a1a;
+            padding: 0 10px;
+            font-size: 1.2em;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        li {
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+
+        .contact-section {
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.2), rgba(0, 123, 255, 0.2));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .contact-email {
+            background: rgba(0, 0, 0, 0.5);
+            color: #FF6B35;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            border: 1px solid #FF6B35;
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background: #FF6B35;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 2px solid #FF6B35;
+            margin-top: 50px;
+            color: #B0B0B0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .language-toggle {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('es')">🇪🇸 Español</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 English</button>
+    </div>
+
+    <div class="container">
+        <!-- SPANISH CONTENT -->
+        <div id="content-es" class="content active">
+            <header class="header">
+                <div class="logo">
+                    <div class="shield-icon">
+                        <img src="flutterPuttersinfondo.png" alt="FlutterPutter Logo" />
+                    </div>
+                    <div>
+                        <h1>FlutterPutter</h1>
+                        <div class="subtitle">Términos y Condiciones de Servicio</div>
+                        <div class="developer">Desarrollado por @safedevsbwt</div>
+                    </div>
+                </div>
+                
+                <div class="legal-badge">
+                    <span>⚖️</span> Marco Legal Completo
+                </div>
+                <div class="legal-badge">
+                    <span>🛡️</span> Descargo de Responsabilidad
+                </div>
+                <div class="legal-badge">
+                    <span>📋</span> Políticas de Uso
+                </div>
+            </header>
+
+            <div class="date-info">
+                <strong>Fecha de vigencia:</strong> 01 de Junio de 2025<br>
+                <strong>Última actualización:</strong> 01 de Junio de 2025<br>
+                <strong>Versión:</strong> 1.0.0
+            </div>
+
+            <div class="disclaimer-box">
+                <h2>⚖️ DESCARGO DE RESPONSABILIDAD TÉCNICA Y LEGAL</h2>
+                <p><strong>FlutterPutter NO es propietario, custodio, ni tiene acceso a los mensajes, conversaciones o contenido multimedia transmitido a través de nuestra plataforma.</strong> Nuestra arquitectura Zero-Knowledge garantiza técnicamente que es IMPOSIBLE para nosotros acceder, recuperar, descifrar o intervenir en las comunicaciones de los usuarios, incluso bajo requerimiento legal.</p>
+            </div>
+
+            <section class="section">
+                <h2>📋 1. Aceptación de Términos</h2>
+                <p>Al descargar, instalar o utilizar FlutterPutter, usted acepta estar legalmente vinculado por estos Términos y Condiciones. Si no está de acuerdo con algún aspecto de estos términos, debe discontinuar inmediatamente el uso de la aplicación.</p>
+                
+                <h3>1.1 Capacidad Legal</h3>
+                <ul>
+                    <li>Debe tener al menos 13 años de edad para usar FlutterPutter</li>
+                    <li>Si es menor de edad, requiere consentimiento parental</li>
+                    <li>Debe tener capacidad legal para celebrar contratos</li>
+                    <li>Acepta cumplir con todas las leyes locales e internacionales aplicables</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🏢 2. Descripción del Servicio</h2>
+                <p>FlutterPutter es una aplicación de comunicación segura que proporciona:</p>
+                <ul>
+                    <li><strong>Mensajería Efímera Cifrada:</strong> Chats con autodestrucción configurable</li>
+                    <li><strong>Videollamadas Seguras:</strong> Comunicación P2P con cifrado post-cuántico</li>
+                    <li><strong>Arquitectura Zero-Knowledge:</strong> Los servidores nunca ven contenido descifrado</li>
+                    <li><strong>Protección Post-Cuántica:</strong> Kyber-768 + XSalsa20-ChaCha20</li>
+                </ul>
+
+                <h3>2.1 Características Técnicas</h3>
+                <ul>
+                    <li>Cifrado extremo a extremo con Perfect Forward Secrecy</li>
+                    <li>Bloqueo automático de capturas de pantalla</li>
+                    <li>Verificación de identidad anónima</li>
+                    <li>Sistema de invitaciones restringido</li>
+                </ul>
+            </section>
+
+            <div class="warning-box">
+                <h2>🚫 IMPOSIBILIDAD TÉCNICA DE ACCESO A DATOS</h2>
+                <p><strong>DECLARACIÓN TÉCNICA IRREFUTABLE:</strong> La arquitectura criptográfica de FlutterPutter hace técnicamente IMPOSIBLE que nosotros:</p>
+                <ul>
+                    <li>❌ Accedamos a mensajes cifrados (no poseemos claves de descifrado)</li>
+                    <li>❌ Recuperemos conversaciones borradas (destrucción criptográfica irreversible)</li>
+                    <li>❌ Interceptemos comunicaciones (sin backdoors ni puertas traseras)</li>
+                    <li>❌ Colaboremos con vigilancia masiva (arquitectura técnicamente incompatible)</li>
+                    <li>❌ Proporcionemos datos bajo requerimiento legal (no existen datos accesibles)</li>
+                </ul>
+                <p><strong>Esta imposibilidad técnica constituye nuestra mejor garantía de privacidad.</strong></p>
+            </div>
+
+            <section class="section">
+                <h2>👤 3. Responsabilidades y Control del Usuario</h2>
+                
+                <h3>3.1 Control Total de Datos</h3>
+                <p><strong>EL USUARIO MANTIENE CONTROL ABSOLUTO Y EXCLUSIVO sobre:</strong></p>
+                <ul>
+                    <li>Todo el contenido generado, enviado o recibido</li>
+                    <li>Las claves criptográficas generadas en su dispositivo</li>
+                    <li>La duración y configuración de las conversaciones</li>
+                    <li>La decisión de destruir o conservar mensajes</li>
+                    <li>La gestión de contactos e invitaciones</li>
+                </ul>
+
+                <h3>3.2 Responsabilidad Exclusiva del Usuario</h3>
+                <p><strong>El usuario es ÚNICAMENTE responsable de:</strong></p>
+                <ul>
+                    <li>Todo contenido compartido a través de la plataforma</li>
+                    <li>El cumplimiento de leyes locales e internacionales</li>
+                    <li>La seguridad de su dispositivo y credenciales</li>
+                    <li>Las consecuencias de sus comunicaciones y acciones</li>
+                    <li>La verificación de identidad de sus contactos</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🚨 4. Políticas de Uso Aceptable</h2>
+                
+                <h3>4.1 Actividades Prohibidas</h3>
+                <p><strong>QUEDA ESTRICTAMENTE PROHIBIDO utilizar FlutterPutter para:</strong></p>
+                
+                <div class="warning-box">
+                    <h3>🔴 TOLERANCIA CERO - DESACTIVACIÓN INMEDIATA</h3>
+                    <ul>
+                        <li><strong>Abuso Sexual Infantil:</strong> Cualquier contenido de explotación de menores</li>
+                        <li><strong>Pornografía Infantil:</strong> Posesión, distribución o intercambio</li>
+                        <li><strong>Explotación Sexual:</strong> Trata de personas, prostitución forzada</li>
+                        <li><strong>Grooming:</strong> Acoso sexual a menores de edad</li>
+                    </ul>
+                    <p><strong>⚡ DETECCIÓN = DESACTIVACIÓN INMEDIATA + REPORTE A AUTORIDADES</strong></p>
+                </div>
+
+                <h3>4.2 Otras Actividades Prohibidas</h3>
+                <ul>
+                    <li>Actividades terroristas o extremistas violentas</li>
+                    <li>Tráfico de drogas, armas o sustancias ilegales</li>
+                    <li>Fraudes financieros, estafas o esquemas piramidales</li>
+                    <li>Amenazas creíbles de violencia física</li>
+                    <li>Distribución de malware o virus</li>
+                    <li>Violación de derechos de propiedad intelectual</li>
+                    <li>Suplantación de identidad o fraude</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>⚖️ 5. Limitación de Responsabilidad</h2>
+                
+                <h3>5.1 Descargo de Responsabilidad General</h3>
+                <p><strong>FlutterPutter y @safedevsbwt NO SERÁN RESPONSABLES por:</strong></p>
+                <ul>
+                    <li>Contenido generado, enviado o recibido por usuarios</li>
+                    <li>Acciones, decisiones o comportamientos de los usuarios</li>
+                    <li>Daños resultantes del uso indebido de la aplicación</li>
+                    <li>Pérdidas financieras derivadas de actividades de usuarios</li>
+                    <li>Conflictos legales entre usuarios</li>
+                    <li>Violaciones a leyes locales cometidas por usuarios</li>
+                </ul>
+
+                <h3>5.2 Limitación Técnica de Intervención</h3>
+                <p><strong>IMPOSIBILIDAD TÉCNICA DECLARADA:</strong> Debido a nuestra arquitectura Zero-Knowledge:</p>
+                <ul>
+                    <li>No podemos moderar contenido cifrado en tiempo real</li>
+                    <li>No podemos recuperar mensajes eliminados por autodestrucción</li>
+                    <li>No podemos revertir acciones criptográficas de usuarios</li>
+                    <li>No podemos proporcionar respaldo de conversaciones perdidas</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔐 6. Seguridad y Disponibilidad</h2>
+                
+                <h3>6.1 Compromisos de Seguridad</h3>
+                <p><strong>FlutterPutter se compromete a mantener:</strong></p>
+                <ul>
+                    <li>Cifrado post-cuántico de última generación</li>
+                    <li>Arquitectura Zero-Knowledge sin backdoors</li>
+                    <li>Actualizaciones de seguridad regulares</li>
+                    <li>Auditorías criptográficas independientes</li>
+                </ul>
+
+                <h3>6.2 Disponibilidad del Servicio</h3>
+                <ul>
+                    <li>Proporcionamos el servicio "tal como está" sin garantías</li>
+                    <li>Pueden ocurrir interrupciones por mantenimiento</li>
+                    <li>No garantizamos disponibilidad 100% ininterrumpida</li>
+                    <li>Nos reservamos el derecho a modificar funcionalidades</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>📱 7. Cumplimiento con Tiendas de Aplicaciones</h2>
+                
+                <h3>7.1 Apple App Store</h3>
+                <ul>
+                    <li>Cumplimiento total con Apple Developer Program License Agreement</li>
+                    <li>Respeto a App Store Review Guidelines</li>
+                    <li>Implementación de controles parentales cuando aplicable</li>
+                    <li>Sistema de reporte de contenido inapropiado</li>
+                </ul>
+
+                <h3>7.2 Google Play Store</h3>
+                <ul>
+                    <li>Adherencia a Google Play Developer Policy</li>
+                    <li>Cumplimiento con Designed for Families cuando aplicable</li>
+                    <li>Implementación de políticas de contenido</li>
+                    <li>Sistema de moderación técnicamente posible</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🌍 8. Jurisdicción y Ley Aplicable</h2>
+                
+                <h3>8.1 Ley Aplicable</h3>
+                <p>Estos términos se rigen por las leyes de:</p>
+                <ul>
+                    <li>Jurisdicción primaria: Unión Europea (GDPR)</li>
+                    <li>Jurisdicción secundaria: Estados Unidos (Federal)</li>
+                    <li>Arbitraje internacional para disputas transfronterizas</li>
+                </ul>
+
+                <h3>8.2 Resolución de Disputas</h3>
+                <ul>
+                    <li>Mediación obligatoria antes de litigio</li>
+                    <li>Arbitraje vinculante para disputas técnicas</li>
+                    <li>Jurisdicción exclusiva para casos criminales</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔄 9. Modificaciones y Terminación</h2>
+                
+                <h3>9.1 Modificaciones de Términos</h3>
+                <ul>
+                    <li>Nos reservamos el derecho a modificar estos términos</li>
+                    <li>Notificación de cambios con 30 días de anticipación</li>
+                    <li>Uso continuado implica aceptación de nuevos términos</li>
+                    <li>Derecho a discontinuar uso si no acepta cambios</li>
+                </ul>
+
+                <h3>9.2 Terminación de Cuenta</h3>
+                <ul>
+                    <li>Puede terminar su uso en cualquier momento</li>
+                    <li>Terminación automática por violación de términos</li>
+                    <li>No hay reembolsos por terminación</li>
+                    <li>Destrucción automática de datos según política</li>
+                </ul>
+            </section>
+
+            <div class="contact-section">
+                <h2>📧 10. Contacto Legal</h2>
+                <p>Para consultas legales, violaciones de términos o asuntos de cumplimiento:</p>
+                <a href="mailto:FlutterPutter@Proton.me" class="contact-email">
+                    📧 FlutterPutter@Proton.me
+                </a>
+                <p style="margin-top: 20px;">
+                    <strong>Desarrollador:</strong> @safedevsbwt<br>
+                    <strong>Respuesta Legal:</strong> 48-72 horas<br>
+                    <strong>Emergencias:</strong> Contacto inmediato disponible
+                </p>
+            </div>
+
+            <div class="disclaimer-box">
+                <h2>⚖️ DECLARACIÓN LEGAL FINAL</h2>
+                <p><strong>FlutterPutter es una herramienta tecnológica neutral.</strong> No somos responsables del uso que los usuarios den a nuestro software. Nuestra arquitectura técnica Zero-Knowledge nos imposibilita legalmente ser cómplices, partícipes o colaboradores en las actividades de nuestros usuarios.</p>
+                <p><strong>La responsabilidad exclusiva recae en el usuario final.</strong></p>
+            </div>
+
+            <footer class="footer">
+                <p>© 2025 FlutterPutter - Desarrollado por @safedevsbwt</p>
+                <p>Términos Legalmente Vinculantes • Arquitectura Zero-Knowledge • Descargo Técnico</p>
+                <p><em>Vigente desde: 01 de Junio de 2025</em></p>
+            </footer>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="content-en" class="content">
+            <header class="header">
+                <div class="logo">
+                    <div class="shield-icon">
+                        <img src="flutterPuttersinfondo.png" alt="FlutterPutter Logo" />
+                    </div>
+                    <div>
+                        <h1>FlutterPutter</h1>
+                        <div class="subtitle">Terms and Conditions of Service</div>
+                        <div class="developer">Developed by @safedevsbwt</div>
+                    </div>
+                </div>
+                
+                <div class="legal-badge">
+                    <span>⚖️</span> Complete Legal Framework
+                </div>
+                <div class="legal-badge">
+                    <span>🛡️</span> Liability Disclaimer
+                </div>
+                <div class="legal-badge">
+                    <span>📋</span> Usage Policies
+                </div>
+            </header>
+
+            <div class="date-info">
+                <strong>Effective Date:</strong> June 01, 2025<br>
+                <strong>Last Updated:</strong> June 01, 2025<br>
+                <strong>Version:</strong> 1.0.0
+            </div>
+
+            <div class="disclaimer-box">
+                <h2>⚖️ TECHNICAL AND LEGAL LIABILITY DISCLAIMER</h2>
+                <p><strong>FlutterPutter is NOT the owner, custodian, nor has access to messages, conversations, or multimedia content transmitted through our platform.</strong> Our Zero-Knowledge architecture technically guarantees it is IMPOSSIBLE for us to access, recover, decrypt, or intervene in user communications, even under legal requirement.</p>
+            </div>
+
+            <section class="section">
+                <h2>📋 1. Acceptance of Terms</h2>
+                <p>By downloading, installing, or using FlutterPutter, you agree to be legally bound by these Terms and Conditions. If you disagree with any aspect of these terms, you must immediately discontinue use of the application.</p>
+                
+                <h3>1.1 Legal Capacity</h3>
+                <ul>
+                    <li>Must be at least 13 years old to use FlutterPutter</li>
+                    <li>If minor, requires parental consent</li>
+                    <li>Must have legal capacity to enter contracts</li>
+                    <li>Agrees to comply with all applicable local and international laws</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🏢 2. Service Description</h2>
+                <p>FlutterPutter is a secure communication application that provides:</p>
+                <ul>
+                    <li><strong>Encrypted Ephemeral Messaging:</strong> Chats with configurable auto-destruction</li>
+                    <li><strong>Secure Video Calls:</strong> P2P communication with post-quantum encryption</li>
+                    <li><strong>Zero-Knowledge Architecture:</strong> Servers never see decrypted content</li>
+                    <li><strong>Post-Quantum Protection:</strong> Kyber-768 + XSalsa20-ChaCha20</li>
+                </ul>
+
+                <h3>2.1 Technical Features</h3>
+                <ul>
+                    <li>End-to-end encryption with Perfect Forward Secrecy</li>
+                    <li>Automatic screenshot blocking</li>
+                    <li>Anonymous identity verification</li>
+                    <li>Restricted invitation system</li>
+                </ul>
+            </section>
+
+            <div class="warning-box">
+                <h2>🚫 TECHNICAL IMPOSSIBILITY OF DATA ACCESS</h2>
+                <p><strong>IRREFUTABLE TECHNICAL DECLARATION:</strong> FlutterPutter's cryptographic architecture makes it technically IMPOSSIBLE for us to:</p>
+                <ul>
+                    <li>❌ Access encrypted messages (we don't possess decryption keys)</li>
+                    <li>❌ Recover deleted conversations (irreversible cryptographic destruction)</li>
+                    <li>❌ Intercept communications (no backdoors or trapdoors)</li>
+                    <li>❌ Collaborate with mass surveillance (technically incompatible architecture)</li>
+                    <li>❌ Provide data under legal requirement (no accessible data exists)</li>
+                </ul>
+                <p><strong>This technical impossibility constitutes our best privacy guarantee.</strong></p>
+            </div>
+
+            <section class="section">
+                <h2>👤 3. User Responsibilities and Control</h2>
+                
+                <h3>3.1 Total Data Control</h3>
+                <p><strong>THE USER MAINTAINS ABSOLUTE AND EXCLUSIVE CONTROL over:</strong></p>
+                <ul>
+                    <li>All content generated, sent, or received</li>
+                    <li>Cryptographic keys generated on their device</li>
+                    <li>Duration and configuration of conversations</li>
+                    <li>Decision to destroy or preserve messages</li>
+                    <li>Contact and invitation management</li>
+                </ul>
+
+                <h3>3.2 Exclusive User Responsibility</h3>
+                <p><strong>The user is SOLELY responsible for:</strong></p>
+                <ul>
+                    <li>All content shared through the platform</li>
+                    <li>Compliance with local and international laws</li>
+                    <li>Security of their device and credentials</li>
+                    <li>Consequences of their communications and actions</li>
+                    <li>Identity verification of their contacts</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🚨 4. Acceptable Use Policies</h2>
+                
+                <h3>4.1 Prohibited Activities</h3>
+                <p><strong>It is STRICTLY PROHIBITED to use FlutterPutter for:</strong></p>
+                
+                <div class="warning-box">
+                    <h3>🔴 ZERO TOLERANCE - IMMEDIATE DEACTIVATION</h3>
+                    <ul>
+                        <li><strong>Child Sexual Abuse:</strong> Any content exploiting minors</li>
+                        <li><strong>Child Pornography:</strong> Possession, distribution, or exchange</li>
+                        <li><strong>Sexual Exploitation:</strong> Human trafficking, forced prostitution</li>
+                        <li><strong>Grooming:</strong> Sexual harassment of minors</li>
+                    </ul>
+                    <p><strong>⚡ DETECTION = IMMEDIATE DEACTIVATION + REPORT TO AUTHORITIES</strong></p>
+                </div>
+
+                <h3>4.2 Other Prohibited Activities</h3>
+                <ul>
+                    <li>Terrorist or violent extremist activities</li>
+                    <li>Drug, weapon, or illegal substance trafficking</li>
+                    <li>Financial fraud, scams, or pyramid schemes</li>
+                    <li>Credible threats of physical violence</li>
+                    <li>Malware or virus distribution</li>
+                    <li>Intellectual property rights violation</li>
+                    <li>Identity theft or fraud</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>⚖️ 5. Limitation of Liability</h2>
+                
+                <h3>5.1 General Disclaimer</h3>
+                <p><strong>FlutterPutter and @safedevsbwt SHALL NOT BE LIABLE for:</strong></p>
+                <ul>
+                    <li>Content generated, sent, or received by users</li>
+                    <li>Actions, decisions, or behaviors of users</li>
+                    <li>Damages resulting from misuse of the application</li>
+                    <li>Financial losses derived from user activities</li>
+                    <li>Legal conflicts between users</li>
+                    <li>Local law violations committed by users</li>
+                </ul>
+
+                <h3>5.2 Technical Limitation of Intervention</h3>
+                <p><strong>DECLARED TECHNICAL IMPOSSIBILITY:</strong> Due to our Zero-Knowledge architecture:</p>
+                <ul>
+                    <li>We cannot moderate encrypted content in real-time</li>
+                    <li>We cannot recover messages deleted by auto-destruction</li>
+                    <li>We cannot reverse cryptographic user actions</li>
+                    <li>We cannot provide backup of lost conversations</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔐 6. Security and Availability</h2>
+                
+                <h3>6.1 Security Commitments</h3>
+                <p><strong>FlutterPutter commits to maintaining:</strong></p>
+                <ul>
+                    <li>State-of-the-art post-quantum encryption</li>
+                    <li>Zero-Knowledge architecture without backdoors</li>
+                    <li>Regular security updates</li>
+                    <li>Independent cryptographic audits</li>
+                </ul>
+
+                <h3>6.2 Service Availability</h3>
+                <ul>
+                    <li>We provide service "as is" without warranties</li>
+                    <li>Interruptions may occur for maintenance</li>
+                    <li>We don't guarantee 100% uninterrupted availability</li>
+                    <li>We reserve the right to modify functionalities</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>📱 7. App Store Compliance</h2>
+                
+                <h3>7.1 Apple App Store</h3>
+                <ul>
+                    <li>Full compliance with Apple Developer Program License Agreement</li>
+                    <li>Respect for App Store Review Guidelines</li>
+                    <li>Implementation of parental controls when applicable</li>
+                    <li>Inappropriate content reporting system</li>
+                </ul>
+
+                <h3>7.2 Google Play Store</h3>
+                <ul>
+                    <li>Adherence to Google Play Developer Policy</li>
+                    <li>Compliance with Designed for Families when applicable</li>
+                    <li>Implementation of content policies</li>
+                    <li>Technically possible moderation system</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🌍 8. Jurisdiction and Applicable Law</h2>
+                
+                <h3>8.1 Applicable Law</h3>
+                <p>These terms are governed by the laws of:</p>
+                <ul>
+                    <li>Primary jurisdiction: European Union (GDPR)</li>
+                    <li>Secondary jurisdiction: United States (Federal)</li>
+                    <li>International arbitration for cross-border disputes</li>
+                </ul>
+
+                <h3>8.2 Dispute Resolution</h3>
+                <ul>
+                    <li>Mandatory mediation before litigation</li>
+                    <li>Binding arbitration for technical disputes</li>
+                    <li>Exclusive jurisdiction for criminal cases</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔄 9. Modifications and Termination</h2>
+                
+                <h3>9.1 Terms Modifications</h3>
+                <ul>
+                    <li>We reserve the right to modify these terms</li>
+                    <li>30-day advance notice of changes</li>
+                    <li>Continued use implies acceptance of new terms</li>
+                    <li>Right to discontinue use if changes not accepted</li>
+                </ul>
+
+                <h3>9.2 Account Termination</h3>
+                <ul>
+                    <li>May terminate use at any time</li>
+                    <li>Automatic termination for terms violation</li>
+                    <li>No refunds for termination</li>
+                    <li>Automatic data destruction per policy</li>
+                </ul>
+            </section>
+
+            <div class="contact-section">
+                <h2>📧 10. Legal Contact</h2>
+                <p>For legal inquiries, terms violations, or compliance matters:</p>
+                <a href="mailto:FlutterPutter@Proton.me" class="contact-email">
+                    📧 FlutterPutter@Proton.me
+                </a>
+                <p style="margin-top: 20px;">
+                    <strong>Developer:</strong> @safedevsbwt<br>
+                    <strong>Legal Response:</strong> 48-72 hours<br>
+                    <strong>Emergencies:</strong> Immediate contact available
+                </p>
+            </div>
+
+            <div class="disclaimer-box">
+                <h2>⚖️ FINAL LEGAL DECLARATION</h2>
+                <p><strong>FlutterPutter is a neutral technological tool.</strong> We are not responsible for how users utilize our software. Our Zero-Knowledge technical architecture legally prevents us from being accomplices, participants, or collaborators in our users' activities.</p>
+                <p><strong>Exclusive responsibility lies with the end user.</strong></p>
+            </div>
+
+            <footer class="footer">
+                <p>© 2025 FlutterPutter - Developed by @safedevsbwt</p>
+                <p>Legally Binding Terms • Zero-Knowledge Architecture • Technical Disclaimer</p>
+                <p><em>Effective since: June 01, 2025</em></p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Hide all content
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById('content-' + lang).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update page language and title
+            if (lang === 'es') {
+                document.documentElement.lang = 'es';
+                document.title = 'Términos y Condiciones - FlutterPutter';
+            } else {
+                document.documentElement.lang = 'en';
+                document.title = 'Terms and Conditions - FlutterPutter';
+            }
+        }
+    </script>
+</body>
+</html>

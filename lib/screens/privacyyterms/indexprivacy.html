@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - FlutterPutter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 25px;
+            border: 1px solid #FF6B35;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background: transparent;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .lang-btn.active {
+            background: #FF6B35;
+            color: #000;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 107, 53, 0.2);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #FF6B35;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(0, 123, 255, 0.1));
+            border-radius: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .shield-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            overflow: hidden;
+        }
+
+        .shield-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FF6B35, #007BFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #B0B0B0;
+            margin-bottom: 5px;
+        }
+
+        .developer {
+            font-size: 0.9em;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        .date-info {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #FF6B35;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, rgba(0, 255, 0, 0.1), rgba(0, 123, 255, 0.1));
+            border: 1px solid #00FF88;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            color: #00FF88;
+            margin: 5px;
+        }
+
+        h2 {
+            color: #FF6B35;
+            font-size: 1.8em;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3 {
+            color: #007BFF;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-box {
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(0, 123, 255, 0.1));
+            border: 2px solid #FF6B35;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: "🔐";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #1a1a1a;
+            padding: 0 10px;
+            font-size: 1.2em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #007BFF;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        li {
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+
+        .contact-section {
+            background: linear-gradient(45deg, rgba(255, 107, 53, 0.2), rgba(0, 123, 255, 0.2));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .contact-email {
+            background: rgba(0, 0, 0, 0.5);
+            color: #FF6B35;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            border: 1px solid #FF6B35;
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background: #FF6B35;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 2px solid #FF6B35;
+            margin-top: 50px;
+            color: #B0B0B0;
+        }
+
+        .tech-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tech-spec {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00FF88;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .language-toggle {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('es')">🇪🇸 Español</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 English</button>
+    </div>
+
+    <div class="container">
+        <!-- SPANISH CONTENT -->
+        <div id="content-es" class="content active">
+            <header class="header">
+                <div class="logo">
+                    <div class="shield-icon">
+                        <img src="flutterPuttersinfondo.png" alt="FlutterPutter Logo" />
+                    </div>
+                    <div>
+                        <h1>FlutterPutter</h1>
+                        <div class="subtitle">Política de Privacidad</div>
+                        <div class="developer">Desarrollado por @safedevsbwt</div>
+                    </div>
+                </div>
+                
+                <div class="security-badge">
+                    <span>🔐</span> Cifrado Post-Cuántico
+                </div>
+                <div class="security-badge">
+                    <span>👻</span> Zero Knowledge
+                </div>
+                <div class="security-badge">
+                    <span>🚫</span> Sin Recopilación de Datos
+                </div>
+            </header>
+
+            <div class="date-info">
+                <strong>Fecha de vigencia:</strong> 01 de Junio de 2025<br>
+                <strong>Última actualización:</strong> 01 de Junio de 2025<br>
+                <strong>Versión:</strong> 1.0.0
+            </div>
+
+            <div class="highlight-box">
+                <h2>🚫 COMPROMISO ABSOLUTO: CERO RECOPILACIÓN DE DATOS</h2>
+                <p><strong>FlutterPutter NO recopila, almacena, procesa ni comparte NINGÚN dato personal, conversación, archivo multimedia o información de uso.</strong> Nuestra arquitectura está diseñada desde cero para garantizar tu privacidad absoluta mediante tecnología post-cuántica de grado militar.</p>
+            </div>
+
+            <section class="section">
+                <h2>🏢 1. Información del Desarrollador</h2>
+                <ul>
+                    <li><strong>Nombre de la Aplicación:</strong> FlutterPutter</li>
+                    <li><strong>Desarrollador:</strong> @safedevsbwt</li>
+                    <li><strong>Tipo de Aplicación:</strong> Comunicación Segura Post-Cuántica</li>
+                    <li><strong>Contacto:</strong> FlutterPutter@Proton.me</li>
+                    <li><strong>Sitio Web:</strong> flutterputter.com</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔐 2. Arquitectura de Privacidad por Diseño</h2>
+                
+                <h3>2.1 Zero-Knowledge Architecture</h3>
+                <p>FlutterPutter implementa una arquitectura Zero-Knowledge donde:</p>
+                <ul>
+                    <li>Los servidores NUNCA ven contenido descifrado</li>
+                    <li>Solo procesan blobs cifrados opacos</li>
+                    <li>No tienen acceso a claves de descifrado</li>
+                    <li>Imposible acceder a conversaciones incluso con acceso físico a servidores</li>
+                </ul>
+
+                <div class="tech-specs">
+                    <div class="tech-spec">
+                        <strong>🔮 Kyber-768</strong><br>
+                        Encapsulación Post-Cuántica
+                    </div>
+                    <div class="tech-spec">
+                        <strong>⚡ XSalsa20-ChaCha20</strong><br>
+                        Cifrado de Grado Militar
+                    </div>
+                    <div class="tech-spec">
+                        <strong>🔑 Curve25519</strong><br>
+                        Intercambio de Claves DH
+                    </div>
+                    <div class="tech-spec">
+                        <strong>🛡️ HKDF-SHA256</strong><br>
+                        Derivación Segura de Claves
+                    </div>
+                </div>
+
+                <h3>2.2 Perfect Forward Secrecy</h3>
+                <p>Cada sesión utiliza claves únicas que se destruyen automáticamente, garantizando que incluso si una clave fuera comprometida, no afectaría conversaciones pasadas o futuras.</p>
+            </section>
+
+            <section class="section">
+                <h2>📵 3. Datos que NO Recopilamos</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💬</div>
+                        <h3>Conversaciones</h3>
+                        <p>Mensajes de texto, audio, imágenes o cualquier contenido multimedia</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h3>Datos Personales</h3>
+                        <p>Nombres, teléfonos, emails o información de identificación</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Ubicación</h3>
+                        <p>GPS, IP real, geolocalización o datos de ubicación</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Metadatos</h3>
+                        <p>Frecuencia de uso, contactos, patrones de comunicación</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Información del Dispositivo</h3>
+                        <p>IMEI, ID únicos, información de hardware</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Actividad Web</h3>
+                        <p>Historial de navegación, cookies, trackers</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>🔒 4. Tecnologías de Protección Implementadas</h2>
+                
+                <h3>4.1 Cifrado Post-Cuántico</h3>
+                <ul>
+                    <li><strong>Kyber-768 (ML-KEM):</strong> Resistente a ataques de computadoras cuánticas</li>
+                    <li><strong>XSalsa20-ChaCha20-Poly1305:</strong> Cifrado de flujo con autenticación AEAD</li>
+                    <li><strong>Doble Diffie-Hellman:</strong> Intercambio de claves militar Curve25519</li>
+                    <li><strong>HKDF-SHA256:</strong> Derivación segura de claves (1024 bits → 256 bits)</li>
+                </ul>
+
+                <h3>4.2 Protección de Contenido</h3>
+                <ul>
+                    <li><strong>Bloqueo de Capturas:</strong> Pantalla negra en screenshots automáticamente</li>
+                    <li><strong>Chats Efímeros:</strong> Autodestrucción configurable de mensajes</li>
+                    <li><strong>Detección de Capturas:</strong> Notificaciones cuando alguien intenta capturar</li>
+                    <li><strong>Sesión Única:</strong> Solo un dispositivo activo por usuario</li>
+                </ul>
+
+                <h3>4.3 Anonimización Completa</h3>
+                <ul>
+                    <li><strong>IPs Enmascaradas:</strong> Tu dirección IP real nunca se expone</li>
+                    <li><strong>Identidades Temporales:</strong> Cada sesión usa identificadores únicos</li>
+                    <li><strong>Sin Tracking:</strong> Imposible rastrear actividad o comportamiento</li>
+                    <li><strong>Códigos de Invitación:</strong> Sistema criptográficamente seguro</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>⚖️ 5. Cumplimiento Legal y Regulatorio</h2>
+                
+                <h3>5.1 GDPR (Reglamento General de Protección de Datos)</h3>
+                <p>FlutterPutter cumple automáticamente con GDPR al NO recopilar datos personales. No requiere consentimiento, pues no procesa información personal.</p>
+
+                <h3>5.2 CCPA (Ley de Privacidad del Consumidor de California)</h3>
+                <p>No aplicable - no vendemos, compartimos ni procesamos información personal de residentes de California.</p>
+
+                <h3>5.3 COPPA (Protección de Privacidad Infantil Online)</h3>
+                <p>Seguro para menores de 13 años - no recopilamos información de ningún usuario, independientemente de la edad.</p>
+
+                <h3>5.4 Apple App Store & Google Play</h3>
+                <p>Cumple con todas las políticas de privacidad de las tiendas de aplicaciones al no recopilar datos.</p>
+            </section>
+
+            <section class="section">
+                <h2>🛡️ 6. Medidas de Seguridad Técnicas</h2>
+                
+                <h3>6.1 Cifrado Extremo a Extremo (E2E)</h3>
+                <p>Todo el contenido se cifra localmente antes de transmisión. Los servidores solo ven datos cifrados indescriptibles.</p>
+
+                <h3>6.2 Destrucción Automática</h3>
+                <ul>
+                    <li>Salas de chat con autodestrucción configurable (5m, 30m, 1h, 6h)</li>
+                    <li>Destrucción manual instantánea con countdown de 10 segundos</li>
+                    <li>Eliminación segura de claves de sesión</li>
+                </ul>
+
+                <h3>6.3 Verificación de Identidad Anónima</h3>
+                <ul>
+                    <li>Códigos de verificación compartidos por canales externos</li>
+                    <li>Prevención de ataques man-in-the-middle</li>
+                    <li>Autenticación sin revelar identidad real</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🌍 7. Transferencias Internacionales</h2>
+                <p><strong>No aplicable:</strong> Al no recopilar datos personales, no existen transferencias de información personal a países terceros. Los datos técnicos mínimos (blobs cifrados) se procesan según ubicación geográfica óptima para rendimiento.</p>
+            </section>
+
+            <section class="section">
+                <h2>⏱️ 8. Retención de Datos</h2>
+                <p><strong>Retención: 0 segundos</strong></p>
+                <ul>
+                    <li>Los mensajes se procesan en tiempo real y se descartan inmediatamente</li>
+                    <li>No se almacenan conversaciones, archivos multimedia ni metadatos</li>
+                    <li>Las claves de sesión se destruyen al finalizar cada conversación</li>
+                    <li>Los servidores no mantienen logs de actividad de usuarios</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>👤 9. Derechos del Usuario</h2>
+                
+                <h3>9.1 Derecho al Olvido</h3>
+                <p><strong>Automáticamente garantizado:</strong> Al no almacenar datos, el "olvido" es inmediato y permanente.</p>
+
+                <h3>9.2 Acceso a Datos Personales</h3>
+                <p><strong>No aplicable:</strong> No existen datos personales que consultar.</p>
+
+                <h3>9.3 Portabilidad de Datos</h3>
+                <p><strong>No aplicable:</strong> No existen datos que exportar.</p>
+
+                <h3>9.4 Rectificación</h3>
+                <p><strong>No aplicable:</strong> No almacenamos datos que corregir.</p>
+            </section>
+
+            <section class="section">
+                <h2>🔧 10. Funcionamiento Técnico Sin Datos</h2>
+                
+                <h3>10.1 Identificación Temporal</h3>
+                <p>Se utilizan identificadores únicos generados aleatoriamente para cada sesión, que se descartan al finalizar.</p>
+
+                <h3>10.2 Enrutamiento de Mensajes</h3>
+                <p>Los mensajes se enrutan usando identificadores de sala temporales sin vincular a identidades reales.</p>
+
+                <h3>10.3 Gestión de Sesiones</h3>
+                <p>Las sesiones se gestionan localmente en el dispositivo, sin sincronización con servidores externos.</p>
+            </section>
+
+            <section class="section">
+                <h2>🚨 11. Respuesta a Solicitudes Legales</h2>
+                <p><strong>Imposibilidad técnica de cumplimiento:</strong></p>
+                <ul>
+                    <li>No poseemos datos de usuarios para entregar a autoridades</li>
+                    <li>Los servidores solo contienen blobs cifrados indescriptibles</li>
+                    <li>Las claves de descifrado nunca salen de los dispositivos usuarios</li>
+                    <li>Arquitectura diseñada para imposibilitar vigilancia masiva</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔄 12. Actualizaciones de Privacidad</h2>
+                <p>Esta política se actualiza únicamente para:</p>
+                <ul>
+                    <li>Clarificaciones técnicas sobre la protección implementada</li>
+                    <li>Adición de nuevas medidas de seguridad</li>
+                    <li>Cumplimiento con nuevas regulaciones de privacidad</li>
+                    <li><strong>NUNCA</strong> para reducir el nivel de protección</li>
+                </ul>
+                <p>Los usuarios serán notificados de cambios significativos a través de la aplicación.</p>
+            </section>
+
+            <section class="section">
+                <h2>⚠️ 13. Limitaciones y Advertencias</h2>
+                
+                <h3>13.1 Responsabilidad del Usuario</h3>
+                <ul>
+                    <li>Mantener seguro su dispositivo con PIN/biometría</li>
+                    <li>No compartir códigos de invitación públicamente</li>
+                    <li>Verificar identidad de contactos usando códigos de verificación</li>
+                </ul>
+
+                <h3>13.2 Limitaciones Técnicas</h3>
+                <ul>
+                    <li>La seguridad depende de la seguridad del dispositivo del usuario</li>
+                    <li>Comunicación requiere conexión a internet</li>
+                    <li>Algunas funciones pueden no estar disponibles en web</li>
+                </ul>
+            </section>
+
+            <div class="contact-section">
+                <h2>📧 14. Contacto y Soporte</h2>
+                <p>Para consultas sobre privacidad, seguridad o funcionamiento técnico:</p>
+                <a href="mailto:FlutterPutter@Proton.me" class="contact-email">
+                    📧 FlutterPutter@Proton.me
+                </a>
+                <p style="margin-top: 20px;">
+                    <strong>Desarrollador:</strong> @safedevsbwt<br>
+                    <strong>Tiempo de respuesta:</strong> 24-48 horas<br>
+                    <strong>Idiomas:</strong> Español, English
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <h2>🛡️ GARANTÍA DE PRIVACIDAD ABSOLUTA</h2>
+                <p>FlutterPutter es la aplicación de comunicación MÁS SEGURA del mundo. Nuestra arquitectura Zero-Knowledge con cifrado post-cuántico garantiza que tu privacidad esté protegida incluso contra amenazas futuras de computación cuántica.</p>
+                <p><strong>Tu privacidad no es negociable. Es un derecho fundamental que defendemos con tecnología de grado militar.</strong></p>
+            </div>
+
+            <footer class="footer">
+                <p>© 2025 FlutterPutter - Desarrollado por @safedevsbwt</p>
+                <p>Comunicación Segura de Grado Militar • Zero Knowledge • Post-Quantum Ready</p>
+                <p><em>Vigente desde: 01 de Junio de 2025</em></p>
+            </footer>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="content-en" class="content">
+            <header class="header">
+                <div class="logo">
+                    <div class="shield-icon">
+                        <img src="flutterPuttersinfondo.png" alt="FlutterPutter Logo" />
+                    </div>
+                    <div>
+                        <h1>FlutterPutter</h1>
+                        <div class="subtitle">Privacy Policy</div>
+                        <div class="developer">Developed by @safedevsbwt</div>
+                    </div>
+                </div>
+                
+                <div class="security-badge">
+                    <span>🔐</span> Post-Quantum Encryption
+                </div>
+                <div class="security-badge">
+                    <span>👻</span> Zero Knowledge
+                </div>
+                <div class="security-badge">
+                    <span>🚫</span> No Data Collection
+                </div>
+            </header>
+
+            <div class="date-info">
+                <strong>Effective Date:</strong> June 01, 2025<br>
+                <strong>Last Updated:</strong> June 01, 2025<br>
+                <strong>Version:</strong> 1.0.0
+            </div>
+
+            <div class="highlight-box">
+                <h2>🚫 ABSOLUTE COMMITMENT: ZERO DATA COLLECTION</h2>
+                <p><strong>FlutterPutter does NOT collect, store, process, or share ANY personal data, conversations, multimedia files, or usage information.</strong> Our architecture is designed from the ground up to guarantee your absolute privacy through military-grade post-quantum technology.</p>
+            </div>
+
+            <section class="section">
+                <h2>🏢 1. Developer Information</h2>
+                <ul>
+                    <li><strong>Application Name:</strong> FlutterPutter</li>
+                    <li><strong>Developer:</strong> @safedevsbwt</li>
+                    <li><strong>Application Type:</strong> Post-Quantum Secure Communication</li>
+                    <li><strong>Contact:</strong> FlutterPutter@Proton.me</li>
+                    <li><strong>Website:</strong> flutterputter.com</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔐 2. Privacy by Design Architecture</h2>
+                
+                <h3>2.1 Zero-Knowledge Architecture</h3>
+                <p>FlutterPutter implements a Zero-Knowledge architecture where:</p>
+                <ul>
+                    <li>Servers NEVER see decrypted content</li>
+                    <li>Only process opaque encrypted blobs</li>
+                    <li>Have no access to decryption keys</li>
+                    <li>Impossible to access conversations even with physical server access</li>
+                </ul>
+
+                <div class="tech-specs">
+                    <div class="tech-spec">
+                        <strong>🔮 Kyber-768</strong><br>
+                        Post-Quantum Encapsulation
+                    </div>
+                    <div class="tech-spec">
+                        <strong>⚡ XSalsa20-ChaCha20</strong><br>
+                        Military-Grade Encryption
+                    </div>
+                    <div class="tech-spec">
+                        <strong>🔑 Curve25519</strong><br>
+                        DH Key Exchange
+                    </div>
+                    <div class="tech-spec">
+                        <strong>🛡️ HKDF-SHA256</strong><br>
+                        Secure Key Derivation
+                    </div>
+                </div>
+
+                <h3>2.2 Perfect Forward Secrecy</h3>
+                <p>Each session uses unique keys that are automatically destroyed, ensuring that even if a key were compromised, it would not affect past or future conversations.</p>
+            </section>
+
+            <section class="section">
+                <h2>📵 3. Data We DO NOT Collect</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💬</div>
+                        <h3>Conversations</h3>
+                        <p>Text messages, audio, images, or any multimedia content</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h3>Personal Data</h3>
+                        <p>Names, phone numbers, emails, or identification information</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Location</h3>
+                        <p>GPS, real IP, geolocation, or location data</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Metadata</h3>
+                        <p>Usage frequency, contacts, communication patterns</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Device Information</h3>
+                        <p>IMEI, unique IDs, hardware information</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Web Activity</h3>
+                        <p>Browsing history, cookies, trackers</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>🔒 4. Implemented Protection Technologies</h2>
+                
+                <h3>4.1 Post-Quantum Encryption</h3>
+                <ul>
+                    <li><strong>Kyber-768 (ML-KEM):</strong> Resistant to quantum computer attacks</li>
+                    <li><strong>XSalsa20-ChaCha20-Poly1305:</strong> Stream cipher with AEAD authentication</li>
+                    <li><strong>Double Diffie-Hellman:</strong> Military Curve25519 key exchange</li>
+                    <li><strong>HKDF-SHA256:</strong> Secure key derivation (1024 bits → 256 bits)</li>
+                </ul>
+
+                <h3>4.2 Content Protection</h3>
+                <ul>
+                    <li><strong>Screenshot Blocking:</strong> Black screen in screenshots automatically</li>
+                    <li><strong>Ephemeral Chats:</strong> Configurable message auto-destruction</li>
+                    <li><strong>Screenshot Detection:</strong> Notifications when someone attempts to capture</li>
+                    <li><strong>Single Session:</strong> Only one active device per user</li>
+                </ul>
+
+                <h3>4.3 Complete Anonymization</h3>
+                <ul>
+                    <li><strong>Masked IPs:</strong> Your real IP address is never exposed</li>
+                    <li><strong>Temporary Identities:</strong> Each session uses unique identifiers</li>
+                    <li><strong>No Tracking:</strong> Impossible to track activity or behavior</li>
+                    <li><strong>Invitation Codes:</strong> Cryptographically secure system</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>⚖️ 5. Legal and Regulatory Compliance</h2>
+                
+                <h3>5.1 GDPR (General Data Protection Regulation)</h3>
+                <p>FlutterPutter automatically complies with GDPR by NOT collecting personal data. No consent required as we don't process personal information.</p>
+
+                <h3>5.2 CCPA (California Consumer Privacy Act)</h3>
+                <p>Not applicable - we do not sell, share, or process personal information of California residents.</p>
+
+                <h3>5.3 COPPA (Children's Online Privacy Protection)</h3>
+                <p>Safe for children under 13 - we collect no information from any user, regardless of age.</p>
+
+                <h3>5.4 Apple App Store & Google Play</h3>
+                <p>Complies with all app store privacy policies by not collecting data.</p>
+            </section>
+
+            <section class="section">
+                <h2>🛡️ 6. Technical Security Measures</h2>
+                
+                <h3>6.1 End-to-End Encryption (E2E)</h3>
+                <p>All content is encrypted locally before transmission. Servers only see indecipherable encrypted data.</p>
+
+                <h3>6.2 Automatic Destruction</h3>
+                <ul>
+                    <li>Chat rooms with configurable auto-destruction (5m, 30m, 1h, 6h)</li>
+                    <li>Instant manual destruction with 10-second countdown</li>
+                    <li>Secure session key elimination</li>
+                </ul>
+
+                <h3>6.3 Anonymous Identity Verification</h3>
+                <ul>
+                    <li>Verification codes shared through external channels</li>
+                    <li>Prevention of man-in-the-middle attacks</li>
+                    <li>Authentication without revealing real identity</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🌍 7. International Transfers</h2>
+                <p><strong>Not applicable:</strong> Since we don't collect personal data, there are no transfers of personal information to third countries. Minimal technical data (encrypted blobs) are processed according to optimal geographic location for performance.</p>
+            </section>
+
+            <section class="section">
+                <h2>⏱️ 8. Data Retention</h2>
+                <p><strong>Retention: 0 seconds</strong></p>
+                <ul>
+                    <li>Messages are processed in real-time and discarded immediately</li>
+                    <li>No storage of conversations, multimedia files, or metadata</li>
+                    <li>Session keys are destroyed when each conversation ends</li>
+                    <li>Servers maintain no user activity logs</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>👤 9. User Rights</h2>
+                
+                <h3>9.1 Right to be Forgotten</h3>
+                <p><strong>Automatically guaranteed:</strong> Since we don't store data, "forgetting" is immediate and permanent.</p>
+
+                <h3>9.2 Access to Personal Data</h3>
+                <p><strong>Not applicable:</strong> No personal data exists to consult.</p>
+
+                <h3>9.3 Data Portability</h3>
+                <p><strong>Not applicable:</strong> No data exists to export.</p>
+
+                <h3>9.4 Rectification</h3>
+                <p><strong>Not applicable:</strong> We store no data to correct.</p>
+            </section>
+
+            <section class="section">
+                <h2>🔧 10. Technical Operation Without Data</h2>
+                
+                <h3>10.1 Temporary Identification</h3>
+                <p>Randomly generated unique identifiers are used for each session, which are discarded upon completion.</p>
+
+                <h3>10.2 Message Routing</h3>
+                <p>Messages are routed using temporary room identifiers without linking to real identities.</p>
+
+                <h3>10.3 Session Management</h3>
+                <p>Sessions are managed locally on the device, without synchronization with external servers.</p>
+            </section>
+
+            <section class="section">
+                <h2>🚨 11. Response to Legal Requests</h2>
+                <p><strong>Technical impossibility of compliance:</strong></p>
+                <ul>
+                    <li>We possess no user data to deliver to authorities</li>
+                    <li>Servers only contain indecipherable encrypted blobs</li>
+                    <li>Decryption keys never leave user devices</li>
+                    <li>Architecture designed to make mass surveillance impossible</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🔄 12. Privacy Updates</h2>
+                <p>This policy is updated only for:</p>
+                <ul>
+                    <li>Technical clarifications about implemented protection</li>
+                    <li>Addition of new security measures</li>
+                    <li>Compliance with new privacy regulations</li>
+                    <li><strong>NEVER</strong> to reduce the level of protection</li>
+                </ul>
+                <p>Users will be notified of significant changes through the application.</p>
+            </section>
+
+            <section class="section">
+                <h2>⚠️ 13. Limitations and Warnings</h2>
+                
+                <h3>13.1 User Responsibility</h3>
+                <ul>
+                    <li>Keep your device secure with PIN/biometrics</li>
+                    <li>Don't share invitation codes publicly</li>
+                    <li>Verify contact identity using verification codes</li>
+                </ul>
+
+                <h3>13.2 Technical Limitations</h3>
+                <ul>
+                    <li>Security depends on user device security</li>
+                    <li>Communication requires internet connection</li>
+                    <li>Some features may not be available on web</li>
+                </ul>
+            </section>
+
+            <div class="contact-section">
+                <h2>📧 14. Contact and Support</h2>
+                <p>For privacy, security, or technical operation inquiries:</p>
+                <a href="mailto:FlutterPutter@Proton.me" class="contact-email">
+                    📧 FlutterPutter@Proton.me
+                </a>
+                <p style="margin-top: 20px;">
+                    <strong>Developer:</strong> @safedevsbwt<br>
+                    <strong>Response Time:</strong> 24-48 hours<br>
+                    <strong>Languages:</strong> Español, English
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <h2>🛡️ ABSOLUTE PRIVACY GUARANTEE</h2>
+                <p>FlutterPutter is the world's MOST SECURE communication application. Our Zero-Knowledge architecture with post-quantum encryption ensures your privacy is protected even against future quantum computing threats.</p>
+                <p><strong>Your privacy is non-negotiable. It's a fundamental right we defend with military-grade technology.</strong></p>
+            </div>
+
+            <footer class="footer">
+                <p>© 2025 FlutterPutter - Developed by @safedevsbwt</p>
+                <p>Military-Grade Secure Communication • Zero Knowledge • Post-Quantum Ready</p>
+                <p><em>Effective since: June 01, 2025</em></p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Hide all content
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById('content-' + lang).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update page language and title
+            if (lang === 'es') {
+                document.documentElement.lang = 'es';
+                document.title = 'Política de Privacidad - FlutterPutter';
+            } else {
+                document.documentElement.lang = 'en';
+                document.title = 'Privacy Policy - FlutterPutter';
+            }
+        }
+    </script>
+</body>
+</html>

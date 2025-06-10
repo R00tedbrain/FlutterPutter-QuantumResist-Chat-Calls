@@ -1,0 +1,1438 @@
+{
+  "@@locale": "sr",
+  "appTitle": "FlutterPutter",
+  "@appTitle": {
+    "description": "Naziv aplikacije"
+  },
+  "loginTitle": "Prijavite se da biste nastavili",
+  "@loginTitle": {
+    "description": "Naslov ekrana za prijavu"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Polje za email"
+  },
+  "enterEmail": "Unesite Vaš email",
+  "@enterEmail": {
+    "description": "Hint za polje za email"
+  },
+  "password": "Lozinka",
+  "@password": {
+    "description": "Polje za lozinku"
+  },
+  "enterPassword": "Unesite Vašu lozinku",
+  "@enterPassword": {
+    "description": "Hint za polje za lozinku"
+  },
+  "pleaseEnterEmail": "Molimo unesite Vaš email",
+  "@pleaseEnterEmail": {
+    "description": "Validacija za prazno polje za email"
+  },
+  "enterValidEmail": "Unesite važeći email",
+  "@enterValidEmail": {
+    "description": "Validacija za nevažeći email"
+  },
+  "pleaseEnterPassword": "Molimo unesite Vašu lozinku",
+  "@pleaseEnterPassword": {
+    "description": "Validacija za prazno polje za lozinku"
+  },
+  "passwordMinLength": "Lozinka mora imati najmanje 6 karaktera",
+  "@passwordMinLength": {
+    "description": "Validacija za dužinu lozinke"
+  },
+  "privacyAndSecurity": "Privatnost i Bezbednost",
+  "@privacyAndSecurity": {
+    "description": "Naslov odeljka za privatnost"
+  },
+  "noDataCollection": "Ne prikupljamo lične podatke",
+  "@noDataCollection": {
+    "description": "Poruka o neprikupljanju podataka"
+  },
+  "anonymousConnections": "Sve konekcije su anonimne",
+  "@anonymousConnections": {
+    "description": "Poruka o anonimnim konekcijama"
+  },
+  "ephemeralChatRooms": "Privremene sobe za ćaskanje koje se automatski uništavaju",
+  "@ephemeralChatRooms": {
+    "description": "Opis privremenih soba"
+  },
+  "encryptionInfo": "XSalsa20 enkripcija sa nasumičnim ključevima po sobi",
+  "@encryptionInfo": {
+    "description": "Informacije o enkripciji"
+  },
+  "loginButton": "Prijavi se",
+  "@loginButton": {
+    "description": "Dugme za prijavu"
+  },
+  "noAccount": "Nemate nalog?",
+  "@noAccount": {
+    "description": "Pitanje o registraciji"
+  },
+  "register": "Registrujte se",
+  "@register": {
+    "description": "Link za registraciju"
+  },
+  "oneSessionSecurity": "🔒 Dozvoljena je samo 1 aktivna sesija po korisniku radi veće bezbednosti",
+  "@oneSessionSecurity": {
+    "description": "Poruka o jednoj sesiji radi bezbednosti"
+  },
+  "oneSessionMaxSecurity": "Samo 1 sesija po korisniku (Maksimalna bezbednost)",
+  "@oneSessionMaxSecurity": {
+    "description": "Tekst dugmeta za maksimalnu bezbednost"
+  },
+  "chats": "Ćaskanja",
+  "@chats": {
+    "description": "Kartica za ćaskanja"
+  },
+  "secureChat": "Bezbedno Ćaskanje",
+  "@secureChat": {
+    "description": "Naslov bezbednog ćaskanja"
+  },
+  "secureChatDescription": "Dodirnite da kreirate ili se pridružite privremenim ćaskanjima",
+  "@secureChatDescription": {
+    "description": "Opis bezbednog ćaskanja"
+  },
+  "privateVideoCall": "Privatni Video Poziv",
+  "@privateVideoCall": {
+    "description": "Naslov privatnog video poziva"
+  },
+  "videoCallDescription": "Poziv završen",
+  "@videoCallDescription": {
+    "description": "Status završenog poziva"
+  },
+  "multipleChats": "Višestruka Ćaskanja",
+  "@multipleChats": {
+    "description": "Naslov višestrukih ćaskanja"
+  },
+  "newRoom": "Nova Soba",
+  "@newRoom": {
+    "description": "Dugme za kreiranje nove sobe"
+  },
+  "noActiveChats": "Nema aktivnih ćaskanja",
+  "@noActiveChats": {
+    "description": "Poruka kada nema ćaskanja"
+  },
+  "useNewRoomButton": "Koristite karticu 'Nova Soba' da kreirate ćaskanje",
+  "@useNewRoomButton": {
+    "description": "Uputstvo za kreiranje ćaskanja"
+  },
+  "searchUsers": "Pretraga Korisnika",
+  "@searchUsers": {
+    "description": "Naslov ekrana za pretragu korisnika"
+  },
+  "searchByNickname": "Pretraži po nadimku",
+  "@searchByNickname": {
+    "description": "Hint za polje za pretragu po nadimku"
+  },
+  "calls": "Pozivi",
+  "@calls": {
+    "description": "Kartica za pozive"
+  },
+  "verification": "Verifikacija",
+  "@verification": {
+    "description": "Kartica za verifikaciju"
+  },
+  "verificationDemo": "Demo: Verifikacija Identiteta",
+  "@verificationDemo": {
+    "description": "Naslov demoa verifikacije"
+  },
+  "verificationDemoDescription": "Ovo je demonstracija sistema anonimne verifikacije identiteta. U stvarnoj implementaciji, ovaj vidžet bi bio integrisan u privremene sobe za ćaskanje.",
+  "@verificationDemoDescription": {
+    "description": "Opis demoa verifikacije"
+  },
+  "room": "Soba",
+  "@room": {
+    "description": "Oznaka sobe"
+  },
+  "user": "Korisnik",
+  "@user": {
+    "description": "Oznaka korisnika"
+  },
+  "identityVerification": "Verifikacija Identiteta",
+  "@identityVerification": {
+    "description": "Naslov verifikacije identiteta"
+  },
+  "verifyIdentityDescription": "Dodirnite da anonimno verifikujete identitet",
+  "@verifyIdentityDescription": {
+    "description": "Opis anonimne verifikacije"
+  },
+  "statusNotVerified": "Status: Neverifikovan",
+  "@statusNotVerified": {
+    "description": "Status neverifikovan"
+  },
+  "notVerifiedYet": "Identitet još uvek nije verifikovan",
+  "@notVerifiedYet": {
+    "description": "Poruka o neverifikovanom identitetu"
+  },
+  "howToTest": "Kako Testirati Verifikaciju",
+  "@howToTest": {
+    "description": "Naslov uputstava"
+  },
+  "step1": "Dodirnite na",
+  "@step1": {
+    "description": "Korak 1"
+  },
+  "step2": "Dodirnite",
+  "@step2": {
+    "description": "Korak 2"
+  },
+  "step3": "Kopirajte jedan od kodova (alfanumerički, numerički ili emoji)",
+  "@step3": {
+    "description": "Korak 3"
+  },
+  "step4": "Nalepite kod u",
+  "@step4": {
+    "description": "Korak 4"
+  },
+  "step5": "Dodirnite",
+  "@step5": {
+    "description": "Korak 5"
+  },
+  "showMyCodes": "Prikaži Moje Kodove",
+  "@showMyCodes": {
+    "description": "Dugme za prikazivanje kodova"
+  },
+  "verifyPartnerCode": "VERIFIKUJ KOD PARTNERA",
+  "@verifyPartnerCode": {
+    "description": "Tekst dugmeta za verifikaciju"
+  },
+  "verify": "Verifikuj",
+  "@verify": {
+    "description": "Dugme za verifikaciju"
+  },
+  "realUsage": "U stvarnoj upotrebi: Korisnici bi delili kodove putem WhatsApp-a, Telegram-a, itd.",
+  "@realUsage": {
+    "description": "Napomena o stvarnoj upotrebi"
+  },
+  "securitySettings": "Bezbednosna Podešavanja",
+  "@securitySettings": {
+    "description": "Naslov bezbednosnih podešavanja"
+  },
+  "securitySettingsDescription": "Podesite bezbednosni PIN da zaštitite svoju privatnost. Obaveštenja će i dalje stizati iako je aplikacija zaključana.",
+  "@securitySettingsDescription": {
+    "description": "Opis bezbednosnih podešavanja"
+  },
+  "configureAppLock": "Podesi zaključavanje aplikacije",
+  "@configureAppLock": {
+    "description": "Naslov podešavanja zaključavanja"
+  },
+  "newPin": "Novi PIN (4-15 karaktera)",
+  "@newPin": {
+    "description": "Polje za novi PIN"
+  },
+  "confirmPin": "Potvrdi PIN",
+  "@confirmPin": {
+    "description": "Polje za potvrdu PIN-a"
+  },
+  "activateLock": "Aktiviraj zaključavanje",
+  "@activateLock": {
+    "description": "Dugme za aktiviranje zaključavanja"
+  },
+  "screenshotSecurity": "Bezbednost snimaka ekrana",
+  "@screenshotSecurity": {
+    "description": "Naslov bezbednosti snimaka ekrana"
+  },
+  "screenshotSecurityDescription": "Kontrolišite da li se mogu praviti snimci ekrana aplikacije.",
+  "@screenshotSecurityDescription": {
+    "description": "Opis bezbednosti snimaka ekrana"
+  },
+  "allowScreenshots": "Dozvoli snimke ekrana",
+  "@allowScreenshots": {
+    "description": "Opcija za dozvoljavanje snimaka ekrana"
+  },
+  "screenshotsAllowed": "Snimci ekrana su DOZVOLJENI",
+  "@screenshotsAllowed": {
+    "description": "Status dozvoljenih snimaka ekrana"
+  },
+  "screenshotsDisabled": "Možete ih onemogućiti radi veće bezbednosti",
+  "@screenshotsDisabled": {
+    "description": "Sugestija o onemogućavanju snimaka ekrana"
+  },
+  "autoDestructionDefault": "Podrazumevano samouništenje",
+  "@autoDestructionDefault": {
+    "description": "Naslov samouništenja"
+  },
+  "autoDestructionDescription": "Podesite vreme samouništenja koje će se automatski primeniti prilikom ulaska u nove sobe za ćaskanje:",
+  "@autoDestructionDescription": {
+    "description": "Opis samouništenja"
+  },
+  "defaultTime": "Podrazumevano vreme:",
+  "@defaultTime": {
+    "description": "Oznaka podrazumevanog vremena"
+  },
+  "noLimit": "Bez ograničenja",
+  "@noLimit": {
+    "description": "Opcija bez ograničenja"
+  },
+  "selectTime": "Izaberite vreme da omogućite podrazumevano samouništenje. Poruke će se automatski brisati nakon podešenog vremena.",
+  "@selectTime": {
+    "description": "Uputstvo za izbor vremena"
+  },
+  "activeSessions": "Aktivne sesije",
+  "@activeSessions": {
+    "description": "Naslov aktivnih sesija"
+  },
+  "activeSessionsDescription": "Upravljajte uređajima na kojima imate otvorene sesije. Slično kao Signal i WhatsApp.",
+  "@activeSessionsDescription": {
+    "description": "Opis aktivnih sesija"
+  },
+  "currentState": "Trenutno stanje",
+  "@currentState": {
+    "description": "Trenutno stanje"
+  },
+  "noActiveSessionsRegistered": "0 registrovanih aktivnih sesija",
+  "@noActiveSessionsRegistered": {
+    "description": "Stanje sesija"
+  },
+  "multipleSessions": "Višestruke sesije: Onemogućeno",
+  "@multipleSessions": {
+    "description": "Stanje višestrukih sesija"
+  },
+  "configurationLikeSignal": "i konfiguracija kao Signal",
+  "@configurationLikeSignal": {
+    "description": "Opis konfiguracije"
+  },
+  "manageSessions": "Upravljaj sesijama",
+  "@manageSessions": {
+    "description": "Dugme za upravljanje sesijama"
+  },
+  "allowMultipleSessions": "Dozvoli višestruke sesije",
+  "@allowMultipleSessions": {
+    "description": "Opcija za višestruke sesije"
+  },
+  "onlyOneActiveSession": "Samo jedna aktivna sesija istovremeno (kao Signal)",
+  "@onlyOneActiveSession": {
+    "description": "Opis jedne sesije"
+  },
+  "searchByName": "Pretraži po imenu...",
+  "@searchByName": {
+    "description": "Hint za pretragu po imenu"
+  },
+  "writeAtLeast2Characters": "Napišite najmanje 2 karaktera da biste pretražili korisnike",
+  "@writeAtLeast2Characters": {
+    "description": "Uputstvo za minimalnu pretragu"
+  },
+  "connecting": "Povezivanje...",
+  "@connecting": {
+    "description": "Poruka o povezivanju"
+  },
+  "error": "Greška",
+  "@error": {
+    "description": "Oznaka greške"
+  },
+  "secureMultimediaChat": "Bezbedno Multimedijalno Ćaskanje",
+  "@secureMultimediaChat": {
+    "description": "Naslov multimedijalnog ćaskanja"
+  },
+  "sendEncryptedMessages": "Šaljite poruke i slike\\nenkriptovane sa XChaCha20-Poly1305",
+  "@sendEncryptedMessages": {
+    "description": "Opis bezbednog ćaskanja"
+  },
+  "encryptedMessage": "Enkriptovana poruka...",
+  "@encryptedMessage": {
+    "description": "Placeholder za enkriptovanu poruku"
+  },
+  "sendEncryptedImage": "Pošalji enkriptovanu sliku",
+  "@sendEncryptedImage": {
+    "description": "Tooltip za slanje slike"
+  },
+  "takePhoto": "Slikaj",
+  "@takePhoto": {
+    "description": "Opcija za slikanje"
+  },
+  "useCamera": "Koristi kameru",
+  "@useCamera": {
+    "description": "Opis korišćenja kamere"
+  },
+  "gallery": "Galerija",
+  "@gallery": {
+    "description": "Opcija za galeriju"
+  },
+  "selectImage": "Izaberi sliku",
+  "@selectImage": {
+    "description": "Opis izbora slike"
+  },
+  "capturesBlocked": "Snimci ekrana blokirani",
+  "@capturesBlocked": {
+    "description": "Tooltip za blokirane snimke ekrana"
+  },
+  "capturesAllowed": "Snimci ekrana dozvoljeni",
+  "@capturesAllowed": {
+    "description": "Tooltip za dozvoljene snimke ekrana"
+  },
+  "e2eEncryptionSecurity": "E2E Enkripcija + Bezbednost",
+  "@e2eEncryptionSecurity": {
+    "description": "Naslov informacija o enkripciji"
+  },
+  "encryptionDescription": "Sve poruke, slike i audio su lokalno enkriptovani sa XChaCha20-Poly1305.\\n\\nServer vidi samo neprozirne enkriptovane blobove.\\n\\nAudio sa implementiranim stvarnim snimanjem.",
+  "@encryptionDescription": {
+    "description": "Detaljan opis enkripcije"
+  },
+  "screenshotsStatus": "Snimci ekrana:",
+  "@screenshotsStatus": {
+    "description": "Status snimaka ekrana"
+  },
+  "screenshotsBlocked": "BLOKIRANI",
+  "@screenshotsBlocked": {
+    "description": "Snimci ekrana blokirani"
+  },
+  "screenshotsPermitted": "DOZVOLJENI",
+  "@screenshotsPermitted": {
+    "description": "Snimci ekrana dozvoljeni"
+  },
+  "likeWhatsAppTelegram": "Kao WhatsApp/Telegram - crni ekran na snimcima",
+  "@likeWhatsAppTelegram": {
+    "description": "Opis ponašanja snimaka ekrana"
+  },
+  "understood": "Razumem",
+  "@understood": {
+    "description": "Dugme za razumevanje"
+  },
+  "destroyRoom": "Uništi Sobu",
+  "@destroyRoom": {
+    "description": "Opcija za uništavanje sobe"
+  },
+  "warningDestroyRoom": "Ova akcija će trajno uništiti sobu za ćaskanje za oba korisnika.\\n\\nPokrenuće se brojač od 10 sekundi vidljiv za oba učesnika.",
+  "@warningDestroyRoom": {
+    "description": "Upozorenje o uništavanju sobe"
+  },
+  "cancel": "Otkaži",
+  "@cancel": {
+    "description": "Dugme za otkazivanje"
+  },
+  "audioNote": "Audio poruka",
+  "@audioNote": {
+    "description": "Oznaka audio poruke"
+  },
+  "recordedAudioNote": "Audio poruka (snimljena)",
+  "@recordedAudioNote": {
+    "description": "Snimljena audio poruka"
+  },
+  "playing": "Reprodukcija...",
+  "@playing": {
+    "description": "Status reprodukcije"
+  },
+  "tapToStop": "Dodirnite da zaustavite",
+  "@tapToStop": {
+    "description": "Uputstvo za zaustavljanje"
+  },
+  "tapToPlay": "Dodirnite da reprodukujete",
+  "@tapToPlay": {
+    "description": "Uputstvo za reprodukciju"
+  },
+  "image": "Slika",
+  "@image": {
+    "description": "Oznaka slike"
+  },
+  "backToMultipleChats": "Nazad na višestruka ćaskanja",
+  "@backToMultipleChats": {
+    "description": "Tooltip za povratak na višestruka ćaskanja"
+  },
+  "backToChat": "Nazad na ćaskanje",
+  "@backToChat": {
+    "description": "Tooltip za povratak na ćaskanje"
+  },
+  "screenshotsBlockedAutomatically": "Snimci ekrana BLOKIRANI",
+  "@screenshotsBlockedAutomatically": {
+    "description": "Poruka o blokiranim snimcima ekrana"
+  },
+  "screenshotsEnabled": "Snimci ekrana OMOGUĆENI",
+  "@screenshotsEnabled": {
+    "description": "Poruka o omogućenim snimcima ekrana"
+  },
+  "identityVerifiedCorrectly": "Identitet partnera je uspešno verifikovan",
+  "@identityVerifiedCorrectly": {
+    "description": "Poruka o uspešnoj verifikaciji"
+  },
+  "createAccount": "Kreiraj Nalog",
+  "@createAccount": {
+    "description": "Naslov ekrana za registraciju"
+  },
+  "registerSubtitle": "Registrujte se da biste počeli da koristite FlutterPutter",
+  "@registerSubtitle": {
+    "description": "Podnaslov ekrana za registraciju"
+  },
+  "nickname": "Nadimak",
+  "@nickname": {
+    "description": "Polje za nadimak"
+  },
+  "chooseUniqueNickname": "Izaberite jedinstveni nadimak",
+  "@chooseUniqueNickname": {
+    "description": "Hint za polje za nadimak"
+  },
+  "createSecurePassword": "Kreirajte bezbednu lozinku",
+  "@createSecurePassword": {
+    "description": "Hint za polje za lozinku pri registraciji"
+  },
+  "confirmPassword": "Potvrdi Lozinku",
+  "@confirmPassword": {
+    "description": "Polje za potvrdu lozinke"
+  },
+  "repeatPassword": "Ponovite Vašu lozinku",
+  "@repeatPassword": {
+    "description": "Hint za polje za potvrdu lozinke"
+  },
+  "invitationCode": "Pozivni Kod",
+  "@invitationCode": {
+    "description": "Polje za pozivni kod"
+  },
+  "enterInvitationCode": "Unesite Vaš pozivni kod",
+  "@enterInvitationCode": {
+    "description": "Hint za polje za pozivni kod"
+  },
+  "registerButton": "Registruj se",
+  "@registerButton": {
+    "description": "Dugme za registraciju"
+  },
+  "pleaseConfirmPassword": "Molimo potvrdite Vašu lozinku",
+  "@pleaseConfirmPassword": {
+    "description": "Validacija za prazno polje za potvrdu lozinke"
+  },
+  "passwordsDoNotMatch": "Lozinke se ne podudaraju",
+  "@passwordsDoNotMatch": {
+    "description": "Validacija za različite lozinke"
+  },
+  "pleaseEnterNickname": "Molimo unesite nadimak",
+  "@pleaseEnterNickname": {
+    "description": "Validacija za prazan nadimak"
+  },
+  "nicknameMinLength": "Nadimak mora imati najmanje 3 karaktera",
+  "@nicknameMinLength": {
+    "description": "Validacija za dužinu nadimka"
+  },
+  "pleaseEnterInvitationCode": "Molimo unesite pozivni kod",
+  "@pleaseEnterInvitationCode": {
+    "description": "Validacija za prazan pozivni kod"
+  },
+  "invitationCodeLength": "Kod mora imati 8 karaktera",
+  "@invitationCodeLength": {
+    "description": "Validacija za dužinu pozivnog koda"
+  },
+  "newChatInvitationReceived": "📩 Primljena nova pozivnica za ćaskanje",
+  "@newChatInvitationReceived": {
+    "description": "Obaveštenje o novoj pozivnici"
+  },
+  "view": "Prikaži",
+  "@view": {
+    "description": "Dugme za prikazivanje"
+  },
+  "chatInvitations": "Pozivnice za Ćaskanje",
+  "@chatInvitations": {
+    "description": "Tooltip za pozivnice za ćaskanje"
+  },
+  "securitySettingsTooltip": "Bezbednosna Podešavanja",
+  "@securitySettingsTooltip": {
+    "description": "Tooltip za bezbednosna podešavanja"
+  },
+  "helloUser": "Zdravo, {nickname}",
+  "@helloUser": {
+    "description": "Personalizovani pozdrav korisniku",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "searchUsersToVideoCall": "Pretražite korisnike da biste započeli video poziv",
+  "@searchUsersToVideoCall": {
+    "description": "Glavno uputstvo na početnom ekranu"
+  },
+  "searchUsersButton": "Pretraži Korisnike",
+  "@searchUsersButton": {
+    "description": "Dugme za pretragu korisnika"
+  },
+  "verificationDemo": "🔐 Demo Verifikacija",
+  "@verificationDemo": {
+    "description": "Naslov dugmeta za demo verifikacije"
+  },
+  "testIdentityVerification": "Testiraj verifikaciju identiteta",
+  "@testIdentityVerification": {
+    "description": "Podnaslov demoa verifikacije"
+  },
+  "ephemeralChat": "💬 Privremeno Ćaskanje",
+  "@ephemeralChat": {
+    "description": "Naslov dugmeta za privremeno ćaskanje"
+  },
+  "multipleSimultaneousRooms": "Višestruke simultane sobe (maks. 10)",
+  "@multipleSimultaneousRooms": {
+    "description": "Podnaslov privremenog ćaskanja"
+  },
+  "logout": "Odjavi se",
+  "@logout": {
+    "description": "Opcija za odjavu"
+  },
+  "logoutConfirmTitle": "Odjavi se",
+  "@logoutConfirmTitle": {
+    "description": "Naslov dijaloga za potvrdu odjave"
+  },
+  "logoutConfirmMessage": "Da li ste sigurni da želite da se odjavite?",
+  "@logoutConfirmMessage": {
+    "description": "Poruka za potvrdu odjave"
+  },
+  "helpSection": "Pomoć i Podrška",
+  "@helpSection": {
+    "description": "Naslov odeljka za pomoć"
+  },
+  "supportCenter": "Centar za podršku",
+  "@supportCenter": {
+    "description": "Opcija centra za podršku"
+  },
+  "supportCenterDescription": "Potražite pomoć i pogledajte česta pitanja",
+  "@supportCenterDescription": {
+    "description": "Opis centra za podršku"
+  },
+  "contactUs": "Kontaktirajte nas",
+  "@contactUs": {
+    "description": "Opcija za kontaktiranje"
+  },
+  "contactUsDescription": "Pošaljite nam email da rešite Vaše nedoumice",
+  "@contactUsDescription": {
+    "description": "Opis kontaktiranja"
+  },
+  "contactEmail": "FlutterPutter@Proton.me",
+  "@contactEmail": {
+    "description": "Email za kontakt"
+  },
+  "appVersion": "Verzija",
+  "@appVersion": {
+    "description": "Oznaka verzije"
+  },
+  "versionNumber": "Verzija 1.0 Beta",
+  "@versionNumber": {
+    "description": "Broj verzije aplikacije"
+  },
+  "termsAndConditions": "Uslovi korišćenja",
+  "@termsAndConditions": {
+    "description": "Opcija za uslove korišćenja"
+  },
+  "termsDescription": "Pročitajte naše uslove korišćenja usluge",
+  "@termsDescription": {
+    "description": "Opis uslova korišćenja"
+  },
+  "privacyPolicy": "Politika privatnosti",
+  "@privacyPolicy": {
+    "description": "Opcija za politiku privatnosti"
+  },
+  "privacyPolicyDescription": "Pogledajte kako štitimo Vaše informacije",
+  "@privacyPolicyDescription": {
+    "description": "Opis politike privatnosti"
+  },
+  "emailCopied": "Email kopiran u klipbord",
+  "@emailCopied": {
+    "description": "Poruka kada se kopira email za kontakt"
+  },
+  "openingWebPage": "Otvaranje veb stranice...",
+  "@openingWebPage": {
+    "description": "Poruka pri otvaranju veb stranice"
+  },
+  "errorOpeningWebPage": "Greška pri otvaranju veb stranice",
+  "@errorOpeningWebPage": {
+    "description": "Poruka o grešci pri otvaranju veb stranice"
+  },
+  "pinLengthError": "PIN mora imati između 4 i 15 karaktera",
+  "@pinLengthError": {
+    "description": "Greška u dužini PIN-a"
+  },
+  "pinMismatch": "PIN-ovi se ne podudaraju",
+  "@pinMismatch": {
+    "description": "Greška kada se PIN-ovi ne podudaraju"
+  },
+  "appLockSetupSuccess": "🔒 Zaključavanje aplikacije uspešno podešeno",
+  "@appLockSetupSuccess": {
+    "description": "Poruka o uspešnom podešavanju zaključavanja"
+  },
+  "pinSetupError": "Greška pri podešavanju PIN-a",
+  "@pinSetupError": {
+    "description": "Greška pri podešavanju PIN-a"
+  },
+  "pinChangeSuccess": "🔒 PIN uspešno promenjen",
+  "@pinChangeSuccess": {
+    "description": "Poruka o uspešnoj promeni PIN-a"
+  },
+  "currentPinIncorrect": "Trenutni PIN je netačan",
+  "@currentPinIncorrect": {
+    "description": "Greška kada je trenutni PIN netačan"
+  },
+  "disableAppLockTitle": "Onemogući zaključavanje",
+  "@disableAppLockTitle": {
+    "description": "Naslov dijaloga za onemogućavanje zaključavanja"
+  },
+  "disableAppLockMessage": "Da li ste sigurni da želite da onemogućite zaključavanje aplikacije?",
+  "@disableAppLockMessage": {
+    "description": "Poruka za potvrdu onemogućavanja zaključavanja"
+  },
+  "appLockDisabled": "🔓 Zaključavanje aplikacije onemogućeno",
+  "@appLockDisabled": {
+    "description": "Poruka kada je zaključavanje onemogućeno"
+  },
+  "confirm": "Potvrdi",
+  "@confirm": {
+    "description": "Dugme za potvrdu"
+  },
+  "changePin": "Promeni PIN:",
+  "@changePin": {
+    "description": "Naslov za promenu PIN-a"
+  },
+  "currentPin": "Trenutni PIN",
+  "@currentPin": {
+    "description": "Polje za trenutni PIN"
+  },
+  "confirmNewPin": "Potvrdi novi PIN",
+  "@confirmNewPin": {
+    "description": "Polje za potvrdu novog PIN-a"
+  },
+  "changePinButton": "Promeni PIN",
+  "@changePinButton": {
+    "description": "Dugme za promenu PIN-a"
+  },
+  "biometricUnlock": "Otključajte aplikaciju biometrijom pored PIN-a",
+  "@biometricUnlock": {
+    "description": "Opis biometrijskog otključavanja"
+  },
+  "screenshotsAllowedMessage": "🔓 Snimci ekrana DOZVOLJENI",
+  "@screenshotsAllowedMessage": {
+    "description": "Poruka kada su snimci ekrana dozvoljeni"
+  },
+  "screenshotsBlockedMessage": "🔒 Snimci ekrana BLOKIRANI",
+  "@screenshotsBlockedMessage": {
+    "description": "Poruka kada su snimci ekrana blokirani"
+  },
+  "screenshotConfigError": "Greška pri ažuriranju konfiguracije snimaka ekrana",
+  "@screenshotConfigError": {
+    "description": "Greška pri ažuriranju konfiguracije snimaka ekrana"
+  },
+  "protectionActive": "Aktivna zaštita",
+  "@protectionActive": {
+    "description": "Naslov aktivne zaštite"
+  },
+  "nativeProtectionFeatures": "• Nativno zaključavanje na iOS-u i Android-u\n• Upozorenje pri detekciji pokušaja snimanja\n• Zaštita u prebacivaču aplikacija",
+  "@nativeProtectionFeatures": {
+    "description": "Lista karakteristika nativne zaštite"
+  },
+  "autoDestructionDefaultDisabled": "🔥 Podrazumevano samouništenje onemogućeno",
+  "@autoDestructionDefaultDisabled": {
+    "description": "Poruka kada je podrazumevano samouništenje onemogućeno"
+  },
+  "autoDestructionError": "Greška pri ažuriranju konfiguracije samouništenja",
+  "@autoDestructionError": {
+    "description": "Greška pri ažuriranju samouništenja"
+  },
+  "protectYourApp": "Zaštitite svoju aplikaciju",
+  "@protectYourApp": {
+    "description": "Glavni naslov bezbednosti"
+  },
+  "securityPinDescription": "Podesite bezbednosni PIN da zaštitite svoju privatnost. Obaveštenja će i dalje stizati iako je aplikacija zaključana.",
+  "@securityPinDescription": {
+    "description": "Opis konfiguracije PIN-a"
+  },
+  "lockActivated": "Zaključavanje aktivirano",
+  "@lockActivated": {
+    "description": "Stanje kada je zaključavanje aktivno"
+  },
+  "disable": "Onemogući",
+  "@disable": {
+    "description": "Dugme za onemogućavanje"
+  },
+  "errorCopyingEmail": "Greška pri kopiranju emaila",
+  "@errorCopyingEmail": {
+    "description": "Greška pri kopiranju emaila u klipbord"
+  },
+  "automaticLockTimeout": "Vreme automatskog zaključavanja",
+  "@automaticLockTimeout": {
+    "description": "Naslov konfiguracije vremena zaključavanja"
+  },
+  "appWillLockAfter": "Aplikacija će se automatski zaključati nakon:",
+  "@appWillLockAfter": {
+    "description": "Opis automatskog zaključavanja"
+  },
+  "biometricAuthentication": "Biometrijska autentifikacija",
+  "@biometricAuthentication": {
+    "description": "Naslov biometrijske autentifikacije"
+  },
+  "enableBiometric": "Omogući otisak prsta/Face ID",
+  "@enableBiometric": {
+    "description": "Opcija za omogućavanje biometrije"
+  },
+  "autoApplyDefault": "Automatski primeni",
+  "@autoApplyDefault": {
+    "description": "Opcija za automatsku primenu podrazumevanog"
+  },
+  "autoApplyEnabled": "Primenjivaće se prilikom ulaska u nove sobe",
+  "@autoApplyEnabled": {
+    "description": "Opis kada je automatska primena omogućena"
+  },
+  "autoApplyDisabled": "Primenjuj samo ručno u svakoj sobi",
+  "@autoApplyDisabled": {
+    "description": "Opis kada je automatska primena onemogućena"
+  },
+  "currentConfiguration": "Trenutna konfiguracija",
+  "@currentConfiguration": {
+    "description": "Naslov trenutne konfiguracije"
+  },
+  "sessionActive": "aktivna sesija",
+  "@sessionActive": {
+    "description": "Jednina za aktivnu sesiju"
+  },
+  "sessionsActive": "aktivne sesije",
+  "@sessionsActive": {
+    "description": "Množina za aktivne sesije"
+  },
+  "noActiveSessionsMessage": "Nema registrovanih aktivnih sesija",
+  "@noActiveSessionsMessage": {
+    "description": "Poruka kada nema aktivnih sesija"
+  },
+  "helpAndSupport": "Potražite pomoć, kontaktirajte nas ili pogledajte naše politike",
+  "@helpAndSupport": {
+    "description": "Opis pomoći i podrške"
+  },
+  "autoDestructionDefaultEnabled": "🔥 Podrazumevano samouništenje: ",
+  "@autoDestructionDefaultEnabled": {
+    "description": "Poruka kada je podrazumevano samouništenje omogućeno"
+  },
+  "verificationDemonstration": "Demonstracija Verifikacije",
+  "@verificationDemonstration": {
+    "description": "Naslov demonstracije verifikacije"
+  },
+  "roomLabel": "Soba:",
+  "@roomLabel": {
+    "description": "Oznaka sobe"
+  },
+  "userLabel": "Korisnik:",
+  "@userLabel": {
+    "description": "Oznaka korisnika"
+  },
+  "statusVerified": "Status: Verifikovan ✅",
+  "@statusVerified": {
+    "description": "Status kada je verifikovan"
+  },
+  "identityVerifiedCorrect": "Identitet je uspešno verifikovan",
+  "@identityVerifiedCorrect": {
+    "description": "Poruka kada je identitet verifikovan"
+  },
+  "identityVerifiedFull": "✅ Identitet Verifikovan",
+  "@identityVerifiedFull": {
+    "description": "Naslov kada je identitet verifikovan"
+  },
+  "bothUsersVerified": "Oba korisnika su verifikovala svoj identitet",
+  "@bothUsersVerified": {
+    "description": "Poruka kada su oba korisnika verifikovana"
+  },
+  "yourVerificationCodes": "VAŠI VERIFIKACIONI KODOVI",
+  "@yourVerificationCodes": {
+    "description": "Naslov sopstvenih verifikacionih kodova"
+  },
+  "shareCodeMessage": "Podelite JEDAN od ovih kodova putem drugog kanala (WhatsApp, Telegram, itd.)",
+  "@shareCodeMessage": {
+    "description": "Uputstvo za deljenje kodova"
+  },
+  "hideCodesBut": "🙈 Sakrij Kodove",
+  "@hideCodesBut": {
+    "description": "Dugme za sakrivanje kodova"
+  },
+  "alphanumericCode": "🔤 Alfanumerički",
+  "@alphanumericCode": {
+    "description": "Tip alfanumeričkog koda"
+  },
+  "numericCode": "🔢 Numerički",
+  "@numericCode": {
+    "description": "Tip numeričkog koda"
+  },
+  "emojiCode": "😀 Emoji",
+  "@emojiCode": {
+    "description": "Tip emoji koda"
+  },
+  "enterCodeToVerify": "❌ Unesite kod za verifikaciju",
+  "@enterCodeToVerify": {
+    "description": "Greška kada nije unet kod"
+  },
+  "invalidCodeFormat": "❌ Nevažeći format koda",
+  "@invalidCodeFormat": {
+    "description": "Greška formata koda"
+  },
+  "identityVerifiedSuccess": "✅ Identitet uspešno verifikovan!",
+  "@identityVerifiedSuccess": {
+    "description": "Poruka o uspešnoj verifikaciji"
+  },
+  "incorrectCode": "❌ Netačan kod",
+  "@incorrectCode": {
+    "description": "Greška kada je kod netačan"
+  },
+  "codesRegenerated": "🔄 Kodovi regenerisani",
+  "@codesRegenerated": {
+    "description": "Poruka kada se kodovi regenerišu"
+  },
+  "codeCopied": "📋 Kod kopiran u klipbord",
+  "@codeCopied": {
+    "description": "Poruka kada se kod kopira"
+  },
+  "partnerCodesReceived": "📥 Kodovi partnera primljeni",
+  "@partnerCodesReceived": {
+    "description": "Poruka kada se primaju kodovi partnera"
+  },
+  "codesSentToPartner": "📤 Kodovi poslati partneru",
+  "@codesSentToPartner": {
+    "description": "Poruka kada se šalju kodovi"
+  },
+  "resendingCodes": "🔄 Ponovno slanje kodova partneru...",
+  "@resendingCodes": {
+    "description": "Poruka kada se ponovo šalju kodovi"
+  },
+  "stepExpandVerification": "Dodirnite na \"🔐 Verifikacija Identiteta\" da proširite",
+  "@stepExpandVerification": {
+    "description": "Korak za proširenje verifikacije"
+  },
+  "stepShowCodes": "Dodirnite \"👁️ Prikaži Moje Kodove\" da vidite svoje jedinstvene kodove",
+  "@stepShowCodes": {
+    "description": "Korak za prikazivanje kodova"
+  },
+  "stepPasteCode": "Nalepite kod u \"VERIFIKUJ KOD PARTNERA\"",
+  "@stepPasteCode": {
+    "description": "Korak za lepljenje koda"
+  },
+  "stepVerifyCode": "Dodirnite \"✅ Verifikuj\" da simulirate verifikaciju",
+  "@stepVerifyCode": {
+    "description": "Korak za verifikaciju koda"
+  },
+  "enterPartnerCode": "Unesite kod koji Vam je podelila druga osoba:",
+  "@enterPartnerCode": {
+    "description": "Uputstvo za unos koda partnera"
+  },
+  "partnerCodesReceivedWithCode": "✅ Kodovi partnera primljeni:",
+  "@partnerCodesReceivedWithCode": {
+    "description": "Poruka sa primljenim kodom partnera"
+  },
+  "waitingPartnerCodes": "⏳ Čekanje kodova partnera...",
+  "@waitingPartnerCodes": {
+    "description": "Poruka o čekanju kodova partnera"
+  },
+  "verificationSuccessMessage": "Identitet uspešno verifikovan! Oba korisnika su autentična.",
+  "@verificationSuccessMessage": {
+    "description": "Potpuna poruka o uspešnoj verifikaciji"
+  },
+  "chatInvitationsTitle": "Pozivnice za Ćaskanje",
+  "@chatInvitationsTitle": {
+    "description": "Naslov ekrana za pozivnice"
+  },
+  "cleanExpiredInvitations": "Očisti istekle pozivnice",
+  "@cleanExpiredInvitations": {
+    "description": "Tooltip za čišćenje isteklih pozivnica"
+  },
+  "refreshInvitations": "Osveži pozivnice",
+  "@refreshInvitations": {
+    "description": "Tooltip za osvežavanje pozivnica"
+  },
+  "errorInitializing": "Greška pri inicijalizaciji: {error}",
+  "@errorInitializing": {
+    "description": "Greška pri inicijalizaciji servisa",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "expiredInvitationsDeleted": "{count} isteklih pozivnica je trajno obrisano",
+  "@expiredInvitationsDeleted": {
+    "description": "Poruka kada se obrišu istekle pozivnice",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noExpiredInvitationsToClean": "Nema isteklih pozivnica za čišćenje",
+  "@noExpiredInvitationsToClean": {
+    "description": "Poruka kada nema isteklih pozivnica"
+  },
+  "errorAcceptingInvitation": "Greška pri prihvatanju pozivnice: {error}",
+  "@errorAcceptingInvitation": {
+    "description": "Greška pri prihvatanju pozivnice",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorUpdatingInvitations": "Greška pri ažuriranju pozivnica: {error}",
+  "@errorUpdatingInvitations": {
+    "description": "Greška pri ažuriranju pozivnica",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsUpdated": "Ažurirano: {active} aktivnih, {expired} isteklih obrisano",
+  "@invitationsUpdated": {
+    "description": "Poruka o ažuriranju sa brojačima",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "expired": {
+        "type": "int"
+      }
+    }
+  },
+  "invitationsUpdatedActive": "Ažurirano: {active} aktivnih pozivnica",
+  "@invitationsUpdatedActive": {
+    "description": "Poruka o ažuriranju samo aktivnih",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      }
+    }
+  },
+  "noInvitations": "Nema pozivnica",
+  "@noInvitations": {
+    "description": "Poruka kada nema pozivnica"
+  },
+  "invitationsWillAppearHere": "Pozivnice za ćaskanje će se pojaviti ovde",
+  "@invitationsWillAppearHere": {
+    "description": "Opis praznog stanja"
+  },
+  "chatInvitation": "Pozivnica za ćaskanje",
+  "@chatInvitation": {
+    "description": "Naslov pojedinačne pozivnice"
+  },
+  "fromUser": "Od: {userId}",
+  "@fromUser": {
+    "description": "Od kog korisnika dolazi pozivnica",
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
+  "expired": "Istekla",
+  "@expired": {
+    "description": "Status istekle pozivnice"
+  },
+  "reject": "Odbij",
+  "@reject": {
+    "description": "Dugme za odbijanje pozivnice"
+  },
+  "accept": "Prihvati",
+  "@accept": {
+    "description": "Dugme za prihvatanje pozivnice"
+  },
+  "tapToCreateOrJoinEphemeralChats": "Dodirnite da kreirate ili se pridružite privremenim ćaskanjima",
+  "@tapToCreateOrJoinEphemeralChats": {
+    "description": "Opis bezbednog ćaskanja"
+  },
+  "now": "Sada",
+  "@now": {
+    "description": "Trenutno vreme"
+  },
+  "callEnded": "Poziv završen",
+  "@callEnded": {
+    "description": "Status završenog poziva"
+  },
+  "videoCallFeatureAvailable": "🎥 Funkcija video poziva dostupna",
+  "@videoCallFeatureAvailable": {
+    "description": "Poruka o dostupnoj funkciji video poziva"
+  },
+  "pendingInvitations": "Pozivnice na čekanju",
+  "@pendingInvitations": {
+    "description": "Naslov pozivnica na čekanju"
+  },
+  "chatInvitationsCount": "{count} pozivnica za ćaskanje",
+  "@chatInvitationsCount": {
+    "description": "Brojač pozivnica za ćaskanje",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searching": "Pretraživanje...",
+  "@searching": {
+    "description": "Poruka kada se pretražuje"
+  },
+  "noUsersFound": "Nisu pronađeni korisnici",
+  "@noUsersFound": {
+    "description": "Poruka kada nisu pronađeni korisnici"
+  },
+  "errorSearchingUsers": "Greška pri pretrazi korisnika",
+  "@errorSearchingUsers": {
+    "description": "Greška pri pretrazi korisnika"
+  },
+  "startVideoCall": "Započni video poziv",
+  "@startVideoCall": {
+    "description": "Naslov za započinjanje video poziva"
+  },
+  "startAudioCall": "Započni poziv",
+  "@startAudioCall": {
+    "description": "Naslov za započinjanje audio poziva"
+  },
+  "confirmVideoCall": "Želite li započeti video poziv sa {nickname}?",
+  "@confirmVideoCall": {
+    "description": "Potvrda za započinjanje video poziva",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmAudioCall": "Želite li započeti poziv sa {nickname}?",
+  "@confirmAudioCall": {
+    "description": "Potvrda za započinjanje audio poziva",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "initiatingVideoCall": "Započinjanje video poziva...",
+  "@initiatingVideoCall": {
+    "description": "Poruka pri započinjanju video poziva"
+  },
+  "initiatingAudioCall": "Započinjanje poziva...",
+  "@initiatingAudioCall": {
+    "description": "Poruka pri započinjanju audio poziva"
+  },
+  "sendingInvitation": "Slanje pozivnice...",
+  "@sendingInvitation": {
+    "description": "Poruka pri slanju pozivnice"
+  },
+  "errorInitiatingCall": "Greška pri započinjanju poziva",
+  "@errorInitiatingCall": {
+    "description": "Greška pri započinjanju poziva"
+  },
+  "waitingForResponse": "Čekanje odgovora...",
+  "@waitingForResponse": {
+    "description": "Naslov ekrana za čekanje"
+  },
+  "invitationSentTo": "Pozivnica poslata korisniku",
+  "@invitationSentTo": {
+    "description": "Poruka o poslatoj pozivnici"
+  },
+  "waitingForAcceptance": "Čeka se da prihvati pozivnicu...",
+  "@waitingForAcceptance": {
+    "description": "Poruka o čekanju prihvatanja"
+  },
+  "ephemeralChatTooltip": "Privremeno Ćaskanje",
+  "@ephemeralChatTooltip": {
+    "description": "Tooltip za privremeno ćaskanje"
+  },
+  "audioCallTooltip": "Poziv",
+  "@audioCallTooltip": {
+    "description": "Tooltip za audio poziv"
+  },
+  "videoCallTooltip": "Video",
+  "@videoCallTooltip": {
+    "description": "Tooltip za video poziv"
+  },
+  "searchUser": "Pretraži Korisnika",
+  "@searchUser": {
+    "description": "Naslov vidžeta za pretragu"
+  },
+  "retry": "Pokušaj ponovo",
+  "@retry": {
+    "description": "Dugme za ponovni pokušaj"
+  },
+  "searchingUsers": "Pretraživanje korisnika...",
+  "@searchingUsers": {
+    "description": "Poruka o pretraživanju korisnika"
+  },
+  "noUsersFoundWith": "Nisu pronađeni korisnici\\nsa \"{query}\"",
+  "@noUsersFoundWith": {
+    "description": "Poruka kada nisu pronađeni korisnici sa određenom pretragom",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSearchingUsersDetails": "Greška pri pretrazi korisnika: {error}",
+  "@errorSearchingUsersDetails": {
+    "description": "Detaljna greška pri pretrazi korisnika",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "multipleChatsTitle": "Višestruka Ćaskanja ({count}/10)",
+  "@multipleChatsTitle": {
+    "description": "Naslov višestrukih ćaskanja sa brojačem",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backToHome": "Nazad na Početnu",
+  "@backToHome": {
+    "description": "Tooltip za povratak na početnu stranicu"
+  },
+  "closeAllRooms": "Zatvori Sve Sobe",
+  "@closeAllRooms": {
+    "description": "Dugme za zatvaranje svih soba"
+  },
+  "closeAllRoomsConfirm": "Da li ste sigurni da želite da zatvorite sve sobe za ćaskanje?",
+  "@closeAllRoomsConfirm": {
+    "description": "Potvrda za zatvaranje svih soba"
+  },
+  "closeAll": "Zatvori Sve",
+  "@closeAll": {
+    "description": "Dugme za zatvaranje svih"
+  },
+  "participants": "{count} učesnika",
+  "@participants": {
+    "description": "Brojač učesnika",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomActive": "Soba aktivna ({count} učesnika)",
+  "@roomActive": {
+    "description": "Status aktivne sobe",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noConnection": "Nema konekcije",
+  "@noConnection": {
+    "description": "Status bez konekcije"
+  },
+  "createNewRoom": "Kreiraj Novu Sobu",
+  "@createNewRoom": {
+    "description": "Naslov kreiranja nove sobe"
+  },
+  "addChat": "Dodaj Ćaskanje",
+  "@addChat": {
+    "description": "Dugme za dodavanje ćaskanja"
+  },
+  "statistics": "Statistika",
+  "@statistics": {
+    "description": "Naslov statistike"
+  },
+  "close": "Zatvori",
+  "@close": {
+    "description": "Dugme za zatvaranje"
+  },
+  "chatStatisticsTitle": "Statistika Ćaskanja",
+  "@chatStatisticsTitle": {
+    "description": "Naslov statistike ćaskanja"
+  },
+  "activeRooms": "Aktivne sobe",
+  "@activeRooms": {
+    "description": "Aktivne sobe"
+  },
+  "totalMessages": "Ukupno poruka",
+  "@totalMessages": {
+    "description": "Ukupan broj poruka"
+  },
+  "unreadMessages": "Nepročitane",
+  "@unreadMessages": {
+    "description": "Nepročitane poruke"
+  },
+  "initiatingChat": "Započinjanje ćaskanja...",
+  "@initiatingChat": {
+    "description": "Poruka o započinjanju ćaskanja"
+  },
+  "errorClosingRoom": "Greška pri zatvaranju sobe: {error}",
+  "@errorClosingRoom": {
+    "description": "Greška pri zatvaranju sobe",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationAccepted": "✅ Pozivnica prihvaćena",
+  "@invitationAccepted": {
+    "description": "Poruka o prihvaćenoj pozivnici"
+  },
+  "errorAcceptingInvitationDetails": "Greška pri prihvatanju pozivnice: {error}",
+  "@errorAcceptingInvitationDetails": {
+    "description": "Detaljna greška pri prihvatanju pozivnice",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorCreatingRoom": "Greška pri kreiranju sobe: {error}",
+  "@errorCreatingRoom": {
+    "description": "Greška pri kreiranju sobe",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createNewChatRoom": "Kreiraj novu sobu za ćaskanje",
+  "@createNewChatRoom": {
+    "description": "Tooltip za kreiranje nove sobe za ćaskanje"
+  },
+  "minutes": "minuta",
+  "@minutes": {
+    "description": "Reč minuti za trajanje"
+  },
+  "seconds": "sekundi",
+  "@seconds": {
+    "description": "Reč sekundi za trajanje"
+  },
+  "microphonePermissions": "🎵 Dozvole za Mikrofon",
+  "@microphonePermissions": {
+    "description": "Naslov dijaloga za dozvole za mikrofon"
+  },
+  "microphonePermissionsContent": "Da biste snimali audio, morate aktivirati dozvole za mikrofon u podešavanjima aplikacije.\n\nIdite na Podešavanja > Privatnost > Mikrofon i aktivirajte dozvole za ovu aplikaciju.",
+  "@microphonePermissionsContent": {
+    "description": "Sadržaj dijaloga za dozvole za mikrofon"
+  },
+  "openSettings": "Otvori Podešavanja",
+  "@openSettings": {
+    "description": "Dugme za otvaranje podešavanja"
+  },
+  "errorInitializingAudio": "Greška pri inicijalizaciji audia: {error}",
+  "@errorInitializingAudio": {
+    "description": "Greška pri inicijalizaciji audia",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "imageTooLarge": "Slika je prevelika. Maksimalno dozvoljeno 500KB.",
+  "@imageTooLarge": {
+    "description": "Greška zbog prevelike slike"
+  },
+  "errorSendingImage": "Greška pri slanju slike: {error}",
+  "@errorSendingImage": {
+    "description": "Greška pri slanju slike",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSendingAudio": "Greška pri slanju audia: {error}",
+  "@errorSendingAudio": {
+    "description": "Greška pri slanju audia",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "destroyRoomContent": "Ova akcija će trajno uništiti sobu za ćaskanje za oba korisnika.\n\nPokrenuće se brojač od 10 sekundi vidljiv za oba učesnika.",
+  "@destroyRoomContent": {
+    "description": "Sadržaj dijaloga za uništavanje sobe"
+  },
+  "destroyRoomButton": "Uništi Sobu",
+  "@destroyRoomButton": {
+    "description": "Dugme za uništavanje sobe"
+  },
+  "connectingToSecureChat": "Povezivanje na bezbedno ćaskanje...",
+  "@connectingToSecureChat": {
+    "description": "Poruka o povezivanju na ćaskanje"
+  },
+  "autoDestructionConfigured1Min": "Samouništenje podešeno: 1 minut",
+  "@autoDestructionConfigured1Min": {
+    "description": "Potvrda samouništenja za 1 minut"
+  },
+  "autoDestructionConfigured5Min": "Samouništenje podešeno: 5 minuta",
+  "@autoDestructionConfigured5Min": {
+    "description": "Potvrda samouništenja za 5 minuta"
+  },
+  "autoDestructionConfigured1Hour": "Samouništenje podešeno: 1 sat",
+  "@autoDestructionConfigured1Hour": {
+    "description": "Potvrda samouništenja za 1 sat"
+  },
+  "screenshotAlert": "📸 Upozorenje! {user} je napravio snimak ekrana",
+  "@screenshotAlert": {
+    "description": "Upozorenje o snimku ekrana",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotNotification": "📸 {user} je napravio snimak ekrana",
+  "@screenshotNotification": {
+    "description": "Obaveštenje o snimku ekrana",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "initializingAudioRecorder": "Inicijalizacija snimača zvuka...",
+  "@initializingAudioRecorder": {
+    "description": "Poruka o inicijalizaciji snimača"
+  },
+  "audioRecorderNotAvailable": "Snimač zvuka nije dostupan. Proverite dozvole za mikrofon.",
+  "@audioRecorderNotAvailable": {
+    "description": "Greška - snimač nije dostupan"
+  },
+  "errorStartingRecording": "Greška pri pokretanju snimanja: {error}",
+  "@errorStartingRecording": {
+    "description": "Greška pri pokretanju snimanja",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioPlayerNotAvailable": "Audio plejer nije dostupan",
+  "@audioPlayerNotAvailable": {
+    "description": "Greška - audio plejer nije dostupan"
+  },
+  "audioNotAvailable": "Audio nije dostupan",
+  "@audioNotAvailable": {
+    "description": "Greška - audio nije dostupan"
+  },
+  "errorPlayingAudio": "Greška pri reprodukciji audia: {error}",
+  "@errorPlayingAudio": {
+    "description": "Greška pri reprodukciji audia",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotTestSent": "📸 Test snimka ekrana poslat",
+  "@screenshotTestSent": {
+    "description": "Potvrda testa snimka ekrana"
+  },
+  "errorSendingTest": "Greška pri slanju testa: {error}",
+  "@errorSendingTest": {
+    "description": "Greška pri slanju testa",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioTooLong": "Audio je predugačak. Maksimalno dozvoljeno 1MB.",
+  "@audioTooLong": {
+    "description": "Greška zbog predugačkog audia"
+  },
+  "errorWebAudioRecording": "Greška: Nije moguće snimiti audio na vebu",
+  "@errorWebAudioRecording": {
+    "description": "Greška snimanja na vebu"
+  },
+  "errorWebAudioSaving": "Greška: Nije moguće sačuvati audio",
+  "@errorWebAudioSaving": {
+    "description": "Greška pri čuvanju audia na vebu"
+  },
+  "errorStoppingRecording": "Greška pri zaustavljanju snimanja: {error}",
+  "@errorStoppingRecording": {
+    "description": "Greška pri zaustavljanju snimanja",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sendEncryptedImageTooltip": "Pošalji enkriptovanu sliku",
+  "@sendEncryptedImageTooltip": {
+    "description": "Tooltip dugmeta za slanje enkriptovane slike"
+  }
+}

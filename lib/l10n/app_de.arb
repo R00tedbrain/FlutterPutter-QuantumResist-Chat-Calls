@@ -1,0 +1,1434 @@
+{
+  "@@locale": "de",
+  "appTitle": "FlutterPutter",
+  "@appTitle": {
+    "description": "Name der Anwendung"
+  },
+  "loginTitle": "Melden Sie sich an, um fortzufahren",
+  "@loginTitle": {
+    "description": "Titel des Anmeldebildschirms"
+  },
+  "email": "E-Mail",
+  "@email": {
+    "description": "E-Mail-Feld"
+  },
+  "enterEmail": "Geben Sie Ihre E-Mail-Adresse ein",
+  "@enterEmail": {
+    "description": "Hinweis für das E-Mail-Feld"
+  },
+  "password": "Passwort",
+  "@password": {
+    "description": "Passwortfeld"
+  },
+  "enterPassword": "Geben Sie Ihr Passwort ein",
+  "@enterPassword": {
+    "description": "Hinweis für das Passwortfeld"
+  },
+  "pleaseEnterEmail": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+  "@pleaseEnterEmail": {
+    "description": "Validierung für leeres E-Mail-Feld"
+  },
+  "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein",
+  "@enterValidEmail": {
+    "description": "Validierung für ungültige E-Mail-Adresse"
+  },
+  "pleaseEnterPassword": "Bitte geben Sie Ihr Passwort ein",
+  "@pleaseEnterPassword": {
+    "description": "Validierung für leeres Passwortfeld"
+  },
+  "passwordMinLength": "Das Passwort muss mindestens 6 Zeichen lang sein",
+  "@passwordMinLength": {
+    "description": "Validierung der Passwortlänge"
+  },
+  "privacyAndSecurity": "Datenschutz und Sicherheit",
+  "@privacyAndSecurity": {
+    "description": "Titel des Datenschutzbereichs"
+  },
+  "noDataCollection": "Wir sammeln keine personenbezogenen Daten",
+  "@noDataCollection": {
+    "description": "Nachricht über die Nicht-Erhebung von Daten"
+  },
+  "anonymousConnections": "Alle Verbindungen sind anonym",
+  "@anonymousConnections": {
+    "description": "Nachricht über anonyme Verbindungen"
+  },
+  "ephemeralChatRooms": "Temporäre Chaträume, die automatisch zerstört werden",
+  "@ephemeralChatRooms": {
+    "description": "Beschreibung der temporären Räume"
+  },
+  "encryptionInfo": "XSalsa20-Verschlüsselung mit zufälligen Schlüsseln pro Raum",
+  "@encryptionInfo": {
+    "description": "Informationen zur Verschlüsselung"
+  },
+  "loginButton": "Anmelden",
+  "@loginButton": {
+    "description": "Anmelde-Button"
+  },
+  "noAccount": "Sie haben noch kein Konto?",
+  "@noAccount": {
+    "description": "Frage zur Registrierung"
+  },
+  "register": "Registrieren",
+  "@register": {
+    "description": "Registrierungslink"
+  },
+  "oneSessionSecurity": "🔒 Nur 1 aktive Sitzung pro Benutzer für erhöhte Sicherheit erlaubt",
+  "@oneSessionSecurity": {
+    "description": "Nachricht über eine Sitzung aus Sicherheitsgründen"
+  },
+  "oneSessionMaxSecurity": "Nur 1 Sitzung pro Benutzer (Maximale Sicherheit)",
+  "@oneSessionMaxSecurity": {
+    "description": "Text des Buttons für maximale Sicherheit"
+  },
+  "chats": "Chats",
+  "@chats": {
+    "description": "Registerkarte Chats"
+  },
+  "secureChat": "Sicherer Chat",
+  "@secureChat": {
+    "description": "Titel des sicheren Chats"
+  },
+  "secureChatDescription": "Tippen, um temporäre Chats zu erstellen oder beizutreten",
+  "@secureChatDescription": {
+    "description": "Beschreibung des sicheren Chats"
+  },
+  "privateVideoCall": "Privater Videoanruf",
+  "@privateVideoCall": {
+    "description": "Titel des privaten Videoanrufs"
+  },
+  "videoCallDescription": "Anruf beendet",
+  "@videoCallDescription": {
+    "description": "Status des beendeten Anrufs"
+  },
+  "multipleChats": "Mehrere Chats",
+  "@multipleChats": {
+    "description": "Titel für mehrere Chats"
+  },
+  "noActiveChats": "Keine aktiven Chats",
+  "@noActiveChats": {
+    "description": "Nachricht, wenn keine Chats vorhanden sind"
+  },
+  "useNewRoomButton": "Verwenden Sie die Registerkarte 'Neuer Raum', um einen Chat zu erstellen",
+  "@useNewRoomButton": {
+    "description": "Anleitung zum Erstellen eines Chats"
+  },
+  "calls": "Anrufe",
+  "@calls": {
+    "description": "Registerkarte Anrufe"
+  },
+  "verification": "Verifizierung",
+  "@verification": {
+    "description": "Registerkarte Verifizierung"
+  },
+  "verificationDemo": "🔐 Demo Verifizierung",
+  "@verificationDemo": {
+    "description": "Titel des Buttons für Demo-Verifizierung"
+  },
+  "verificationDemoDescription": "Dies ist eine Demonstration des anonymen Identitätsverifizierungssystems. In einer realen Implementierung würde dieses Widget in die temporären Chaträume integriert.",
+  "@verificationDemoDescription": {
+    "description": "Beschreibung der Verifizierungsdemo"
+  },
+  "room": "Raum",
+  "@room": {
+    "description": "Raum-Label"
+  },
+  "user": "Benutzer",
+  "@user": {
+    "description": "Benutzer-Label"
+  },
+  "identityVerification": "Identitätsverifizierung",
+  "@identityVerification": {
+    "description": "Titel der Identitätsverifizierung"
+  },
+  "verifyIdentityDescription": "Tippen, um die Identität anonym zu verifizieren",
+  "@verifyIdentityDescription": {
+    "description": "Beschreibung der anonymen Verifizierung"
+  },
+  "statusNotVerified": "Status: Nicht verifiziert",
+  "@statusNotVerified": {
+    "description": "Status nicht verifiziert"
+  },
+  "notVerifiedYet": "Die Identität wurde noch nicht verifiziert",
+  "@notVerifiedYet": {
+    "description": "Nachricht für nicht verifiziert"
+  },
+  "howToTest": "Wie man die Verifizierung testet",
+  "@howToTest": {
+    "description": "Titel der Anleitungen"
+  },
+  "step1": "Tippen Sie auf",
+  "@step1": {
+    "description": "Schritt 1"
+  },
+  "step2": "Tippen",
+  "@step2": {
+    "description": "Schritt 2"
+  },
+  "step3": "Kopieren Sie einen der Codes (alphanumerisch, numerisch oder Emoji)",
+  "@step3": {
+    "description": "Schritt 3"
+  },
+  "step4": "Fügen Sie den Code in",
+  "@step4": {
+    "description": "Schritt 4"
+  },
+  "step5": "Tippen",
+  "@step5": {
+    "description": "Schritt 5"
+  },
+  "showMyCodes": "Meine Codes anzeigen",
+  "@showMyCodes": {
+    "description": "Button zum Anzeigen der Codes"
+  },
+  "verifyPartnerCode": "PARTNERCODE VERIFIZIEREN",
+  "@verifyPartnerCode": {
+    "description": "Text des Verifizierungsbuttons"
+  },
+  "verify": "Verifizieren",
+  "@verify": {
+    "description": "Button Verifizieren"
+  },
+  "realUsage": "In der realen Anwendung: Benutzer würden Codes über WhatsApp, Telegram usw. teilen.",
+  "@realUsage": {
+    "description": "Hinweis zur realen Anwendung"
+  },
+  "securitySettings": "Sicherheitseinstellungen",
+  "@securitySettings": {
+    "description": "Titel der Sicherheitseinstellungen"
+  },
+  "securitySettingsDescription": "Richten Sie eine Sicherheits-PIN ein, um Ihre Privatsphäre zu schützen. Benachrichtigungen werden weiterhin empfangen, auch wenn die App gesperrt ist.",
+  "@securitySettingsDescription": {
+    "description": "Beschreibung der Sicherheitseinstellungen"
+  },
+  "configureAppLock": "App-Sperre konfigurieren",
+  "@configureAppLock": {
+    "description": "Titel der Sperrkonfiguration"
+  },
+  "newPin": "Neue PIN (4-15 Zeichen)",
+  "@newPin": {
+    "description": "Feld für neue PIN"
+  },
+  "confirmPin": "PIN bestätigen",
+  "@confirmPin": {
+    "description": "Feld zur PIN-Bestätigung"
+  },
+  "activateLock": "Sperre aktivieren",
+  "@activateLock": {
+    "description": "Button zum Aktivieren der Sperre"
+  },
+  "screenshotSecurity": "Screenshot-Sicherheit",
+  "@screenshotSecurity": {
+    "description": "Titel der Screenshot-Sicherheit"
+  },
+  "screenshotSecurityDescription": "Kontrollieren Sie, ob Screenshots der Anwendung erstellt werden können.",
+  "@screenshotSecurityDescription": {
+    "description": "Beschreibung der Screenshot-Sicherheit"
+  },
+  "allowScreenshots": "Screenshots erlauben",
+  "@allowScreenshots": {
+    "description": "Option zum Erlauben von Screenshots"
+  },
+  "screenshotsAllowed": "Screenshots sind ERLAUBT",
+  "@screenshotsAllowed": {
+    "description": "Status für erlaubte Screenshots"
+  },
+  "screenshotsDisabled": "Sie können sie für mehr Sicherheit deaktivieren",
+  "@screenshotsDisabled": {
+    "description": "Vorschlag zum Deaktivieren von Screenshots"
+  },
+  "autoDestructionDefault": "Standard-Selbstzerstörung",
+  "@autoDestructionDefault": {
+    "description": "Titel der Selbstzerstörung"
+  },
+  "autoDestructionDescription": "Konfigurieren Sie eine Selbstzerstörungszeit, die automatisch angewendet wird, wenn Sie neuen Chaträumen beitreten:",
+  "@autoDestructionDescription": {
+    "description": "Beschreibung der Selbstzerstörung"
+  },
+  "defaultTime": "Standardzeit:",
+  "@defaultTime": {
+    "description": "Label für Standardzeit"
+  },
+  "noLimit": "Kein Limit",
+  "@noLimit": {
+    "description": "Option kein Limit"
+  },
+  "selectTime": "Wählen Sie eine Zeit aus, um die Standard-Selbstzerstörung zu aktivieren. Nachrichten werden nach der konfigurierten Zeit automatisch gelöscht.",
+  "@selectTime": {
+    "description": "Anleitung zur Zeitauswahl"
+  },
+  "activeSessions": "Aktive Sitzungen",
+  "@activeSessions": {
+    "description": "Titel der aktiven Sitzungen"
+  },
+  "activeSessionsDescription": "Verwalten Sie die Geräte, auf denen Sie aktive Sitzungen haben. Ähnlich wie Signal und WhatsApp.",
+  "@activeSessionsDescription": {
+    "description": "Beschreibung der aktiven Sitzungen"
+  },
+  "currentState": "Aktueller Status",
+  "@currentState": {
+    "description": "Aktueller Status"
+  },
+  "noActiveSessionsRegistered": "0 aktive Sitzungen registriert",
+  "@noActiveSessionsRegistered": {
+    "description": "Sitzungsstatus"
+  },
+  "multipleSessions": "Mehrere Sitzungen: Deaktiviert",
+  "@multipleSessions": {
+    "description": "Status mehrerer Sitzungen"
+  },
+  "configurationLikeSignal": "und Konfiguration wie Signal",
+  "@configurationLikeSignal": {
+    "description": "Beschreibung der Konfiguration"
+  },
+  "manageSessions": "Sitzungen verwalten",
+  "@manageSessions": {
+    "description": "Button zum Verwalten von Sitzungen"
+  },
+  "allowMultipleSessions": "Mehrere Sitzungen erlauben",
+  "@allowMultipleSessions": {
+    "description": "Option für mehrere Sitzungen"
+  },
+  "onlyOneActiveSession": "Nur eine aktive Sitzung gleichzeitig (wie Signal)",
+  "@onlyOneActiveSession": {
+    "description": "Beschreibung einer Sitzung"
+  },
+  "writeAtLeast2Characters": "Geben Sie mindestens 2 Zeichen ein, um Benutzer zu suchen",
+  "@writeAtLeast2Characters": {
+    "description": "Anleitung für Mindestsuche"
+  },
+  "error": "Fehler",
+  "@error": {
+    "description": "Fehler-Label"
+  },
+  "secureMultimediaChat": "Sicherer Multimedia-Chat",
+  "@secureMultimediaChat": {
+    "description": "Titel des Multimedia-Chats"
+  },
+  "sendEncryptedMessages": "Senden Sie Nachrichten und Bilder\\nverschlüsselt mit XChaCha20-Poly1305",
+  "@sendEncryptedMessages": {
+    "description": "Beschreibung des sicheren Chats"
+  },
+  "capturesBlocked": "Aufnahmen blockiert",
+  "@capturesBlocked": {
+    "description": "Tooltip für blockierte Aufnahmen"
+  },
+  "capturesAllowed": "Aufnahmen erlaubt",
+  "@capturesAllowed": {
+    "description": "Tooltip für erlaubte Aufnahmen"
+  },
+  "e2eEncryptionSecurity": "E2E-Verschlüsselung + Sicherheit",
+  "@e2eEncryptionSecurity": {
+    "description": "Titel der Verschlüsselungsinformationen"
+  },
+  "encryptionDescription": "Alle Nachrichten, Bilder und Audiodateien sind lokal mit XChaCha20-Poly1305 verschlüsselt.\\n\\nDer Server sieht nur undurchsichtige verschlüsselte Blobs.\\n\\nAudio mit realer Aufnahme implementiert.",
+  "@encryptionDescription": {
+    "description": "Detaillierte Beschreibung der Verschlüsselung"
+  },
+  "screenshotsStatus": "Screenshots:",
+  "@screenshotsStatus": {
+    "description": "Status der Screenshots"
+  },
+  "screenshotsBlocked": "BLOCKIERT",
+  "@screenshotsBlocked": {
+    "description": "Screenshots blockiert"
+  },
+  "screenshotsPermitted": "ERLAUBT",
+  "@screenshotsPermitted": {
+    "description": "Screenshots erlaubt"
+  },
+  "likeWhatsAppTelegram": "Wie WhatsApp/Telegram - schwarzer Bildschirm bei Screenshots",
+  "@likeWhatsAppTelegram": {
+    "description": "Beschreibung des Screenshot-Verhaltens"
+  },
+  "warningDestroyRoom": "Diese Aktion zerstört den Chatraum dauerhaft für beide Benutzer.\\n\\nEin für beide Teilnehmer sichtbarer 10-Sekunden-Countdown wird gestartet.",
+  "@warningDestroyRoom": {
+    "description": "Warnung vor Raumzerstörung"
+  },
+  "cancel": "Abbrechen",
+  "@cancel": {
+    "description": "Button Abbrechen"
+  },
+  "recordedAudioNote": "Audionotiz (aufgenommen)",
+  "@recordedAudioNote": {
+    "description": "Aufgenommene Audionotiz"
+  },
+  "playing": "Wird abgespielt...",
+  "@playing": {
+    "description": "Wiedergabestatus"
+  },
+  "tapToStop": "Tippen zum Stoppen",
+  "@tapToStop": {
+    "description": "Anleitung zum Stoppen"
+  },
+  "tapToPlay": "Tippen zum Abspielen",
+  "@tapToPlay": {
+    "description": "Anleitung zum Abspielen"
+  },
+  "backToMultipleChats": "Zurück zu mehreren Chats",
+  "@backToMultipleChats": {
+    "description": "Tooltip zurück zu mehreren Chats"
+  },
+  "backToChat": "Zurück zum Chat",
+  "@backToChat": {
+    "description": "Tooltip zurück zum Chat"
+  },
+  "screenshotsBlockedAutomatically": "Screenshots AUTOMATISCH BLOCKIERT",
+  "@screenshotsBlockedAutomatically": {
+    "description": "Nachricht über blockierte Screenshots"
+  },
+  "screenshotsEnabled": "Screenshots AKTIVIERT",
+  "@screenshotsEnabled": {
+    "description": "Nachricht über aktivierte Screenshots"
+  },
+  "identityVerifiedCorrectly": "Identität des Partners korrekt verifiziert",
+  "@identityVerifiedCorrectly": {
+    "description": "Nachricht über erfolgreiche Verifizierung"
+  },
+  "createAccount": "Konto erstellen",
+  "@createAccount": {
+    "description": "Titel des Registrierungsbildschirms"
+  },
+  "registerSubtitle": "Registrieren Sie sich, um FlutterPutter zu nutzen",
+  "@registerSubtitle": {
+    "description": "Untertitel des Registrierungsbildschirms"
+  },
+  "nickname": "Nickname",
+  "@nickname": {
+    "description": "Nickname-Feld"
+  },
+  "chooseUniqueNickname": "Wählen Sie einen einzigartigen Nickname",
+  "@chooseUniqueNickname": {
+    "description": "Hinweis für das Nickname-Feld"
+  },
+  "createSecurePassword": "Erstellen Sie ein sicheres Passwort",
+  "@createSecurePassword": {
+    "description": "Hinweis für das Passwortfeld bei der Registrierung"
+  },
+  "confirmPassword": "Passwort bestätigen",
+  "@confirmPassword": {
+    "description": "Feld zur Passwortbestätigung"
+  },
+  "repeatPassword": "Wiederholen Sie Ihr Passwort",
+  "@repeatPassword": {
+    "description": "Hinweis für das Feld zur Passwortbestätigung"
+  },
+  "invitationCode": "Einladungscode",
+  "@invitationCode": {
+    "description": "Feld für Einladungscode"
+  },
+  "enterInvitationCode": "Geben Sie Ihren Einladungscode ein",
+  "@enterInvitationCode": {
+    "description": "Hinweis für das Feld Einladungscode"
+  },
+  "registerButton": "Registrieren",
+  "@registerButton": {
+    "description": "Registrierungs-Button"
+  },
+  "pleaseConfirmPassword": "Bitte bestätigen Sie Ihr Passwort",
+  "@pleaseConfirmPassword": {
+    "description": "Validierung für leeres Bestätigungspasswort"
+  },
+  "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein",
+  "@passwordsDoNotMatch": {
+    "description": "Validierung für unterschiedliche Passwörter"
+  },
+  "pleaseEnterNickname": "Bitte geben Sie einen Nickname ein",
+  "@pleaseEnterNickname": {
+    "description": "Validierung für leeren Nickname"
+  },
+  "nicknameMinLength": "Der Nickname muss mindestens 3 Zeichen lang sein",
+  "@nicknameMinLength": {
+    "description": "Validierung der Nickname-Länge"
+  },
+  "pleaseEnterInvitationCode": "Bitte geben Sie einen Einladungscode ein",
+  "@pleaseEnterInvitationCode": {
+    "description": "Validierung für leeren Einladungscode"
+  },
+  "invitationCodeLength": "Der Code muss 8 Zeichen lang sein",
+  "@invitationCodeLength": {
+    "description": "Validierung der Einladungscode-Länge"
+  },
+  "newChatInvitationReceived": "📩 Neue Chat-Einladung erhalten",
+  "@newChatInvitationReceived": {
+    "description": "Benachrichtigung über neue Einladung"
+  },
+  "view": "Ansehen",
+  "@view": {
+    "description": "Button Ansehen"
+  },
+  "chatInvitations": "Chat-Einladungen",
+  "@chatInvitations": {
+    "description": "Tooltip für Chat-Einladungen"
+  },
+  "securitySettingsTooltip": "Sicherheitseinstellungen",
+  "@securitySettingsTooltip": {
+    "description": "Tooltip für Sicherheitseinstellungen"
+  },
+  "helloUser": "Hallo, {nickname}",
+  "@helloUser": {
+    "description": "Personalisierte Begrüßung des Benutzers",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "searchUsersToVideoCall": "Suchen Sie Benutzer, um einen Videoanruf zu starten",
+  "@searchUsersToVideoCall": {
+    "description": "Hauptanweisung des Startbildschirms"
+  },
+  "searchUsersButton": "Benutzer suchen",
+  "@searchUsersButton": {
+    "description": "Button zum Suchen von Benutzern"
+  },
+  "testIdentityVerification": "Identitätsverifizierung testen",
+  "@testIdentityVerification": {
+    "description": "Untertitel der Verifizierungsdemo"
+  },
+  "ephemeralChat": "💬 Temporärer Chat",
+  "@ephemeralChat": {
+    "description": "Titel des Buttons für temporären Chat"
+  },
+  "multipleSimultaneousRooms": "Mehrere gleichzeitige Räume (max. 10)",
+  "@multipleSimultaneousRooms": {
+    "description": "Untertitel des temporären Chats"
+  },
+  "logout": "Abmelden",
+  "@logout": {
+    "description": "Option zum Abmelden"
+  },
+  "logoutConfirmTitle": "Abmelden",
+  "@logoutConfirmTitle": {
+    "description": "Titel des Abmelde-Bestätigungsdialogs"
+  },
+  "logoutConfirmMessage": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+  "@logoutConfirmMessage": {
+    "description": "Abmelde-Bestätigungsnachricht"
+  },
+  "helpSection": "Hilfe und Support",
+  "@helpSection": {
+    "description": "Titel des Hilfebereichs"
+  },
+  "supportCenter": "Hilfezentrum",
+  "@supportCenter": {
+    "description": "Option Hilfezentrum"
+  },
+  "supportCenterDescription": "Holen Sie sich Hilfe und sehen Sie sich die FAQs an",
+  "@supportCenterDescription": {
+    "description": "Beschreibung des Hilfezentrums"
+  },
+  "contactUs": "Kontaktieren Sie uns",
+  "@contactUs": {
+    "description": "Option Kontakt"
+  },
+  "contactUsDescription": "Senden Sie uns eine E-Mail, um Ihre Fragen zu klären",
+  "@contactUsDescription": {
+    "description": "Beschreibung Kontakt"
+  },
+  "contactEmail": "FlutterPutter@Proton.me",
+  "@contactEmail": {
+    "description": "Kontakt-E-Mail"
+  },
+  "appVersion": "Version",
+  "@appVersion": {
+    "description": "Versions-Label"
+  },
+  "versionNumber": "Version 1.0 Beta",
+  "@versionNumber": {
+    "description": "Versionsnummer der Anwendung"
+  },
+  "termsAndConditions": "Allgemeine Geschäftsbedingungen",
+  "@termsAndConditions": {
+    "description": "Option Allgemeine Geschäftsbedingungen"
+  },
+  "termsDescription": "Lesen Sie unsere Nutzungsbedingungen",
+  "@termsDescription": {
+    "description": "Beschreibung der Allgemeinen Geschäftsbedingungen"
+  },
+  "privacyPolicy": "Datenschutzrichtlinie",
+  "@privacyPolicy": {
+    "description": "Option Datenschutzrichtlinie"
+  },
+  "privacyPolicyDescription": "Erfahren Sie, wie wir Ihre Informationen schützen",
+  "@privacyPolicyDescription": {
+    "description": "Beschreibung der Datenschutzrichtlinie"
+  },
+  "emailCopied": "E-Mail in die Zwischenablage kopiert",
+  "@emailCopied": {
+    "description": "Nachricht beim Kopieren der Kontakt-E-Mail"
+  },
+  "openingWebPage": "Webseite wird geöffnet...",
+  "@openingWebPage": {
+    "description": "Nachricht beim Öffnen einer Webseite"
+  },
+  "errorOpeningWebPage": "Fehler beim Öffnen der Webseite",
+  "@errorOpeningWebPage": {
+    "description": "Fehlermeldung beim Öffnen der Webseite"
+  },
+  "pinLengthError": "Die PIN muss zwischen 4 und 15 Zeichen lang sein",
+  "@pinLengthError": {
+    "description": "Fehler bei PIN-Länge"
+  },
+  "pinMismatch": "Die PINs stimmen nicht überein",
+  "@pinMismatch": {
+    "description": "Fehler, wenn PINs nicht übereinstimmen"
+  },
+  "appLockSetupSuccess": "🔒 App-Sperre erfolgreich eingerichtet",
+  "@appLockSetupSuccess": {
+    "description": "Erfolgsmeldung bei der Einrichtung der Sperre"
+  },
+  "pinSetupError": "Fehler beim Einrichten der PIN",
+  "@pinSetupError": {
+    "description": "Fehler beim Einrichten der PIN"
+  },
+  "pinChangeSuccess": "🔒 PIN erfolgreich geändert",
+  "@pinChangeSuccess": {
+    "description": "Erfolgsmeldung beim Ändern der PIN"
+  },
+  "currentPinIncorrect": "Aktuelle PIN falsch",
+  "@currentPinIncorrect": {
+    "description": "Fehler, wenn aktuelle PIN falsch ist"
+  },
+  "disableAppLockTitle": "Sperre deaktivieren",
+  "@disableAppLockTitle": {
+    "description": "Titel des Dialogs zum Deaktivieren der Sperre"
+  },
+  "disableAppLockMessage": "Sind Sie sicher, dass Sie die App-Sperre deaktivieren möchten?",
+  "@disableAppLockMessage": {
+    "description": "Bestätigungsnachricht zum Deaktivieren der Sperre"
+  },
+  "appLockDisabled": "🔓 App-Sperre deaktiviert",
+  "@appLockDisabled": {
+    "description": "Nachricht, wenn die Sperre deaktiviert ist"
+  },
+  "confirm": "Bestätigen",
+  "@confirm": {
+    "description": "Button Bestätigen"
+  },
+  "changePin": "PIN ändern:",
+  "@changePin": {
+    "description": "Titel zum Ändern der PIN"
+  },
+  "currentPin": "Aktuelle PIN",
+  "@currentPin": {
+    "description": "Feld aktuelle PIN"
+  },
+  "confirmNewPin": "Neue PIN bestätigen",
+  "@confirmNewPin": {
+    "description": "Feld neue PIN bestätigen"
+  },
+  "changePinButton": "PIN ändern",
+  "@changePinButton": {
+    "description": "Button zum Ändern der PIN"
+  },
+  "biometricUnlock": "Entsperren Sie die App zusätzlich zur PIN mit Biometrie",
+  "@biometricUnlock": {
+    "description": "Beschreibung der biometrischen Entsperrung"
+  },
+  "screenshotsAllowedMessage": "🔓 Screenshots ERLAUBT",
+  "@screenshotsAllowedMessage": {
+    "description": "Nachricht, wenn Screenshots erlaubt sind"
+  },
+  "screenshotsBlockedMessage": "🔒 Screenshots BLOCKIERT",
+  "@screenshotsBlockedMessage": {
+    "description": "Nachricht, wenn Screenshots blockiert sind"
+  },
+  "screenshotConfigError": "Fehler beim Aktualisieren der Screenshot-Konfiguration",
+  "@screenshotConfigError": {
+    "description": "Fehler beim Aktualisieren der Screenshot-Konfiguration"
+  },
+  "protectionActive": "Schutz aktiv",
+  "@protectionActive": {
+    "description": "Titel für aktiven Schutz"
+  },
+  "nativeProtectionFeatures": "• Native Sperre unter iOS und Android\n• Warnung bei Erkennung von Screenshot-Versuchen\n• Schutz im App-Switcher",
+  "@nativeProtectionFeatures": {
+    "description": "Liste der nativen Schutzfunktionen"
+  },
+  "autoDestructionDefaultDisabled": "🔥 Standard-Selbstzerstörung deaktiviert",
+  "@autoDestructionDefaultDisabled": {
+    "description": "Nachricht, wenn Selbstzerstörung deaktiviert ist"
+  },
+  "autoDestructionError": "Fehler beim Aktualisieren der Selbstzerstörungskonfiguration",
+  "@autoDestructionError": {
+    "description": "Fehler beim Aktualisieren der Selbstzerstörung"
+  },
+  "protectYourApp": "Schützen Sie Ihre Anwendung",
+  "@protectYourApp": {
+    "description": "Haupttitel für Sicherheit"
+  },
+  "securityPinDescription": "Richten Sie eine Sicherheits-PIN ein, um Ihre Privatsphäre zu schützen. Benachrichtigungen werden weiterhin empfangen, auch wenn die App gesperrt ist.",
+  "@securityPinDescription": {
+    "description": "Beschreibung der PIN-Konfiguration"
+  },
+  "lockActivated": "Sperre aktiviert",
+  "@lockActivated": {
+    "description": "Status, wenn die Sperre aktiv ist"
+  },
+  "disable": "Deaktivieren",
+  "@disable": {
+    "description": "Button Deaktivieren"
+  },
+  "errorCopyingEmail": "Fehler beim Kopieren der E-Mail",
+  "@errorCopyingEmail": {
+    "description": "Fehler beim Kopieren der E-Mail in die Zwischenablage"
+  },
+  "automaticLockTimeout": "Automatische Sperrzeit",
+  "@automaticLockTimeout": {
+    "description": "Titel der Konfiguration der Sperrzeit"
+  },
+  "appWillLockAfter": "Die Anwendung wird automatisch gesperrt nach:",
+  "@appWillLockAfter": {
+    "description": "Beschreibung der automatischen Sperre"
+  },
+  "biometricAuthentication": "Biometrische Authentifizierung",
+  "@biometricAuthentication": {
+    "description": "Titel der biometrischen Authentifizierung"
+  },
+  "enableBiometric": "Fingerabdruck/Face ID aktivieren",
+  "@enableBiometric": {
+    "description": "Option zum Aktivieren der Biometrie"
+  },
+  "autoApplyDefault": "Automatisch anwenden",
+  "@autoApplyDefault": {
+    "description": "Option zum automatischen Anwenden als Standard"
+  },
+  "autoApplyEnabled": "Wird beim Betreten neuer Räume angewendet",
+  "@autoApplyEnabled": {
+    "description": "Beschreibung, wenn automatisches Anwenden aktiviert ist"
+  },
+  "autoApplyDisabled": "Nur manuell in jedem Raum anwenden",
+  "@autoApplyDisabled": {
+    "description": "Beschreibung, wenn automatisches Anwenden deaktiviert ist"
+  },
+  "currentConfiguration": "Aktuelle Konfiguration",
+  "@currentConfiguration": {
+    "description": "Titel der aktuellen Konfiguration"
+  },
+  "sessionActive": "aktive Sitzung",
+  "@sessionActive": {
+    "description": "Singular für aktive Sitzung"
+  },
+  "sessionsActive": "aktive Sitzungen",
+  "@sessionsActive": {
+    "description": "Plural für aktive Sitzungen"
+  },
+  "noActiveSessionsMessage": "Keine aktiven Sitzungen registriert",
+  "@noActiveSessionsMessage": {
+    "description": "Nachricht, wenn keine aktiven Sitzungen vorhanden sind"
+  },
+  "helpAndSupport": "Holen Sie sich Hilfe, kontaktieren Sie uns oder lesen Sie unsere Richtlinien",
+  "@helpAndSupport": {
+    "description": "Beschreibung von Hilfe und Support"
+  },
+  "autoDestructionDefaultEnabled": "🔥 Standard-Selbstzerstörung: ",
+  "@autoDestructionDefaultEnabled": {
+    "description": "Nachricht, wenn Selbstzerstörung aktiviert ist"
+  },
+  "verificationDemonstration": "Verifizierungsdemonstration",
+  "@verificationDemonstration": {
+    "description": "Titel der Verifizierungsdemonstration"
+  },
+  "roomLabel": "Raum:",
+  "@roomLabel": {
+    "description": "Raum-Label"
+  },
+  "userLabel": "Benutzer:",
+  "@userLabel": {
+    "description": "Benutzer-Label"
+  },
+  "statusVerified": "Status: Verifiziert ✅",
+  "@statusVerified": {
+    "description": "Status, wenn verifiziert"
+  },
+  "identityVerifiedCorrect": "Die Identität wurde korrekt verifiziert",
+  "@identityVerifiedCorrect": {
+    "description": "Nachricht, wenn Identität verifiziert ist"
+  },
+  "identityVerifiedFull": "✅ Identität Verifiziert",
+  "@identityVerifiedFull": {
+    "description": "Titel, wenn Identität verifiziert ist"
+  },
+  "bothUsersVerified": "Beide Benutzer haben ihre Identität verifiziert",
+  "@bothUsersVerified": {
+    "description": "Nachricht, wenn beide Benutzer verifiziert sind"
+  },
+  "yourVerificationCodes": "IHRE VERIFIZIERUNGSCODES",
+  "@yourVerificationCodes": {
+    "description": "Titel der eigenen Verifizierungscodes"
+  },
+  "shareCodeMessage": "Teilen Sie EINEN dieser Codes über einen anderen Kanal (WhatsApp, Telegram usw.)",
+  "@shareCodeMessage": {
+    "description": "Anleitung zum Teilen von Codes"
+  },
+  "hideCodesBut": "🙈 Codes ausblenden",
+  "@hideCodesBut": {
+    "description": "Button zum Ausblenden von Codes"
+  },
+  "alphanumericCode": "🔤 Alphanumerisch",
+  "@alphanumericCode": {
+    "description": "Typ des alphanumerischen Codes"
+  },
+  "numericCode": "🔢 Numerisch",
+  "@numericCode": {
+    "description": "Typ des numerischen Codes"
+  },
+  "emojiCode": "😀 Emoji",
+  "@emojiCode": {
+    "description": "Typ des Emoji-Codes"
+  },
+  "enterCodeToVerify": "❌ Geben Sie einen Code zur Verifizierung ein",
+  "@enterCodeToVerify": {
+    "description": "Fehler, wenn kein Code eingegeben wird"
+  },
+  "invalidCodeFormat": "❌ Ungültiges Codeformat",
+  "@invalidCodeFormat": {
+    "description": "Fehler im Codeformat"
+  },
+  "identityVerifiedSuccess": "✅ Identität erfolgreich verifiziert!",
+  "@identityVerifiedSuccess": {
+    "description": "Erfolgsmeldung bei der Verifizierung"
+  },
+  "incorrectCode": "❌ Falscher Code",
+  "@incorrectCode": {
+    "description": "Fehler, wenn Code falsch ist"
+  },
+  "codesRegenerated": "🔄 Codes neu generiert",
+  "@codesRegenerated": {
+    "description": "Nachricht, wenn Codes neu generiert werden"
+  },
+  "codeCopied": "📋 Code in die Zwischenablage kopiert",
+  "@codeCopied": {
+    "description": "Nachricht, wenn Code kopiert wird"
+  },
+  "partnerCodesReceived": "📥 Partnercodes empfangen",
+  "@partnerCodesReceived": {
+    "description": "Nachricht, wenn Partnercodes empfangen werden"
+  },
+  "codesSentToPartner": "📤 Codes an Partner gesendet",
+  "@codesSentToPartner": {
+    "description": "Nachricht, wenn Codes gesendet werden"
+  },
+  "resendingCodes": "🔄 Codes erneut an Partner senden...",
+  "@resendingCodes": {
+    "description": "Nachricht, wenn Codes erneut gesendet werden"
+  },
+  "stepExpandVerification": "Tippen Sie auf \"🔐 Identitätsverifizierung\", um zu erweitern",
+  "@stepExpandVerification": {
+    "description": "Schritt zum Erweitern der Verifizierung"
+  },
+  "stepShowCodes": "Tippen Sie auf \"👁️ Meine Codes anzeigen\", um Ihre einzigartigen Codes zu sehen",
+  "@stepShowCodes": {
+    "description": "Schritt zum Anzeigen von Codes"
+  },
+  "stepPasteCode": "Fügen Sie den Code in \"PARTNERCODE VERIFIZIEREN\" ein",
+  "@stepPasteCode": {
+    "description": "Schritt zum Einfügen des Codes"
+  },
+  "stepVerifyCode": "Tippen Sie auf \"✅ Verifizieren\", um die Verifizierung zu simulieren",
+  "@stepVerifyCode": {
+    "description": "Schritt zum Verifizieren des Codes"
+  },
+  "enterPartnerCode": "Geben Sie den Code ein, den die andere Person mit Ihnen geteilt hat:",
+  "@enterPartnerCode": {
+    "description": "Anleitung zum Eingeben des Partnercodes"
+  },
+  "partnerCodesReceivedWithCode": "✅ Partnercodes empfangen:",
+  "@partnerCodesReceivedWithCode": {
+    "description": "Nachricht mit empfangenem Partnercode"
+  },
+  "waitingPartnerCodes": "⏳ Warte auf Partnercodes...",
+  "@waitingPartnerCodes": {
+    "description": "Nachricht beim Warten auf Partnercodes"
+  },
+  "verificationSuccessMessage": "Identität erfolgreich verifiziert! Beide Benutzer sind authentisch.",
+  "@verificationSuccessMessage": {
+    "description": "Vollständige Erfolgsmeldung der Verifizierung"
+  },
+  "chatInvitationsTitle": "Chat-Einladungen",
+  "@chatInvitationsTitle": {
+    "description": "Titel des Einladungsbildschirms"
+  },
+  "cleanExpiredInvitations": "Abgelaufene Einladungen bereinigen",
+  "@cleanExpiredInvitations": {
+    "description": "Tooltip zum Bereinigen abgelaufener Einladungen"
+  },
+  "refreshInvitations": "Einladungen aktualisieren",
+  "@refreshInvitations": {
+    "description": "Tooltip zum Aktualisieren von Einladungen"
+  },
+  "errorInitializing": "Initialisierungsfehler: {error}",
+  "@errorInitializing": {
+    "description": "Fehler beim Initialisieren des Dienstes",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "expiredInvitationsDeleted": "{count} abgelaufene Einladungen endgültig gelöscht",
+  "@expiredInvitationsDeleted": {
+    "description": "Nachricht, wenn abgelaufene Einladungen gelöscht werden",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noExpiredInvitationsToClean": "Keine abgelaufenen Einladungen zum Bereinigen",
+  "@noExpiredInvitationsToClean": {
+    "description": "Nachricht, wenn keine abgelaufenen Einladungen vorhanden sind"
+  },
+  "errorAcceptingInvitation": "Fehler beim Annehmen der Einladung: {error}",
+  "@errorAcceptingInvitation": {
+    "description": "Fehler beim Annehmen der Einladung",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorUpdatingInvitations": "Fehler beim Aktualisieren der Einladungen: {error}",
+  "@errorUpdatingInvitations": {
+    "description": "Fehler beim Aktualisieren der Einladungen",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsUpdated": "Aktualisiert: {active} aktiv, {expired} abgelaufene gelöscht",
+  "@invitationsUpdated": {
+    "description": "Aktualisierungsnachricht mit Zählungen",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "expired": {
+        "type": "int"
+      }
+    }
+  },
+  "invitationsUpdatedActive": "Aktualisiert: {active} aktive Einladungen",
+  "@invitationsUpdatedActive": {
+    "description": "Aktualisierungsnachricht nur aktive",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      }
+    }
+  },
+  "noInvitations": "Keine Einladungen",
+  "@noInvitations": {
+    "description": "Nachricht, wenn keine Einladungen vorhanden sind"
+  },
+  "invitationsWillAppearHere": "Chat-Einladungen werden hier angezeigt",
+  "@invitationsWillAppearHere": {
+    "description": "Beschreibung des leeren Zustands"
+  },
+  "chatInvitation": "Chat-Einladung",
+  "@chatInvitation": {
+    "description": "Titel einer einzelnen Einladung"
+  },
+  "fromUser": "Von: {userId}",
+  "@fromUser": {
+    "description": "Von welchem Benutzer die Einladung kommt",
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
+  "expired": "Abgelaufen",
+  "@expired": {
+    "description": "Status einer abgelaufenen Einladung"
+  },
+  "reject": "Ablehnen",
+  "@reject": {
+    "description": "Button zum Ablehnen der Einladung"
+  },
+  "accept": "Akzeptieren",
+  "@accept": {
+    "description": "Button zum Akzeptieren der Einladung"
+  },
+  "tapToCreateOrJoinEphemeralChats": "Tippen, um temporäre Chats zu erstellen oder beizutreten",
+  "@tapToCreateOrJoinEphemeralChats": {
+    "description": "Beschreibung des sicheren Chats"
+  },
+  "now": "Jetzt",
+  "@now": {
+    "description": "Aktuelle Zeit"
+  },
+  "callEnded": "Anruf beendet",
+  "@callEnded": {
+    "description": "Status des beendeten Anrufs"
+  },
+  "videoCallFeatureAvailable": "🎥 Videoanruffunktion verfügbar",
+  "@videoCallFeatureAvailable": {
+    "description": "Nachricht über verfügbare Videoanruffunktion"
+  },
+  "pendingInvitations": "Ausstehende Einladungen",
+  "@pendingInvitations": {
+    "description": "Titel der ausstehenden Einladungen"
+  },
+  "chatInvitationsCount": "{count} Chat-Einladung(en)",
+  "@chatInvitationsCount": {
+    "description": "Zähler für Chat-Einladungen",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchUsers": "Benutzer suchen",
+  "@searchUsers": {
+    "description": "Titel des Benutzer-Suchbildschirms"
+  },
+  "searchByNickname": "Nach Nickname suchen",
+  "@searchByNickname": {
+    "description": "Hinweis für das Suchfeld nach Nickname"
+  },
+  "searching": "Suchen...",
+  "@searching": {
+    "description": "Nachricht während der Suche"
+  },
+  "noUsersFound": "Keine Benutzer gefunden",
+  "@noUsersFound": {
+    "description": "Nachricht, wenn keine Benutzer gefunden werden"
+  },
+  "errorSearchingUsers": "Fehler bei der Benutzersuche",
+  "@errorSearchingUsers": {
+    "description": "Fehler bei der Benutzersuche"
+  },
+  "startVideoCall": "Videoanruf starten",
+  "@startVideoCall": {
+    "description": "Titel zum Starten eines Videoanrufs"
+  },
+  "startAudioCall": "Anruf starten",
+  "@startAudioCall": {
+    "description": "Titel zum Starten eines Audioanrufs"
+  },
+  "confirmVideoCall": "Möchten Sie einen Videoanruf mit {nickname} starten?",
+  "@confirmVideoCall": {
+    "description": "Bestätigung zum Starten eines Videoanrufs",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmAudioCall": "Möchten Sie einen Anruf mit {nickname} starten?",
+  "@confirmAudioCall": {
+    "description": "Bestätigung zum Starten eines Audioanrufs",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "initiatingVideoCall": "Videoanruf wird gestartet...",
+  "@initiatingVideoCall": {
+    "description": "Nachricht beim Starten eines Videoanrufs"
+  },
+  "initiatingAudioCall": "Anruf wird gestartet...",
+  "@initiatingAudioCall": {
+    "description": "Nachricht beim Starten eines Audioanrufs"
+  },
+  "sendingInvitation": "Einladung wird gesendet...",
+  "@sendingInvitation": {
+    "description": "Nachricht beim Senden der Einladung"
+  },
+  "errorInitiatingCall": "Fehler beim Starten des Anrufs",
+  "@errorInitiatingCall": {
+    "description": "Fehler beim Starten des Anrufs"
+  },
+  "invitationSentTo": "Einladung gesendet an",
+  "@invitationSentTo": {
+    "description": "Nachricht über gesendete Einladung"
+  },
+  "waitingForAcceptance": "Warte, bis die Einladung angenommen wird...",
+  "@waitingForAcceptance": {
+    "description": "Nachricht beim Warten auf Annahme"
+  },
+  "ephemeralChatTooltip": "Temporärer Chat",
+  "@ephemeralChatTooltip": {
+    "description": "Tooltip für temporären Chat"
+  },
+  "audioCallTooltip": "Anruf",
+  "@audioCallTooltip": {
+    "description": "Tooltip für Audioanruf"
+  },
+  "videoCallTooltip": "Video",
+  "@videoCallTooltip": {
+    "description": "Tooltip für Videoanruf"
+  },
+  "searchUser": "Benutzer suchen",
+  "@searchUser": {
+    "description": "Titel des Such-Widgets"
+  },
+  "searchByName": "Nach Name suchen...",
+  "@searchByName": {
+    "description": "Hinweis für die Suche nach Name"
+  },
+  "searchingUsers": "Benutzer werden gesucht...",
+  "@searchingUsers": {
+    "description": "Nachricht bei der Benutzersuche"
+  },
+  "noUsersFoundWith": "Keine Benutzer gefunden\\nmit \"{query}\"",
+  "@noUsersFoundWith": {
+    "description": "Nachricht, wenn keine Benutzer mit spezifischer Suche gefunden werden",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSearchingUsersDetails": "Fehler bei der Benutzersuche: {error}",
+  "@errorSearchingUsersDetails": {
+    "description": "Detaillierter Fehler bei der Benutzersuche",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "multipleChatsTitle": "Mehrere Chats ({count}/10)",
+  "@multipleChatsTitle": {
+    "description": "Titel für mehrere Chats mit Zähler",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backToHome": "Zurück zur Startseite",
+  "@backToHome": {
+    "description": "Tooltip zum Zurückkehren zur Startseite"
+  },
+  "closeAllRooms": "Alle Räume schließen",
+  "@closeAllRooms": {
+    "description": "Button zum Schließen aller Räume"
+  },
+  "closeAllRoomsConfirm": "Sind Sie sicher, dass Sie alle Chaträume schließen möchten?",
+  "@closeAllRoomsConfirm": {
+    "description": "Bestätigung zum Schließen aller Räume"
+  },
+  "closeAll": "Alle schließen",
+  "@closeAll": {
+    "description": "Button Alle schließen"
+  },
+  "participants": "{count} Teilnehmer",
+  "@participants": {
+    "description": "Teilnehmerzähler",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomActive": "Raum aktiv ({count} Teilnehmer)",
+  "@roomActive": {
+    "description": "Status des aktiven Raums",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "connecting": "Verbinden...",
+  "@connecting": {
+    "description": "Status Verbinden"
+  },
+  "waitingForResponse": "Warte auf Antwort...",
+  "@waitingForResponse": {
+    "description": "Status Warte auf Antwort"
+  },
+  "noConnection": "Keine Verbindung",
+  "@noConnection": {
+    "description": "Status keine Verbindung"
+  },
+  "newRoom": "Neuer Raum",
+  "@newRoom": {
+    "description": "Button neuer Raum"
+  },
+  "createNewRoom": "Neuen Raum erstellen",
+  "@createNewRoom": {
+    "description": "Titel Neuen Raum erstellen"
+  },
+  "addChat": "Chat hinzufügen",
+  "@addChat": {
+    "description": "Button Chat hinzufügen"
+  },
+  "statistics": "Statistiken",
+  "@statistics": {
+    "description": "Titel Statistiken"
+  },
+  "close": "Schließen",
+  "@close": {
+    "description": "Button Schließen"
+  },
+  "chatStatisticsTitle": "Chat-Statistiken",
+  "@chatStatisticsTitle": {
+    "description": "Titel der Chat-Statistiken"
+  },
+  "activeRooms": "Aktive Räume",
+  "@activeRooms": {
+    "description": "Aktive Räume"
+  },
+  "totalMessages": "Gesamtnachrichten",
+  "@totalMessages": {
+    "description": "Gesamtzahl der Nachrichten"
+  },
+  "unreadMessages": "Ungelesen",
+  "@unreadMessages": {
+    "description": "Ungelesene Nachrichten"
+  },
+  "initiatingChat": "Chat wird gestartet...",
+  "@initiatingChat": {
+    "description": "Nachricht beim Starten des Chats"
+  },
+  "retry": "Erneut versuchen",
+  "@retry": {
+    "description": "Button erneut versuchen"
+  },
+  "errorClosingRoom": "Fehler beim Schließen des Raums: {error}",
+  "@errorClosingRoom": {
+    "description": "Fehler beim Schließen des Raums",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationAccepted": "✅ Einladung angenommen",
+  "@invitationAccepted": {
+    "description": "Nachricht Einladung angenommen"
+  },
+  "errorAcceptingInvitationDetails": "Fehler beim Annehmen der Einladung: {error}",
+  "@errorAcceptingInvitationDetails": {
+    "description": "Detaillierter Fehler beim Annehmen der Einladung",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorCreatingRoom": "Fehler beim Erstellen des Raums: {error}",
+  "@errorCreatingRoom": {
+    "description": "Fehler beim Erstellen des Raums",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createNewChatRoom": "Neuen Chatraum erstellen",
+  "@createNewChatRoom": {
+    "description": "Tooltip Neuen Chatraum erstellen"
+  },
+  "minutes": "Minuten",
+  "@minutes": {
+    "description": "Wort Minuten für Dauer"
+  },
+  "seconds": "Sekunden",
+  "@seconds": {
+    "description": "Wort Sekunden für Dauer"
+  },
+  "microphonePermissions": "🎵 Mikrofonberechtigungen",
+  "@microphonePermissions": {
+    "description": "Titel des Dialogs für Mikrofonberechtigungen"
+  },
+  "microphonePermissionsContent": "Um Audio aufzunehmen, müssen Sie die Mikrofonberechtigungen in den App-Einstellungen aktivieren.\n\nGehen Sie zu Einstellungen > Datenschutz > Mikrofon und aktivieren Sie die Berechtigungen für diese Anwendung.",
+  "@microphonePermissionsContent": {
+    "description": "Inhalt des Dialogs für Mikrofonberechtigungen"
+  },
+  "understood": "Verstanden",
+  "@understood": {
+    "description": "Button verstanden"
+  },
+  "openSettings": "Einstellungen öffnen",
+  "@openSettings": {
+    "description": "Button zum Öffnen der Einstellungen"
+  },
+  "errorInitializingAudio": "Fehler beim Initialisieren von Audio: {error}",
+  "@errorInitializingAudio": {
+    "description": "Fehler beim Initialisieren von Audio",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "imageTooLarge": "Bild zu groß. Maximal 500KB erlaubt.",
+  "@imageTooLarge": {
+    "description": "Fehler bei zu großem Bild"
+  },
+  "errorSendingImage": "Fehler beim Senden des Bildes: {error}",
+  "@errorSendingImage": {
+    "description": "Fehler beim Senden des Bildes",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSendingAudio": "Fehler beim Senden von Audio: {error}",
+  "@errorSendingAudio": {
+    "description": "Fehler beim Senden von Audio",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "destroyRoom": "⚠️ Raum zerstören",
+  "@destroyRoom": {
+    "description": "Titel des Dialogs zum Zerstören des Raums"
+  },
+  "destroyRoomContent": "Diese Aktion zerstört den Chatraum dauerhaft für beide Benutzer.\n\nEin für beide Teilnehmer sichtbarer 10-Sekunden-Countdown wird gestartet.",
+  "@destroyRoomContent": {
+    "description": "Inhalt des Dialogs zum Zerstören des Raums"
+  },
+  "destroyRoomButton": "Raum zerstören",
+  "@destroyRoomButton": {
+    "description": "Button zum Zerstören des Raums"
+  },
+  "connectingToSecureChat": "Verbinde mit sicherem Chat...",
+  "@connectingToSecureChat": {
+    "description": "Nachricht beim Verbinden mit dem Chat"
+  },
+  "sendEncryptedImage": "📷 Verschlüsseltes Bild senden",
+  "@sendEncryptedImage": {
+    "description": "Titel des Bildauswahlfensters"
+  },
+  "takePhoto": "Foto aufnehmen",
+  "@takePhoto": {
+    "description": "Option zum Aufnehmen eines Fotos"
+  },
+  "useCamera": "Kamera verwenden",
+  "@useCamera": {
+    "description": "Beschreibung der Kameranutzung"
+  },
+  "gallery": "Galerie",
+  "@gallery": {
+    "description": "Galerie-Option"
+  },
+  "selectImage": "Bild auswählen",
+  "@selectImage": {
+    "description": "Beschreibung der Bildauswahl"
+  },
+  "encryptedMessage": "Verschlüsselte Nachricht...",
+  "@encryptedMessage": {
+    "description": "Platzhalter des Nachrichtenfeldes"
+  },
+  "autoDestructionConfigured1Min": "Selbstzerstörung konfiguriert: 1 Minute",
+  "@autoDestructionConfigured1Min": {
+    "description": "Bestätigung der Selbstzerstörung 1 Minute"
+  },
+  "autoDestructionConfigured5Min": "Selbstzerstörung konfiguriert: 5 Minuten",
+  "@autoDestructionConfigured5Min": {
+    "description": "Bestätigung der Selbstzerstörung 5 Minuten"
+  },
+  "autoDestructionConfigured1Hour": "Selbstzerstörung konfiguriert: 1 Stunde",
+  "@autoDestructionConfigured1Hour": {
+    "description": "Bestätigung der Selbstzerstörung 1 Stunde"
+  },
+  "image": "Bild",
+  "@image": {
+    "description": "Nachrichtentyp Bild"
+  },
+  "audioNote": "Audionotiz",
+  "@audioNote": {
+    "description": "Nachrichtentyp Audio"
+  },
+  "screenshotAlert": "📸 Achtung! {user} hat einen Screenshot gemacht",
+  "@screenshotAlert": {
+    "description": "Warnung vor Screenshot",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotNotification": "📸 {user} hat einen Screenshot gemacht",
+  "@screenshotNotification": {
+    "description": "Benachrichtigung über Screenshot",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "initializingAudioRecorder": "Audiorecorder wird initialisiert...",
+  "@initializingAudioRecorder": {
+    "description": "Nachricht bei Initialisierung des Recorders"
+  },
+  "audioRecorderNotAvailable": "Audiorecorder nicht verfügbar. Überprüfen Sie die Mikrofonberechtigungen.",
+  "@audioRecorderNotAvailable": {
+    "description": "Fehler bei nicht verfügbarem Recorder"
+  },
+  "errorStartingRecording": "Fehler beim Starten der Aufnahme: {error}",
+  "@errorStartingRecording": {
+    "description": "Fehler beim Starten der Aufnahme",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioPlayerNotAvailable": "Audioplayer nicht verfügbar",
+  "@audioPlayerNotAvailable": {
+    "description": "Fehler bei nicht verfügbarem Player"
+  },
+  "audioNotAvailable": "Audio nicht verfügbar",
+  "@audioNotAvailable": {
+    "description": "Fehler bei nicht verfügbarem Audio"
+  },
+  "errorPlayingAudio": "Fehler beim Abspielen von Audio: {error}",
+  "@errorPlayingAudio": {
+    "description": "Fehler beim Abspielen von Audio",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotTestSent": "📸 Screenshot-Test gesendet",
+  "@screenshotTestSent": {
+    "description": "Bestätigung des Screenshot-Tests"
+  },
+  "errorSendingTest": "Fehler beim Senden des Tests: {error}",
+  "@errorSendingTest": {
+    "description": "Fehler beim Senden des Tests",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioTooLong": "Audio zu lang. Maximal 1MB erlaubt.",
+  "@audioTooLong": {
+    "description": "Fehler bei zu langem Audio"
+  },
+  "errorWebAudioRecording": "Fehler: Audio konnte im Web nicht aufgenommen werden",
+  "@errorWebAudioRecording": {
+    "description": "Fehler bei der Web-Aufnahme"
+  },
+  "errorWebAudioSaving": "Fehler: Audio konnte nicht gespeichert werden",
+  "@errorWebAudioSaving": {
+    "description": "Fehler beim Speichern von Audio im Web"
+  },
+  "errorStoppingRecording": "Fehler beim Stoppen der Aufnahme: {error}",
+  "@errorStoppingRecording": {
+    "description": "Fehler beim Stoppen der Aufnahme",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sendEncryptedImageTooltip": "Verschlüsseltes Bild senden",
+  "@sendEncryptedImageTooltip": {
+    "description": "Tooltip des Buttons zum Senden eines verschlüsselten Bildes"
+  }
+}

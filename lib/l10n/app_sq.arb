@@ -1,0 +1,1434 @@
+{
+  "@@locale": "sq",
+  "appTitle": "FlutterPutter",
+  "@appTitle": {
+    "description": "Emri i aplikacionit"
+  },
+  "loginTitle": "Hyni për të vazhduar",
+  "@loginTitle": {
+    "description": "Titulli i ekranit të hyrjes"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Fusha e emailit"
+  },
+  "enterEmail": "Vendosni emailin tuaj",
+  "@enterEmail": {
+    "description": "Ndihmës për fushën e emailit"
+  },
+  "password": "Fjalëkalimi",
+  "@password": {
+    "description": "Fusha e fjalëkalimit"
+  },
+  "enterPassword": "Vendosni fjalëkalimin tuaj",
+  "@enterPassword": {
+    "description": "Ndihmës për fushën e fjalëkalimit"
+  },
+  "pleaseEnterEmail": "Ju lutemi vendosni emailin tuaj",
+  "@pleaseEnterEmail": {
+    "description": "Validimi i emailit bosh"
+  },
+  "enterValidEmail": "Vendosni një email të vlefshëm",
+  "@enterValidEmail": {
+    "description": "Validimi i emailit të pavlefshëm"
+  },
+  "pleaseEnterPassword": "Ju lutemi vendosni fjalëkalimin tuaj",
+  "@pleaseEnterPassword": {
+    "description": "Validimi i fjalëkalimit bosh"
+  },
+  "passwordMinLength": "Fjalëkalimi duhet të ketë të paktën 6 karaktere",
+  "@passwordMinLength": {
+    "description": "Validimi i gjatësisë së fjalëkalimit"
+  },
+  "privacyAndSecurity": "Privatësia dhe Siguria",
+  "@privacyAndSecurity": {
+    "description": "Titulli i seksionit të privatësisë"
+  },
+  "noDataCollection": "Ne nuk mbledhim të dhëna personale",
+  "@noDataCollection": {
+    "description": "Mesazh për mosmbledhjen e të dhënave"
+  },
+  "anonymousConnections": "Të gjitha lidhjet janë anonime",
+  "@anonymousConnections": {
+    "description": "Mesazh për lidhjet anonime"
+  },
+  "ephemeralChatRooms": "Dhomat e bisedave të përkohshme që shkatërrohen automatikisht",
+  "@ephemeralChatRooms": {
+    "description": "Përshkrimi i dhomave të përkohshme"
+  },
+  "encryptionInfo": "Enkriptimi XSalsa20 me çelësa të rastësishëm për dhomë",
+  "@encryptionInfo": {
+    "description": "Informacion mbi enkriptimin"
+  },
+  "loginButton": "Hyni",
+  "@loginButton": {
+    "description": "Butoni i hyrjes"
+  },
+  "noAccount": "Nuk keni një llogari?",
+  "@noAccount": {
+    "description": "Pyetje rreth regjistrimit"
+  },
+  "register": "Regjistrohu",
+  "@register": {
+    "description": "Lidhja e regjistrimit"
+  },
+  "oneSessionSecurity": "🔒 Lejohet vetëm 1 seancë aktive për përdorues për siguri më të madhe",
+  "@oneSessionSecurity": {
+    "description": "Mesazh për një seancë për siguri"
+  },
+  "oneSessionMaxSecurity": "Vetëm 1 seancë për përdorues (Siguri Maksimale)",
+  "@oneSessionMaxSecurity": {
+    "description": "Teksti i butonit të sigurisë maksimale"
+  },
+  "chats": "Bisedat",
+  "@chats": {
+    "description": "Skeda e bisedave"
+  },
+  "secureChat": "Bisedë e Sigurt",
+  "@secureChat": {
+    "description": "Titulli i bisedës së sigurt"
+  },
+  "secureChatDescription": "Prekni për të krijuar ose bashkuar në biseda të përkohshme",
+  "@secureChatDescription": {
+    "description": "Përshkrimi i bisedës së sigurt"
+  },
+  "privateVideoCall": "Videothirrje Private",
+  "@privateVideoCall": {
+    "description": "Titulli i videothirrjes private"
+  },
+  "videoCallDescription": "Thirrja përfundoi",
+  "@videoCallDescription": {
+    "description": "Statusi i thirrjes së përfunduar"
+  },
+  "multipleChats": "Biseda të Shumta",
+  "@multipleChats": {
+    "description": "Titulli i bisedave të shumta"
+  },
+  "newRoom": "Dhomë e Re",
+  "@newRoom": {
+    "description": "Butoni për të krijuar dhomë të re"
+  },
+  "noActiveChats": "Nuk ka biseda aktive",
+  "@noActiveChats": {
+    "description": "Mesazh kur nuk ka biseda"
+  },
+  "useNewRoomButton": "Përdorni skedën 'Dhomë e Re' për të krijuar një bisedë",
+  "@useNewRoomButton": {
+    "description": "Udhëzim për të krijuar bisedë"
+  },
+  "searchUsers": "Kërko Përdorues",
+  "@searchUsers": {
+    "description": "Titulli i ekranit të kërkimit të përdoruesve"
+  },
+  "searchByNickname": "Kërko sipas nofkës",
+  "@searchByNickname": {
+    "description": "Ndihmës për fushën e kërkimit sipas nofkës"
+  },
+  "calls": "Thirrjet",
+  "@calls": {
+    "description": "Skeda e thirrjeve"
+  },
+  "verification": "Verifikimi",
+  "@verification": {
+    "description": "Skeda e verifikimit"
+  },
+  "verificationDemo": "Demo: Verifikimi i Identitetit",
+  "@verificationDemo": {
+    "description": "Titulli i demonstrimit të verifikimit"
+  },
+  "verificationDemoDescription": "Kjo është një demonstrim i sistemit të verifikimit anonim të identitetit. Në një implementim real, ky widget do të integrohej në dhomat e bisedave të përkohshme.",
+  "@verificationDemoDescription": {
+    "description": "Përshkrimi i demonstrimit të verifikimit"
+  },
+  "room": "Dhomë",
+  "@room": {
+    "description": "Etiketa e dhomës"
+  },
+  "user": "Përdorues",
+  "@user": {
+    "description": "Etiketa e përdoruesit"
+  },
+  "identityVerification": "Verifikimi i Identitetit",
+  "@identityVerification": {
+    "description": "Titulli i verifikimit të identitetit"
+  },
+  "verifyIdentityDescription": "Prekni për të verifikuar identitetin në mënyrë anonime",
+  "@verifyIdentityDescription": {
+    "description": "Përshkrimi i verifikimit anonim"
+  },
+  "statusNotVerified": "Statusi: I Paverifikuar",
+  "@statusNotVerified": {
+    "description": "Statusi i paverifikuar"
+  },
+  "notVerifiedYet": "Identiteti ende nuk është verifikuar",
+  "@notVerifiedYet": {
+    "description": "Mesazh për mosverifikimin"
+  },
+  "howToTest": "Si të Testoni Verifikimin",
+  "@howToTest": {
+    "description": "Titulli i udhëzimeve"
+  },
+  "step1": "Prekni mbi",
+  "@step1": {
+    "description": "Hapi 1"
+  },
+  "step2": "Prekni",
+  "@step2": {
+    "description": "Hapi 2"
+  },
+  "step3": "Kopjoni një nga kodet (alfanumerik, numerik ose emoji)",
+  "@step3": {
+    "description": "Hapi 3"
+  },
+  "step4": "Ngjisni kodin në",
+  "@step4": {
+    "description": "Hapi 4"
+  },
+  "step5": "Prekni",
+  "@step5": {
+    "description": "Hapi 5"
+  },
+  "showMyCodes": "Shfaq Kodet e Mia",
+  "@showMyCodes": {
+    "description": "Butoni për të shfaqur kodet"
+  },
+  "verifyPartnerCode": "VERIFIKO KODIN E PARTNERIT",
+  "@verifyPartnerCode": {
+    "description": "Teksti i butonit të verifikimit"
+  },
+  "verify": "Verifiko",
+  "@verify": {
+    "description": "Butoni i verifikimit"
+  },
+  "realUsage": "Në përdorim real: Përdoruesit do të ndanin kodet përmes WhatsApp, Telegram, etj.",
+  "@realUsage": {
+    "description": "Shënim mbi përdorimin real"
+  },
+  "securitySettings": "Cilësimet e Sigurisë",
+  "@securitySettings": {
+    "description": "Titulli i cilësimeve të sigurisë"
+  },
+  "securitySettingsDescription": "Konfiguroni një PIN sigurie për të mbrojtur privatësinë tuaj. Njoftimet do të vazhdojnë të mbërrijnë edhe pse aplikacioni është i bllokuar.",
+  "@securitySettingsDescription": {
+    "description": "Përshkrimi i cilësimeve të sigurisë"
+  },
+  "configureAppLock": "Konfiguro bllokimin e aplikacionit",
+  "@configureAppLock": {
+    "description": "Titulli i konfigurimit të bllokimit"
+  },
+  "newPin": "PIN i Ri (4-15 karaktere)",
+  "@newPin": {
+    "description": "Fusha e PIN-it të ri"
+  },
+  "confirmPin": "Konfirmo PIN-in",
+  "@confirmPin": {
+    "description": "Fusha e konfirmimit të PIN-it"
+  },
+  "activateLock": "Aktivizo bllokimin",
+  "@activateLock": {
+    "description": "Butoni i aktivizimit të bllokimit"
+  },
+  "screenshotSecurity": "Siguria e pamjeve të ekranit",
+  "@screenshotSecurity": {
+    "description": "Titulli i sigurisë së pamjeve të ekranit"
+  },
+  "screenshotSecurityDescription": "Kontrolloni nëse mund të merren pamje të ekranit të aplikacionit.",
+  "@screenshotSecurityDescription": {
+    "description": "Përshkrimi i sigurisë së pamjeve të ekranit"
+  },
+  "allowScreenshots": "Lejo pamjet e ekranit",
+  "@allowScreenshots": {
+    "description": "Opsioni për të lejuar pamjet e ekranit"
+  },
+  "screenshotsAllowed": "Pamjet e ekranit janë të LEJUARA",
+  "@screenshotsAllowed": {
+    "description": "Statusi i pamjeve të ekranit të lejuara"
+  },
+  "screenshotsDisabled": "Mund t'i çaktivizoni për siguri më të madhe",
+  "@screenshotsDisabled": {
+    "description": "Sugjerim për çaktivizimin e pamjeve të ekranit"
+  },
+  "autoDestructionDefault": "Vetëshkatërrimi i paracaktuar",
+  "@autoDestructionDefault": {
+    "description": "Titulli i vetëshkatërrimit"
+  },
+  "autoDestructionDescription": "Konfiguroni një kohë vetëshkatërrimi që do të aplikohet automatikisht kur bashkoheni në dhoma të reja bisede:",
+  "@autoDestructionDescription": {
+    "description": "Përshkrimi i vetëshkatërrimit"
+  },
+  "defaultTime": "Koha e paracaktuar:",
+  "@defaultTime": {
+    "description": "Etiketa e kohës së paracaktuar"
+  },
+  "noLimit": "Pa limit",
+  "@noLimit": {
+    "description": "Opsioni pa limit"
+  },
+  "selectTime": "Zgjidhni një kohë për të aktivizuar vetëshkatërrimin e paracaktuar. Mesazhet do të fshihen automatikisht pas kohës së konfiguruar.",
+  "@selectTime": {
+    "description": "Udhëzim për zgjedhjen e kohës"
+  },
+  "activeSessions": "Seancat aktive",
+  "@activeSessions": {
+    "description": "Titulli i seancave aktive"
+  },
+  "activeSessionsDescription": "Menaxhoni pajisjet ku keni seanca të hapura. Ngjashëm me Signal dhe WhatsApp.",
+  "@activeSessionsDescription": {
+    "description": "Përshkrimi i seancave aktive"
+  },
+  "currentState": "Gjendja aktuale",
+  "@currentState": {
+    "description": "Gjendja aktuale"
+  },
+  "noActiveSessionsRegistered": "0 seanca aktive të regjistruara",
+  "@noActiveSessionsRegistered": {
+    "description": "Gjendja e seancave"
+  },
+  "multipleSessions": "Seanca të shumta: Çaktivizuar",
+  "@multipleSessions": {
+    "description": "Gjendja e seancave të shumta"
+  },
+  "configurationLikeSignal": "dhe konfigurim si Signal",
+  "@configurationLikeSignal": {
+    "description": "Përshkrimi i konfigurimit"
+  },
+  "manageSessions": "Menaxho seancat",
+  "@manageSessions": {
+    "description": "Butoni i menaxhimit të seancave"
+  },
+  "allowMultipleSessions": "Lejo seanca të shumta",
+  "@allowMultipleSessions": {
+    "description": "Opsioni për seanca të shumta"
+  },
+  "onlyOneActiveSession": "Vetëm një seancë aktive në të njëjtën kohë (si Signal)",
+  "@onlyOneActiveSession": {
+    "description": "Përshkrimi i një seance"
+  },
+  "searchByName": "Kërko sipas emrit...",
+  "@searchByName": {
+    "description": "Ndihmës për kërkimin sipas emrit"
+  },
+  "writeAtLeast2Characters": "Shkruani të paktën 2 karaktere për të kërkuar përdorues",
+  "@writeAtLeast2Characters": {
+    "description": "Udhëzim për kërkim minimal"
+  },
+  "connecting": "Duke u lidhur...",
+  "@connecting": {
+    "description": "Mesazh lidhjeje"
+  },
+  "error": "Gabim",
+  "@error": {
+    "description": "Etiketa e gabimit"
+  },
+  "secureMultimediaChat": "Bisedë Multimediale e Sigurt",
+  "@secureMultimediaChat": {
+    "description": "Titulli i bisedës multimediale"
+  },
+  "sendEncryptedMessages": "Dërgoni mesazhe dhe imazhe\\ntë enkriptuara me XChaCha20-Poly1305",
+  "@sendEncryptedMessages": {
+    "description": "Përshkrimi i bisedës së sigurt"
+  },
+  "encryptedMessage": "Mesazh i enkriptuar...",
+  "@encryptedMessage": {
+    "description": "Placeholder për mesazhin e enkriptuar"
+  },
+  "sendEncryptedImage": "Dërgo imazh të enkriptuar",
+  "@sendEncryptedImage": {
+    "description": "Tooltip për dërgimin e imazhit"
+  },
+  "takePhoto": "Bëj Foto",
+  "@takePhoto": {
+    "description": "Opsioni për të bërë foto"
+  },
+  "useCamera": "Përdor kamerën",
+  "@useCamera": {
+    "description": "Përshkrimi i përdorimit të kamerës"
+  },
+  "gallery": "Galeria",
+  "@gallery": {
+    "description": "Opsioni i galerisë"
+  },
+  "selectImage": "Zgjidh imazh",
+  "@selectImage": {
+    "description": "Përshkrimi i zgjedhjes së imazhit"
+  },
+  "capturesBlocked": "Pamjet e ekranit të bllokuara",
+  "@capturesBlocked": {
+    "description": "Tooltip për pamjet e ekranit të bllokuara"
+  },
+  "capturesAllowed": "Pamjet e ekranit të lejuara",
+  "@capturesAllowed": {
+    "description": "Tooltip për pamjet e ekranit të lejuara"
+  },
+  "e2eEncryptionSecurity": "Enkriptimi E2E + Siguria",
+  "@e2eEncryptionSecurity": {
+    "description": "Titulli i informacionit të enkriptimit"
+  },
+  "encryptionDescription": "Të gjitha mesazhet, imazhet dhe audio janë të enkriptuara lokalisht me XChaCha20-Poly1305.\\n\\nServeri sheh vetëm blobe të enkriptuara të errëta.\\n\\nAudio me regjistrim real të implementuar.",
+  "@encryptionDescription": {
+    "description": "Përshkrim i detajuar i enkriptimit"
+  },
+  "screenshotsStatus": "Pamjet e ekranit:",
+  "@screenshotsStatus": {
+    "description": "Statusi i pamjeve të ekranit"
+  },
+  "screenshotsBlocked": "TË BLLOKUARA",
+  "@screenshotsBlocked": {
+    "description": "Pamjet e ekranit të bllokuara"
+  },
+  "screenshotsPermitted": "TË LEJUARA",
+  "@screenshotsPermitted": {
+    "description": "Pamjet e ekranit të lejuara"
+  },
+  "likeWhatsAppTelegram": "Si WhatsApp/Telegram - ekran i zi në pamjet e ekranit",
+  "@likeWhatsAppTelegram": {
+    "description": "Përshkrimi i sjelljes së pamjeve të ekranit"
+  },
+  "understood": "E kuptova",
+  "@understood": {
+    "description": "Butoni i kuptimit"
+  },
+  "destroyRoom": "Shkatërro Dhomën",
+  "@destroyRoom": {
+    "description": "Opsioni për të shkatërruar dhomën"
+  },
+  "warningDestroyRoom": "Ky veprim do të shkatërrojë përgjithmonë dhomën e bisedës për të dy përdoruesit.\\n\\nDo të fillojë një numërues prej 10 sekondash i dukshëm për të dy pjesëmarrësit.",
+  "@warningDestroyRoom": {
+    "description": "Paralajmërim për shkatërrimin e dhomës"
+  },
+  "cancel": "Anulo",
+  "@cancel": {
+    "description": "Butoni i anulimit"
+  },
+  "audioNote": "Shënim audio",
+  "@audioNote": {
+    "description": "Etiketa e shënimit audio"
+  },
+  "recordedAudioNote": "Shënim audio (i regjistruar)",
+  "@recordedAudioNote": {
+    "description": "Shënim audio i regjistruar"
+  },
+  "playing": "Duke luajtur...",
+  "@playing": {
+    "description": "Statusi i luajtjes"
+  },
+  "tapToStop": "Prekni për të ndaluar",
+  "@tapToStop": {
+    "description": "Udhëzim për të ndaluar"
+  },
+  "tapToPlay": "Prekni për të luajtur",
+  "@tapToPlay": {
+    "description": "Udhëzim për të luajtur"
+  },
+  "image": "Imazh",
+  "@image": {
+    "description": "Etiketa e imazhit"
+  },
+  "backToMultipleChats": "Kthehu te bisedat e shumta",
+  "@backToMultipleChats": {
+    "description": "Tooltip për kthimin te bisedat e shumta"
+  },
+  "backToChat": "Kthehu te biseda",
+  "@backToChat": {
+    "description": "Tooltip për kthimin te biseda"
+  },
+  "screenshotsBlockedAutomatically": "Pamjet e ekranit TË BLLOKUARA",
+  "@screenshotsBlockedAutomatically": {
+    "description": "Mesazh për pamjet e ekranit të bllokuara"
+  },
+  "screenshotsEnabled": "Pamjet e ekranit TË AKTIVIZUARA",
+  "@screenshotsEnabled": {
+    "description": "Mesazh për pamjet e ekranit të aktivizuara"
+  },
+  "identityVerifiedCorrectly": "Identiteti i partnerit u verifikua saktë",
+  "@identityVerifiedCorrectly": {
+    "description": "Mesazh për verifikimin e suksesshëm"
+  },
+  "createAccount": "Krijo Llogari",
+  "@createAccount": {
+    "description": "Titulli i ekranit të regjistrimit"
+  },
+  "registerSubtitle": "Regjistrohu për të filluar përdorimin e FlutterPutter",
+  "@registerSubtitle": {
+    "description": "Nëntitulli i ekranit të regjistrimit"
+  },
+  "nickname": "Nofka",
+  "@nickname": {
+    "description": "Fusha e nofkës"
+  },
+  "chooseUniqueNickname": "Zgjidhni një nofkë unike",
+  "@chooseUniqueNickname": {
+    "description": "Ndihmës për fushën e nofkës"
+  },
+  "createSecurePassword": "Krijoni një fjalëkalim të sigurt",
+  "@createSecurePassword": {
+    "description": "Ndihmës për fushën e fjalëkalimit në regjistrim"
+  },
+  "confirmPassword": "Konfirmo Fjalëkalimin",
+  "@confirmPassword": {
+    "description": "Fusha e konfirmimit të fjalëkalimit"
+  },
+  "repeatPassword": "Përsëritni fjalëkalimin tuaj",
+  "@repeatPassword": {
+    "description": "Ndihmës për fushën e konfirmimit të fjalëkalimit"
+  },
+  "invitationCode": "Kodi i Ftesës",
+  "@invitationCode": {
+    "description": "Fusha e kodit të ftesës"
+  },
+  "enterInvitationCode": "Vendosni kodin tuaj të ftesës",
+  "@enterInvitationCode": {
+    "description": "Ndihmës për fushën e kodit të ftesës"
+  },
+  "registerButton": "Regjistrohu",
+  "@registerButton": {
+    "description": "Butoni i regjistrimit"
+  },
+  "pleaseConfirmPassword": "Ju lutemi konfirmoni fjalëkalimin tuaj",
+  "@pleaseConfirmPassword": {
+    "description": "Validimi i konfirmimit të fjalëkalimit bosh"
+  },
+  "passwordsDoNotMatch": "Fjalëkalimet nuk përputhen",
+  "@passwordsDoNotMatch": {
+    "description": "Validimi i fjalëkalimeve të ndryshme"
+  },
+  "pleaseEnterNickname": "Ju lutemi vendosni një nofkë",
+  "@pleaseEnterNickname": {
+    "description": "Validimi i nofkës bosh"
+  },
+  "nicknameMinLength": "Nofka duhet të ketë të paktën 3 karaktere",
+  "@nicknameMinLength": {
+    "description": "Validimi i gjatësisë së nofkës"
+  },
+  "pleaseEnterInvitationCode": "Ju lutemi vendosni një kod ftese",
+  "@pleaseEnterInvitationCode": {
+    "description": "Validimi i kodit të ftesës bosh"
+  },
+  "invitationCodeLength": "Kodi duhet të ketë 8 karaktere",
+  "@invitationCodeLength": {
+    "description": "Validimi i gjatësisë së kodit të ftesës"
+  },
+  "newChatInvitationReceived": "📩 Ftesë e re bisede e marrë",
+  "@newChatInvitationReceived": {
+    "description": "Njoftim për ftesë të re"
+  },
+  "view": "Shiko",
+  "@view": {
+    "description": "Butoni i shikimit"
+  },
+  "chatInvitations": "Ftesat e Bisedave",
+  "@chatInvitations": {
+    "description": "Tooltip për ftesat e bisedave"
+  },
+  "securitySettingsTooltip": "Cilësimet e Sigurisë",
+  "@securitySettingsTooltip": {
+    "description": "Tooltip për cilësimet e sigurisë"
+  },
+  "helloUser": "Përshëndetje, {nickname}",
+  "@helloUser": {
+    "description": "Përshëndetje e personalizuar për përdoruesin",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "searchUsersToVideoCall": "Kërkoni përdorues për të filluar një videothirrje",
+  "@searchUsersToVideoCall": {
+    "description": "Udhëzim kryesor i ekranit fillestar"
+  },
+  "searchUsersButton": "Kërko Përdorues",
+  "@searchUsersButton": {
+    "description": "Butoni i kërkimit të përdoruesve"
+  },
+  "testIdentityVerification": "Testo verifikimin e identitetit",
+  "@testIdentityVerification": {
+    "description": "Nëntitulli i demonstrimit të verifikimit"
+  },
+  "ephemeralChat": "💬 Bisedë e Përkohshme",
+  "@ephemeralChat": {
+    "description": "Titulli i butonit të bisedës së përkohshme"
+  },
+  "multipleSimultaneousRooms": "Dhoma të shumta të njëkohshme (maks. 10)",
+  "@multipleSimultaneousRooms": {
+    "description": "Nëntitulli i bisedës së përkohshme"
+  },
+  "logout": "Dilni",
+  "@logout": {
+    "description": "Opsioni i daljes"
+  },
+  "logoutConfirmTitle": "Dilni",
+  "@logoutConfirmTitle": {
+    "description": "Titulli i dialogut të konfirmimit të daljes"
+  },
+  "logoutConfirmMessage": "Jeni të sigurt që doni të dilni?",
+  "@logoutConfirmMessage": {
+    "description": "Mesazh konfirmimi për dalje"
+  },
+  "helpSection": "Ndihma dhe Mbështetja",
+  "@helpSection": {
+    "description": "Titulli i seksionit të ndihmës"
+  },
+  "supportCenter": "Qendra e mbështetjes",
+  "@supportCenter": {
+    "description": "Opsioni i qendrës së mbështetjes"
+  },
+  "supportCenterDescription": "Merrni ndihmë dhe konsultoni pyetjet e shpeshta",
+  "@supportCenterDescription": {
+    "description": "Përshkrimi i qendrës së mbështetjes"
+  },
+  "contactUs": "Na Kontaktoni",
+  "@contactUs": {
+    "description": "Opsioni i kontaktit"
+  },
+  "contactUsDescription": "Na dërgoni një email për të zgjidhur dyshimet tuaja",
+  "@contactUsDescription": {
+    "description": "Përshkrimi i kontaktit"
+  },
+  "contactEmail": "FlutterPutter@Proton.me",
+  "@contactEmail": {
+    "description": "Email kontakti"
+  },
+  "appVersion": "Versioni",
+  "@appVersion": {
+    "description": "Etiketa e versionit"
+  },
+  "versionNumber": "Versioni 1.0 Beta",
+  "@versionNumber": {
+    "description": "Numri i versionit të aplikacionit"
+  },
+  "termsAndConditions": "Kushtet dhe Afatet",
+  "@termsAndConditions": {
+    "description": "Opsioni i kushteve dhe afateve"
+  },
+  "termsDescription": "Lexoni kushtet tona të shërbimit",
+  "@termsDescription": {
+    "description": "Përshkrimi i kushteve dhe afateve"
+  },
+  "privacyPolicy": "Politika e Privatësisë",
+  "@privacyPolicy": {
+    "description": "Opsioni i politikës së privatësisë"
+  },
+  "privacyPolicyDescription": "Konsultoni se si mbrojmë informacionin tuaj",
+  "@privacyPolicyDescription": {
+    "description": "Përshkrimi i politikës së privatësisë"
+  },
+  "emailCopied": "Emaili u kopjua në kujtesën e fragmenteve",
+  "@emailCopied": {
+    "description": "Mesazh kur kopjohet emaili i kontaktit"
+  },
+  "openingWebPage": "Duke hapur faqen e internetit...",
+  "@openingWebPage": {
+    "description": "Mesazh kur hapet një faqe interneti"
+  },
+  "errorOpeningWebPage": "Gabim gjatë hapjes së faqes së internetit",
+  "@errorOpeningWebPage": {
+    "description": "Mesazh gabimi gjatë hapjes së faqes së internetit"
+  },
+  "pinLengthError": "PIN-i duhet të ketë midis 4 dhe 15 karaktereve",
+  "@pinLengthError": {
+    "description": "Gabim në gjatësinë e PIN-it"
+  },
+  "pinMismatch": "PIN-et nuk përputhen",
+  "@pinMismatch": {
+    "description": "Gabim kur PIN-et nuk përputhen"
+  },
+  "appLockSetupSuccess": "🔒 Bllokimi i aplikacionit u konfigurua me sukses",
+  "@appLockSetupSuccess": {
+    "description": "Mesazh suksesi gjatë konfigurimit të bllokimit"
+  },
+  "pinSetupError": "Gabim gjatë konfigurimit të PIN-it",
+  "@pinSetupError": {
+    "description": "Gabim gjatë konfigurimit të PIN-it"
+  },
+  "pinChangeSuccess": "🔒 PIN-i u ndryshua me sukses",
+  "@pinChangeSuccess": {
+    "description": "Mesazh suksesi gjatë ndryshimit të PIN-it"
+  },
+  "currentPinIncorrect": "PIN-i aktual është i pasaktë",
+  "@currentPinIncorrect": {
+    "description": "Gabim kur PIN-i aktual është i pasaktë"
+  },
+  "disableAppLockTitle": "Çaktivizo bllokimin",
+  "@disableAppLockTitle": {
+    "description": "Titulli i dialogut për çaktivizimin e bllokimit"
+  },
+  "disableAppLockMessage": "Jeni të sigurt që doni të çaktivizoni bllokimin e aplikacionit?",
+  "@disableAppLockMessage": {
+    "description": "Mesazh konfirmimi për çaktivizimin e bllokimit"
+  },
+  "appLockDisabled": "🔓 Bllokimi i aplikacionit u çaktivizua",
+  "@appLockDisabled": {
+    "description": "Mesazh kur bllokimi çaktivizohet"
+  },
+  "confirm": "Konfirmo",
+  "@confirm": {
+    "description": "Butoni i konfirmimit"
+  },
+  "changePin": "Ndrysho PIN-in:",
+  "@changePin": {
+    "description": "Titulli për ndryshimin e PIN-it"
+  },
+  "currentPin": "PIN-i aktual",
+  "@currentPin": {
+    "description": "Fusha e PIN-it aktual"
+  },
+  "confirmNewPin": "Konfirmo PIN-in e ri",
+  "@confirmNewPin": {
+    "description": "Fusha e konfirmimit të PIN-it të ri"
+  },
+  "changePinButton": "Ndrysho PIN-in",
+  "@changePinButton": {
+    "description": "Butoni për ndryshimin e PIN-it"
+  },
+  "biometricUnlock": "Zhbloko aplikacionin me biometri përveç PIN-it",
+  "@biometricUnlock": {
+    "description": "Përshkrimi i zhbllokimit biometrik"
+  },
+  "screenshotsAllowedMessage": "🔓 Pamjet e ekranit TË LEJUARA",
+  "@screenshotsAllowedMessage": {
+    "description": "Mesazh kur pamjet e ekranit janë të lejuara"
+  },
+  "screenshotsBlockedMessage": "🔒 Pamjet e ekranit TË BLLOKUARA",
+  "@screenshotsBlockedMessage": {
+    "description": "Mesazh kur pamjet e ekranit janë të bllokuara"
+  },
+  "screenshotConfigError": "Gabim gjatë përditësimit të konfigurimit të pamjeve të ekranit",
+  "@screenshotConfigError": {
+    "description": "Gabim gjatë përditësimit të konfigurimit të pamjeve të ekranit"
+  },
+  "protectionActive": "Mbrojtje aktive",
+  "@protectionActive": {
+    "description": "Titulli i mbrojtjes aktive"
+  },
+  "nativeProtectionFeatures": "• Bllokim nativ në iOS dhe Android\n• Alarm kur zbulohen përpjekje për kapje\n• Mbrojtje në ndërruesin e aplikacioneve",
+  "@nativeProtectionFeatures": {
+    "description": "Lista e veçorive të mbrojtjes native"
+  },
+  "autoDestructionDefaultDisabled": "🔥 Vetëshkatërrimi i paracaktuar u çaktivizua",
+  "@autoDestructionDefaultDisabled": {
+    "description": "Mesazh kur vetëshkatërrimi i paracaktuar çaktivizohet"
+  },
+  "autoDestructionError": "Gabim gjatë përditësimit të konfigurimit të vetëshkatërrimit",
+  "@autoDestructionError": {
+    "description": "Gabim gjatë përditësimit të vetëshkatërrimit"
+  },
+  "protectYourApp": "Mbroni aplikacionin tuaj",
+  "@protectYourApp": {
+    "description": "Titulli kryesor i sigurisë"
+  },
+  "securityPinDescription": "Konfiguroni një PIN sigurie për të mbrojtur privatësinë tuaj. Njoftimet do të vazhdojnë të mbërrijnë edhe pse aplikacioni është i bllokuar.",
+  "@securityPinDescription": {
+    "description": "Përshkrimi i konfigurimit të PIN-it"
+  },
+  "lockActivated": "Bllokimi u aktivizua",
+  "@lockActivated": {
+    "description": "Gjendja kur bllokimi është aktiv"
+  },
+  "disable": "Çaktivizo",
+  "@disable": {
+    "description": "Butoni i çaktivizimit"
+  },
+  "errorCopyingEmail": "Gabim gjatë kopjimit të emailit",
+  "@errorCopyingEmail": {
+    "description": "Gabim gjatë kopjimit të emailit në kujtesën e fragmenteve"
+  },
+  "automaticLockTimeout": "Koha e bllokimit automatik",
+  "@automaticLockTimeout": {
+    "description": "Titulli i konfigurimit të kohës së bllokimit"
+  },
+  "appWillLockAfter": "Aplikacioni do të bllokohet automatikisht pas:",
+  "@appWillLockAfter": {
+    "description": "Përshkrimi i bllokimit automatik"
+  },
+  "biometricAuthentication": "Autentifikimi biometrik",
+  "@biometricAuthentication": {
+    "description": "Titulli i autentifikimit biometrik"
+  },
+  "enableBiometric": "Aktivizo gjurmën e gishtit/Face ID",
+  "@enableBiometric": {
+    "description": "Opsioni për të aktivizuar biometrinë"
+  },
+  "autoApplyDefault": "Apliko automatikisht",
+  "@autoApplyDefault": {
+    "description": "Opsioni i aplikimit automatik të paracaktuar"
+  },
+  "autoApplyEnabled": "Do të aplikohet kur bashkoheni në dhoma të reja",
+  "@autoApplyEnabled": {
+    "description": "Përshkrimi kur aplikimi automatik është i aktivizuar"
+  },
+  "autoApplyDisabled": "Apliko vetëm manualisht në çdo dhomë",
+  "@autoApplyDisabled": {
+    "description": "Përshkrimi kur aplikimi automatik është i çaktivizuar"
+  },
+  "currentConfiguration": "Konfigurimi aktual",
+  "@currentConfiguration": {
+    "description": "Titulli i konfigurimit aktual"
+  },
+  "sessionActive": "seancë aktive",
+  "@sessionActive": {
+    "description": "Njëjës për seancë aktive"
+  },
+  "sessionsActive": "seanca aktive",
+  "@sessionsActive": {
+    "description": "Shumës për seanca aktive"
+  },
+  "noActiveSessionsMessage": "Nuk ka seanca aktive të regjistruara",
+  "@noActiveSessionsMessage": {
+    "description": "Mesazh kur nuk ka seanca aktive"
+  },
+  "helpAndSupport": "Merrni ndihmë, na kontaktoni ose konsultoni politikat tona",
+  "@helpAndSupport": {
+    "description": "Përshkrimi i ndihmës dhe mbështetjes"
+  },
+  "autoDestructionDefaultEnabled": "🔥 Vetëshkatërrimi i paracaktuar: ",
+  "@autoDestructionDefaultEnabled": {
+    "description": "Mesazh kur vetëshkatërrimi i paracaktuar është i aktivizuar"
+  },
+  "verificationDemonstration": "Demonstrimi i Verifikimit",
+  "@verificationDemonstration": {
+    "description": "Titulli i demonstrimit të verifikimit"
+  },
+  "roomLabel": "Dhoma:",
+  "@roomLabel": {
+    "description": "Etiketa e dhomës"
+  },
+  "userLabel": "Përdoruesi:",
+  "@userLabel": {
+    "description": "Etiketa e përdoruesit"
+  },
+  "statusVerified": "Statusi: I Verifikuar ✅",
+  "@statusVerified": {
+    "description": "Statusi kur është i verifikuar"
+  },
+  "identityVerifiedCorrect": "Identiteti u verifikua saktë",
+  "@identityVerifiedCorrect": {
+    "description": "Mesazh kur identiteti është i verifikuar"
+  },
+  "identityVerifiedFull": "✅ Identiteti i Verifikuar",
+  "@identityVerifiedFull": {
+    "description": "Titulli kur identiteti është i verifikuar"
+  },
+  "bothUsersVerified": "Të dy përdoruesit kanë verifikuar identitetin e tyre",
+  "@bothUsersVerified": {
+    "description": "Mesazh kur të dy përdoruesit janë të verifikuar"
+  },
+  "yourVerificationCodes": "KODET TUAJA TË VERIFIKIMIT",
+  "@yourVerificationCodes": {
+    "description": "Titulli i kodeve tuaja të verifikimit"
+  },
+  "shareCodeMessage": "Ndani NJË nga këto kode përmes një kanali tjetër (WhatsApp, Telegram, etj.)",
+  "@shareCodeMessage": {
+    "description": "Udhëzim për ndarjen e kodeve"
+  },
+  "hideCodesBut": "🙈 Fshih Kodet",
+  "@hideCodesBut": {
+    "description": "Butoni për të fshehur kodet"
+  },
+  "alphanumericCode": "🔤 Alfanumerik",
+  "@alphanumericCode": {
+    "description": "Lloji i kodit alfanumerik"
+  },
+  "numericCode": "🔢 Numerik",
+  "@numericCode": {
+    "description": "Lloji i kodit numerik"
+  },
+  "emojiCode": "😀 Emoji",
+  "@emojiCode": {
+    "description": "Lloji i kodit emoji"
+  },
+  "enterCodeToVerify": "❌ Vendosni një kod për të verifikuar",
+  "@enterCodeToVerify": {
+    "description": "Gabim kur nuk vendoset kod"
+  },
+  "invalidCodeFormat": "❌ Formati i kodit i pavlefshëm",
+  "@invalidCodeFormat": {
+    "description": "Gabim në formatin e kodit"
+  },
+  "identityVerifiedSuccess": "✅ Identiteti u verifikua me sukses!",
+  "@identityVerifiedSuccess": {
+    "description": "Mesazh suksesi gjatë verifikimit"
+  },
+  "incorrectCode": "❌ Kodi i pasaktë",
+  "@incorrectCode": {
+    "description": "Gabim kur kodi është i pasaktë"
+  },
+  "codesRegenerated": "🔄 Kodet u rigjeneruan",
+  "@codesRegenerated": {
+    "description": "Mesazh kur kodet rigjenerohen"
+  },
+  "codeCopied": "📋 Kodi u kopjua në kujtesën e fragmenteve",
+  "@codeCopied": {
+    "description": "Mesazh kur kodi kopjohet"
+  },
+  "partnerCodesReceived": "📥 Kodet e partnerit u morën",
+  "@partnerCodesReceived": {
+    "description": "Mesazh kur merren kodet e partnerit"
+  },
+  "codesSentToPartner": "📤 Kodet iu dërguan partnerit",
+  "@codesSentToPartner": {
+    "description": "Mesazh kur dërgohen kodet"
+  },
+  "resendingCodes": "🔄 Duke ridërguar kodet te partneri...",
+  "@resendingCodes": {
+    "description": "Mesazh kur ridërgohen kodet"
+  },
+  "stepExpandVerification": "Prekni mbi \"🔐 Verifikimi i Identitetit\" për të zgjeruar",
+  "@stepExpandVerification": {
+    "description": "Hapi për të zgjeruar verifikimin"
+  },
+  "stepShowCodes": "Prekni \"👁️ Shfaq Kodet e Mia\" për të parë kodet tuaja unike",
+  "@stepShowCodes": {
+    "description": "Hapi për të shfaqur kodet"
+  },
+  "stepPasteCode": "Ngjisni kodin në \"VERIFIKO KODIN E PARTNERIT\"",
+  "@stepPasteCode": {
+    "description": "Hapi për të ngjitur kodin"
+  },
+  "stepVerifyCode": "Prekni \"✅ Verifiko\" për të simuluar verifikimin",
+  "@stepVerifyCode": {
+    "description": "Hapi për të verifikuar kodin"
+  },
+  "enterPartnerCode": "Vendosni kodin që ju ka ndarë personi tjetër:",
+  "@enterPartnerCode": {
+    "description": "Udhëzim për të vendosur kodin e partnerit"
+  },
+  "partnerCodesReceivedWithCode": "✅ Kodet e partnerit u morën:",
+  "@partnerCodesReceivedWithCode": {
+    "description": "Mesazh me kodin e marrë nga partneri"
+  },
+  "waitingPartnerCodes": "⏳ Duke pritur kodet e partnerit...",
+  "@waitingPartnerCodes": {
+    "description": "Mesazh duke pritur kodet e partnerit"
+  },
+  "verificationSuccessMessage": "Identiteti u verifikua me sukses! Të dy përdoruesit janë autentikë.",
+  "@verificationSuccessMessage": {
+    "description": "Mesazhi i plotë i verifikimit të suksesshëm"
+  },
+  "chatInvitationsTitle": "Ftesat e Bisedave",
+  "@chatInvitationsTitle": {
+    "description": "Titulli i ekranit të ftesave"
+  },
+  "cleanExpiredInvitations": "Pastro ftesat e skaduara",
+  "@cleanExpiredInvitations": {
+    "description": "Tooltip për pastrimin e ftesave të skaduara"
+  },
+  "refreshInvitations": "Rifresko ftesat",
+  "@refreshInvitations": {
+    "description": "Tooltip për rifreskimin e ftesave"
+  },
+  "errorInitializing": "Gabim gjatë inicializimit: {error}",
+  "@errorInitializing": {
+    "description": "Gabim gjatë inicializimit të shërbimit",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "expiredInvitationsDeleted": "{count} ftesa të skaduara u fshinë përgjithmonë",
+  "@expiredInvitationsDeleted": {
+    "description": "Mesazh kur fshihen ftesat e skaduara",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noExpiredInvitationsToClean": "Nuk ka ftesa të skaduara për t'u pastruar",
+  "@noExpiredInvitationsToClean": {
+    "description": "Mesazh kur nuk ka ftesa të skaduara"
+  },
+  "errorAcceptingInvitation": "Gabim gjatë pranimit të ftesës: {error}",
+  "@errorAcceptingInvitation": {
+    "description": "Gabim gjatë pranimit të ftesës",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorUpdatingInvitations": "Gabim gjatë përditësimit të ftesave: {error}",
+  "@errorUpdatingInvitations": {
+    "description": "Gabim gjatë përditësimit të ftesave",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsUpdated": "Përditësuar: {active} aktive, {expired} të skaduara të fshira",
+  "@invitationsUpdated": {
+    "description": "Mesazh përditësimi me numërues",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "expired": {
+        "type": "int"
+      }
+    }
+  },
+  "invitationsUpdatedActive": "Përditësuar: {active} ftesa aktive",
+  "@invitationsUpdatedActive": {
+    "description": "Mesazh përditësimi vetëm për aktivet",
+    "placeholders": {
+      "active": {
+        "type": "int"
+      }
+    }
+  },
+  "noInvitations": "Nuk ka ftesa",
+  "@noInvitations": {
+    "description": "Mesazh kur nuk ka ftesa"
+  },
+  "invitationsWillAppearHere": "Ftesat e bisedave do të shfaqen këtu",
+  "@invitationsWillAppearHere": {
+    "description": "Përshkrimi i gjendjes së zbrazët"
+  },
+  "chatInvitation": "Ftesë bisede",
+  "@chatInvitation": {
+    "description": "Titulli i një ftese individuale"
+  },
+  "fromUser": "Nga: {userId}",
+  "@fromUser": {
+    "description": "Nga cili përdorues vjen ftesa",
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
+  "expired": "E skaduar",
+  "@expired": {
+    "description": "Statusi i ftesës së skaduar"
+  },
+  "reject": "Refuzo",
+  "@reject": {
+    "description": "Butoni për të refuzuar ftesën"
+  },
+  "accept": "Prano",
+  "@accept": {
+    "description": "Butoni për të pranuar ftesën"
+  },
+  "tapToCreateOrJoinEphemeralChats": "Prekni për të krijuar ose bashkuar në biseda të përkohshme",
+  "@tapToCreateOrJoinEphemeralChats": {
+    "description": "Përshkrimi i bisedës së sigurt"
+  },
+  "now": "Tani",
+  "@now": {
+    "description": "Koha aktuale"
+  },
+  "callEnded": "Thirrja përfundoi",
+  "@callEnded": {
+    "description": "Statusi i thirrjes së përfunduar"
+  },
+  "videoCallFeatureAvailable": "🎥 Funksioni i videothirrjes i disponueshëm",
+  "@videoCallFeatureAvailable": {
+    "description": "Mesazh për funksionin e videothirrjes së disponueshme"
+  },
+  "pendingInvitations": "Ftesat në pritje",
+  "@pendingInvitations": {
+    "description": "Titulli i ftesave në pritje"
+  },
+  "chatInvitationsCount": "{count} ftesë(a) bisede",
+  "@chatInvitationsCount": {
+    "description": "Numëruesi i ftesave të bisedave",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searching": "Duke kërkuar...",
+  "@searching": {
+    "description": "Mesazh kur kërkohet"
+  },
+  "noUsersFound": "Nuk u gjetën përdorues",
+  "@noUsersFound": {
+    "description": "Mesazh kur nuk gjenden përdorues"
+  },
+  "errorSearchingUsers": "Gabim gjatë kërkimit të përdoruesve",
+  "@errorSearchingUsers": {
+    "description": "Gabim gjatë kërkimit të përdoruesve"
+  },
+  "startVideoCall": "Fillo videothirrjen",
+  "@startVideoCall": {
+    "description": "Titulli për të filluar videothirrjen"
+  },
+  "startAudioCall": "Fillo thirrjen",
+  "@startAudioCall": {
+    "description": "Titulli për të filluar thirrjen audio"
+  },
+  "confirmVideoCall": "Dëshironi të filloni një videothirrje me {nickname}?",
+  "@confirmVideoCall": {
+    "description": "Konfirmim për të filluar videothirrjen",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmAudioCall": "Dëshironi të filloni një thirrje me {nickname}?",
+  "@confirmAudioCall": {
+    "description": "Konfirmim për të filluar thirrjen audio",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "initiatingVideoCall": "Duke filluar videothirrjen...",
+  "@initiatingVideoCall": {
+    "description": "Mesazh gjatë fillimit të videothirrjes"
+  },
+  "initiatingAudioCall": "Duke filluar thirrjen...",
+  "@initiatingAudioCall": {
+    "description": "Mesazh gjatë fillimit të thirrjes audio"
+  },
+  "sendingInvitation": "Duke dërguar ftesën...",
+  "@sendingInvitation": {
+    "description": "Mesazh gjatë dërgimit të ftesës"
+  },
+  "errorInitiatingCall": "Gabim gjatë fillimit të thirrjes",
+  "@errorInitiatingCall": {
+    "description": "Gabim gjatë fillimit të thirrjes"
+  },
+  "invitationSentTo": "Ftesa iu dërgua",
+  "@invitationSentTo": {
+    "description": "Mesazh për ftesën e dërguar"
+  },
+  "waitingForAcceptance": "Duke pritur që të pranojë ftesën...",
+  "@waitingForAcceptance": {
+    "description": "Mesazh duke pritur pranimin"
+  },
+  "ephemeralChatTooltip": "Bisedë e Përkohshme",
+  "@ephemeralChatTooltip": {
+    "description": "Tooltip për bisedën e përkohshme"
+  },
+  "audioCallTooltip": "Thirrje",
+  "@audioCallTooltip": {
+    "description": "Tooltip për thirrjen audio"
+  },
+  "videoCallTooltip": "Video",
+  "@videoCallTooltip": {
+    "description": "Tooltip për videothirrjen"
+  },
+  "searchUser": "Kërko Përdorues",
+  "@searchUser": {
+    "description": "Titulli i widget-it të kërkimit"
+  },
+  "retry": "Provo Përsëri",
+  "@retry": {
+    "description": "Butoni për të provuar përsëri"
+  },
+  "searchingUsers": "Duke kërkuar përdorues...",
+  "@searchingUsers": {
+    "description": "Mesazh duke kërkuar përdorues"
+  },
+  "noUsersFoundWith": "Nuk u gjetën përdorues\\nme \"{query}\"",
+  "@noUsersFoundWith": {
+    "description": "Mesazh kur nuk gjenden përdorues me kërkim specifik",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSearchingUsersDetails": "Gabim gjatë kërkimit të përdoruesve: {error}",
+  "@errorSearchingUsersDetails": {
+    "description": "Gabim i detajuar gjatë kërkimit të përdoruesve",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "multipleChatsTitle": "Biseda të Shumta ({count}/10)",
+  "@multipleChatsTitle": {
+    "description": "Titulli i bisedave të shumta me numërues",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backToHome": "Kthehu në Fillim",
+  "@backToHome": {
+    "description": "Tooltip për kthimin në fillim"
+  },
+  "closeAllRooms": "Mbyll Të Gjitha Dhomat",
+  "@closeAllRooms": {
+    "description": "Butoni për të mbyllur të gjitha dhomat"
+  },
+  "closeAllRoomsConfirm": "Jeni të sigurt që doni të mbyllni të gjitha dhomat e bisedave?",
+  "@closeAllRoomsConfirm": {
+    "description": "Konfirmim për të mbyllur të gjitha dhomat"
+  },
+  "closeAll": "Mbyll Të Gjitha",
+  "@closeAll": {
+    "description": "Butoni i mbylljes së të gjithave"
+  },
+  "participants": "{count} pjesëmarrës",
+  "@participants": {
+    "description": "Numëruesi i pjesëmarrësve",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomActive": "Dhomë aktive ({count} pjesëmarrës)",
+  "@roomActive": {
+    "description": "Statusi i dhomës aktive",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "waitingForResponse": "Duke pritur përgjigje...",
+  "@waitingForResponse": {
+    "description": "Statusi duke pritur përgjigje"
+  },
+  "noConnection": "Pa lidhje",
+  "@noConnection": {
+    "description": "Statusi pa lidhje"
+  },
+  "createNewRoom": "Krijo Dhomë të Re",
+  "@createNewRoom": {
+    "description": "Titulli i krijimit të dhomës së re"
+  },
+  "addChat": "Shto Bisedë",
+  "@addChat": {
+    "description": "Butoni i shtimit të bisedës"
+  },
+  "statistics": "Statistikat",
+  "@statistics": {
+    "description": "Titulli i statistikave"
+  },
+  "close": "Mbyll",
+  "@close": {
+    "description": "Butoni i mbylljes"
+  },
+  "chatStatisticsTitle": "Statistikat e Bisedës",
+  "@chatStatisticsTitle": {
+    "description": "Titulli i statistikave të bisedës"
+  },
+  "activeRooms": "Dhomat aktive",
+  "@activeRooms": {
+    "description": "Dhomat aktive"
+  },
+  "totalMessages": "Mesazhet totale",
+  "@totalMessages": {
+    "description": "Numri total i mesazheve"
+  },
+  "unreadMessages": "Të palexuara",
+  "@unreadMessages": {
+    "description": "Mesazhet e palexuara"
+  },
+  "initiatingChat": "Duke filluar bisedën...",
+  "@initiatingChat": {
+    "description": "Mesazh duke filluar bisedën"
+  },
+  "errorClosingRoom": "Gabim gjatë mbylljes së dhomës: {error}",
+  "@errorClosingRoom": {
+    "description": "Gabim gjatë mbylljes së dhomës",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationAccepted": "✅ Ftesa u pranua",
+  "@invitationAccepted": {
+    "description": "Mesazh për ftesën e pranuar"
+  },
+  "errorAcceptingInvitationDetails": "Gabim gjatë pranimit të ftesës: {error}",
+  "@errorAcceptingInvitationDetails": {
+    "description": "Gabim i detajuar gjatë pranimit të ftesës",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorCreatingRoom": "Gabim gjatë krijimit të dhomës: {error}",
+  "@errorCreatingRoom": {
+    "description": "Gabim gjatë krijimit të dhomës",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createNewChatRoom": "Krijo dhomë të re bisede",
+  "@createNewChatRoom": {
+    "description": "Tooltip për krijimin e dhomës së re të bisedës"
+  },
+  "minutes": "minuta",
+  "@minutes": {
+    "description": "Fjala minuta për kohëzgjatjen"
+  },
+  "seconds": "sekonda",
+  "@seconds": {
+    "description": "Fjala sekonda për kohëzgjatjen"
+  },
+  "microphonePermissions": "🎵 Lejet e Mikrofonit",
+  "@microphonePermissions": {
+    "description": "Titulli i dialogut të lejeve të mikrofonit"
+  },
+  "microphonePermissionsContent": "Për të regjistruar audio duhet të aktivizoni lejet e mikrofonit në cilësimet e aplikacionit.\n\nShkoni te Cilësimet > Privatësia > Mikrofoni dhe aktivizoni lejet për këtë aplikacion.",
+  "@microphonePermissionsContent": {
+    "description": "Përmbajtja e dialogut të lejeve të mikrofonit"
+  },
+  "openSettings": "Hap Cilësimet",
+  "@openSettings": {
+    "description": "Butoni për të hapur cilësimet"
+  },
+  "errorInitializingAudio": "Gabim gjatë inicializimit të audios: {error}",
+  "@errorInitializingAudio": {
+    "description": "Gabim gjatë inicializimit të audios",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "imageTooLarge": "Imazhi shumë i madh. Maksimumi i lejuar 500KB.",
+  "@imageTooLarge": {
+    "description": "Gabim për imazhin shumë të madh"
+  },
+  "errorSendingImage": "Gabim gjatë dërgimit të imazhit: {error}",
+  "@errorSendingImage": {
+    "description": "Gabim gjatë dërgimit të imazhit",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSendingAudio": "Gabim gjatë dërgimit të audios: {error}",
+  "@errorSendingAudio": {
+    "description": "Gabim gjatë dërgimit të audios",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "destroyRoomContent": "Ky veprim do të shkatërrojë përgjithmonë dhomën e bisedës për të dy përdoruesit.\n\nDo të fillojë një numërues prej 10 sekondash i dukshëm për të dy pjesëmarrësit.",
+  "@destroyRoomContent": {
+    "description": "Përmbajtja e dialogut të shkatërrimit të dhomës"
+  },
+  "destroyRoomButton": "Shkatërro Dhomën",
+  "@destroyRoomButton": {
+    "description": "Butoni i shkatërrimit të dhomës"
+  },
+  "connectingToSecureChat": "Duke u lidhur me bisedën e sigurt...",
+  "@connectingToSecureChat": {
+    "description": "Mesazh lidhjeje me bisedën"
+  },
+  "autoDestructionConfigured1Min": "Vetëshkatërrimi i konfiguruar: 1 minutë",
+  "@autoDestructionConfigured1Min": {
+    "description": "Konfirmim i vetëshkatërrimit 1 minutë"
+  },
+  "autoDestructionConfigured5Min": "Vetëshkatërrimi i konfiguruar: 5 minuta",
+  "@autoDestructionConfigured5Min": {
+    "description": "Konfirmim i vetëshkatërrimit 5 minuta"
+  },
+  "autoDestructionConfigured1Hour": "Vetëshkatërrimi i konfiguruar: 1 orë",
+  "@autoDestructionConfigured1Hour": {
+    "description": "Konfirmim i vetëshkatërrimit 1 orë"
+  },
+  "screenshotAlert": "📸 Kujdes! {user} bëri një pamje ekrani",
+  "@screenshotAlert": {
+    "description": "Alarm për pamjen e ekranit",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotNotification": "📸 {user} ka bërë një pamje ekrani",
+  "@screenshotNotification": {
+    "description": "Njoftim për pamjen e ekranit",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "initializingAudioRecorder": "Duke inicializuar regjistruesin e audios...",
+  "@initializingAudioRecorder": {
+    "description": "Mesazh inicializimi i regjistruesit"
+  },
+  "audioRecorderNotAvailable": "Regjistruesi i audios nuk është i disponueshëm. Kontrolloni lejet e mikrofonit.",
+  "@audioRecorderNotAvailable": {
+    "description": "Gabim - regjistruesi nuk është i disponueshëm"
+  },
+  "errorStartingRecording": "Gabim gjatë fillimit të regjistrimit: {error}",
+  "@errorStartingRecording": {
+    "description": "Gabim gjatë fillimit të regjistrimit",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioPlayerNotAvailable": "Luajtësi i audios nuk është i disponueshëm",
+  "@audioPlayerNotAvailable": {
+    "description": "Gabim - luajtësi i audios nuk është i disponueshëm"
+  },
+  "audioNotAvailable": "Audio nuk është i disponueshëm",
+  "@audioNotAvailable": {
+    "description": "Gabim - audio nuk është i disponueshëm"
+  },
+  "errorPlayingAudio": "Gabim gjatë luajtjes së audios: {error}",
+  "@errorPlayingAudio": {
+    "description": "Gabim gjatë luajtjes së audios",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "screenshotTestSent": "📸 Testi i pamjes së ekranit u dërgua",
+  "@screenshotTestSent": {
+    "description": "Konfirmim i testit të pamjes së ekranit"
+  },
+  "errorSendingTest": "Gabim gjatë dërgimit të testit: {error}",
+  "@errorSendingTest": {
+    "description": "Gabim gjatë dërgimit të testit",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "audioTooLong": "Audio shumë i gjatë. Maksimumi i lejuar 1MB.",
+  "@audioTooLong": {
+    "description": "Gabim për audion shumë të gjatë"
+  },
+  "errorWebAudioRecording": "Gabim: Nuk mund të regjistrohej audio në ueb",
+  "@errorWebAudioRecording": {
+    "description": "Gabim regjistrimi në ueb"
+  },
+  "errorWebAudioSaving": "Gabim: Nuk mund të ruhej audio",
+  "@errorWebAudioSaving": {
+    "description": "Gabim ruajtjeje audio në ueb"
+  },
+  "errorStoppingRecording": "Gabim gjatë ndalimit të regjistrimit: {error}",
+  "@errorStoppingRecording": {
+    "description": "Gabim gjatë ndalimit të regjistrimit",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sendEncryptedImageTooltip": "Dërgo imazh të enkriptuar",
+  "@sendEncryptedImageTooltip": {
+    "description": "Tooltip i butonit për dërgimin e imazhit të enkriptuar"
+  }
+}
