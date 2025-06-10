@@ -1088,4 +1088,66 @@ class AppLocalizationsSq extends AppLocalizations {
 
   @override
   String get sendEncryptedImageTooltip => 'Dërgo imazh të enkriptuar';
+
+  @override
+  String get myProfile => 'Profili Im';
+
+  @override
+  String get dangerZone => 'Zona e Rrezikshme';
+
+  @override
+  String get dangerZoneDescription =>
+      'Ky veprim do të fshijë përgjithmonë llogarinë tuaj dhe të gjitha të dhënat tuaja. Nuk do të mund ta riktheni llogarinë tuaj pasi të jetë fshirë.';
+
+  @override
+  String get destroyMyAccount => 'Shkatërro llogarinë time';
+
+  @override
+  String get warningTitle => 'Kujdes!';
+
+  @override
+  String get destroyAccountWarning =>
+      'Jeni duke shkatërruar llogarinë tuaj përgjithmonë.';
+
+  @override
+  String get thisActionWill => 'Ky veprim do të:';
+
+  @override
+  String get deleteAllData => '• Fshijë të gjitha të dhënat tuaja';
+
+  @override
+  String get closeAllSessions => '• Mbyllë të gjitha seancat tuaja aktive';
+
+  @override
+  String get deleteChatHistory => '• Fshijë historinë tuaj të bisedave';
+
+  @override
+  String get cannotBeUndone => '• Nuk mund të zhbëhet';
+
+  @override
+  String get neverAccessAgain =>
+      'Pasi të shkatërrohet, nuk do të mund të aksesoni më kurrë këtë llogari.';
+
+  @override
+  String get continueButton => 'Vazhdo';
+
+  @override
+  String get finalConfirmation => 'Konfirmimi Përfundimtar';
+
+  @override
+  String get confirmDestructionText =>
+      'Për të konfirmuar shkatërrimin e llogarisë tuaj, shkruani:';
+
+  @override
+  String get typeConfirmation => 'Shkruani konfirmimin';
+
+  @override
+  String get destroyAccount => 'Shkatërro Llogarinë';
+
+  @override
+  String get functionalityInDevelopment => 'Funksionaliteti në zhvillim';
+
+  @override
+  String get accountDestructionAvailable =>
+      'Shkatërrimi i llogarisë do të jetë i disponueshëm në një përditësim të ardhshëm. Kërkesa juaj është regjistruar.';
 }

@@ -1430,5 +1430,110 @@
   "sendEncryptedImageTooltip": "Envoyer une image chiffrée",
   "@sendEncryptedImageTooltip": {
     "description": "Info-bulle du bouton d'envoi d'image chiffrée"
+  },
+
+  "myProfile": "Mon Profil",
+  "@myProfile": {
+    "description": "Titre de l'écran de profil"
+  },
+
+  "dangerZone": "Zone Dangereuse",
+  "@dangerZone": {
+    "description": "Titre de la section dangereuse dans le profil"
+  },
+
+  "dangerZoneDescription": "Cette action supprimera définitivement votre compte et toutes vos données. Vous ne pourrez pas récupérer votre compte une fois qu'il sera supprimé.",
+  "@dangerZoneDescription": {
+    "description": "Description de la zone dangereuse"
+  },
+
+  "destroyMyAccount": "Détruire mon compte",
+  "@destroyMyAccount": {
+    "description": "Bouton de destruction du compte"
+  },
+
+  "warningTitle": "Attention !",
+  "@warningTitle": {
+    "description": "Titre du dialogue d'avertissement"
+  },
+
+  "destroyAccountWarning": "Vous êtes sur le point de détruire définitivement votre compte.",
+  "@destroyAccountWarning": {
+    "description": "Avertissement principal sur la destruction du compte"
+  },
+
+  "thisActionWill": "Cette action va :",
+  "@thisActionWill": {
+    "description": "Introduction à la liste des conséquences"
+  },
+
+  "deleteAllData": "• Supprimer toutes vos données",
+  "@deleteAllData": {
+    "description": "Conséquence : supprimer les données"
+  },
+
+  "closeAllSessions": "• Fermer toutes vos sessions actives",
+  "@closeAllSessions": {
+    "description": "Conséquence : fermer les sessions"
+  },
+
+  "deleteChatHistory": "• Supprimer votre historique de chat",
+  "@deleteChatHistory": {
+    "description": "Conséquence : supprimer l'historique"
+  },
+
+  "cannotBeUndone": "• Ne peut pas être annulé",
+  "@cannotBeUndone": {
+    "description": "Conséquence : irréversible"
+  },
+
+  "neverAccessAgain": "Une fois détruit, vous ne pourrez plus jamais accéder à ce compte.",
+  "@neverAccessAgain": {
+    "description": "Avertissement final sur la perte d'accès"
+  },
+
+  "cancel": "Annuler",
+  "@cancel": {
+    "description": "Bouton annuler"
+  },
+
+  "continueButton": "Continuer",
+  "@continueButton": {
+    "description": "Bouton continuer"
+  },
+
+  "finalConfirmation": "Confirmation Finale",
+  "@finalConfirmation": {
+    "description": "Titre du dialogue de confirmation finale"
+  },
+
+  "confirmDestructionText": "Pour confirmer la destruction de votre compte, tapez :",
+  "@confirmDestructionText": {
+    "description": "Instruction de confirmation finale"
+  },
+
+  "typeConfirmation": "Tapez la confirmation",
+  "@typeConfirmation": {
+    "description": "Libellé du champ de confirmation"
+  },
+
+  "destroyAccount": "Détruire le Compte",
+  "@destroyAccount": {
+    "description": "Bouton final de destruction du compte"
+  },
+
+  "functionalityInDevelopment": "Fonctionnalité en développement",
+  "@functionalityInDevelopment": {
+    "description": "Titre du dialogue de fonctionnalité non disponible"
+  },
+
+  "accountDestructionAvailable": "La destruction de compte sera disponible dans une prochaine mise à jour. Votre demande a été enregistrée.",
+  "@accountDestructionAvailable": {
+    "description": "Message sur la fonctionnalité en développement"
+  },
+
+  "understood": "Compris",
+  "@understood": {
+    "description": "Bouton compris"
   }
 }

@@ -1430,5 +1430,110 @@
   "sendEncryptedImageTooltip": "Надіслати зашифроване зображення",
   "@sendEncryptedImageTooltip": {
     "description": "Підказка кнопки надсилання зашифрованого зображення"
+  },
+
+  "myProfile": "Мій Профіль",
+  "@myProfile": {
+    "description": "Заголовок екрана профілю"
+  },
+
+  "dangerZone": "Небезпечна Зона",
+  "@dangerZone": {
+    "description": "Заголовок небезпечної секції в профілі"
+  },
+
+  "dangerZoneDescription": "Ця дія назавжди видалить ваш обліковий запис і всі ваші дані. Ви не зможете відновити свій обліковий запис після видалення.",
+  "@dangerZoneDescription": {
+    "description": "Опис небезпечної зони"
+  },
+
+  "destroyMyAccount": "Знищити мій обліковий запис",
+  "@destroyMyAccount": {
+    "description": "Кнопка знищення облікового запису"
+  },
+
+  "warningTitle": "Попередження!",
+  "@warningTitle": {
+    "description": "Заголовок діалогового вікна попередження"
+  },
+
+  "destroyAccountWarning": "Ви збираєтеся назавжди знищити свій обліковий запис.",
+  "@destroyAccountWarning": {
+    "description": "Головне попередження про знищення облікового запису"
+  },
+
+  "thisActionWill": "Ця дія:",
+  "@thisActionWill": {
+    "description": "Вступ до списку наслідків"
+  },
+
+  "deleteAllData": "• Видалить всі ваші дані",
+  "@deleteAllData": {
+    "description": "Наслідок: видалення даних"
+  },
+
+  "closeAllSessions": "• Закрить всі ваші активні сесії",
+  "@closeAllSessions": {
+    "description": "Наслідок: закриття сесій"
+  },
+
+  "deleteChatHistory": "• Видалить вашу історію чатів",
+  "@deleteChatHistory": {
+    "description": "Наслідок: видалення історії"
+  },
+
+  "cannotBeUndone": "• Не може бути скасована",
+  "@cannotBeUndone": {
+    "description": "Наслідок: незворотна"
+  },
+
+  "neverAccessAgain": "Після знищення ви ніколи більше не зможете отримати доступ до цього облікового запису.",
+  "@neverAccessAgain": {
+    "description": "Фінальне попередження про втрату доступу"
+  },
+
+  "cancel": "Скасувати",
+  "@cancel": {
+    "description": "Кнопка скасувати"
+  },
+
+  "continueButton": "Продовжити",
+  "@continueButton": {
+    "description": "Кнопка продовжити"
+  },
+
+  "finalConfirmation": "Фінальне Підтвердження",
+  "@finalConfirmation": {
+    "description": "Заголовок діалогового вікна фінального підтвердження"
+  },
+
+  "confirmDestructionText": "Щоб підтвердити знищення вашого облікового запису, введіть:",
+  "@confirmDestructionText": {
+    "description": "Інструкція для фінального підтвердження"
+  },
+
+  "typeConfirmation": "Введіть підтвердження",
+  "@typeConfirmation": {
+    "description": "Мітка поля підтвердження"
+  },
+
+  "destroyAccount": "Знищити Обліковий Запис",
+  "@destroyAccount": {
+    "description": "Фінальна кнопка знищення облікового запису"
+  },
+
+  "functionalityInDevelopment": "Функціональність у розробці",
+  "@functionalityInDevelopment": {
+    "description": "Заголовок діалогового вікна недоступної функціональності"
+  },
+
+  "accountDestructionAvailable": "Знищення облікового запису буде доступне в наступному оновленні. Ваш запит зареєстровано.",
+  "@accountDestructionAvailable": {
+    "description": "Повідомлення про функціональність у розробці"
+  },
+
+  "understood": "Зрозуміло",
+  "@understood": {
+    "description": "Кнопка зрозуміло"
   }
 }

@@ -1430,5 +1430,110 @@
   "sendEncryptedImageTooltip": "Отправить зашифрованное изображение",
   "@sendEncryptedImageTooltip": {
     "description": "Подсказка для кнопки отправки зашифрованного изображения"
+  },
+
+  "myProfile": "Мой профиль",
+  "@myProfile": {
+    "description": "Заголовок экрана профиля"
+  },
+
+  "dangerZone": "Опасная зона",
+  "@dangerZone": {
+    "description": "Заголовок опасной секции в профиле"
+  },
+
+  "dangerZoneDescription": "Это действие навсегда удалит вашу учетную запись и все ваши данные. Вы не сможете восстановить свою учетную запись после удаления.",
+  "@dangerZoneDescription": {
+    "description": "Описание опасной зоны"
+  },
+
+  "destroyMyAccount": "Удалить мою учетную запись",
+  "@destroyMyAccount": {
+    "description": "Кнопка удаления учетной записи"
+  },
+
+  "warningTitle": "Предупреждение!",
+  "@warningTitle": {
+    "description": "Заголовок диалога предупреждения"
+  },
+
+  "destroyAccountWarning": "Вы собираетесь навсегда удалить свою учетную запись.",
+  "@destroyAccountWarning": {
+    "description": "Основное предупреждение об удалении учетной записи"
+  },
+
+  "thisActionWill": "Это действие:",
+  "@thisActionWill": {
+    "description": "Введение к списку последствий"
+  },
+
+  "deleteAllData": "• Удалит все ваши данные",
+  "@deleteAllData": {
+    "description": "Последствие: удаление данных"
+  },
+
+  "closeAllSessions": "• Закроет все ваши активные сессии",
+  "@closeAllSessions": {
+    "description": "Последствие: закрытие сессий"
+  },
+
+  "deleteChatHistory": "• Удалит вашу историю чатов",
+  "@deleteChatHistory": {
+    "description": "Последствие: удаление истории"
+  },
+
+  "cannotBeUndone": "• Не может быть отменено",
+  "@cannotBeUndone": {
+    "description": "Последствие: необратимо"
+  },
+
+  "neverAccessAgain": "После удаления вы никогда не сможете получить доступ к этой учетной записи.",
+  "@neverAccessAgain": {
+    "description": "Финальное предупреждение о потере доступа"
+  },
+
+  "cancel": "Отмена",
+  "@cancel": {
+    "description": "Кнопка отмены"
+  },
+
+  "continueButton": "Продолжить",
+  "@continueButton": {
+    "description": "Кнопка продолжения"
+  },
+
+  "finalConfirmation": "Финальное подтверждение",
+  "@finalConfirmation": {
+    "description": "Заголовок диалога финального подтверждения"
+  },
+
+  "confirmDestructionText": "Чтобы подтвердить удаление вашей учетной записи, введите:",
+  "@confirmDestructionText": {
+    "description": "Инструкция для финального подтверждения"
+  },
+
+  "typeConfirmation": "Введите подтверждение",
+  "@typeConfirmation": {
+    "description": "Метка поля подтверждения"
+  },
+
+  "destroyAccount": "Удалить учетную запись",
+  "@destroyAccount": {
+    "description": "Финальная кнопка удаления учетной записи"
+  },
+
+  "functionalityInDevelopment": "Функциональность в разработке",
+  "@functionalityInDevelopment": {
+    "description": "Заголовок диалога недоступной функциональности"
+  },
+
+  "accountDestructionAvailable": "Удаление учетной записи будет доступно в ближайшем обновлении. Ваш запрос зарегистрирован.",
+  "@accountDestructionAvailable": {
+    "description": "Сообщение о функциональности в разработке"
+  },
+
+  "understood": "Понятно",
+  "@understood": {
+    "description": "Кнопка понятно"
   }
 }

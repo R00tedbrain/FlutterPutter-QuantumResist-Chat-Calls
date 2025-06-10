@@ -1067,4 +1067,64 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sendEncryptedImageTooltip => 'إرسال صورة مشفرة';
+
+  @override
+  String get myProfile => 'ملفي الشخصي';
+
+  @override
+  String get dangerZone => 'المنطقة الخطيرة';
+
+  @override
+  String get dangerZoneDescription =>
+      'سيؤدي هذا الإجراء إلى حذف حسابك وجميع بياناتك بشكل دائم. لن تتمكن من استرداد حسابك بمجرد حذفه.';
+
+  @override
+  String get destroyMyAccount => 'تدمير حسابي';
+
+  @override
+  String get warningTitle => 'تحذير!';
+
+  @override
+  String get destroyAccountWarning => 'أنت على وشك تدمير حسابك بشكل دائم.';
+
+  @override
+  String get thisActionWill => 'سيؤدي هذا الإجراء إلى:';
+
+  @override
+  String get deleteAllData => '• حذف جميع بياناتك';
+
+  @override
+  String get closeAllSessions => '• إغلاق جميع جلساتك النشطة';
+
+  @override
+  String get deleteChatHistory => '• حذف سجل المحادثات الخاص بك';
+
+  @override
+  String get cannotBeUndone => '• لا يمكن التراجع عنه';
+
+  @override
+  String get neverAccessAgain =>
+      'بمجرد التدمير، لن تتمكن أبدًا من الوصول إلى هذا الحساب مرة أخرى.';
+
+  @override
+  String get continueButton => 'متابعة';
+
+  @override
+  String get finalConfirmation => 'التأكيد النهائي';
+
+  @override
+  String get confirmDestructionText => 'لتأكيد تدمير حسابك، اكتب:';
+
+  @override
+  String get typeConfirmation => 'اكتب التأكيد';
+
+  @override
+  String get destroyAccount => 'تدمير الحساب';
+
+  @override
+  String get functionalityInDevelopment => 'الوظيفة قيد التطوير';
+
+  @override
+  String get accountDestructionAvailable =>
+      'سيكون تدمير الحساب متاحًا في تحديث قادم. تم تسجيل طلبك.';
 }

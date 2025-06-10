@@ -1085,4 +1085,66 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get sendEncryptedImageTooltip => 'Pošalji enkriptovanu sliku';
+
+  @override
+  String get myProfile => 'Moj Profil';
+
+  @override
+  String get dangerZone => 'Opasna Zona';
+
+  @override
+  String get dangerZoneDescription =>
+      'Ova akcija će trajno obrisati vaš nalog i sve vaše podatke. Nećete moći da vratite vaš nalog kada se obriše.';
+
+  @override
+  String get destroyMyAccount => 'Uništi moj nalog';
+
+  @override
+  String get warningTitle => 'Upozorenje!';
+
+  @override
+  String get destroyAccountWarning =>
+      'Na putu ste da trajno uništite vaš nalog.';
+
+  @override
+  String get thisActionWill => 'Ova akcija će:';
+
+  @override
+  String get deleteAllData => '• Obrisati sve vaše podatke';
+
+  @override
+  String get closeAllSessions => '• Zatvoriti sve vaše aktivne sesije';
+
+  @override
+  String get deleteChatHistory => '• Obrisati vašu istoriju ćaskanja';
+
+  @override
+  String get cannotBeUndone => '• Ne može se poništiti';
+
+  @override
+  String get neverAccessAgain =>
+      'Jednom uništen, nikad više nećete moći da pristupite ovom nalogu.';
+
+  @override
+  String get continueButton => 'Nastavi';
+
+  @override
+  String get finalConfirmation => 'Finalna Potvrda';
+
+  @override
+  String get confirmDestructionText =>
+      'Da potvrdite uništavanje vašeg naloga, ukucajte:';
+
+  @override
+  String get typeConfirmation => 'Ukucajte potvrdu';
+
+  @override
+  String get destroyAccount => 'Uništi Nalog';
+
+  @override
+  String get functionalityInDevelopment => 'Funkcionalnost u razvoju';
+
+  @override
+  String get accountDestructionAvailable =>
+      'Uništavanje naloga će biti dostupno u sledećem ažuriranju. Vaš zahtev je registrovan.';
 }

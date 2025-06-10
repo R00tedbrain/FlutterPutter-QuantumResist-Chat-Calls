@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterputter/providers/auth_provider.dart';
 import 'package:flutterputter/widgets/auth_text_field.dart';
 import 'package:flutterputter/widgets/user_avatar.dart';
+import 'package:flutterputter/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -59,10 +60,229 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  // Mostrar diálogo de confirmación para destruir cuenta
+  void _showDeleteAccountDialog() {
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(
+                Icons.warning,
+                color: Colors.red.shade700,
+              ),
+              const SizedBox(width: 8),
+              Text(l10n.warningTitle),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.destroyAccountWarning,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(l10n.thisActionWill),
+              const SizedBox(height: 8),
+              Text(l10n.deleteAllData),
+              Text(l10n.closeAllSessions),
+              Text(l10n.deleteChatHistory),
+              Text(l10n.cannotBeUndone),
+              const SizedBox(height: 16),
+              Text(
+                l10n.neverAccessAgain,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showFinalConfirmationDialog();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              child: Text(l10n.continueButton),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Mostrar diálogo de confirmación final
+  void _showFinalConfirmationDialog() {
+    final TextEditingController confirmController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text(l10n.finalConfirmation),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.confirmDestructionText,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      l10n.destroyMyAccount.toUpperCase(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'monospace',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: confirmController,
+                    decoration: InputDecoration(
+                      labelText: l10n.typeConfirmation,
+                      border: const OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(l10n.cancel),
+                ),
+                ElevatedButton(
+                  onPressed: confirmController.text ==
+                          l10n.destroyMyAccount.toUpperCase()
+                      ? () {
+                          Navigator.of(context).pop();
+                          _deleteAccount();
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text(l10n.destroyAccount),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // Función para destruir la cuenta (preparada para backend)
+  Future<void> _deleteAccount() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    try {
+      // TODO: Implementar llamada al backend cuando esté listo
+      // Ejemplo de llamada futura:
+      // final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      // final success = await authProvider.deleteAccount();
+
+      // Por ahora, solo mostramos un mensaje de que la funcionalidad estará disponible
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(l10n.functionalityInDevelopment),
+              content: Text(l10n.accountDestructionAvailable),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(l10n.understood),
+                ),
+              ],
+            );
+          },
+        );
+      }
+
+      // Cuando el backend esté listo, descomentar este código:
+      /*
+      if (success && mounted) {
+        // Limpiar datos locales
+        await authProvider.logout();
+        
+        // Navegar a la pantalla de inicio o login
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/login',
+          (route) => false,
+        );
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Tu cuenta ha sido destruida permanentemente'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al destruir la cuenta. Inténtalo de nuevo.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      */
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
+    final l10n = AppLocalizations.of(context)!;
 
     if (user == null) {
       return const Scaffold(
@@ -74,7 +294,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi Perfil'),
+        title: Text(l10n.myProfile),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -224,6 +444,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            // Zona peligrosa - Destruir cuenta
+            Card(
+              elevation: 2,
+              color: Colors.red.shade50,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(color: Colors.red.shade200),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.warning,
+                          color: Colors.red.shade700,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          l10n.dangerZone,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.dangerZoneDescription,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.red.shade600,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _showDeleteAccountDialog,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          l10n.destroyMyAccount,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

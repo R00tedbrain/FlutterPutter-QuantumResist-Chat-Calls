@@ -1430,5 +1430,110 @@
   "sendEncryptedImageTooltip": "Verschlüsseltes Bild senden",
   "@sendEncryptedImageTooltip": {
     "description": "Tooltip des Buttons zum Senden eines verschlüsselten Bildes"
+  },
+
+  "myProfile": "Mein Profil",
+  "@myProfile": {
+    "description": "Profil-Bildschirm Titel"
+  },
+
+  "dangerZone": "Gefahrenzone",
+  "@dangerZone": {
+    "description": "Titel der Gefahrenzone im Profil"
+  },
+
+  "dangerZoneDescription": "Diese Aktion wird Ihr Konto und alle Ihre Daten dauerhaft löschen. Sie können Ihr Konto nicht wiederherstellen, sobald es gelöscht wurde.",
+  "@dangerZoneDescription": {
+    "description": "Beschreibung der Gefahrenzone"
+  },
+
+  "destroyMyAccount": "Mein Konto vernichten",
+  "@destroyMyAccount": {
+    "description": "Konto vernichten Button"
+  },
+
+  "warningTitle": "Warnung!",
+  "@warningTitle": {
+    "description": "Warnungs-Dialog Titel"
+  },
+
+  "destroyAccountWarning": "Sie sind dabei, Ihr Konto dauerhaft zu vernichten.",
+  "@destroyAccountWarning": {
+    "description": "Hauptwarnung über Konto-Vernichtung"
+  },
+
+  "thisActionWill": "Diese Aktion wird:",
+  "@thisActionWill": {
+    "description": "Einleitung zur Konsequenzenliste"
+  },
+
+  "deleteAllData": "• Alle Ihre Daten löschen",
+  "@deleteAllData": {
+    "description": "Konsequenz: Daten löschen"
+  },
+
+  "closeAllSessions": "• Alle Ihre aktiven Sitzungen schließen",
+  "@closeAllSessions": {
+    "description": "Konsequenz: Sitzungen schließen"
+  },
+
+  "deleteChatHistory": "• Ihren Chat-Verlauf löschen",
+  "@deleteChatHistory": {
+    "description": "Konsequenz: Verlauf löschen"
+  },
+
+  "cannotBeUndone": "• Kann nicht rückgängig gemacht werden",
+  "@cannotBeUndone": {
+    "description": "Konsequenz: irreversibel"
+  },
+
+  "neverAccessAgain": "Einmal vernichtet, werden Sie nie wieder auf dieses Konto zugreifen können.",
+  "@neverAccessAgain": {
+    "description": "Letzte Warnung über Zugriffsverlust"
+  },
+
+  "cancel": "Abbrechen",
+  "@cancel": {
+    "description": "Abbrechen Button"
+  },
+
+  "continueButton": "Fortfahren",
+  "@continueButton": {
+    "description": "Fortfahren Button"
+  },
+
+  "finalConfirmation": "Endgültige Bestätigung",
+  "@finalConfirmation": {
+    "description": "Titel des endgültigen Bestätigungs-Dialogs"
+  },
+
+  "confirmDestructionText": "Zur Bestätigung der Vernichtung Ihres Kontos, tippen Sie:",
+  "@confirmDestructionText": {
+    "description": "Endgültige Bestätigungsanweisung"
+  },
+
+  "typeConfirmation": "Bestätigung eingeben",
+  "@typeConfirmation": {
+    "description": "Bestätigungsfeld Label"
+  },
+
+  "destroyAccount": "Konto Vernichten",
+  "@destroyAccount": {
+    "description": "Endgültiger Konto vernichten Button"
+  },
+
+  "functionalityInDevelopment": "Funktionalität in Entwicklung",
+  "@functionalityInDevelopment": {
+    "description": "Titel des nicht verfügbaren Funktionalitäts-Dialogs"
+  },
+
+  "accountDestructionAvailable": "Konto-Vernichtung wird in einem kommenden Update verfügbar sein. Ihre Anfrage wurde registriert.",
+  "@accountDestructionAvailable": {
+    "description": "Nachricht über Funktionalität in Entwicklung"
+  },
+
+  "understood": "Verstanden",
+  "@understood": {
+    "description": "Verstanden Button"
   }
 }

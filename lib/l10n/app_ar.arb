@@ -1430,5 +1430,110 @@
   "sendEncryptedImageTooltip": "إرسال صورة مشفرة",
   "@sendEncryptedImageTooltip": {
     "description": "تلميح زر إرسال صورة مشفرة"
+  },
+
+  "myProfile": "ملفي الشخصي",
+  "@myProfile": {
+    "description": "عنوان شاشة الملف الشخصي"
+  },
+
+  "dangerZone": "المنطقة الخطيرة",
+  "@dangerZone": {
+    "description": "عنوان القسم الخطير في الملف الشخصي"
+  },
+
+  "dangerZoneDescription": "سيؤدي هذا الإجراء إلى حذف حسابك وجميع بياناتك بشكل دائم. لن تتمكن من استرداد حسابك بمجرد حذفه.",
+  "@dangerZoneDescription": {
+    "description": "وصف المنطقة الخطيرة"
+  },
+
+  "destroyMyAccount": "تدمير حسابي",
+  "@destroyMyAccount": {
+    "description": "زر تدمير الحساب"
+  },
+
+  "warningTitle": "تحذير!",
+  "@warningTitle": {
+    "description": "عنوان مربع حوار التحذير"
+  },
+
+  "destroyAccountWarning": "أنت على وشك تدمير حسابك بشكل دائم.",
+  "@destroyAccountWarning": {
+    "description": "التحذير الرئيسي حول تدمير الحساب"
+  },
+
+  "thisActionWill": "سيؤدي هذا الإجراء إلى:",
+  "@thisActionWill": {
+    "description": "مقدمة لقائمة العواقب"
+  },
+
+  "deleteAllData": "• حذف جميع بياناتك",
+  "@deleteAllData": {
+    "description": "العاقبة: حذف البيانات"
+  },
+
+  "closeAllSessions": "• إغلاق جميع جلساتك النشطة",
+  "@closeAllSessions": {
+    "description": "العاقبة: إغلاق الجلسات"
+  },
+
+  "deleteChatHistory": "• حذف سجل المحادثات الخاص بك",
+  "@deleteChatHistory": {
+    "description": "العاقبة: حذف السجل"
+  },
+
+  "cannotBeUndone": "• لا يمكن التراجع عنه",
+  "@cannotBeUndone": {
+    "description": "العاقبة: غير قابل للإلغاء"
+  },
+
+  "neverAccessAgain": "بمجرد التدمير، لن تتمكن أبدًا من الوصول إلى هذا الحساب مرة أخرى.",
+  "@neverAccessAgain": {
+    "description": "التحذير الأخير حول فقدان الوصول"
+  },
+
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "زر الإلغاء"
+  },
+
+  "continueButton": "متابعة",
+  "@continueButton": {
+    "description": "زر المتابعة"
+  },
+
+  "finalConfirmation": "التأكيد النهائي",
+  "@finalConfirmation": {
+    "description": "عنوان مربع حوار التأكيد النهائي"
+  },
+
+  "confirmDestructionText": "لتأكيد تدمير حسابك، اكتب:",
+  "@confirmDestructionText": {
+    "description": "تعليمات التأكيد النهائي"
+  },
+
+  "typeConfirmation": "اكتب التأكيد",
+  "@typeConfirmation": {
+    "description": "تسمية حقل التأكيد"
+  },
+
+  "destroyAccount": "تدمير الحساب",
+  "@destroyAccount": {
+    "description": "الزر النهائي لتدمير الحساب"
+  },
+
+  "functionalityInDevelopment": "الوظيفة قيد التطوير",
+  "@functionalityInDevelopment": {
+    "description": "عنوان مربع حوار الوظيفة غير المتاحة"
+  },
+
+  "accountDestructionAvailable": "سيكون تدمير الحساب متاحًا في تحديث قادم. تم تسجيل طلبك.",
+  "@accountDestructionAvailable": {
+    "description": "رسالة حول الوظيفة قيد التطوير"
+  },
+
+  "understood": "مفهوم",
+  "@understood": {
+    "description": "زر مفهوم"
   }
 }

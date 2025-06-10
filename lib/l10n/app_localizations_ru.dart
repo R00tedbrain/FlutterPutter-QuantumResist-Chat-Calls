@@ -1088,4 +1088,66 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sendEncryptedImageTooltip => 'Отправить зашифрованное изображение';
+
+  @override
+  String get myProfile => 'Мой профиль';
+
+  @override
+  String get dangerZone => 'Опасная зона';
+
+  @override
+  String get dangerZoneDescription =>
+      'Это действие навсегда удалит вашу учетную запись и все ваши данные. Вы не сможете восстановить свою учетную запись после удаления.';
+
+  @override
+  String get destroyMyAccount => 'Удалить мою учетную запись';
+
+  @override
+  String get warningTitle => 'Предупреждение!';
+
+  @override
+  String get destroyAccountWarning =>
+      'Вы собираетесь навсегда удалить свою учетную запись.';
+
+  @override
+  String get thisActionWill => 'Это действие:';
+
+  @override
+  String get deleteAllData => '• Удалит все ваши данные';
+
+  @override
+  String get closeAllSessions => '• Закроет все ваши активные сессии';
+
+  @override
+  String get deleteChatHistory => '• Удалит вашу историю чатов';
+
+  @override
+  String get cannotBeUndone => '• Не может быть отменено';
+
+  @override
+  String get neverAccessAgain =>
+      'После удаления вы никогда не сможете получить доступ к этой учетной записи.';
+
+  @override
+  String get continueButton => 'Продолжить';
+
+  @override
+  String get finalConfirmation => 'Финальное подтверждение';
+
+  @override
+  String get confirmDestructionText =>
+      'Чтобы подтвердить удаление вашей учетной записи, введите:';
+
+  @override
+  String get typeConfirmation => 'Введите подтверждение';
+
+  @override
+  String get destroyAccount => 'Удалить учетную запись';
+
+  @override
+  String get functionalityInDevelopment => 'Функциональность в разработке';
+
+  @override
+  String get accountDestructionAvailable =>
+      'Удаление учетной записи будет доступно в ближайшем обновлении. Ваш запрос зарегистрирован.';
 }

@@ -1241,5 +1241,110 @@
   "sendEncryptedImageTooltip": "Send encrypted image",
   "@sendEncryptedImageTooltip": {
     "description": "Send encrypted image button tooltip"
+  },
+
+  "myProfile": "My Profile",
+  "@myProfile": {
+    "description": "Profile screen title"
+  },
+
+  "dangerZone": "Danger Zone",
+  "@dangerZone": {
+    "description": "Danger zone section title in profile"
+  },
+
+  "dangerZoneDescription": "This action will permanently delete your account and all your data. You will not be able to recover your account once it is deleted.",
+  "@dangerZoneDescription": {
+    "description": "Danger zone description"
+  },
+
+  "destroyMyAccount": "Destroy my account",
+  "@destroyMyAccount": {
+    "description": "Destroy account button"
+  },
+
+  "warningTitle": "Warning!",
+  "@warningTitle": {
+    "description": "Warning dialog title"
+  },
+
+  "destroyAccountWarning": "You are about to permanently destroy your account.",
+  "@destroyAccountWarning": {
+    "description": "Main warning about destroying account"
+  },
+
+  "thisActionWill": "This action will:",
+  "@thisActionWill": {
+    "description": "Introduction to consequences list"
+  },
+
+  "deleteAllData": "• Delete all your data",
+  "@deleteAllData": {
+    "description": "Consequence: delete data"
+  },
+
+  "closeAllSessions": "• Close all your active sessions",
+  "@closeAllSessions": {
+    "description": "Consequence: close sessions"
+  },
+
+  "deleteChatHistory": "• Delete your chat history",
+  "@deleteChatHistory": {
+    "description": "Consequence: delete history"
+  },
+
+  "cannotBeUndone": "• Cannot be undone",
+  "@cannotBeUndone": {
+    "description": "Consequence: irreversible"
+  },
+
+  "neverAccessAgain": "Once destroyed, you will never be able to access this account again.",
+  "@neverAccessAgain": {
+    "description": "Final warning about loss of access"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button"
+  },
+
+  "finalConfirmation": "Final Confirmation",
+  "@finalConfirmation": {
+    "description": "Final confirmation dialog title"
+  },
+
+  "confirmDestructionText": "To confirm the destruction of your account, type:",
+  "@confirmDestructionText": {
+    "description": "Final confirmation instruction"
+  },
+
+  "typeConfirmation": "Type confirmation",
+  "@typeConfirmation": {
+    "description": "Confirmation field label"
+  },
+
+  "destroyAccount": "Destroy Account",
+  "@destroyAccount": {
+    "description": "Final destroy account button"
+  },
+
+  "functionalityInDevelopment": "Functionality in development",
+  "@functionalityInDevelopment": {
+    "description": "Functionality not available dialog title"
+  },
+
+  "accountDestructionAvailable": "Account destruction will be available in an upcoming update. Your request has been registered.",
+  "@accountDestructionAvailable": {
+    "description": "Message about functionality in development"
+  },
+
+  "understood": "Understood",
+  "@understood": {
+    "description": "Understood button"
   }
 } 

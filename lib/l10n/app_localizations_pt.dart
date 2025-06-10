@@ -1087,4 +1087,66 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get sendEncryptedImageTooltip => 'Enviar imagem cifrada';
+
+  @override
+  String get myProfile => 'Meu Perfil';
+
+  @override
+  String get dangerZone => 'Zona Perigosa';
+
+  @override
+  String get dangerZoneDescription =>
+      'Esta ação eliminará permanentemente a sua conta e todos os seus dados. Não poderá recuperar a sua conta uma vez eliminada.';
+
+  @override
+  String get destroyMyAccount => 'Destruir a minha conta';
+
+  @override
+  String get warningTitle => 'Aviso!';
+
+  @override
+  String get destroyAccountWarning =>
+      'Está prestes a destruir permanentemente a sua conta.';
+
+  @override
+  String get thisActionWill => 'Esta ação irá:';
+
+  @override
+  String get deleteAllData => '• Eliminar todos os seus dados';
+
+  @override
+  String get closeAllSessions => '• Fechar todas as suas sessões ativas';
+
+  @override
+  String get deleteChatHistory => '• Eliminar o seu histórico de conversas';
+
+  @override
+  String get cannotBeUndone => '• Não pode ser desfeita';
+
+  @override
+  String get neverAccessAgain =>
+      'Uma vez destruída, nunca mais poderá aceder a esta conta.';
+
+  @override
+  String get continueButton => 'Continuar';
+
+  @override
+  String get finalConfirmation => 'Confirmação Final';
+
+  @override
+  String get confirmDestructionText =>
+      'Para confirmar a destruição da sua conta, escreva:';
+
+  @override
+  String get typeConfirmation => 'Escrever confirmação';
+
+  @override
+  String get destroyAccount => 'Destruir Conta';
+
+  @override
+  String get functionalityInDevelopment => 'Funcionalidade em desenvolvimento';
+
+  @override
+  String get accountDestructionAvailable =>
+      'A destruição de conta estará disponível numa próxima atualização. O seu pedido foi registado.';
 }

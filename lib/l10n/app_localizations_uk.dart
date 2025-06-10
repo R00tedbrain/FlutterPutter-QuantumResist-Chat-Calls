@@ -1083,4 +1083,66 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get sendEncryptedImageTooltip => 'Надіслати зашифроване зображення';
+
+  @override
+  String get myProfile => 'Мій Профіль';
+
+  @override
+  String get dangerZone => 'Небезпечна Зона';
+
+  @override
+  String get dangerZoneDescription =>
+      'Ця дія назавжди видалить ваш обліковий запис і всі ваші дані. Ви не зможете відновити свій обліковий запис після видалення.';
+
+  @override
+  String get destroyMyAccount => 'Знищити мій обліковий запис';
+
+  @override
+  String get warningTitle => 'Попередження!';
+
+  @override
+  String get destroyAccountWarning =>
+      'Ви збираєтеся назавжди знищити свій обліковий запис.';
+
+  @override
+  String get thisActionWill => 'Ця дія:';
+
+  @override
+  String get deleteAllData => '• Видалить всі ваші дані';
+
+  @override
+  String get closeAllSessions => '• Закрить всі ваші активні сесії';
+
+  @override
+  String get deleteChatHistory => '• Видалить вашу історію чатів';
+
+  @override
+  String get cannotBeUndone => '• Не може бути скасована';
+
+  @override
+  String get neverAccessAgain =>
+      'Після знищення ви ніколи більше не зможете отримати доступ до цього облікового запису.';
+
+  @override
+  String get continueButton => 'Продовжити';
+
+  @override
+  String get finalConfirmation => 'Фінальне Підтвердження';
+
+  @override
+  String get confirmDestructionText =>
+      'Щоб підтвердити знищення вашого облікового запису, введіть:';
+
+  @override
+  String get typeConfirmation => 'Введіть підтвердження';
+
+  @override
+  String get destroyAccount => 'Знищити Обліковий Запис';
+
+  @override
+  String get functionalityInDevelopment => 'Функціональність у розробці';
+
+  @override
+  String get accountDestructionAvailable =>
+      'Знищення облікового запису буде доступне в наступному оновленні. Ваш запит зареєстровано.';
 }

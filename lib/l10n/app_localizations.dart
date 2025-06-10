@@ -710,7 +710,7 @@ abstract class AppLocalizations {
   /// **'This action will permanently destroy the chat room for both users.\\n\\nA 10-second countdown visible to both participants will start.'**
   String get warningDestroyRoom;
 
-  /// No description provided for @cancel.
+  /// Cancel button
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
@@ -2041,6 +2041,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send encrypted image'**
   String get sendEncryptedImageTooltip;
+
+  /// Profile screen title
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get myProfile;
+
+  /// Danger zone section title in profile
+  ///
+  /// In en, this message translates to:
+  /// **'Danger Zone'**
+  String get dangerZone;
+
+  /// Danger zone description
+  ///
+  /// In en, this message translates to:
+  /// **'This action will permanently delete your account and all your data. You will not be able to recover your account once it is deleted.'**
+  String get dangerZoneDescription;
+
+  /// Destroy account button
+  ///
+  /// In en, this message translates to:
+  /// **'Destroy my account'**
+  String get destroyMyAccount;
+
+  /// Warning dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Warning!'**
+  String get warningTitle;
+
+  /// Main warning about destroying account
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to permanently destroy your account.'**
+  String get destroyAccountWarning;
+
+  /// Introduction to consequences list
+  ///
+  /// In en, this message translates to:
+  /// **'This action will:'**
+  String get thisActionWill;
+
+  /// Consequence: delete data
+  ///
+  /// In en, this message translates to:
+  /// **'• Delete all your data'**
+  String get deleteAllData;
+
+  /// Consequence: close sessions
+  ///
+  /// In en, this message translates to:
+  /// **'• Close all your active sessions'**
+  String get closeAllSessions;
+
+  /// Consequence: delete history
+  ///
+  /// In en, this message translates to:
+  /// **'• Delete your chat history'**
+  String get deleteChatHistory;
+
+  /// Consequence: irreversible
+  ///
+  /// In en, this message translates to:
+  /// **'• Cannot be undone'**
+  String get cannotBeUndone;
+
+  /// Final warning about loss of access
+  ///
+  /// In en, this message translates to:
+  /// **'Once destroyed, you will never be able to access this account again.'**
+  String get neverAccessAgain;
+
+  /// Continue button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  /// Final confirmation dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Final Confirmation'**
+  String get finalConfirmation;
+
+  /// Final confirmation instruction
+  ///
+  /// In en, this message translates to:
+  /// **'To confirm the destruction of your account, type:'**
+  String get confirmDestructionText;
+
+  /// Confirmation field label
+  ///
+  /// In en, this message translates to:
+  /// **'Type confirmation'**
+  String get typeConfirmation;
+
+  /// Final destroy account button
+  ///
+  /// In en, this message translates to:
+  /// **'Destroy Account'**
+  String get destroyAccount;
+
+  /// Functionality not available dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Functionality in development'**
+  String get functionalityInDevelopment;
+
+  /// Message about functionality in development
+  ///
+  /// In en, this message translates to:
+  /// **'Account destruction will be available in an upcoming update. Your request has been registered.'**
+  String get accountDestructionAvailable;
 }
 
 class _AppLocalizationsDelegate

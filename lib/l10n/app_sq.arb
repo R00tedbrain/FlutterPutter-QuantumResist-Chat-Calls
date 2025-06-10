@@ -1430,5 +1430,110 @@
   "sendEncryptedImageTooltip": "Dërgo imazh të enkriptuar",
   "@sendEncryptedImageTooltip": {
     "description": "Tooltip i butonit për dërgimin e imazhit të enkriptuar"
+  },
+
+  "myProfile": "Profili Im",
+  "@myProfile": {
+    "description": "Titulli i ekranit të profilit"
+  },
+
+  "dangerZone": "Zona e Rrezikshme",
+  "@dangerZone": {
+    "description": "Titulli i seksionit të rrezikshëm në profil"
+  },
+
+  "dangerZoneDescription": "Ky veprim do të fshijë përgjithmonë llogarinë tuaj dhe të gjitha të dhënat tuaja. Nuk do të mund ta riktheni llogarinë tuaj pasi të jetë fshirë.",
+  "@dangerZoneDescription": {
+    "description": "Përshkrimi i zonës së rrezikshme"
+  },
+
+  "destroyMyAccount": "Shkatërro llogarinë time",
+  "@destroyMyAccount": {
+    "description": "Butoni për shkatërrimin e llogarisë"
+  },
+
+  "warningTitle": "Kujdes!",
+  "@warningTitle": {
+    "description": "Titulli i dialogut të paralajmërimit"
+  },
+
+  "destroyAccountWarning": "Jeni duke shkatërruar llogarinë tuaj përgjithmonë.",
+  "@destroyAccountWarning": {
+    "description": "Paralajmërimi kryesor për shkatërrimin e llogarisë"
+  },
+
+  "thisActionWill": "Ky veprim do të:",
+  "@thisActionWill": {
+    "description": "Hyrje në listën e pasojave"
+  },
+
+  "deleteAllData": "• Fshijë të gjitha të dhënat tuaja",
+  "@deleteAllData": {
+    "description": "Pasoja: fshirja e të dhënave"
+  },
+
+  "closeAllSessions": "• Mbyllë të gjitha seancat tuaja aktive",
+  "@closeAllSessions": {
+    "description": "Pasoja: mbyllja e seancave"
+  },
+
+  "deleteChatHistory": "• Fshijë historinë tuaj të bisedave",
+  "@deleteChatHistory": {
+    "description": "Pasoja: fshirja e historisë"
+  },
+
+  "cannotBeUndone": "• Nuk mund të zhbëhet",
+  "@cannotBeUndone": {
+    "description": "Pasoja: e pakthyeshme"
+  },
+
+  "neverAccessAgain": "Pasi të shkatërrohet, nuk do të mund të aksesoni më kurrë këtë llogari.",
+  "@neverAccessAgain": {
+    "description": "Paralajmërimi i fundit për humbjen e aksesit"
+  },
+
+  "cancel": "Anulo",
+  "@cancel": {
+    "description": "Butoni anulo"
+  },
+
+  "continueButton": "Vazhdo",
+  "@continueButton": {
+    "description": "Butoni vazhdo"
+  },
+
+  "finalConfirmation": "Konfirmimi Përfundimtar",
+  "@finalConfirmation": {
+    "description": "Titulli i dialogut të konfirmimit përfundimtar"
+  },
+
+  "confirmDestructionText": "Për të konfirmuar shkatërrimin e llogarisë tuaj, shkruani:",
+  "@confirmDestructionText": {
+    "description": "Udhëzimi për konfirmimin përfundimtar"
+  },
+
+  "typeConfirmation": "Shkruani konfirmimin",
+  "@typeConfirmation": {
+    "description": "Etiketa e fushës së konfirmimit"
+  },
+
+  "destroyAccount": "Shkatërro Llogarinë",
+  "@destroyAccount": {
+    "description": "Butoni përfundimtar për shkatërrimin e llogarisë"
+  },
+
+  "functionalityInDevelopment": "Funksionaliteti në zhvillim",
+  "@functionalityInDevelopment": {
+    "description": "Titulli i dialogut të funksionalitetit jo të disponueshëm"
+  },
+
+  "accountDestructionAvailable": "Shkatërrimi i llogarisë do të jetë i disponueshëm në një përditësim të ardhshëm. Kërkesa juaj është regjistruar.",
+  "@accountDestructionAvailable": {
+    "description": "Mesazh për funksionalitetin në zhvillim"
+  },
+
+  "understood": "E kuptova",
+  "@understood": {
+    "description": "Butoni e kuptova"
   }
 }

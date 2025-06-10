@@ -1434,5 +1434,110 @@
   "sendEncryptedImageTooltip": "Pošalji enkriptovanu sliku",
   "@sendEncryptedImageTooltip": {
     "description": "Tooltip dugmeta za slanje enkriptovane slike"
+  },
+
+  "myProfile": "Moj Profil",
+  "@myProfile": {
+    "description": "Naslov ekrana profila"
+  },
+
+  "dangerZone": "Opasna Zona",
+  "@dangerZone": {
+    "description": "Naslov opasne sekcije u profilu"
+  },
+
+  "dangerZoneDescription": "Ova akcija će trajno obrisati vaš nalog i sve vaše podatke. Nećete moći da vratite vaš nalog kada se obriše.",
+  "@dangerZoneDescription": {
+    "description": "Opis opasne zone"
+  },
+
+  "destroyMyAccount": "Uništi moj nalog",
+  "@destroyMyAccount": {
+    "description": "Dugme za uništavanje naloga"
+  },
+
+  "warningTitle": "Upozorenje!",
+  "@warningTitle": {
+    "description": "Naslov dijaloga upozorenja"
+  },
+
+  "destroyAccountWarning": "Na putu ste da trajno uništite vaš nalog.",
+  "@destroyAccountWarning": {
+    "description": "Glavno upozorenje o uništavanju naloga"
+  },
+
+  "thisActionWill": "Ova akcija će:",
+  "@thisActionWill": {
+    "description": "Uvod u listu posledica"
+  },
+
+  "deleteAllData": "• Obrisati sve vaše podatke",
+  "@deleteAllData": {
+    "description": "Posledica: brisanje podataka"
+  },
+
+  "closeAllSessions": "• Zatvoriti sve vaše aktivne sesije",
+  "@closeAllSessions": {
+    "description": "Posledica: zatvaranje sesija"
+  },
+
+  "deleteChatHistory": "• Obrisati vašu istoriju ćaskanja",
+  "@deleteChatHistory": {
+    "description": "Posledica: brisanje istorije"
+  },
+
+  "cannotBeUndone": "• Ne može se poništiti",
+  "@cannotBeUndone": {
+    "description": "Posledica: nepovratno"
+  },
+
+  "neverAccessAgain": "Jednom uništen, nikad više nećete moći da pristupite ovom nalogu.",
+  "@neverAccessAgain": {
+    "description": "Finalno upozorenje o gubitku pristupa"
+  },
+
+  "cancel": "Otkaži",
+  "@cancel": {
+    "description": "Dugme otkaži"
+  },
+
+  "continueButton": "Nastavi",
+  "@continueButton": {
+    "description": "Dugme nastavi"
+  },
+
+  "finalConfirmation": "Finalna Potvrda",
+  "@finalConfirmation": {
+    "description": "Naslov dijaloga finalne potvrde"
+  },
+
+  "confirmDestructionText": "Da potvrdite uništavanje vašeg naloga, ukucajte:",
+  "@confirmDestructionText": {
+    "description": "Uputstvo za finalnu potvrdu"
+  },
+
+  "typeConfirmation": "Ukucajte potvrdu",
+  "@typeConfirmation": {
+    "description": "Oznaka polja za potvrdu"
+  },
+
+  "destroyAccount": "Uništi Nalog",
+  "@destroyAccount": {
+    "description": "Finalno dugme za uništavanje naloga"
+  },
+
+  "functionalityInDevelopment": "Funkcionalnost u razvoju",
+  "@functionalityInDevelopment": {
+    "description": "Naslov dijaloga nedostupne funkcionalnosti"
+  },
+
+  "accountDestructionAvailable": "Uništavanje naloga će biti dostupno u sledećem ažuriranju. Vaš zahtev je registrovan.",
+  "@accountDestructionAvailable": {
+    "description": "Poruka o funkcionalnosti u razvoju"
+  },
+
+  "understood": "Razumem",
+  "@understood": {
+    "description": "Dugme razumem"
   }
 }
