@@ -88,6 +88,12 @@ dependencies:
   url_launcher: ^6.2.1
   # Video player para animación de encriptando
   video_player: ^2.8.1
+  # 🛡️ SEGURIDAD PARANOIA MÁXIMA - Limpieza completa de metadatos
+  exif: ^3.3.0              # Leer y eliminar datos EXIF de imágenes
+  image: ^4.1.7             # Procesamiento y limpieza profunda de imágenes
+  mime: ^1.0.4              # Detección y validación de tipos MIME seguros
+  file_picker: ^8.0.6       # Para futura implementación de documentos (preparativo)
+  path: ^1.9.0              # Manejo seguro de rutas de archivos
 
 dev_dependencies:
   flutter_test:

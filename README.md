@@ -114,6 +114,16 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 - 📎 **Archivos multimedia**: Cualquier tipo de archivo protegido
 - 🔒 **P2P directo**: Transferencia directa entre dispositivos
 
+#### 🛡️ **LIMPIEZA PARANÓICA DE METADATOS (NUEVA FUNCIÓN)**
+- 🧹 **Eliminación completa de EXIF**: Todos los metadatos de imágenes removidos automáticamente
+- 📱 **Limpieza de información de dispositivo**: Modelo, fabricante, software eliminados
+- 🌍 **Borrado de coordenadas GPS**: Ubicación geográfica completamente removida
+- 🎵 **Limpieza de metadatos de audio**: Headers ID3, información de encoder eliminada
+- 📝 **Sanitización de texto**: Caracteres de control, BOM y metadatos de codificación removidos
+- 🔍 **Validación de tipos MIME**: Verificación estricta de seguridad de archivos
+- 🛡️ **Detección anti-steganografía**: Análisis básico contra datos ocultos
+- ⚡ **Procesamiento en tiempo real**: Limpieza automática antes del envío
+
 ### 🛡️ **VALIDACIÓN DE INTEGRIDAD**
 - ❌ **Bloqueo de mensajes no cifrados**: Si no está cifrado, no se envía
 - ✅ **Verificación automática**: Cada mensaje validado antes del envío
@@ -215,6 +225,39 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 
 ---
 
+## 🛡️ **FUNCIONALIDAD TÉCNICA: LIMPIEZA PARANÓICA DE METADATOS**
+
+### 🧹 **IMPLEMENTACIÓN DE MÁXIMA SEGURIDAD**
+
+#### 📸 **PROCESAMIENTO DE IMÁGENES**
+- **🔍 Validación MIME estricta**: Solo tipos permitidos (JPEG, PNG, WebP)
+- **📏 Verificación de dimensiones**: Límites de seguridad automáticos
+- **🧹 Eliminación completa de EXIF**: Incluyendo GPS, dispositivo, software
+- **🔄 Recodificación completa**: Imagen procesada pixel por pixel
+- **⚖️ Optimización de tamaño**: Compresión inteligente sin pérdida de calidad
+- **✅ Verificación final**: Confirmación de eliminación exitosa
+
+#### 🎵 **PROCESAMIENTO DE AUDIO**
+- **🎧 Limpieza de headers ID3v1/ID3v2**: Metadatos de reproductor eliminados
+- **📱 Información de encoder**: Software de grabación removido
+- **⏰ Timestamps internos**: Marcas temporales de dispositivo eliminadas
+- **🔒 Validación de integridad**: Verificación de audio funcional post-limpieza
+
+#### 📝 **SANITIZACIÓN DE TEXTO**
+- **🚫 Eliminación de BOM**: Byte Order Mark removido
+- **🧹 Caracteres de control**: Códigos peligrosos filtrados
+- **📏 Normalización de espacios**: Limpieza de formato
+- **🔤 Validación Unicode**: Solo caracteres seguros permitidos
+- **⚡ Protección DoS**: Límites de longitud automáticos
+
+#### 🛡️ **CARACTERÍSTICAS DE SEGURIDAD AVANZADAS**
+- **📊 Análisis estadístico anti-steganografía**: Detección de patrones sospechosos
+- **🔐 Fallback seguro**: Si falla la limpieza, advertencia al usuario
+- **📋 Logging de seguridad**: Registro de eventos para debugging
+- **⚡ Rendimiento optimizado**: Procesamiento eficiente en tiempo real
+
+---
+
 ### 🌍 **MULTIIDIOMA COMPLETO**
 - 🇪🇸 **Español** | 🇺🇸 **English** | 🇷🇺 **Русский** | 🇩🇪 **Deutsch**
 - 🇫🇷 **Français** | 🇮🇹 **Italiano** | 🇵🇹 **Português** | 🇦🇱 **Shqip**
@@ -297,6 +340,16 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 - 🎵 **Real-time audio**: Recorded and encrypted voice notes
 - 📎 **Multimedia files**: Any file type protected
 - 🔒 **Direct P2P**: Direct transfer between devices
+
+#### 🛡️ **PARANOID METADATA CLEANING (NEW FEATURE)**
+- 🧹 **Complete EXIF removal**: All image metadata automatically stripped
+- 📱 **Device information cleaning**: Model, manufacturer, software removed
+- 🌍 **GPS coordinates erasure**: Geographic location completely removed
+- 🎵 **Audio metadata cleaning**: ID3 headers, encoder information eliminated
+- 📝 **Text sanitization**: Control characters, BOM and encoding metadata removed
+- 🔍 **MIME type validation**: Strict file security verification
+- 🛡️ **Anti-steganography detection**: Basic analysis against hidden data
+- ⚡ **Real-time processing**: Automatic cleaning before sending
 
 ### 🛡️ **INTEGRITY VALIDATION**
 - ❌ **Unencrypted message blocking**: If not encrypted, it won't send
@@ -396,6 +449,39 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 - 📧 **Direct contact**: FlutterPutter@Proton.me
 - 📚 **Complete documentation**: Tutorials and best practices
 - 🔄 **Automatic updates**: Always the latest security version
+
+---
+
+## 🛡️ **TECHNICAL FEATURE: PARANOID METADATA CLEANING**
+
+### 🧹 **MAXIMUM SECURITY IMPLEMENTATION**
+
+#### 📸 **IMAGE PROCESSING**
+- **🔍 Strict MIME validation**: Only allowed types (JPEG, PNG, WebP)
+- **📏 Dimension verification**: Automatic security limits
+- **🧹 Complete EXIF removal**: Including GPS, device, software
+- **🔄 Complete re-encoding**: Image processed pixel by pixel
+- **⚖️ Size optimization**: Smart compression without quality loss
+- **✅ Final verification**: Confirmation of successful removal
+
+#### 🎵 **AUDIO PROCESSING**
+- **🎧 ID3v1/ID3v2 header cleaning**: Player metadata eliminated
+- **📱 Encoder information**: Recording software removed
+- **⏰ Internal timestamps**: Device time stamps eliminated
+- **🔒 Integrity validation**: Functional audio verification post-cleaning
+
+#### 📝 **TEXT SANITIZATION**
+- **🚫 BOM removal**: Byte Order Mark removed
+- **🧹 Control characters**: Dangerous codes filtered
+- **📏 Space normalization**: Format cleaning
+- **🔤 Unicode validation**: Only safe characters allowed
+- **⚡ DoS protection**: Automatic length limits
+
+#### 🛡️ **ADVANCED SECURITY FEATURES**
+- **📊 Anti-steganography statistical analysis**: Suspicious pattern detection
+- **🔐 Safe fallback**: If cleaning fails, user warning
+- **📋 Security logging**: Event recording for debugging
+- **⚡ Optimized performance**: Efficient real-time processing
 
 ---
 

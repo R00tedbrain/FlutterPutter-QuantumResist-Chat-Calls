@@ -22,6 +22,7 @@ import '../widgets/verification_widget.dart'; // NUEVO: Import del widget de ver
 import '../l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'fullscreen_media_viewer.dart'; // NUEVO: Import del visor pantalla completa
+import '../services/metadata_cleaner_service.dart'; // 🛡️ PARANOIA MÁXIMA: Limpieza de metadatos
 
 /// 🎯 Chat Efímero Multimedia con Cifrado E2E XChaCha20-Poly1305
 /// Soporta: Texto, Imágenes, Audio Real - COMPLETO
@@ -50,6 +51,7 @@ class _EphemeralChatScreenMultimediaState
   late EphemeralChatService _chatService;
   late EncryptionService _encryptionService;
   late ScreenshotService _screenshotService;
+  late MetadataCleanerService _metadataCleaner; // 🛡️ PARANOIA MÁXIMA
 
   // NUEVO: Rastrear si el servicio es compartido o propio
   bool _isSharedChatService = false;
@@ -353,6 +355,7 @@ class _EphemeralChatScreenMultimediaState
     _chatService = widget.ephemeralChatService ?? EphemeralChatService();
     _encryptionService = EncryptionService();
     _screenshotService = ScreenshotService();
+    _metadataCleaner = MetadataCleanerService(); // 🛡️ PARANOIA MÁXIMA
 
     // IMPORTANTE: Marcar si el servicio es compartido o propio
     _isSharedChatService = widget.ephemeralChatService != null;
@@ -1014,8 +1017,13 @@ class _EphemeralChatScreenMultimediaState
     _ensureCallbacksAreSet();
 
     try {
+      // 🛡️ PARANOIA MÁXIMA: Limpiar metadatos del texto antes de enviar
+      final cleanedText = _metadataCleaner.cleanTextMetadataParanoid(text);
+      print(
+          '🛡️ [METADATA_CLEANER] Texto limpiado: "${text}" -> "${cleanedText}"');
+
       // USAR EXACTAMENTE EL MISMO MÉTODO QUE LA PANTALLA ORIGINAL
-      await _chatService.sendMessage(text,
+      await _chatService.sendMessage(cleanedText,
           destructionTimeMinutes: _selectedDestructionMinutes);
       _messageController.clear();
 
@@ -1024,7 +1032,7 @@ class _EphemeralChatScreenMultimediaState
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         roomId: _currentRoom!.id,
         senderId: 'me',
-        content: text,
+        content: cleanedText, // Usar texto limpio también en UI
         timestamp: DateTime.now(),
         destructionTimeMinutes: _selectedDestructionMinutes,
         destructionTime: _selectedDestructionMinutes != null
@@ -1095,14 +1103,29 @@ class _EphemeralChatScreenMultimediaState
       // Leer imagen
       final imageBytes = await image.readAsBytes();
 
-      // Verificar tamaño máximo (500KB)
-      if (imageBytes.length > 500000) {
+      // 🛡️ PARANOIA MÁXIMA: Limpiar TODOS los metadatos antes de procesar
+      Uint8List cleanedImageBytes;
+      try {
+        cleanedImageBytes =
+            await _metadataCleaner.cleanImageMetadataParanoid(imageBytes);
+        print(
+            '🛡️ [METADATA_CLEANER] Imagen limpiada: ${imageBytes.length} -> ${cleanedImageBytes.length} bytes');
+      } catch (e) {
+        print('🛡️ [METADATA_CLEANER] Error limpiando imagen: $e');
+        // Fallback: usar imagen original pero con warning
+        cleanedImageBytes = imageBytes;
+        _showError(
+            '⚠️ Advertencia: No se pudieron limpiar completamente los metadatos');
+      }
+
+      // Verificar tamaño máximo (500KB) DESPUÉS de limpieza
+      if (cleanedImageBytes.length > 500000) {
         _showError(AppLocalizations.of(context)!.imageTooLarge);
         return;
       }
 
       // Convertir a base64 para envío como texto (igual que la pantalla original)
-      final imageBase64 = base64Encode(imageBytes);
+      final imageBase64 = base64Encode(cleanedImageBytes);
       final messageContent = 'IMAGE_DATA:$imageBase64';
 
       // USAR EL MISMO MÉTODO QUE FUNCIONA PARA TEXTO
@@ -1122,7 +1145,7 @@ class _EphemeralChatScreenMultimediaState
                 .add(Duration(minutes: _selectedDestructionMinutes!))
             : null,
         messageType: 'image',
-        mediaData: imageBytes, // Para mostrar en UI
+        mediaData: cleanedImageBytes, // Para mostrar en UI - LIMPIO
       );
 
       setState(() {
@@ -1343,14 +1366,29 @@ class _EphemeralChatScreenMultimediaState
       final audioFile = File(audioPath);
       final audioBytes = await audioFile.readAsBytes();
 
-      // Verificar tamaño máximo (1MB)
-      if (audioBytes.length > 1000000) {
+      // 🛡️ PARANOIA MÁXIMA: Limpiar metadatos de audio
+      Uint8List cleanedAudioBytes;
+      try {
+        cleanedAudioBytes =
+            await _metadataCleaner.cleanAudioMetadataParanoid(audioBytes);
+        print(
+            '🛡️ [METADATA_CLEANER] Audio limpiado: ${audioBytes.length} -> ${cleanedAudioBytes.length} bytes');
+      } catch (e) {
+        print('🛡️ [METADATA_CLEANER] Error limpiando audio: $e');
+        // Fallback: usar audio original pero con warning
+        cleanedAudioBytes = audioBytes;
+        _showError(
+            '⚠️ Advertencia: No se pudieron limpiar completamente los metadatos de audio');
+      }
+
+      // Verificar tamaño máximo (1MB) DESPUÉS de limpieza
+      if (cleanedAudioBytes.length > 1000000) {
         _showError(AppLocalizations.of(context)!.audioTooLong);
         return;
       }
 
       // Convertir a base64 para envío
-      final audioBase64 = base64Encode(audioBytes);
+      final audioBase64 = base64Encode(cleanedAudioBytes);
       final messageContent = 'AUDIO_DATA:$audioBase64';
 
       // Enviar usando el mismo método que funciona para texto
@@ -1370,7 +1408,7 @@ class _EphemeralChatScreenMultimediaState
                 .add(Duration(minutes: _selectedDestructionMinutes!))
             : null,
         messageType: 'audio',
-        mediaData: audioBytes,
+        mediaData: cleanedAudioBytes, // Audio limpio de metadatos
         duration: 5.0, // Duración estimada
       );
 
