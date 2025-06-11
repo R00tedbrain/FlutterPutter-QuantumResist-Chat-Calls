@@ -85,7 +85,7 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - "sodium_libs (3.4.4+5)":
+  - "sodium_libs (3.4.5+1)":
     - Flutter
     - FlutterMacOS
   - url_launcher_ios (0.0.1):
@@ -205,7 +205,7 @@ SPEC CHECKSUMS:
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
-  sodium_libs: 892e020e210816a19f0cee3ec0285bf185d5d8dc
+  sodium_libs: 7988330f9bb3f94ed43381fb815bdec0d60bbd7c
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
   WebRTC-SDK: dff00a3892bc570b6014e046297782084071657e

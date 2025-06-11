@@ -21,6 +21,7 @@ import '../widgets/destruction_countdown_widget.dart';
 import '../widgets/verification_widget.dart'; // NUEVO: Import del widget de verificación
 import '../l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'fullscreen_media_viewer.dart'; // NUEVO: Import del visor pantalla completa
 
 /// 🎯 Chat Efímero Multimedia con Cifrado E2E XChaCha20-Poly1305
 /// Soporta: Texto, Imágenes, Audio Real - COMPLETO
@@ -1579,6 +1580,19 @@ class _EphemeralChatScreenMultimediaState
     );
   }
 
+  // NUEVO: Función para abrir imagen en pantalla completa
+  void _openFullscreenImage(Uint8List imageData, String messageId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FullscreenMediaViewer(
+          imageData: imageData,
+          heroTag: 'image_$messageId',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1956,12 +1970,19 @@ class _EphemeralChatScreenMultimediaState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (message.mediaData != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.memory(
-                  message.mediaData!,
-                  width: 240,
-                  fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () =>
+                    _openFullscreenImage(message.mediaData!, message.id),
+                child: Hero(
+                  tag: 'image_${message.id}',
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.memory(
+                      message.mediaData!,
+                      width: 240,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               )
             else
