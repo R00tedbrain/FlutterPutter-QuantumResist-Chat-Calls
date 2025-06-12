@@ -47,6 +47,9 @@ https://deepwiki.com/R00tedbrain/FlutterPutter-QuantumResist-Chat-Calls/1-flutte
 
 ### 🛡️ **ENCRIPTACIÓN POST-CUÁNTICA KYBER + XSALSA20-CHACHA20**
 
+<img width="1558" alt="Captura de pantalla 2025-06-12 a las 11 51 04" src="https://github.com/user-attachments/assets/3d1078ed-03e7-4414-9d96-bdaf728798ea" />
+
+
 FlutterPutter implementa la **tecnología de encriptación más avanzada** disponible, diseñada para resistir ataques de computadoras cuánticas:
 
 #### 🔐 **Algoritmos de Cifrado Implementados:**
@@ -61,6 +64,9 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 - ✅ **Resistencia Post-Cuántica**: Protección contra ataques cuánticos futuros
 - ✅ **Doble Encriptación**: TLS 1.3 + SSL + Kyber + XSalsa20-ChaCha20
 - ✅ **Autenticación AEAD**: Verificación de integridad automática con Poly1305
+
+  <img width="1405" alt="Captura de pantalla 2025-06-12 a las 11 41 53" src="https://github.com/user-attachments/assets/e3c20c91-d381-4e28-82dc-b991870e6ae2" />
+
 
 ---
 
@@ -96,6 +102,9 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 
 ## 💬 **CHAT EFÍMERO AVANZADO**
 
+<img width="1548" alt="Captura de pantalla 2025-06-12 a las 11 44 31" src="https://github.com/user-attachments/assets/6676350b-e4ec-4cd9-9102-8b95ef92b078" />
+
+
 ### 🔥 **SALAS QUE SE AUTODESTRUYEN**
 
 #### ⏰ **AUTODESTRUCCIÓN CONFIGURABLE**
@@ -118,6 +127,8 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 - 🔒 **P2P directo**: Transferencia directa entre dispositivos
 
 #### 🛡️ **LIMPIEZA PARANÓICA DE METADATOS (NUEVA FUNCIÓN)**
+<img width="1557" alt="Captura de pantalla 2025-06-12 a las 11 46 44" src="https://github.com/user-attachments/assets/6b8bb37f-1aec-4845-8c66-b02687d7df8f" />
+
 - 🧹 **Eliminación completa de EXIF**: Todos los metadatos de imágenes removidos automáticamente
 - 📱 **Limpieza de información de dispositivo**: Modelo, fabricante, software eliminados
 - 🌍 **Borrado de coordenadas GPS**: Ubicación geográfica completamente removida
@@ -136,6 +147,9 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 ---
 
 ## 📞 **VIDEOLLAMADAS ULTRA-SEGURAS**
+
+<img width="1557" alt="Captura de pantalla 2025-06-12 a las 11 48 58" src="https://github.com/user-attachments/assets/5735cbd8-6a59-4fba-86c7-c7978ea5975f" />
+
 
 ### 🎥 **COMUNICACIÓN EN TIEMPO REAL PROTEGIDA**
 
@@ -183,6 +197,8 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 ### 🔐 **BLOQUEO DE APLICACIÓN AVANZADO**
 
 #### 🔢 **PIN + BIOMETRÍA DUAL**
+<img width="1558" alt="Captura de pantalla 2025-06-12 a las 11 53 05" src="https://github.com/user-attachments/assets/315a9ca2-e954-45a4-90ce-66bba3ae7f94" />
+
 - 🔐 **PIN personalizable**: 4-15 caracteres configurables
 - 👆 **TouchID/FaceID**: Autenticación biométrica nativa
 - ⏰ **Bloqueo automático**: Por inactividad configurable
@@ -195,6 +211,7 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 - 🔒 **Pantalla negra**: Las capturas muestran contenido protegido
 
 ### 🔍 **VERIFICACIÓN DE IDENTIDAD ANÓNIMA**
+<img width="1545" alt="Captura de pantalla 2025-06-12 a las 11 55 27" src="https://github.com/user-attachments/assets/fa1849c3-f2f4-4543-ba89-931c9084d740" />
 
 #### 🔐 **CÓDIGOS DE VERIFICACIÓN COMPARTIDOS**
 - 🎲 **Generación aleatoria**: Códigos únicos por conversación
@@ -270,9 +287,12 @@ FlutterPutter implementa la **tecnología de encriptación más avanzada** dispo
 
 # 🇺🇸 ENGLISH
 
+![flutterPuttersinfondo](https://github.com/user-attachments/assets/58a003e4-e8d7-4c33-b0d4-acaea138d933)
+
 ## 🔒 **MILITARY-GRADE SECURITY**
 
 ### 🛡️ **POST-QUANTUM KYBER + XSALSA20-CHACHA20 ENCRYPTION**
+<img width="1558" alt="Captura de pantalla 2025-06-12 a las 11 51 04" src="https://github.com/user-attachments/assets/3d1078ed-03e7-4414-9d96-bdaf728798ea" />
 
 FlutterPutter implements the **most advanced encryption technology** available, designed to resist quantum computer attacks:
 
@@ -288,6 +308,9 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 - ✅ **Post-Quantum Resistance**: Protection against future quantum attacks
 - ✅ **Double Encryption**: TLS 1.3 + SSL + Kyber + XSalsa20-ChaCha20
 - ✅ **AEAD Authentication**: Automatic integrity verification with Poly1305
+
+<img width="1405" alt="Captura de pantalla 2025-06-12 a las 11 42 33" src="https://github.com/user-attachments/assets/1f0488dc-93d1-44da-99e3-d470cd5ba97f" />
+
 
 ---
 
@@ -323,6 +346,8 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 
 ## 💬 **ADVANCED EPHEMERAL CHAT**
 
+<img width="1548" alt="Captura de pantalla 2025-06-12 a las 11 44 31" src="https://github.com/user-attachments/assets/6676350b-e4ec-4cd9-9102-8b95ef92b078" />
+
 ### 🔥 **SELF-DESTRUCTING ROOMS**
 
 #### ⏰ **CONFIGURABLE AUTO-DESTRUCTION**
@@ -345,6 +370,9 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 - 🔒 **Direct P2P**: Direct transfer between devices
 
 #### 🛡️ **PARANOID METADATA CLEANING (NEW FEATURE)**
+<img width="1557" alt="Captura de pantalla 2025-06-12 a las 11 47 24" src="https://github.com/user-attachments/assets/17ee95df-8676-4b16-9b37-b1b8653a95b6" />
+
+
 - 🧹 **Complete EXIF removal**: All image metadata automatically stripped
 - 📱 **Device information cleaning**: Model, manufacturer, software removed
 - 🌍 **GPS coordinates erasure**: Geographic location completely removed
@@ -363,6 +391,8 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 ---
 
 ## 📞 **ULTRA-SECURE VIDEO CALLS**
+<img width="1557" alt="Captura de pantalla 2025-06-12 a las 11 49 17" src="https://github.com/user-attachments/assets/26d160a6-be1e-4d06-a465-dbfa2a406c34" />
+
 
 ### 🎥 **PROTECTED REAL-TIME COMMUNICATION**
 
@@ -408,6 +438,7 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 - ⏰ **Activity history**: Log of recent connections
 
 ### 🔐 **ADVANCED APP LOCK**
+<img width="1558" alt="Captura de pantalla 2025-06-12 a las 11 53 05" src="https://github.com/user-attachments/assets/315a9ca2-e954-45a4-90ce-66bba3ae7f94" />
 
 #### 🔢 **DUAL PIN + BIOMETRICS**
 - 🔐 **Customizable PIN**: 4-15 configurable characters
@@ -422,7 +453,7 @@ FlutterPutter implements the **most advanced encryption technology** available, 
 - 🔒 **Black screen**: Screenshots show protected content
 
 ### 🔍 **ANONYMOUS IDENTITY VERIFICATION**
-
+<img width="1545" alt="Captura de pantalla 2025-06-12 a las 11 55 27" src="https://github.com/user-attachments/assets/fa1849c3-f2f4-4543-ba89-931c9084d740" />
 #### 🔐 **SHARED VERIFICATION CODES**
 - 🎲 **Random generation**: Unique codes per conversation
 - 📱 **Share via external channels**: WhatsApp, Telegram, etc.
