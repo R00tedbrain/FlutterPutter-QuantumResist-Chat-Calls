@@ -10,6 +10,7 @@
 ### 🛡️ **LA APLICACIÓN MÁS SEGURA PARA VIDEOLLAMADAS Y CHAT EFÍMERO**
 
 https://r00tedbrain.github.io/FlutterPutter-Website/
+https://deepwiki.com/R00tedbrain/FlutterPutter-QuantumResist-Chat-Calls/1-flutterputter-overview
 
 *Protección post-cuántica • Anonimato total • Sin almacenamiento de datos*
 
