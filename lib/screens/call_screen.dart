@@ -1,3 +1,4 @@
+import 'dart:io'; // Para Platform.isIOS
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,8 @@ class _CallScreenState extends State<CallScreen> {
   late CallProvider _callProvider;
   // Estado para el widget P2P
   bool _showP2PChat = false;
+  // Protección contra múltiples presiones del botón
+  bool _isEndingCall = false;
 
   @override
   void initState() {
@@ -102,6 +105,14 @@ class _CallScreenState extends State<CallScreen> {
 
   // Finalizar llamada
   void _endCall() async {
+    // Protección contra múltiples presiones
+    if (_isEndingCall) {
+      print('🛡️ [CallScreen] Ya se está terminando la llamada - ignorando...');
+      return;
+    }
+
+    _isEndingCall = true;
+
     try {
       // Mostrar indicador de carga mientras se procesa
       if (mounted) {
@@ -114,14 +125,23 @@ class _CallScreenState extends State<CallScreen> {
         );
       }
 
-      await _callProvider.endCall();
+      final success = await _callProvider.endCall();
 
       // Cerrar diálogo de carga si está abierto
       if (mounted && Navigator.canPop(context)) {
         Navigator.pop(context); // Cerrar diálogo de carga
       }
 
-      // Navegar de vuelta a HomeScreen SIEMPRE, independientemente del resultado
+      // 🍎 En iOS, CallKit maneja la terminación - el listener automático navegará
+      if (success && Platform.isIOS) {
+        print(
+            '🍎 [CallScreen] CallKit terminando llamada - esperando listener automático...');
+        // NO navegar manualmente - dejar que _onCallStateChanged lo haga
+        // cuando el estado cambie a idle
+        return;
+      }
+
+      // 🌐 En otras plataformas, navegar inmediatamente
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
@@ -135,6 +155,8 @@ class _CallScreenState extends State<CallScreen> {
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
+    } finally {
+      _isEndingCall = false; // Resetear protección
     }
   }
 

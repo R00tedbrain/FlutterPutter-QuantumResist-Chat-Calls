@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async'; // Importar para usar Timer
+import 'dart:io'; // Para Platform.isIOS
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -8,6 +9,7 @@ import 'package:flutterputter/services/call_service.dart';
 import 'package:flutterputter/services/socket_service.dart';
 import 'package:flutterputter/services/api_service.dart';
 import 'package:flutterputter/services/permission_service.dart';
+import 'package:flutterputter/services/voip_service.dart'; // NUEVO: Importar VoIPService
 
 enum CallState {
   idle,
@@ -30,6 +32,10 @@ class CallProvider extends ChangeNotifier {
   bool _isProcessingCall = false;
   Timer? _callCooldownTimer;
 
+  // NUEVO: Para sincronización con CallKit
+  String? _pendingCallKitUUID;
+  String? _activeCallKitUUID; // UUID activo de CallKit para terminar llamadas
+
   // WebRTC
   RTCPeerConnection? _peerConnection;
   MediaStream? _localStream;
@@ -44,6 +50,14 @@ class CallProvider extends ChangeNotifier {
 
   CallProvider() {
     _callService = CallService();
+
+    // NUEVO: Configurar callbacks de VoIPService para sincronización con CallKit
+    if (!kIsWeb && Platform.isIOS) {
+      VoIPService.instance.setCallKitCallbacks(
+        onCallKitAccepted: _handleCallKitAccepted,
+        onCallKitEnded: _handleCallKitEnded,
+      );
+    }
   }
 
   // Getters
@@ -58,6 +72,9 @@ class CallProvider extends ChangeNotifier {
   bool get isSpeakerOn => _isSpeakerOn;
   bool get isProcessingCall => _isProcessingCall;
   RTCPeerConnection? get peerConnection => _peerConnection;
+
+  // 🍎 NUEVO: Getter para verificar si CallKit ya aceptó una llamada
+  bool get hasCallKitPendingUUID => _pendingCallKitUUID != null;
 
   // Iniciar una llamada
   Future<bool> initiateCall(String receiverId, String token,
@@ -190,6 +207,14 @@ class CallProvider extends ChangeNotifier {
     _isProcessingCall = true;
 
     try {
+      // NUEVO: Verificar si CallKit ya aceptó esta llamada
+      if (_pendingCallKitUUID != null) {
+        print(
+            '🔄 [CallProvider] Sincronizando con CallKit UUID pendiente: $_pendingCallKitUUID');
+        _activeCallKitUUID = _pendingCallKitUUID; // Guardar como UUID activo
+        _pendingCallKitUUID = null; // Limpiar el UUID pendiente
+      }
+
       // IMPORTANTE: Verificar si ya tenemos un SocketService establecido
 
       _callState = CallState.connecting;
@@ -316,6 +341,16 @@ class CallProvider extends ChangeNotifier {
   // Rechazar una llamada entrante
   Future<bool> rejectCall(String callId, String token) async {
     try {
+      // 🍎 NUEVO: En iOS, también usar CallKit para rechazar
+      if (!kIsWeb && Platform.isIOS) {
+        print('🍎 [CallProvider] Rechazando llamada a través de CallKit...');
+
+        // En iOS, usar CallKit para rechazar la llamada
+        // Esto asegura que CallKit y la app estén sincronizados
+        await VoIPService.instance.endCall(callId);
+      }
+
+      // Rechazar en el backend (para todas las plataformas)
       return await _callService.rejectCall(callId, token);
     } catch (e) {
       _error = 'Error al rechazar llamada: $e';
@@ -334,6 +369,25 @@ class CallProvider extends ChangeNotifier {
     }
 
     try {
+      // 🍎 NUEVO: En iOS, usar CallKit para terminar la llamada
+      if (!kIsWeb && Platform.isIOS) {
+        print('🍎 [CallProvider] Terminando llamada a través de CallKit...');
+
+        // Usar el UUID correcto de CallKit (no el callId del backend)
+        final uuidToEnd = _activeCallKitUUID ?? _callId!;
+        print('🍎 [CallProvider] Usando UUID para terminar: $uuidToEnd');
+
+        // En iOS, CallKit debe ser la fuente de verdad
+        await VoIPService.instance.endCall(uuidToEnd);
+
+        // CallKit se encargará de llamar a _handleCallKitEnded
+        // que a su vez ejecutará la limpieza completa
+        return true;
+      }
+
+      // 🌐 Para otras plataformas (Android, Web): comportamiento original
+      print('🌐 [CallProvider] Terminando llamada directamente (no iOS)...');
+
       // IMPORTANTE: Actualizar estado INMEDIATAMENTE para que la UI responda
       _callState = CallState.disconnected;
       notifyListeners();
@@ -433,13 +487,23 @@ class CallProvider extends ChangeNotifier {
             }
             break;
           case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected:
+            // 🔧 MEJORADO: No terminar inmediatamente en disconnected - puede ser temporal
+            print(
+                '⚠️ [WEBRTC-DISCONNECTED] Conexión WebRTC desconectada temporalmente');
+            // Solo cambiar a disconnected si ya estamos terminando la llamada
+            if (_callState == CallState.disconnected) {
+              notifyListeners();
+            }
+            break;
           case RTCPeerConnectionState.RTCPeerConnectionStateFailed:
           case RTCPeerConnectionState.RTCPeerConnectionStateClosed:
-            if (_callState == CallState.connected ||
-                _callState == CallState.connecting) {
+            // Solo terminar en failed o closed si no estamos ya en idle
+            if (_callState != CallState.idle &&
+                _callState != CallState.disconnected) {
+              print(
+                  '❌ [WEBRTC-FAILED/CLOSED] Conexión WebRTC terminada: $state');
               _callState = CallState.disconnected;
               notifyListeners();
-              print('❌ [WEBRTC-DISCONNECTED] Conexión WebRTC perdida: $state');
             }
             break;
           case RTCPeerConnectionState.RTCPeerConnectionStateConnecting:
@@ -853,6 +917,90 @@ class CallProvider extends ChangeNotifier {
       // Error al extraer ID de usuario del token
     }
     return token; // Fallback al token completo si no se puede extraer
+  }
+
+  // NUEVO: Manejar cuando CallKit acepta una llamada
+  void _handleCallKitAccepted(String callUUID) {
+    print('🔄 [CallProvider] CallKit aceptó llamada: $callUUID');
+
+    // IMPORTANTE: Guardar el UUID de CallKit para poder terminar la llamada después
+    _activeCallKitUUID = callUUID;
+
+    // CASO 1: Tenemos una llamada en connecting - sincronizar inmediatamente
+    if (_callState == CallState.connecting && _callId != null) {
+      print(
+          '✅ [CallProvider] Sincronizando aceptación con app (connecting)...');
+      _callState = CallState.connected;
+      notifyListeners();
+      return;
+    }
+
+    // CASO 2: Tenemos una llamada en cualquier estado activo - sincronizar
+    if (_callState != CallState.idle && _callId != null) {
+      print(
+          '✅ [CallProvider] Sincronizando aceptación con app (estado: $_callState)...');
+      _callState = CallState.connected;
+      notifyListeners();
+      return;
+    }
+
+    // CASO 3: No hay llamada activa - CallKit se adelantó
+    // Esto puede pasar cuando CallKit recibe la push notification antes que la app
+    print(
+        '⚠️ [CallProvider] CallKit se adelantó - guardando UUID para sincronizar después');
+
+    // Guardar el UUID para sincronizar cuando la app reciba la llamada
+    _pendingCallKitUUID = callUUID;
+
+    // Intentar buscar si hay alguna llamada en proceso en el socket
+    if (_socketService != null) {
+      print('🔍 [CallProvider] Buscando llamada activa en socket...');
+      // El socket service debería tener información de la llamada
+    }
+  }
+
+  // NUEVO: Manejar cuando CallKit termina una llamada
+  void _handleCallKitEnded(String callUUID) async {
+    print('🔄 [CallProvider] CallKit terminó llamada: $callUUID');
+
+    // Si tenemos una llamada activa, hacer la limpieza completa
+    if (_callState != CallState.idle && _callId != null) {
+      print('✅ [CallProvider] Sincronizando terminación con app...');
+
+      try {
+        // IMPORTANTE: Actualizar estado INMEDIATAMENTE para que la UI responda
+        _callState = CallState.disconnected;
+        notifyListeners();
+
+        // IMPORTANTE: Enviar evento end-call a través del socket ANTES de limpiar
+        _socketService.sendEndCall(_callId!);
+
+        // Cerrar conexión WebRTC
+        await _disposeWebRTC();
+
+        // Finalizar llamada con el servicio
+        await _callService.endCall(_callId!, _token!);
+
+        // Actualizar estado final
+        _callState = CallState.idle;
+        notifyListeners(); // IMPORTANTE: Notificar el estado final
+
+        // Limpiar variables después de notificar
+        _callId = null;
+        _remoteUser = null;
+        _error = null;
+        _activeCallKitUUID = null; // Limpiar UUID de CallKit
+
+        print('✅ [CallProvider] Llamada terminada y sincronizada con CallKit');
+      } catch (e) {
+        print('❌ [CallProvider] Error sincronizando terminación: $e');
+        _error = 'Error al finalizar llamada: $e';
+        _callState = CallState.idle; // Cambiar a idle incluso con error
+        notifyListeners();
+      }
+    } else {
+      print('⚠️ [CallProvider] No hay llamada activa para sincronizar');
+    }
   }
 
   @override

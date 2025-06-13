@@ -117,13 +117,35 @@ public class VoIPPlugin: NSObject, FlutterPlugin {
     
     @objc private func callAnswered(_ notification: Notification) {
         if let callUUID = notification.userInfo?["callUUID"] as? String {
-            channel?.invokeMethod("onCallAnswered", arguments: ["callUUID": callUUID])
+            let timestamp = notification.userInfo?["timestamp"] as? Double
+            let source = notification.userInfo?["source"] as? String
+            
+            var arguments: [String: Any] = ["callUUID": callUUID]
+            if let timestamp = timestamp {
+                arguments["timestamp"] = timestamp
+            }
+            if let source = source {
+                arguments["source"] = source
+            }
+            
+            channel?.invokeMethod("onCallAnswered", arguments: arguments)
         }
     }
     
     @objc private func callEnded(_ notification: Notification) {
         if let callUUID = notification.userInfo?["callUUID"] as? String {
-            channel?.invokeMethod("onCallEnded", arguments: ["callUUID": callUUID])
+            let timestamp = notification.userInfo?["timestamp"] as? Double
+            let source = notification.userInfo?["source"] as? String
+            
+            var arguments: [String: Any] = ["callUUID": callUUID]
+            if let timestamp = timestamp {
+                arguments["timestamp"] = timestamp
+            }
+            if let source = source {
+                arguments["source"] = source
+            }
+            
+            channel?.invokeMethod("onCallEnded", arguments: arguments)
         }
     }
 } 

@@ -21,6 +21,19 @@ class VoIPService {
   // MethodChannel para comunicación con código nativo iOS
   static const MethodChannel _channel = MethodChannel('voip_native');
 
+  // NUEVO: Callbacks para sincronizar con CallProvider
+  Function(String callUUID)? _onCallKitAccepted;
+  Function(String callUUID)? _onCallKitEnded;
+
+  /// NUEVO: Configurar callbacks para sincronización con CallProvider
+  void setCallKitCallbacks({
+    Function(String callUUID)? onCallKitAccepted,
+    Function(String callUUID)? onCallKitEnded,
+  }) {
+    _onCallKitAccepted = onCallKitAccepted;
+    _onCallKitEnded = onCallKitEnded;
+  }
+
   /// Inicializar servicio VoIP (SOLO iOS)
   Future<void> initialize({
     required String userId,
@@ -138,9 +151,19 @@ class VoIPService {
   /// Manejar llamada aceptada
   void _handleCallAnswered(String callUUID,
       {double? timestamp, String? source}) {
+    print('📞 [VoIP] Llamada aceptada: $callUUID (source: $source)');
+
     // NUEVO: Notificar al backend que la llamada fue aceptada desde CallKit
     if (source == 'callkit_native') {
       _notifyBackendCallAccepted(callUUID);
+
+      // CRÍTICO: Notificar al CallProvider para sincronizar estado
+      if (_onCallKitAccepted != null) {
+        print('🔄 [VoIP] Sincronizando aceptación con CallProvider...');
+        _onCallKitAccepted!(callUUID);
+      } else {
+        print('⚠️ [VoIP] No hay callback configurado para CallProvider');
+      }
     }
   }
 
@@ -176,9 +199,19 @@ class VoIPService {
 
   /// Manejar llamada terminada
   void _handleCallEnded(String callUUID, {double? timestamp, String? source}) {
+    print('📞 [VoIP] Llamada terminada: $callUUID (source: $source)');
+
     // NUEVO: Notificar al backend que la llamada fue terminada desde CallKit
     if (source == 'callkit_native') {
       _notifyBackendCallEnded(callUUID);
+
+      // CRÍTICO: Notificar al CallProvider para sincronizar estado
+      if (_onCallKitEnded != null) {
+        print('🔄 [VoIP] Sincronizando terminación con CallProvider...');
+        _onCallKitEnded!(callUUID);
+      } else {
+        print('⚠️ [VoIP] No hay callback configurado para CallProvider');
+      }
     }
   }
 

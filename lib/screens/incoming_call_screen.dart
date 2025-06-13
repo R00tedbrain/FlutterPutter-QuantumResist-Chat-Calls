@@ -1,3 +1,4 @@
+import 'dart:io'; // Para Platform.isIOS
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterputter/models/user.dart';
@@ -25,6 +26,8 @@ class IncomingCallScreen extends StatefulWidget {
 }
 
 class _IncomingCallScreenState extends State<IncomingCallScreen> {
+  bool _isAutoAccepting = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +41,91 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
       if (socketService != null) {
         callProvider.setSocketService(socketService);
       } else {}
+
+      // 🍎 NUEVO: En iOS, verificar si CallKit ya aceptó esta llamada
+      if (Platform.isIOS) {
+        _checkCallKitAutoAccept(callProvider, authProvider);
+      }
     });
+  }
+
+  // 🍎 NUEVO: Verificar si CallKit ya aceptó y auto-aceptar en la app
+  Future<void> _checkCallKitAutoAccept(
+      CallProvider callProvider, AuthProvider authProvider) async {
+    // Esperar un momento para que CallKit procese
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    if (!mounted || _isAutoAccepting) return;
+
+    // Verificar si CallKit ya aceptó esta llamada
+    if (callProvider.hasCallKitPendingUUID) {
+      print(
+          '🍎 [IncomingCall] CallKit ya aceptó - auto-aceptando en app: ${widget.callId}');
+      _autoAcceptFromCallKit(callProvider, authProvider);
+    } else {
+      print(
+          '🍎 [IncomingCall] CallKit no ha aceptado aún - esperando acción del usuario');
+    }
+  }
+
+  // 🍎 NUEVO: Auto-aceptar cuando CallKit ya aceptó
+  Future<void> _autoAcceptFromCallKit(
+      CallProvider callProvider, AuthProvider authProvider) async {
+    if (_isAutoAccepting || !mounted) return;
+
+    print('🍎 [IncomingCall] Auto-aceptando llamada desde CallKit...');
+    _isAutoAccepting = true;
+
+    try {
+      // Mostrar indicador de que estamos sincronizando con CallKit
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('Sincronizando con CallKit...'),
+            ],
+          ),
+        ),
+      );
+
+      // Aceptar la llamada automáticamente
+      final success = await callProvider.acceptCall(
+        widget.callId,
+        authProvider.token!,
+        isVideo: widget.isVideo,
+      );
+
+      if (success && mounted) {
+        // Cerrar diálogo de sincronización
+        Navigator.pop(context);
+
+        // Ir directamente a la pantalla de llamada
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CallScreen(
+              remoteUser: widget.caller,
+              isVideo: widget.isVideo,
+            ),
+          ),
+        );
+      } else if (mounted) {
+        // Error en auto-aceptación
+        Navigator.pop(context); // Cerrar diálogo
+        Navigator.pop(context); // Cerrar pantalla
+      }
+    } catch (e) {
+      print('❌ [IncomingCall] Error en auto-aceptación: $e');
+      if (mounted) {
+        Navigator.pop(context); // Cerrar diálogo
+        Navigator.pop(context); // Cerrar pantalla
+      }
+    }
   }
 
   // Aceptar llamada
