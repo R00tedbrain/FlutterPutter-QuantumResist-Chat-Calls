@@ -15,6 +15,8 @@ import 'package:flutterputter/widgets/app_lock_wrapper.dart';
 import 'package:flutterputter/services/screenshot_security_service.dart';
 import 'package:flutterputter/services/session_management_service.dart';
 import 'package:flutterputter/services/security_alert_service.dart';
+import 'package:flutterputter/services/tor_service.dart'; // 🌐 NUEVO: Servicio Tor
+import 'package:flutterputter/services/tor_configuration_service.dart'; // ⚙️ NUEVO: Configuración Tor
 import 'package:flutterputter/l10n/app_localizations.dart';
 
 void main() async {
@@ -50,6 +52,28 @@ void main() async {
     await SessionManagementService().initialize();
   } catch (e) {
     // Error inicializando servicio de sesiones
+  }
+
+  // 🌐 NUEVO: Inicializar servicios Tor (FASE 1: Auth + Mensajes)
+  try {
+    // Inicializar TorConfigurationService primero
+    await TorConfigurationService.initialize();
+    print(
+        '⚙️ [MAIN] TorConfigurationService CIFRADO inicializado correctamente');
+
+    // El TorService ya se inicializa automáticamente dentro de TorConfigurationService
+    print(
+        '🔐 [MAIN] Servicios Tor inicializados correctamente con almacenamiento CIFRADO');
+  } catch (e) {
+    print('❌ [MAIN] Error inicializando servicios Tor: $e');
+
+    // Fallback de emergencia para TorService
+    try {
+      await TorService.initialize();
+      print('🔄 [MAIN] Fallback TorService inicializado correctamente');
+    } catch (fallbackError) {
+      print('❌ [MAIN] Error en fallback TorService: $fallbackError');
+    }
   }
 
   // 3️⃣ Handler de errores de Flutter

@@ -7,6 +7,7 @@ import '../services/app_lock_service.dart';
 import '../services/screenshot_security_service.dart';
 import '../services/auto_destruction_preferences_service.dart';
 import '../services/session_management_service.dart';
+import '../widgets/tor_configuration_widget.dart'; // 🌐 Widget de configuración Tor
 import '../l10n/app_localizations.dart';
 import 'active_sessions_screen.dart';
 import 'webview_screen.dart';
@@ -1492,6 +1493,12 @@ class _SecuritySettingsScreenState extends State<SecuritySettingsScreen> {
 
       // Configuración de sesiones activas
       _buildSessionsSection(),
+
+      // 🌐 NUEVO: Configuración de red Tor
+      const TorConfigurationWidget(
+        showAdvancedOptions: true, // Mostrar configuración avanzada
+        showDebugLogs: true, // Mostrar logs de debug
+      ),
 
       // ✅ SECCIÓN: Ayuda y Soporte - SIN CONDICIONALES
       _buildHelpSection(),

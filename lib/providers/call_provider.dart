@@ -157,8 +157,9 @@ class CallProvider extends ChangeNotifier {
       // Crear oferta
       await _createOffer();
 
-      _callState = CallState.connected;
-      notifyListeners();
+      // NO cambiar a connected inmediatamente - esperar a que WebRTC se conecte realmente
+      // _callState = CallState.connected;
+      // notifyListeners();
       return true;
     } catch (e) {
       _error = 'Error de conexión: $e';
@@ -298,8 +299,9 @@ class CallProvider extends ChangeNotifier {
       // Iniciar WebRTC
       await _initializeWebRTC(isVideo: isVideo);
 
-      _callState = CallState.connected;
-      notifyListeners();
+      // NO cambiar a connected inmediatamente - esperar a que WebRTC se conecte realmente
+      // _callState = CallState.connected;
+      // notifyListeners();
       return true;
     } catch (e) {
       _error = 'Error de conexión: $e';
@@ -417,6 +419,39 @@ class CallProvider extends ChangeNotifier {
         return;
       }
 
+      // NUEVO: Configurar listeners para el estado real de la conexión WebRTC
+      _peerConnection!.onConnectionState = (RTCPeerConnectionState state) {
+        print('🔗 [WEBRTC-STATE] Estado de conexión: $state');
+
+        switch (state) {
+          case RTCPeerConnectionState.RTCPeerConnectionStateConnected:
+            // ¡Conexión WebRTC realmente establecida!
+            if (_callState == CallState.connecting) {
+              _callState = CallState.connected;
+              notifyListeners();
+              print('✅ [WEBRTC-CONNECTED] Llamada realmente conectada');
+            }
+            break;
+          case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected:
+          case RTCPeerConnectionState.RTCPeerConnectionStateFailed:
+          case RTCPeerConnectionState.RTCPeerConnectionStateClosed:
+            if (_callState == CallState.connected ||
+                _callState == CallState.connecting) {
+              _callState = CallState.disconnected;
+              notifyListeners();
+              print('❌ [WEBRTC-DISCONNECTED] Conexión WebRTC perdida: $state');
+            }
+            break;
+          case RTCPeerConnectionState.RTCPeerConnectionStateConnecting:
+            // Mantener estado connecting
+            print('🔄 [WEBRTC-CONNECTING] WebRTC conectando...');
+            break;
+          default:
+            print('ℹ️ [WEBRTC-STATE] Estado WebRTC: $state');
+            break;
+        }
+      };
+
       // CRÍTICO: En web, esperar a que el peerConnection se inicialice completamente
       if (kIsWeb) {
         await Future.delayed(const Duration(milliseconds: 100));
@@ -459,13 +494,23 @@ class CallProvider extends ChangeNotifier {
 
       // CRÍTICO: Configurar onTrack ANTES de añadir tracks locales
       _peerConnection!.onTrack = (RTCTrackEvent event) {
+        print('📺 [WEBRTC-TRACK] Track remoto recibido');
         if (event.streams.isNotEmpty) {
           _remoteStream = event.streams[0];
+          print('✅ [WEBRTC-STREAM] Stream remoto establecido');
+
+          // Si aún estamos en connecting y recibimos stream, es una buena señal
+          if (_callState == CallState.connecting) {
+            print(
+                '🔗 [WEBRTC-STREAM] Stream recibido - conexión estableciéndose');
+          }
+
           notifyListeners();
         } else {
           // En algunos casos, el stream puede estar vacío pero el track es válido
           // Crear un stream artificial para el track
           if (_remoteStream == null) {
+            print('⚠️ [WEBRTC-TRACK] Track recibido pero sin stream');
             // El track se manejará automáticamente por el navegador
           }
         }
@@ -473,7 +518,15 @@ class CallProvider extends ChangeNotifier {
 
       // CRÍTICO: También configurar onAddStream como fallback para navegadores que no soportan onTrack correctamente
       _peerConnection!.onAddStream = (MediaStream stream) {
+        print('📺 [WEBRTC-ADDSTREAM] Stream remoto añadido (fallback)');
         _remoteStream = stream;
+
+        // Si aún estamos en connecting y recibimos stream, es una buena señal
+        if (_callState == CallState.connecting) {
+          print(
+              '🔗 [WEBRTC-ADDSTREAM] Stream añadido - conexión estableciéndose');
+        }
+
         notifyListeners();
       };
 

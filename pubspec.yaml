@@ -39,6 +39,7 @@ dependencies:
   # HTTP y autenticación
   http: ^1.1.0
   shared_preferences: ^2.2.2
+  encrypt_shared_preferences: ^0.9.9  # 🔐 Almacenamiento cifrado para configuración Tor
   provider: ^6.1.1
   # WebRTC
   flutter_webrtc: ^0.14.1
@@ -94,6 +95,8 @@ dependencies:
   mime: ^1.0.4              # Detección y validación de tipos MIME seguros
   file_picker: ^8.0.6       # Para futura implementación de documentos (preparativo)
   path: ^1.9.0              # Manejo seguro de rutas de archivos
+  # 🌐 TOR NETWORK INTEGRATION - Anonimato máximo con SOCKS5 proxy
+  socks5_proxy: ^2.1.0      # Cliente SOCKS5 oficial para conexiones Tor
 
 dev_dependencies:
   flutter_test:

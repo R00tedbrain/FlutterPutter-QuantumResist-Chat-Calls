@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutterputter/services/tor_api_integration.dart'; // 🔗 Integración Tor
 
 class ApiService {
   // URL base de la API - ACTUALIZADA PARA VPS CON NGINX Y SESIONES ACTIVAS
@@ -59,7 +60,7 @@ class ApiService {
     }
   }
 
-  // GET request
+  // GET request - ✅ ACTUALIZADO con soporte Tor
   static Future<http.Response> get(String endpoint, [String? token]) async {
     if (endpoint.isEmpty) {
       throw Exception('Endpoint no puede ser nulo o vacío');
@@ -77,15 +78,11 @@ class ApiService {
       endpoint = endpoint.replaceFirst(RegExp('^/?auth/'), '/api/auth/');
     }
 
-    final url = Uri.parse('$baseUrl$endpoint');
-
     if (enableDebugLogs) {}
 
     try {
-      final response = await http.get(
-        url,
-        headers: _getHeaders(token),
-      );
+      // 🔗 USAR TorApiIntegration en lugar de http directamente
+      final response = await TorApiIntegration.get(endpoint, token);
 
       if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
@@ -95,7 +92,7 @@ class ApiService {
     }
   }
 
-  // POST request
+  // POST request - ✅ ACTUALIZADO con soporte Tor
   static Future<http.Response> post(String endpoint, dynamic data,
       [String? token]) async {
     if (endpoint.isEmpty) {
@@ -118,17 +115,11 @@ class ApiService {
       endpoint = endpoint.replaceFirst(RegExp('^/?auth/'), '/api/auth/');
     }
 
-    final url = Uri.parse('$baseUrl$endpoint');
-
     if (enableDebugLogs) {}
 
     try {
-      final jsonData = jsonEncode(data);
-      final response = await http.post(
-        url,
-        headers: _getHeaders(token),
-        body: jsonData,
-      );
+      // 🔗 USAR TorApiIntegration en lugar de http directamente
+      final response = await TorApiIntegration.post(endpoint, data, token);
 
       if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
@@ -141,7 +132,7 @@ class ApiService {
     }
   }
 
-  // PUT request
+  // PUT request - ✅ ACTUALIZADO con soporte Tor
   static Future<http.Response> put(String endpoint, dynamic data,
       [String? token]) async {
     if (endpoint.isEmpty) {
@@ -164,17 +155,11 @@ class ApiService {
       endpoint = endpoint.replaceFirst(RegExp('^/?auth/'), '/api/auth/');
     }
 
-    final url = Uri.parse('$baseUrl$endpoint');
-
     if (enableDebugLogs) {}
 
     try {
-      final jsonData = jsonEncode(data);
-      final response = await http.put(
-        url,
-        headers: _getHeaders(token),
-        body: jsonData,
-      );
+      // 🔗 USAR TorApiIntegration en lugar de http directamente
+      final response = await TorApiIntegration.put(endpoint, data, token);
 
       if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
@@ -187,7 +172,7 @@ class ApiService {
     }
   }
 
-  // DELETE request
+  // DELETE request - ✅ ACTUALIZADO con soporte Tor
   static Future<http.Response> delete(String endpoint, [String? token]) async {
     if (endpoint.isEmpty) {
       throw Exception('Endpoint no puede ser nulo o vacío');
@@ -205,15 +190,11 @@ class ApiService {
       endpoint = endpoint.replaceFirst(RegExp('^/?auth/'), '/api/auth/');
     }
 
-    final url = Uri.parse('$baseUrl$endpoint');
-
     if (enableDebugLogs) {}
 
     try {
-      final response = await http.delete(
-        url,
-        headers: _getHeaders(token),
-      );
+      // 🔗 USAR TorApiIntegration en lugar de http directamente
+      final response = await TorApiIntegration.delete(endpoint, token);
 
       if (enableSessionsDebug && endpoint.contains('/api/sessions/')) {}
 
@@ -303,30 +284,22 @@ class ApiService {
 
       switch (method.toUpperCase()) {
         case 'GET':
-          response = await http.get(
-            Uri.parse('$baseUrl$fullEndpoint'),
-            headers: headers,
-          );
+          // 🔗 Usar TorApiIntegration para sesiones también
+          response = await TorApiIntegration.get(fullEndpoint, token);
           break;
         case 'POST':
-          response = await http.post(
-            Uri.parse('$baseUrl$fullEndpoint'),
-            headers: headers,
-            body: jsonEncode(data ?? {}),
-          );
+          // 🔗 Usar TorApiIntegration para sesiones también
+          response =
+              await TorApiIntegration.post(fullEndpoint, data ?? {}, token);
           break;
         case 'PUT':
-          response = await http.put(
-            Uri.parse('$baseUrl$fullEndpoint'),
-            headers: headers,
-            body: jsonEncode(data ?? {}),
-          );
+          // 🔗 Usar TorApiIntegration para sesiones también
+          response =
+              await TorApiIntegration.put(fullEndpoint, data ?? {}, token);
           break;
         case 'DELETE':
-          response = await http.delete(
-            Uri.parse('$baseUrl$fullEndpoint'),
-            headers: headers,
-          );
+          // 🔗 Usar TorApiIntegration para sesiones también
+          response = await TorApiIntegration.delete(fullEndpoint, token);
           break;
         default:
           throw Exception('Método HTTP no soportado: $method');
