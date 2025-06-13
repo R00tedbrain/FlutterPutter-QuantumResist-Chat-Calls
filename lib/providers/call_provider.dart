@@ -36,6 +36,10 @@ class CallProvider extends ChangeNotifier {
   String? _pendingCallKitUUID;
   String? _activeCallKitUUID; // UUID activo de CallKit para terminar llamadas
 
+  // 🍎 NUEVO: Configuración mínima para CallKit (según documentación oficial de Apple)
+  bool _isCallKitOnlyMode =
+      false; // Modo solo CallKit cuando app está bloqueada
+
   // WebRTC
   RTCPeerConnection? _peerConnection;
   MediaStream? _localStream;
@@ -75,6 +79,9 @@ class CallProvider extends ChangeNotifier {
 
   // 🍎 NUEVO: Getter para verificar si CallKit ya aceptó una llamada
   bool get hasCallKitPendingUUID => _pendingCallKitUUID != null;
+
+  // 🍎 NUEVO: Getter para verificar si estamos en modo solo CallKit
+  bool get isCallKitOnlyMode => _isCallKitOnlyMode;
 
   // Iniciar una llamada
   Future<bool> initiateCall(String receiverId, String token,
@@ -919,43 +926,45 @@ class CallProvider extends ChangeNotifier {
     return token; // Fallback al token completo si no se puede extraer
   }
 
-  // NUEVO: Manejar cuando CallKit acepta una llamada
+  // 🍎 NUEVO: Manejar cuando CallKit acepta una llamada (SOLUCIÓN OFICIAL APPLE)
   void _handleCallKitAccepted(String callUUID) {
     print('🔄 [CallProvider] CallKit aceptó llamada: $callUUID');
 
     // IMPORTANTE: Guardar el UUID de CallKit para poder terminar la llamada después
     _activeCallKitUUID = callUUID;
 
-    // CASO 1: Tenemos una llamada en connecting - sincronizar inmediatamente
-    if (_callState == CallState.connecting && _callId != null) {
-      print(
-          '✅ [CallProvider] Sincronizando aceptación con app (connecting)...');
+    // 🍎 SOLUCIÓN OFICIAL: Verificar si la app puede manejar la llamada completamente
+    bool canHandleFullCall = _callState != CallState.idle && _callId != null;
+
+    if (canHandleFullCall) {
+      // CASO 1: App desbloqueada - manejar llamada completa
+      print('✅ [CallProvider] App disponible - manejando llamada completa');
+      _isCallKitOnlyMode = false;
       _callState = CallState.connected;
       notifyListeners();
-      return;
-    }
+    } else {
+      // CASO 2: App bloqueada - MODO SOLO CALLKIT (según documentación Apple)
+      print('🍎 [CallProvider] App bloqueada - activando modo solo CallKit');
+      _isCallKitOnlyMode = true;
+      _pendingCallKitUUID = callUUID;
 
-    // CASO 2: Tenemos una llamada en cualquier estado activo - sincronizar
-    if (_callState != CallState.idle && _callId != null) {
+      // 🍎 CRÍTICO: Según Apple, reportar llamada y luego fallarla si no se puede conectar
+      // Esto cumple con los requisitos de CallKit sin romper el sistema
       print(
-          '✅ [CallProvider] Sincronizando aceptación con app (estado: $_callState)...');
-      _callState = CallState.connected;
+          '🍎 [CallProvider] Reportando llamada mínima para cumplir requisitos CallKit');
+
+      // Establecer estado mínimo para CallKit
+      _callState = CallState.connecting;
       notifyListeners();
-      return;
-    }
 
-    // CASO 3: No hay llamada activa - CallKit se adelantó
-    // Esto puede pasar cuando CallKit recibe la push notification antes que la app
-    print(
-        '⚠️ [CallProvider] CallKit se adelantó - guardando UUID para sincronizar después');
-
-    // Guardar el UUID para sincronizar cuando la app reciba la llamada
-    _pendingCallKitUUID = callUUID;
-
-    // Intentar buscar si hay alguna llamada en proceso en el socket
-    if (_socketService != null) {
-      print('🔍 [CallProvider] Buscando llamada activa en socket...');
-      // El socket service debería tener información de la llamada
+      // 🍎 IMPORTANTE: Programar fallo de llamada después de timeout si no se conecta
+      Timer(const Duration(seconds: 10), () {
+        if (_isCallKitOnlyMode && _callState == CallState.connecting) {
+          print(
+              '🍎 [CallProvider] Timeout - fallando llamada según protocolo Apple');
+          _failCallKitOnlyCall();
+        }
+      });
     }
   }
 
@@ -1000,6 +1009,43 @@ class CallProvider extends ChangeNotifier {
       }
     } else {
       print('⚠️ [CallProvider] No hay llamada activa para sincronizar');
+    }
+  }
+
+  // 🍎 NUEVO: Fallar llamada en modo solo CallKit (según documentación Apple)
+  void _failCallKitOnlyCall() {
+    print('🍎 [CallProvider] Fallando llamada en modo solo CallKit');
+
+    // Según Apple: "Typically, that means reporting a call and then failing that call"
+    _callState = CallState.disconnected;
+    _isCallKitOnlyMode = false;
+    _pendingCallKitUUID = null;
+    _activeCallKitUUID = null;
+
+    notifyListeners();
+
+    // Limpiar estado después de un breve delay
+    Timer(const Duration(seconds: 2), () {
+      _callState = CallState.idle;
+      notifyListeners();
+    });
+  }
+
+  // 🍎 NUEVO: Método para cuando el usuario hace clic en el botón de app en CallKit
+  void handleCallKitAppButtonPressed() {
+    print('🍎 [CallProvider] Usuario presionó botón de app en CallKit');
+
+    if (_isCallKitOnlyMode && _pendingCallKitUUID != null) {
+      print(
+          '🍎 [CallProvider] Transicionando de modo solo CallKit a app completa');
+
+      // Ahora la app está desbloqueada, podemos manejar la llamada completa
+      _isCallKitOnlyMode = false;
+
+      // Aquí deberíamos intentar establecer la conexión real
+      // Por ahora, simplemente marcamos como conectada
+      _callState = CallState.connected;
+      notifyListeners();
     }
   }
 

@@ -46,6 +46,11 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
       if (Platform.isIOS) {
         _checkCallKitAutoAccept(callProvider, authProvider);
       }
+
+      // 🍎 NUEVO: Verificar si estamos en modo solo CallKit
+      if (callProvider.isCallKitOnlyMode) {
+        _showCallKitOnlyMode();
+      }
     });
   }
 
@@ -126,6 +131,46 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
         Navigator.pop(context); // Cerrar pantalla
       }
     }
+  }
+
+  // 🍎 NUEVO: Mostrar información de modo solo CallKit
+  void _showCallKitOnlyMode() {
+    print('🍎 [IncomingCall] Mostrando información de modo solo CallKit');
+
+    // Mostrar diálogo informativo
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            title: const Text('📞 Llamada Activa'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.phone, size: 48, color: Colors.green),
+                SizedBox(height: 16),
+                Text(
+                  'La llamada está activa en CallKit.\n\n'
+                  'Para acceder a funciones adicionales, '
+                  'toca el botón de la app en la pantalla de llamada.',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Cerrar diálogo
+                  Navigator.pop(context); // Cerrar pantalla
+                },
+                child: const Text('Entendido'),
+              ),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   // Aceptar llamada

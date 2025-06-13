@@ -32,6 +32,11 @@ class VoIPManager: NSObject {
         configuration.maximumCallsPerCallGroup = 1
         configuration.supportedHandleTypes = [.generic]
         
+        // 🍎 NUEVO: Configurar icono de la app para CallKit (SOLUCIÓN OFICIAL APPLE)
+        if let iconImage = UIImage(named: "AppIcon") {
+            configuration.iconTemplateImageData = iconImage.pngData()
+        }
+        
         provider = CXProvider(configuration: configuration)
         provider?.setDelegate(self, queue: nil)
     }
