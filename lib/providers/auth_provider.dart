@@ -12,6 +12,7 @@ import 'package:flutterputter/services/session_persistence_service.dart';
 import 'package:flutterputter/services/ntfy_subscription_service.dart';
 import 'package:flutterputter/services/session_management_service.dart';
 import 'package:flutterputter/services/security_alert_service.dart';
+import 'package:flutterputter/services/invitation_persistence_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? _user;
@@ -557,10 +558,18 @@ class AuthProvider extends ChangeNotifier {
       HybridNotificationService.instance.dispose();
     } catch (e) {}
 
-    // NUEVO: Limpiar VoIP Service
+    // 🔒 CRÍTICO: NO hacer dispose de VoIPService
+    // VoIPService debe mantenerse activo para recibir llamadas incluso cuando app está bloqueada
+    // Solo se limpia en casos de logout REAL del usuario, no bloqueo de app
+    print('🔒 [AUTH] Manteniendo VoIPService activo para llamadas entrantes');
+
+    // NUEVO: Limpiar invitaciones persistentes en logout
     try {
-      VoIPService.instance.dispose();
-    } catch (e) {}
+      await InvitationPersistenceService.instance.clearAllInvitations();
+      print('🔒 [AUTH] Invitaciones persistentes limpiadas');
+    } catch (e) {
+      print('❌ [AUTH] Error limpiando invitaciones persistentes: $e');
+    }
 
     _user = null;
     _token = null;

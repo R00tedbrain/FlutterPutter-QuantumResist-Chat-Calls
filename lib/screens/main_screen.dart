@@ -8,6 +8,7 @@ import '../services/ephemeral_chat_manager.dart';
 import '../services/ephemeral_chat_notification_integration.dart';
 import '../services/local_notification_service.dart';
 import '../services/invitation_tracking_service.dart';
+import '../services/invitation_persistence_service.dart';
 import '../services/api_service.dart';
 import '../models/chat_invitation.dart';
 import '../models/user.dart';
@@ -43,6 +44,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _setupSocketService();
     _setupEphemeralChatService();
+    _loadPersistedInvitations();
   }
 
   @override
@@ -54,6 +56,9 @@ class _MainScreenState extends State<MainScreen> {
     // PATRÓN OFICIAL FLUTTER: Solo limpiar en home, callbacks se preservan
     if (currentRoute == '/home') {
       _cleanRejectedInvitations();
+
+      // NUEVO: Sincronizar invitaciones persistentes al volver a home
+      _syncPersistedInvitations();
 
       // NUEVO: SIEMPRE verificar callbacks reales (no confiar en flag)
       _ensureCallbacksConfigured();
@@ -129,6 +134,51 @@ class _MainScreenState extends State<MainScreen> {
 
       // NOTA: Configuración de callbacks movida dentro del Future.wait() arriba
     }).catchError((error) {});
+  }
+
+  /// NUEVO: Cargar invitaciones persistentes al inicializar
+  Future<void> _loadPersistedInvitations() async {
+    try {
+      final persistedInvitations =
+          await InvitationPersistenceService.instance.loadPendingInvitations();
+
+      if (mounted && persistedInvitations.isNotEmpty) {
+        setState(() {
+          _pendingInvitations.clear();
+          _pendingInvitations.addAll(persistedInvitations);
+        });
+        print(
+            '🔒 [MAINSCREEN] Cargadas ${persistedInvitations.length} invitaciones persistentes');
+      }
+    } catch (e) {
+      print('❌ [MAINSCREEN] Error cargando invitaciones persistentes: $e');
+    }
+  }
+
+  /// NUEVO: Sincronizar invitaciones persistentes con la lista local
+  Future<void> _syncPersistedInvitations() async {
+    try {
+      final persistedInvitations =
+          await InvitationPersistenceService.instance.loadPendingInvitations();
+
+      // Agregar invitaciones persistentes que no estén en la lista local
+      bool hasNewInvitations = false;
+      for (final persistedInv in persistedInvitations) {
+        final exists =
+            _pendingInvitations.any((inv) => inv.id == persistedInv.id);
+        if (!exists) {
+          _pendingInvitations.add(persistedInv);
+          hasNewInvitations = true;
+        }
+      }
+
+      if (mounted && hasNewInvitations) {
+        setState(() {});
+        print('🔒 [MAINSCREEN] Sincronizadas invitaciones persistentes');
+      }
+    } catch (e) {
+      print('❌ [MAINSCREEN] Error sincronizando invitaciones persistentes: $e');
+    }
   }
 
   /// PATRÓN OFICIAL FLUTTER: Asegurar que los callbacks estén configurados correctamente
@@ -676,6 +726,9 @@ class _MainScreenState extends State<MainScreen> {
       _pendingInvitations.add(invitation);
     });
 
+    // NUEVO: Persistir invitación para que sobreviva al bloqueo/desbloqueo
+    InvitationPersistenceService.instance.addInvitation(invitation);
+
     // FLUTTER 2025: Llamar async sin BuildContext
     _showSystemNotificationForInvitation(invitation);
 
@@ -708,30 +761,23 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    // PATRÓN OFICIAL FLUTTER: Marcar como disposed ANTES de limpiar
+    print('🔐 [MAINSCREEN] 🏁 MainScreen dispose iniciado...');
+
+    // 🔒 CRÍTICO: NO hacer dispose de servicios cuando app se bloquea
+    // Solo limpiar referencias locales, mantener servicios globales activos
     _callbacksConfigured = false;
     _lastRouteConfigured = null;
 
-    // PATRÓN OFICIAL FLUTTER: Limpiar callbacks para evitar memory leaks
-    try {
-      _ephemeralChatService.onInvitationReceived = null;
-      _ephemeralChatService.onMessageReceived = null;
-      _ephemeralChatService.onError = null;
-    } catch (e) {}
+    // 🔒 IMPORTANTE: NO limpiar callbacks de servicios críticos
+    // Estos deben mantenerse activos para VoIP y notificaciones
+    print(
+        '🔐 [MAINSCREEN] 🔒 Manteniendo servicios críticos activos para VoIP/notificaciones');
 
-    // NOTA: NO limpiar callback global del ChatManager aquí
-    // El MultiRoomChatScreen lo necesita y maneja su propia restauración
-    // Solo lo limpiamos en casos específicos como logout completo
-    try {
-      print(
-          '🔐 [MAINSCREEN] 🏁 MainScreen dispose - callback global se mantiene para MultiRoomChatScreen');
-    } catch (e) {}
+    // NOTA: NO hacer dispose de _ephemeralChatService
+    // Debe mantenerse activo para recibir mensajes cuando app está bloqueada
 
-    // PATRÓN OFICIAL FLUTTER: Dispose del servicio al final
-    try {
-      _ephemeralChatService.dispose();
-    } catch (e) {}
-
+    print(
+        '🔐 [MAINSCREEN] ✅ MainScreen dispose completado - servicios críticos mantenidos');
     super.dispose();
   }
 }

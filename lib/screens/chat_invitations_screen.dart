@@ -4,6 +4,7 @@ import '../providers/auth_provider.dart';
 import '../services/ephemeral_chat_service.dart';
 import '../services/ephemeral_chat_manager.dart';
 import '../services/invitation_tracking_service.dart';
+import '../services/invitation_persistence_service.dart';
 import '../models/chat_invitation.dart';
 import '../l10n/app_localizations.dart';
 import 'dart:async';
@@ -201,6 +202,10 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
         });
       }
 
+      // NUEVO: Remover de persistencia
+      await InvitationPersistenceService.instance
+          .removeInvitation(invitation.id);
+
       // CORREGIDO: SIEMPRE navegar a múltiples salas para unificar la UI
       // Esto garantiza que ambos usuarios (el que envía y el que acepta) tengan la misma interfaz
       Navigator.pushReplacement(
@@ -254,6 +259,12 @@ class _ChatInvitationsScreenState extends State<ChatInvitationsScreen> {
         widget.pendingInvitations!
             .removeWhere((inv) => inv.id == invitation.id);
       }
+
+      // NUEVO: Remover de persistencia y marcar como rechazada
+      await InvitationPersistenceService.instance
+          .removeInvitation(invitation.id);
+      await InvitationPersistenceService.instance
+          .saveRejectedInvitation(invitation.id);
 
       // Enviar rechazo al servidor
       await _chatService.rejectInvitation(invitation.id);
