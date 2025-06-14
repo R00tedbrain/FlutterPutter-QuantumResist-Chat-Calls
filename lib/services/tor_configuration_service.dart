@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutterputter/services/tor_service.dart';
@@ -29,6 +30,9 @@ class TorConfigurationService {
       true; // 🔒 SIEMPRE HABILITADO para anonimidad total
   static const bool _allowUserToDisable =
       false; // 🚫 NO permitir desactivar Tor
+
+  // 📱 iOS: Tor deshabilitado por restricciones del sistema
+  static bool get _isIOSDisabled => !kIsWeb && Platform.isIOS;
 
   // Debug logs
   static const bool _enableDebugLogs = true;
@@ -66,15 +70,23 @@ class TorConfigurationService {
     if (_encryptedPrefs == null) return;
 
     try {
-      final isEnabled = _encryptedPrefs!
-              .getBool(_keyTorEnabled, defaultValue: _defaultEnabled) ??
-          _defaultEnabled;
+      // 📱 iOS: Forzar Tor deshabilitado por restricciones del sistema
+      final isEnabled = _isIOSDisabled
+          ? false
+          : (_encryptedPrefs!
+                  .getBool(_keyTorEnabled, defaultValue: _defaultEnabled) ??
+              _defaultEnabled);
+
       final host = _encryptedPrefs!.getString(_keyTorHost) ?? _defaultHost;
       final port =
           _encryptedPrefs!.getInt(_keyTorPort, defaultValue: _defaultPort) ??
               _defaultPort;
 
       _logDebug('📥 [TOR-CONFIG-LOAD] Cargando configuración CIFRADA:');
+      if (_isIOSDisabled) {
+        _logDebug(
+            '   • iOS detectado: Tor DESHABILITADO (restricciones del sistema)');
+      }
       _logDebug('   • Tor habilitado: $isEnabled');
       _logDebug('   • Host: $host');
       _logDebug('   • Puerto: $port');
@@ -186,6 +198,9 @@ class TorConfigurationService {
 
   /// 📊 Obtener estado actual de configuración (cifrado)
   static Future<bool> isTorEnabled() async {
+    // 📱 iOS: Siempre deshabilitado por restricciones del sistema
+    if (_isIOSDisabled) return false;
+
     if (_encryptedPrefs == null) return _defaultEnabled;
     return _encryptedPrefs!
             .getBool(_keyTorEnabled, defaultValue: _defaultEnabled) ??
