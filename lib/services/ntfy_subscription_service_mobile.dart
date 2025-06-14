@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'ntfy_subscription_service.dart';
 
 /// Implementación específica para móvil usando polling HTTP optimizado
@@ -19,6 +20,9 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
       Duration(seconds: 15); // Reducido de 5s a 15s
   static const Duration _maxPollingInterval = Duration(minutes: 5);
   Duration _currentInterval = _basePollingInterval;
+
+  // Platform channel para iOS background tasks
+  static const _backgroundChannel = MethodChannel('background_ntfy');
 
   // Topics a consultar secuencialmente
   List<MapEntry<String, String>> _topicsToCheck = [];
@@ -63,16 +67,58 @@ class NtfySubscriptionMobile implements NtfySubscriptionPlatform {
 
     if (_disposed || _topicsToCheck.isEmpty) return;
 
-    _pollingTimer = Timer.periodic(_currentInterval, (timer) {
-      if (_disposed) {
-        timer.cancel();
-        return;
-      }
-      _pollNextTopic();
-    });
+    // En iOS, usar Background App Refresh para mejor confiabilidad
+    if (Platform.isIOS) {
+      _startIOSBackgroundPolling();
+    } else {
+      // Android: usar Timer normal
+      _pollingTimer = Timer.periodic(_currentInterval, (timer) {
+        if (_disposed) {
+          timer.cancel();
+          return;
+        }
+        _pollNextTopic();
+      });
+    }
 
     // Hacer primera consulta inmediatamente
     _pollNextTopic();
+  }
+
+  /// Iniciar polling usando Background App Refresh en iOS
+  void _startIOSBackgroundPolling() {
+    try {
+      // Registrar background task
+      _backgroundChannel.invokeMethod('startBackgroundPolling', {
+        'interval': _currentInterval.inSeconds,
+        'topics': _topicsToCheck.map((e) => e.value).toList(),
+      });
+
+      // Configurar listener para cuando el background task se ejecute
+      _backgroundChannel.setMethodCallHandler((call) async {
+        if (call.method == 'performBackgroundPoll' && !_disposed) {
+          await _pollNextTopic();
+        }
+      });
+
+      // Mantener también un timer ligero como fallback
+      _pollingTimer = Timer.periodic(_currentInterval, (timer) {
+        if (_disposed) {
+          timer.cancel();
+          return;
+        }
+        _pollNextTopic();
+      });
+    } catch (e) {
+      // Fallback a timer normal si falla
+      _pollingTimer = Timer.periodic(_currentInterval, (timer) {
+        if (_disposed) {
+          timer.cancel();
+          return;
+        }
+        _pollNextTopic();
+      });
+    }
   }
 
   /// Hacer polling al siguiente topic en la secuencia

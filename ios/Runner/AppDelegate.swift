@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import BackgroundTasks
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -10,6 +11,9 @@ import UIKit
   // NUEVO: Variables para detección
   private var screenshotDetectionActive = false
   private var screenshotChannel: FlutterMethodChannel?
+  
+  // NUEVO: Variables para background ntfy
+  private var backgroundNtfyChannel: FlutterMethodChannel?
   
   override func application(
     _ application: UIApplication,
@@ -22,8 +26,16 @@ import UIKit
         VoIPPlugin.register(with: registrar)
     }
     
+    // Inicializar background tasks para ntfy
+    if #available(iOS 13.0, *) {
+        setupBackgroundTasks()
+    }
+    
     // NUEVO: Configurar método channel para capturas de pantalla
     setupScreenshotSecurity()
+    
+    // NUEVO: Configurar método channel para background ntfy
+    setupBackgroundNtfy()
     
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -246,5 +258,99 @@ import UIKit
   // NUEVO: Método heredado para compatibilidad - ahora delegado a screenRecordingDetected
   @objc private func handleScreenRecordingChanged() {
     screenRecordingDetected()
+  }
+  
+  // MARK: - Background Ntfy Methods
+  
+  // NUEVO: Configurar background ntfy
+  private func setupBackgroundNtfy() {
+    guard let controller = window?.rootViewController as? FlutterViewController else {
+      print("❌ [iOS BACKGROUND NTFY] No se pudo obtener FlutterViewController")
+      return
+    }
+    
+    let channel = FlutterMethodChannel(
+      name: "background_ntfy",
+      binaryMessenger: controller.binaryMessenger
+    )
+    
+    backgroundNtfyChannel = channel
+    
+    channel.setMethodCallHandler { [weak self] call, result in
+      switch call.method {
+      case "startBackgroundPolling":
+        self?.startBackgroundPolling(result: result)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    
+    print("✅ [iOS BACKGROUND NTFY] Canal de comunicación configurado")
+  }
+  
+  // NUEVO: Configurar background tasks
+  private func setupBackgroundTasks() {
+    if #available(iOS 13.0, *) {
+      // Registrar background task para ntfy
+      BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.flutterputter.ntfy.refresh", using: nil) { task in
+        self.handleBackgroundRefresh(task: task as! BGAppRefreshTask)
+      }
+      print("✅ [iOS BACKGROUND NTFY] Background tasks registrados")
+    }
+  }
+  
+  // NUEVO: Iniciar background polling
+  private func startBackgroundPolling(result: @escaping FlutterResult) {
+    if #available(iOS 13.0, *) {
+      scheduleBackgroundRefresh()
+    } else {
+      // Fallback para iOS < 13: usar background task tradicional
+      let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
+        // Cleanup cuando termina el tiempo
+      }
+      
+      DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+        self.performBackgroundPoll()
+        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+      }
+    }
+    result(true)
+    print("✅ [iOS BACKGROUND NTFY] Background polling iniciado")
+  }
+  
+  // NUEVO: Programar background refresh
+  @available(iOS 13.0, *)
+  private func scheduleBackgroundRefresh() {
+    let request = BGAppRefreshTaskRequest(identifier: "com.flutterputter.ntfy.refresh")
+    request.earliestBeginDate = Date(timeIntervalSinceNow: 15) // 15 segundos
+    
+    do {
+      try BGTaskScheduler.shared.submit(request)
+      print("✅ [iOS BACKGROUND NTFY] Background refresh programado")
+    } catch {
+      print("❌ [iOS BACKGROUND NTFY] Error programando background refresh: \(error)")
+    }
+  }
+  
+  // NUEVO: Manejar background refresh
+  @available(iOS 13.0, *)
+  private func handleBackgroundRefresh(task: BGAppRefreshTask) {
+    print("🔄 [iOS BACKGROUND NTFY] Ejecutando background refresh")
+    
+    // Programar el siguiente refresh
+    scheduleBackgroundRefresh()
+    
+    // Ejecutar polling
+    performBackgroundPoll()
+    
+    // Marcar tarea como completada
+    task.setTaskCompleted(success: true)
+  }
+  
+  // NUEVO: Ejecutar polling en background
+  private func performBackgroundPoll() {
+    // Notificar a Flutter para que haga el polling
+    backgroundNtfyChannel?.invokeMethod("performBackgroundPoll", arguments: nil)
+    print("📡 [iOS BACKGROUND NTFY] Polling ejecutado")
   }
 }
