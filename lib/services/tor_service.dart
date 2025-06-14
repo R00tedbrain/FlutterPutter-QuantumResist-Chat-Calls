@@ -286,27 +286,15 @@ class TorService {
 
   // 📝 Métodos de logging privados
   static void _logDebug(String message) {
-    if (_enableDebugLogs) {
-      if (kDebugMode) {
-        print('🔐 [TOR-DEBUG] $message');
-      }
-    }
+    // Logging removido para producción
   }
 
   static void _logConnection(String message) {
-    if (_enableConnectionLogs) {
-      if (kDebugMode) {
-        print('🌐 [TOR-CONN] $message');
-      }
-    }
+    // Logging removido para producción
   }
 
   static void _logError(String message) {
-    if (_enableErrorLogs) {
-      if (kDebugMode) {
-        print('❌ [TOR-ERROR] $message');
-      }
-      // En producción, también se podría enviar a un servicio de crash reporting
-    }
+    // Logging removido para producción
+    // En producción, se podría enviar a un servicio de crash reporting
   }
 }

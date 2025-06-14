@@ -1,6 +1,7 @@
 import 'ephemeral_message.dart';
 import 'ephemeral_room.dart';
 import '../services/ephemeral_chat_service.dart';
+import '../services/room_nickname_service.dart';
 
 /// Modelo que representa una sesión de chat individual
 /// Cada sesión mantiene su propio estado, mensajes y conexión
@@ -182,6 +183,29 @@ class ChatSession {
     } else {
       return 'Usuario $targetUserId';
     }
+  }
+
+  /// NUEVO: Obtener nombre con apodo personalizado (asíncrono)
+  Future<String> getDisplayNameWithNickname() async {
+    // Intentar obtener apodo personalizado primero
+    final customName =
+        await RoomNicknameService.getDisplayName(targetUserId, displayName);
+    return customName;
+  }
+
+  /// NUEVO: Establecer apodo personalizado para esta sala
+  Future<bool> setCustomNickname(String nickname) async {
+    return await RoomNicknameService.setRoomNickname(targetUserId, nickname);
+  }
+
+  /// NUEVO: Verificar si tiene apodo personalizado
+  Future<bool> hasCustomNickname() async {
+    return await RoomNicknameService.hasCustomNickname(targetUserId);
+  }
+
+  /// NUEVO: Limpiar apodo personalizado
+  Future<bool> clearCustomNickname() async {
+    return await RoomNicknameService.clearRoomNickname(targetUserId);
   }
 
   /// Estado de la conexión para mostrar en UI

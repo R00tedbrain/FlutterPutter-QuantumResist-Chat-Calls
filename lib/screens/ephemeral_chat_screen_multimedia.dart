@@ -1109,10 +1109,9 @@ class _EphemeralChatScreenMultimediaState
       try {
         cleanedImageBytes =
             await _metadataCleaner.cleanImageMetadataParanoid(imageBytes);
-        print(
-            '🛡️ [METADATA_CLEANER] Imagen limpiada: ${imageBytes.length} -> ${cleanedImageBytes.length} bytes');
+        // Logging removido para producción
       } catch (e) {
-        print('🛡️ [METADATA_CLEANER] Error limpiando imagen: $e');
+        // Logging removido para producción
         // Fallback: usar imagen original pero con warning
         cleanedImageBytes = imageBytes;
         _showError(
@@ -1372,10 +1371,9 @@ class _EphemeralChatScreenMultimediaState
       try {
         cleanedAudioBytes =
             await _metadataCleaner.cleanAudioMetadataParanoid(audioBytes);
-        print(
-            '🛡️ [METADATA_CLEANER] Audio limpiado: ${audioBytes.length} -> ${cleanedAudioBytes.length} bytes');
+        // Logging removido para producción
       } catch (e) {
-        print('🛡️ [METADATA_CLEANER] Error limpiando audio: $e');
+        // Logging removido para producción
         // Fallback: usar audio original pero con warning
         cleanedAudioBytes = audioBytes;
         _showError(

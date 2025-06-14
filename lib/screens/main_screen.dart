@@ -147,11 +147,10 @@ class _MainScreenState extends State<MainScreen> {
           _pendingInvitations.clear();
           _pendingInvitations.addAll(persistedInvitations);
         });
-        print(
-            '🔒 [MAINSCREEN] Cargadas ${persistedInvitations.length} invitaciones persistentes');
+        // Logging removido para producción
       }
     } catch (e) {
-      print('❌ [MAINSCREEN] Error cargando invitaciones persistentes: $e');
+      // Logging removido para producción
     }
   }
 
@@ -174,10 +173,10 @@ class _MainScreenState extends State<MainScreen> {
 
       if (mounted && hasNewInvitations) {
         setState(() {});
-        print('🔒 [MAINSCREEN] Sincronizadas invitaciones persistentes');
+        // Logging removido para producción
       }
     } catch (e) {
-      print('❌ [MAINSCREEN] Error sincronizando invitaciones persistentes: $e');
+      // Logging removido para producción
     }
   }
 
@@ -200,9 +199,7 @@ class _MainScreenState extends State<MainScreen> {
         print(
             '🔐 [MAINSCREEN] 🔧 Configurando callback global de invitaciones...');
         chatManager.onGlobalInvitationReceived = (invitation) {
-          print('🔐 [MAINSCREEN] 📨 === INVITACIÓN RECIBIDA ===');
-          print('🔐 [MAINSCREEN] 📨 De: ${invitation.fromUserId}');
-          print('🔐 [MAINSCREEN] 📨 ID: ${invitation.id}');
+          // Logging removido para producción (información sensible)
           _handleInvitationSync(invitation);
         };
         print('🔐 [MAINSCREEN] ✅ Callback global configurado');

@@ -216,8 +216,6 @@ class CallProvider extends ChangeNotifier {
     try {
       // NUEVO: Verificar si CallKit ya aceptó esta llamada
       if (_pendingCallKitUUID != null) {
-        print(
-            '🔄 [CallProvider] Sincronizando con CallKit UUID pendiente: $_pendingCallKitUUID');
         _activeCallKitUUID = _pendingCallKitUUID; // Guardar como UUID activo
         _pendingCallKitUUID = null; // Limpiar el UUID pendiente
       }
@@ -350,8 +348,6 @@ class CallProvider extends ChangeNotifier {
     try {
       // 🍎 NUEVO: En iOS, también usar CallKit para rechazar
       if (!kIsWeb && Platform.isIOS) {
-        print('🍎 [CallProvider] Rechazando llamada a través de CallKit...');
-
         // En iOS, usar CallKit para rechazar la llamada
         // Esto asegura que CallKit y la app estén sincronizados
         await VoIPService.instance.endCall(callId);
@@ -378,11 +374,8 @@ class CallProvider extends ChangeNotifier {
     try {
       // 🍎 NUEVO: En iOS, usar CallKit para terminar la llamada
       if (!kIsWeb && Platform.isIOS) {
-        print('🍎 [CallProvider] Terminando llamada a través de CallKit...');
-
         // Usar el UUID correcto de CallKit (no el callId del backend)
         final uuidToEnd = _activeCallKitUUID ?? _callId!;
-        print('🍎 [CallProvider] Usando UUID para terminar: $uuidToEnd');
 
         // En iOS, CallKit debe ser la fuente de verdad
         await VoIPService.instance.endCall(uuidToEnd);
@@ -393,8 +386,6 @@ class CallProvider extends ChangeNotifier {
       }
 
       // 🌐 Para otras plataformas (Android, Web): comportamiento original
-      print('🌐 [CallProvider] Terminando llamada directamente (no iOS)...');
-
       // IMPORTANTE: Actualizar estado INMEDIATAMENTE para que la UI responda
       _callState = CallState.disconnected;
       notifyListeners();
@@ -482,21 +473,16 @@ class CallProvider extends ChangeNotifier {
 
       // NUEVO: Configurar listeners para el estado real de la conexión WebRTC
       _peerConnection!.onConnectionState = (RTCPeerConnectionState state) {
-        print('🔗 [WEBRTC-STATE] Estado de conexión: $state');
-
         switch (state) {
           case RTCPeerConnectionState.RTCPeerConnectionStateConnected:
             // ¡Conexión WebRTC realmente establecida!
             if (_callState == CallState.connecting) {
               _callState = CallState.connected;
               notifyListeners();
-              print('✅ [WEBRTC-CONNECTED] Llamada realmente conectada');
             }
             break;
           case RTCPeerConnectionState.RTCPeerConnectionStateDisconnected:
             // 🔧 MEJORADO: No terminar inmediatamente en disconnected - puede ser temporal
-            print(
-                '⚠️ [WEBRTC-DISCONNECTED] Conexión WebRTC desconectada temporalmente');
             // Solo cambiar a disconnected si ya estamos terminando la llamada
             if (_callState == CallState.disconnected) {
               notifyListeners();
@@ -507,18 +493,14 @@ class CallProvider extends ChangeNotifier {
             // Solo terminar en failed o closed si no estamos ya en idle
             if (_callState != CallState.idle &&
                 _callState != CallState.disconnected) {
-              print(
-                  '❌ [WEBRTC-FAILED/CLOSED] Conexión WebRTC terminada: $state');
               _callState = CallState.disconnected;
               notifyListeners();
             }
             break;
           case RTCPeerConnectionState.RTCPeerConnectionStateConnecting:
             // Mantener estado connecting
-            print('🔄 [WEBRTC-CONNECTING] WebRTC conectando...');
             break;
           default:
-            print('ℹ️ [WEBRTC-STATE] Estado WebRTC: $state');
             break;
         }
       };
@@ -565,23 +547,16 @@ class CallProvider extends ChangeNotifier {
 
       // CRÍTICO: Configurar onTrack ANTES de añadir tracks locales
       _peerConnection!.onTrack = (RTCTrackEvent event) {
-        print('📺 [WEBRTC-TRACK] Track remoto recibido');
         if (event.streams.isNotEmpty) {
           _remoteStream = event.streams[0];
-          print('✅ [WEBRTC-STREAM] Stream remoto establecido');
-
           // Si aún estamos en connecting y recibimos stream, es una buena señal
-          if (_callState == CallState.connecting) {
-            print(
-                '🔗 [WEBRTC-STREAM] Stream recibido - conexión estableciéndose');
-          }
+          if (_callState == CallState.connecting) {}
 
           notifyListeners();
         } else {
           // En algunos casos, el stream puede estar vacío pero el track es válido
           // Crear un stream artificial para el track
           if (_remoteStream == null) {
-            print('⚠️ [WEBRTC-TRACK] Track recibido pero sin stream');
             // El track se manejará automáticamente por el navegador
           }
         }
@@ -589,14 +564,10 @@ class CallProvider extends ChangeNotifier {
 
       // CRÍTICO: También configurar onAddStream como fallback para navegadores que no soportan onTrack correctamente
       _peerConnection!.onAddStream = (MediaStream stream) {
-        print('📺 [WEBRTC-ADDSTREAM] Stream remoto añadido (fallback)');
         _remoteStream = stream;
 
         // Si aún estamos en connecting y recibimos stream, es una buena señal
-        if (_callState == CallState.connecting) {
-          print(
-              '🔗 [WEBRTC-ADDSTREAM] Stream añadido - conexión estableciéndose');
-        }
+        if (_callState == CallState.connecting) {}
 
         notifyListeners();
       };
@@ -928,8 +899,6 @@ class CallProvider extends ChangeNotifier {
 
   // 🍎 NUEVO: Manejar cuando CallKit acepta una llamada (SOLUCIÓN OFICIAL APPLE)
   void _handleCallKitAccepted(String callUUID) {
-    print('🔄 [CallProvider] CallKit aceptó llamada: $callUUID');
-
     // IMPORTANTE: Guardar el UUID de CallKit para poder terminar la llamada después
     _activeCallKitUUID = callUUID;
 
@@ -938,21 +907,16 @@ class CallProvider extends ChangeNotifier {
 
     if (canHandleFullCall) {
       // CASO 1: App desbloqueada - manejar llamada completa
-      print('✅ [CallProvider] App disponible - manejando llamada completa');
       _isCallKitOnlyMode = false;
       _callState = CallState.connected;
       notifyListeners();
     } else {
       // CASO 2: App bloqueada - MODO SOLO CALLKIT (según documentación Apple)
-      print('🍎 [CallProvider] App bloqueada - activando modo solo CallKit');
       _isCallKitOnlyMode = true;
       _pendingCallKitUUID = callUUID;
 
       // 🍎 CRÍTICO: Según Apple, reportar llamada y luego fallarla si no se puede conectar
       // Esto cumple con los requisitos de CallKit sin romper el sistema
-      print(
-          '🍎 [CallProvider] Reportando llamada mínima para cumplir requisitos CallKit');
-
       // Establecer estado mínimo para CallKit
       _callState = CallState.connecting;
       notifyListeners();
@@ -960,8 +924,6 @@ class CallProvider extends ChangeNotifier {
       // 🍎 IMPORTANTE: Programar fallo de llamada después de timeout si no se conecta
       Timer(const Duration(seconds: 10), () {
         if (_isCallKitOnlyMode && _callState == CallState.connecting) {
-          print(
-              '🍎 [CallProvider] Timeout - fallando llamada según protocolo Apple');
           _failCallKitOnlyCall();
         }
       });
@@ -970,12 +932,8 @@ class CallProvider extends ChangeNotifier {
 
   // NUEVO: Manejar cuando CallKit termina una llamada
   void _handleCallKitEnded(String callUUID) async {
-    print('🔄 [CallProvider] CallKit terminó llamada: $callUUID');
-
     // Si tenemos una llamada activa, hacer la limpieza completa
     if (_callState != CallState.idle && _callId != null) {
-      print('✅ [CallProvider] Sincronizando terminación con app...');
-
       try {
         // IMPORTANTE: Actualizar estado INMEDIATAMENTE para que la UI responda
         _callState = CallState.disconnected;
@@ -999,23 +957,16 @@ class CallProvider extends ChangeNotifier {
         _remoteUser = null;
         _error = null;
         _activeCallKitUUID = null; // Limpiar UUID de CallKit
-
-        print('✅ [CallProvider] Llamada terminada y sincronizada con CallKit');
       } catch (e) {
-        print('❌ [CallProvider] Error sincronizando terminación: $e');
         _error = 'Error al finalizar llamada: $e';
         _callState = CallState.idle; // Cambiar a idle incluso con error
         notifyListeners();
       }
-    } else {
-      print('⚠️ [CallProvider] No hay llamada activa para sincronizar');
-    }
+    } else {}
   }
 
   // 🍎 NUEVO: Fallar llamada en modo solo CallKit (según documentación Apple)
   void _failCallKitOnlyCall() {
-    print('🍎 [CallProvider] Fallando llamada en modo solo CallKit');
-
     // Según Apple: "Typically, that means reporting a call and then failing that call"
     _callState = CallState.disconnected;
     _isCallKitOnlyMode = false;
@@ -1033,12 +984,7 @@ class CallProvider extends ChangeNotifier {
 
   // 🍎 NUEVO: Método para cuando el usuario hace clic en el botón de app en CallKit
   void handleCallKitAppButtonPressed() {
-    print('🍎 [CallProvider] Usuario presionó botón de app en CallKit');
-
     if (_isCallKitOnlyMode && _pendingCallKitUUID != null) {
-      print(
-          '🍎 [CallProvider] Transicionando de modo solo CallKit a app completa');
-
       // Ahora la app está desbloqueada, podemos manejar la llamada completa
       _isCallKitOnlyMode = false;
 

@@ -25,7 +25,7 @@ class ChatInvitation {
       createdAt:
           DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
       expiresAt: DateTime.parse(json['expiresAt'] ??
-          DateTime.now().add(const Duration(minutes: 5)).toIso8601String()),
+          DateTime(2099, 12, 31).toIso8601String()), // NUNCA EXPIRAR
       status: json['status'] ?? 'pending',
       roomId: json['roomId'],
     );

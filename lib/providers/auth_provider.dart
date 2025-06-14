@@ -13,6 +13,11 @@ import 'package:flutterputter/services/ntfy_subscription_service.dart';
 import 'package:flutterputter/services/session_management_service.dart';
 import 'package:flutterputter/services/security_alert_service.dart';
 import 'package:flutterputter/services/invitation_persistence_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutterputter/models/chat_invitation.dart';
+import 'package:flutterputter/services/local_notification_service.dart';
+import 'package:flutterputter/services/room_nickname_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? _user;
@@ -569,6 +574,14 @@ class AuthProvider extends ChangeNotifier {
       print('🔒 [AUTH] Invitaciones persistentes limpiadas');
     } catch (e) {
       print('❌ [AUTH] Error limpiando invitaciones persistentes: $e');
+    }
+
+    // NUEVO: Limpiar apodos de salas en logout
+    try {
+      await RoomNicknameService.clearAllNicknames();
+      print('🔒 [AUTH] Apodos de salas limpiados');
+    } catch (e) {
+      print('❌ [AUTH] Error limpiando apodos de salas: $e');
     }
 
     _user = null;

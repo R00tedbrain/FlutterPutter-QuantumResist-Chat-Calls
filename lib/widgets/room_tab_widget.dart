@@ -4,7 +4,7 @@ import '../l10n/app_localizations.dart';
 
 /// Widget para mostrar una pestaña individual de sala de chat
 /// Incluye indicadores visuales de estado y mensajes no leídos
-class RoomTabWidget extends StatelessWidget {
+class RoomTabWidget extends StatefulWidget {
   final ChatSession session;
   final bool isActive;
   final VoidCallback? onClose;
@@ -17,19 +17,41 @@ class RoomTabWidget extends StatelessWidget {
   });
 
   @override
+  State<RoomTabWidget> createState() => _RoomTabWidgetState();
+}
+
+class _RoomTabWidgetState extends State<RoomTabWidget> {
+  String? _cachedDisplayName;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDisplayName();
+  }
+
+  Future<void> _loadDisplayName() async {
+    final name = await widget.session.getDisplayNameWithNickname();
+    if (mounted) {
+      setState(() {
+        _cachedDisplayName = name;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      margin: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
-        color: isActive
+        color: widget.isActive
             ? Colors.blue.withOpacity(0.1)
             : Colors.grey.withOpacity(0.05),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isActive
+          color: widget.isActive
               ? Colors.blue.withOpacity(0.3)
               : Colors.grey.withOpacity(0.2),
           width: 1,
@@ -40,29 +62,56 @@ class RoomTabWidget extends StatelessWidget {
         children: [
           // Indicador de estado
           _buildStatusIndicator(context),
-          const SizedBox(width: 8),
+          const SizedBox(width: 6),
 
-          // Nombre del usuario
+          // Nombre del usuario con apodo personalizado
           Flexible(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  session.displayName,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                    color: isActive ? Colors.blue : Colors.black87,
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 120),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _cachedDisplayName ?? widget.session.displayName,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: widget.isActive
+                                ? FontWeight.bold
+                                : FontWeight.w500,
+                            color:
+                                widget.isActive ? Colors.blue : Colors.black87,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      InkWell(
+                        onTap: () => _showEditNicknameDialog(context),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(1),
+                          child: Icon(
+                            Icons.edit,
+                            size: 10,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
                 ),
-                if (session.currentRoom != null)
+                if (widget.session.currentRoom != null)
                   Text(
-                    l10n.participants(session.currentRoom!.participants.length),
+                    l10n.participants(
+                        widget.session.currentRoom!.participants.length),
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 9,
                       color: Colors.grey[600],
                     ),
                   ),
@@ -71,29 +120,26 @@ class RoomTabWidget extends StatelessWidget {
           ),
 
           // Badge de mensajes no leídos
-          if (session.unreadCount > 0) ...[
-            const SizedBox(width: 8),
+          if (widget.session.unreadCount > 0) ...[
+            const SizedBox(width: 4),
             _buildUnreadBadge(),
           ],
 
           // Botón de cerrar mejorado
-          if (onClose != null) ...[
-            const SizedBox(width: 8),
-            GestureDetector(
-              onTap: onClose,
+          if (widget.onClose != null) ...[
+            const SizedBox(width: 4),
+            InkWell(
+              onTap: widget.onClose,
+              borderRadius: BorderRadius.circular(8),
               child: Container(
-                padding: const EdgeInsets.all(4),
+                padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
                   color: Colors.red.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.red.withOpacity(0.3),
-                    width: 1,
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
                   Icons.close,
-                  size: 16,
+                  size: 10,
                   color: Colors.red,
                 ),
               ),
@@ -104,31 +150,44 @@ class RoomTabWidget extends StatelessWidget {
     );
   }
 
-  /// Construir indicador de estado de la conexión
+  /// NUEVO: Mostrar diálogo para editar el apodo de la sala
+  void _showEditNicknameDialog(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => _EditNicknameDialog(session: widget.session),
+    );
+
+    // Si se guardó exitosamente, recargar el nombre
+    if (result == true && mounted) {
+      _loadDisplayName();
+    }
+  }
+
+  /// Construir indicador de estado
   Widget _buildStatusIndicator(BuildContext context) {
     Color color;
     IconData icon;
     String tooltip;
 
     // MEJORADO: Lógica más clara para el estado
-    if (session.currentRoom != null &&
-        session.currentRoom!.participants.length > 1) {
+    if (widget.session.currentRoom != null &&
+        widget.session.currentRoom!.participants.length > 1) {
       // Sala activa con participantes
       color = Colors.green;
       icon = Icons.circle;
       tooltip = AppLocalizations.of(context)!
-          .roomActive(session.currentRoom!.participants.length);
-    } else if (session.isConnecting) {
+          .roomActive(widget.session.currentRoom!.participants.length);
+    } else if (widget.session.isConnecting) {
       // Conectando
       color = Colors.orange;
       icon = Icons.sync;
       tooltip = AppLocalizations.of(context)!.connecting;
-    } else if (session.error != null) {
+    } else if (widget.session.error != null) {
       // Error
       color = Colors.red;
       icon = Icons.error;
-      tooltip = 'Error: ${session.error}';
-    } else if (session.currentRoom != null) {
+      tooltip = 'Error: ${widget.session.error}';
+    } else if (widget.session.currentRoom != null) {
       // Sala creada pero esperando participantes
       color = Colors.blue;
       icon = Icons.hourglass_empty;
@@ -144,7 +203,7 @@ class RoomTabWidget extends StatelessWidget {
       message: tooltip,
       child: Icon(
         icon,
-        size: 8,
+        size: 7,
         color: color,
       ),
     );
@@ -152,23 +211,226 @@ class RoomTabWidget extends StatelessWidget {
 
   /// Construir badge de mensajes no leídos
   Widget _buildUnreadBadge() {
-    final count = session.unreadCount;
+    final count = widget.session.unreadCount;
     final displayCount = count > 99 ? '99+' : count.toString();
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
       decoration: BoxDecoration(
         color: Colors.red,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         displayCount,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 10,
+          fontSize: 9,
           fontWeight: FontWeight.bold,
         ),
       ),
+    );
+  }
+}
+
+/// NUEVO: Diálogo para editar el apodo de una sala
+class _EditNicknameDialog extends StatefulWidget {
+  final ChatSession session;
+
+  const _EditNicknameDialog({required this.session});
+
+  @override
+  State<_EditNicknameDialog> createState() => _EditNicknameDialogState();
+}
+
+class _EditNicknameDialogState extends State<_EditNicknameDialog> {
+  late TextEditingController _controller;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    _loadCurrentNickname();
+  }
+
+  Future<void> _loadCurrentNickname() async {
+    final nickname = await widget.session.getDisplayNameWithNickname();
+    if (mounted) {
+      _controller.text = nickname;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveNickname() async {
+    if (_controller.text.trim().isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final success =
+          await widget.session.setCustomNickname(_controller.text.trim());
+
+      if (mounted) {
+        if (success) {
+          Navigator.of(context).pop(true); // Indicar que se guardó
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('✅ Apodo guardado'),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('❌ Error guardando apodo'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _clearNickname() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final success = await widget.session.clearCustomNickname();
+
+      if (mounted) {
+        if (success) {
+          Navigator.of(context).pop(true); // Indicar que se guardó
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('🗑️ Apodo eliminado'),
+              backgroundColor: Colors.orange,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('❌ Error eliminando apodo'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Row(
+        children: [
+          Icon(Icons.edit, color: Colors.blue),
+          SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              'Editar nombre de sala',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                labelText: 'Nombre personalizado',
+                hintText: 'Escribe un apodo para esta sala...',
+                border: OutlineInputBorder(),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              ),
+              maxLength: 30,
+              enabled: !_isLoading,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Este nombre solo se guardará en tu dispositivo',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[600],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        Wrap(
+          spacing: 8,
+          children: [
+            TextButton.icon(
+              onPressed: _isLoading ? null : _clearNickname,
+              icon: const Icon(Icons.delete_outline, size: 16),
+              label: const Text('Limpiar'),
+            ),
+            TextButton(
+              onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _saveNickname,
+              child: _isLoading
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Guardar'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -189,10 +451,10 @@ class AddRoomTabWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: Colors.blue.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: Colors.blue.withOpacity(0.3),
             width: 1,
@@ -203,14 +465,14 @@ class AddRoomTabWidget extends StatelessWidget {
           children: [
             const Icon(
               Icons.add,
-              size: 16,
+              size: 14,
               color: Colors.blue,
             ),
             const SizedBox(width: 4),
             Text(
               l10n.newRoom,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 11,
                 color: Colors.blue,
                 fontWeight: FontWeight.w500,
               ),

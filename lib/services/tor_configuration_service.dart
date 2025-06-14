@@ -277,14 +277,10 @@ class TorConfigurationService {
 
   // 📝 Métodos de logging privados
   static void _logDebug(String message) {
-    if (_enableDebugLogs && kDebugMode) {
-      print('⚙️ [TOR-CONFIG] $message');
-    }
+    // Logging removido para producción
   }
 
   static void _logError(String message) {
-    if (kDebugMode) {
-      print('❌ [TOR-CONFIG-ERROR] $message');
-    }
+    // Logging removido para producción
   }
 }

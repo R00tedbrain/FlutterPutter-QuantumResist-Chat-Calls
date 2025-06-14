@@ -331,10 +331,8 @@ class MetadataCleanerService {
   }
 
   void _logSecurityEvent(String event, Map<String, dynamic> details) {
-    if (!kReleaseMode) {
-      print('🛡️ [METADATA_CLEANER] $event: $details');
-    }
     // En producción, enviar a sistema de monitoreo de seguridad
+    // Logging removido para producción
   }
 }
 
