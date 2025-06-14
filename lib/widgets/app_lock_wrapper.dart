@@ -79,17 +79,23 @@ class _AppLockWrapperState extends State<AppLockWrapper>
       value: _appLockService,
       child: Consumer<AppLockService>(
         builder: (context, appLockService, child) {
-          // Si el bloqueo está habilitado y la app está bloqueada
-          if (appLockService.isEnabled && appLockService.isLocked) {
-            return const AppLockScreen();
-          }
+          // SOLUCIÓN: Usar Stack para overlay sin matar procesos activos
+          return Stack(
+            children: [
+              // ✅ La aplicación SIEMPRE está presente (llamadas siguen activas)
+              GestureDetector(
+                onTap: () => appLockService.notifyActivity(),
+                onPanDown: (_) => appLockService.notifyActivity(),
+                onScaleStart: (_) => appLockService.notifyActivity(),
+                child: widget.child,
+              ),
 
-          // Sino, mostrar la aplicación normal
-          return GestureDetector(
-            onTap: () => appLockService.notifyActivity(),
-            onPanDown: (_) => appLockService.notifyActivity(),
-            onScaleStart: (_) => appLockService.notifyActivity(),
-            child: widget.child,
+              // 🔒 Overlay de bloqueo SOLO cuando está bloqueada
+              if (appLockService.isEnabled && appLockService.isLocked)
+                const Positioned.fill(
+                  child: AppLockScreen(),
+                ),
+            ],
           );
         },
       ),
