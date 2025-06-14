@@ -19,6 +19,7 @@ import '../providers/auth_provider.dart';
 import '../services/ephemeral_chat_manager.dart';
 import '../widgets/destruction_countdown_widget.dart';
 import '../widgets/verification_widget.dart'; // NUEVO: Import del widget de verificación
+import '../services/static_avatar_service.dart'; // NUEVO: Import del servicio de avatares
 import '../l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'fullscreen_media_viewer.dart'; // NUEVO: Import del visor pantalla completa
@@ -1914,19 +1915,60 @@ class _EphemeralChatScreenMultimediaState
   Widget _buildMessageBubble(EphemeralMessage message) {
     final isMe = message.senderId == 'me';
 
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isMe ? Colors.blue : const Color(0xFF2E2E2E),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.75,
-        ),
-        child: _buildMessageContent(message),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment:
+            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          // Avatar para mensajes de otros (no míos)
+          if (!isMe) ...[
+            FutureBuilder<String>(
+              future:
+                  StaticAvatarService.getOrAssignRandomAvatar(message.senderId),
+              builder: (context, snapshot) {
+                return StaticAvatarService.buildChatAvatar(
+                  name: message.senderId == 'me' ? 'Yo' : 'Usuario',
+                  radius: 16,
+                  selectedAvatar: snapshot.data,
+                );
+              },
+            ),
+            const SizedBox(width: 8),
+          ],
+
+          // Burbuja del mensaje
+          Flexible(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: isMe ? Colors.blue : const Color(0xFF2E2E2E),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.65,
+              ),
+              child: _buildMessageContent(message),
+            ),
+          ),
+
+          // Avatar para mis mensajes (opcional)
+          if (isMe) ...[
+            const SizedBox(width: 8),
+            FutureBuilder<String?>(
+              future: StaticAvatarService
+                  .getSelectedAvatar(), // Sin userId = mi avatar
+              builder: (context, snapshot) {
+                return StaticAvatarService.buildChatAvatar(
+                  name: 'Yo',
+                  radius: 16,
+                  selectedAvatar: snapshot.data,
+                );
+              },
+            ),
+          ],
+        ],
       ),
     );
   }

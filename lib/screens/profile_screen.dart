@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterputter/providers/auth_provider.dart';
 import 'package:flutterputter/widgets/auth_text_field.dart';
 import 'package:flutterputter/widgets/user_avatar.dart';
+import 'package:flutterputter/services/static_avatar_service.dart';
 import 'package:flutterputter/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -58,6 +59,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _isEditing = false;
       });
     }
+  }
+
+  // Mostrar diálogo de selección de avatar
+  void _showAvatarSelectionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Seleccionar Avatar'),
+          content: SizedBox(
+            width: double.maxFinite,
+            height: 300,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: StaticAvatarService.availableAvatars.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  // Opción para quitar avatar (iniciales)
+                  return GestureDetector(
+                    onTap: () async {
+                      await StaticAvatarService.clearSelectedAvatar();
+                      setState(() {}); // Actualizar UI
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Iniciales',
+                          style: TextStyle(fontSize: 12),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                final avatarPath =
+                    StaticAvatarService.availableAvatars[index - 1];
+                return GestureDetector(
+                  onTap: () async {
+                    await StaticAvatarService.setSelectedAvatar(avatarPath);
+                    setState(() {}); // Actualizar UI
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 2),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(48),
+                      child: Image.asset(
+                        avatarPath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey.shade300,
+                            child: Center(
+                              child: Text(
+                                'Avatar ${index}',
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // Mostrar diálogo de confirmación para destruir cuenta
@@ -303,9 +393,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             // Avatar
             Center(
-              child: UserAvatar(
-                name: user.nickname,
-                radius: 60,
+              child: GestureDetector(
+                onTap: _showAvatarSelectionDialog,
+                child: Stack(
+                  children: [
+                    UserAvatar(
+                      name: user.nickname,
+                      radius: 60,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Toca para cambiar avatar',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade600,
               ),
             ),
             const SizedBox(height: 24),

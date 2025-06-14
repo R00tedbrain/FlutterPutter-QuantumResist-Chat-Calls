@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import '../services/static_avatar_service.dart';
 
 class UserAvatar extends StatelessWidget {
   final String name;
   final double radius;
   final String? imageUrl;
   final Color? backgroundColor;
+  final bool useStaticAvatar;
+  final String? userId; // NUEVO: ID del usuario para avatar específico
 
   const UserAvatar({
     super.key,
@@ -12,6 +15,8 @@ class UserAvatar extends StatelessWidget {
     this.radius = 20,
     this.imageUrl,
     this.backgroundColor,
+    this.useStaticAvatar = true, // Por defecto usar avatares estáticos
+    this.userId, // NUEVO: Para diferenciar avatares por usuario
   });
 
   // Obtener iniciales del nombre
@@ -43,7 +48,7 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Si hay URL de imagen, mostrar avatar con imagen
+    // Si hay URL de imagen, mostrar avatar con imagen (no usar estáticos)
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       return CircleAvatar(
         radius: radius,
@@ -51,7 +56,32 @@ class UserAvatar extends StatelessWidget {
       );
     }
 
-    // Si no hay imagen, mostrar avatar con iniciales
+    // Si está habilitado el avatar estático, usarlo
+    if (useStaticAvatar) {
+      return FutureBuilder<String?>(
+        future: StaticAvatarService.getSelectedAvatar(userId: userId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.data != null &&
+              snapshot.data!.isNotEmpty) {
+            return CircleAvatar(
+              radius: radius,
+              backgroundImage: AssetImage(snapshot.data!),
+              backgroundColor: Colors.transparent,
+            );
+          }
+
+          // Fallback a iniciales si no hay avatar estático
+          return _buildInitialsAvatar();
+        },
+      );
+    }
+
+    // Fallback tradicional con iniciales
+    return _buildInitialsAvatar();
+  }
+
+  Widget _buildInitialsAvatar() {
     return CircleAvatar(
       radius: radius,
       backgroundColor: _getAvatarColor(),
